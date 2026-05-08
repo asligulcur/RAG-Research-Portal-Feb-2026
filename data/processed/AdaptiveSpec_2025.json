@@ -1,0 +1,857 @@
+{
+  "source_id": "AdaptiveSpec_2025",
+  "metadata": {
+    "title": "AdaSD: Adaptive Speculative Decoding for Efficient Language Model Inference",
+    "authors": "Research Team",
+    "year": "2025",
+    "venue": "arXiv",
+    "url": "https://arxiv.org/abs/2512.11280",
+    "source_type": "peer-reviewed",
+    "relevance_note": "Adaptive speculative decoding for faster SLM inference (Dec 12, 2025)"
+  },
+  "pdf_metadata": {
+    "title": "AdaSD: Adaptive Speculative Decoding for Efficient Language Model Inference",
+    "author": "Kuan-Wei Lu; Ding-Yong Hong; Pangfeng Liu",
+    "total_pages": 15
+  },
+  "statistics": {
+    "total_pages": 15,
+    "total_chunks": 64,
+    "avg_chunk_size": 985.34375,
+    "ingestion_timestamp": "2026-02-02T19:04:02.167234"
+  },
+  "chunks": [
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0000",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "AdaSD: Adaptive Speculative Decoding for Efficient Language Model\nInference\nKuan-Wei Lu1, Ding-Yong Hong1, Pangfeng Liu2\n1Institute of Information Science, Academia Sinica\n2Department of Computer Science and Information Engineering, National Taiwan University",
+      "section": "Header/Title",
+      "char_count": 259,
+      "chunk_index": 0,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0001",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "Abstract\nLarge language models (LLMs) have achieved\nremarkable performance across a wide range\nof tasks, but their increasing parameter sizes\nsignificantly slow down inference. Specula-\ntive decoding mitigates this issue by leveraging\na smaller draft model to predict candidate to-\nkens, which are then verified by a larger target\nmodel. However, existing approaches often\nrequire additional training, extensive hyperpa-\nrameter tuning, or prior analysis of models and\ntasks before deployment. In this paper, we pro-\npose Adaptive Speculative Decoding (AdaSD),\na hyperparameter-free decoding scheme that\ndynamically adjusts generation length and ac-\nceptance criteria during inference. AdaSD in-\ntroduces two adaptive thresholds: one to deter-\nmine when to stop candidate token generation\nand another to decide token acceptance, both\nupdated in real time based on token entropy and\nJensen–Shannon distance. This approach elim-\ninates the need for pre-analysis or fine-tuning\nand is compatible with off-the-shelf models.",
+      "section": "Abstract",
+      "char_count": 1019,
+      "chunk_index": 1,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0002",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "ceptance, both\nupdated in real time based on token entropy and\nJensen–Shannon distance. This approach elim-\ninates the need for pre-analysis or fine-tuning\nand is compatible with off-the-shelf models.\nExperiments on benchmark datasets demon-\nstrate that AdaSD achieves up to 49% speedup\nover standard speculative decoding while limit-\ning accuracy degradation to under 2%, making\nit a practical solution for efficient and adaptive\nLLM inference.",
+      "section": "Abstract",
+      "char_count": 445,
+      "chunk_index": 2,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0003",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "1 Introduction\nLarge language models (LLMs) have rapidly be-\ncome integral to a wide range of applications, in-\ncluding natural language understanding, content\ngeneration, and code synthesis. This progress is\ndriven by the advances of the Transformer archi-\ntecture (Vaswani et al., 2017). Representative mod-\nels such as T5 (Raffel et al., 2020), GPT (Brown\net al., 2020), Gopher (Rae et al., 2022), and\nPaLM (Chowdhery et al., 2023) have successively\nadvanced the state of the art, demonstrating that\nscaling up model parameters can substantially im-\nprove performance across many real-world tasks.Despite these remarkable performance gains, in-\ncreasing model size also introduces substantial in-\nference overhead. For example, Meta’s flagship\nmodel Llama 3 (Grattafiori et al., 2024) achieves\n87.3% accuracy on the MMLU general knowl-\nedge benchmark with its 405 billion parameters.\nHowever, at this massive scale, inference becomes\nmemory-bound, as every forward pass requires\nloading the entire set of model weights from mem-\nory, which significantly slows down computation\nand poses challenges for practical deployment.",
+      "section": "1 Introduction",
+      "char_count": 1126,
+      "chunk_index": 3,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0004",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "ce becomes\nmemory-bound, as every forward pass requires\nloading the entire set of model weights from mem-\nory, which significantly slows down computation\nand poses challenges for practical deployment.\nSpeculative decoding (Leviathan et al., 2023) is\na technique to alleviate the memory-bound bottle-\nneck by maximizing the utility of each weight load\nduring inference. It uses a smaller and faster, but\nless accurate,draft modelto generate a sequence\nof candidate tokens, which are then verifiedin par-\nallelby the original largetarget modelto ensure\ncorrectness. By offloading token generation to the\ndraft model and verifying multiple tokens simul-\ntaneously, speculative decoding significantly im-\nproves inference throughput while preserving accu-\nracy, effectively reducing the latency imposed by\nrepeatedly loading the full set of model weights.",
+      "section": "1 Introduction",
+      "char_count": 851,
+      "chunk_index": 4,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0005",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "taneously, speculative decoding significantly im-\nproves inference throughput while preserving accu-\nracy, effectively reducing the latency imposed by\nrepeatedly loading the full set of model weights.\nBuilding upon this foundation, several methods\nhave been proposed to improve speculative decod-\ning, such as fine-tuning the draft model to better\nalign with the target model’s distribution (Zhou\net al., 2024; Li et al., 2024b,a), dynamic mecha-\nnisms to determine the optimal length of the candi-\ndate token sequences (Mamou et al., 2024; Huang\net al., 2025; Liu et al., 2025), and relaxing the\nacceptance criteria during target model verifica-\ntion (Kim et al., 2023; Holsman et al., 2025).\nHowever, these methods have limitations. First,\naligning the draft model often requires additional\ntraining, adding computational cost. Second, re-\nlaxing acceptance criteria introduces trade-offs be-\ntween accuracy and efficiency, and requires extra\nefforts to determine the tolerable levels. Third,\nmany approaches rely heavily on extensive hyper-\n1arXiv:2512.11280v1 [cs.CL] 12 Dec 2025\n\nparameter tuning, necessitating iterative configura-\ntion searches to achieve satisfactory performance.",
+      "section": "1 Introduction",
+      "char_count": 1188,
+      "chunk_index": 5,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0006",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "Third,\nmany approaches rely heavily on extensive hyper-\n1arXiv:2512.11280v1 [cs.CL] 12 Dec 2025\n\nparameter tuning, necessitating iterative configura-\ntion searches to achieve satisfactory performance.\nTo address the aforementioned limitations, we\nproposeAdaptive Speculative Decoding(AdaSD),\na hyperparameter-free approach to improve LLM\ninference efficiency. AdaSD introduces two adap-\ntive thresholds: one to determine when to terminate\ncandidate token generation by the draft model, and\nthe other to decide the acceptance criterion for can-\ndidate tokens verified by the target model. Specifi-\ncally, we employ entropy and Jensen–Shannon dis-\ntance as principled measures to set these thresholds.\nFurthermore, both thresholds are dynamically ad-\njusted during inference based on information from\npreviously generated tokens, eliminating the need\nfor manual configuration or model-specific tuning.\nThe contributions of this paper are as follows:\n•We propose AdaSD, an adaptive decoding\nmethod that jointly adjusts candidate token\ngeneration length and acceptance criteria to\nbalance inference speed and accuracy.",
+      "section": "1 Introduction",
+      "char_count": 1114,
+      "chunk_index": 6,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0007",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "ons of this paper are as follows:\n•We propose AdaSD, an adaptive decoding\nmethod that jointly adjusts candidate token\ngeneration length and acceptance criteria to\nbalance inference speed and accuracy.\n•Our method is compatible with off-the-shelf\nmodels, requiring neither model architecture\nchange nor additional training. Moreover, we\neliminate the need for hyperparameter tuning.\n•Experimental results indicate that AdaSD\nachieves up to 49% speedup over standard\nspeculative decoding, while limiting accuracy\ndegradation to less than 2%.",
+      "section": "1 Introduction",
+      "char_count": 539,
+      "chunk_index": 7,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0008",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "2 Background\n2.1 Language Model Acceleration\n2.1.1 Auto-Regressive Model\nAn auto-regressive model employs a decoder-based\nTransformer architecture to perform text generation.\nIt produces each output token conditioned on the\npreceding tokens. The newly generated token is\nthen appended to the input sequence, serving as the\ncontext for the next step of generation.\nLetpdenote the probability distribution of the\nauto-regressive model. At each time step t, the next\ntoken xtis drawn from the conditional probabil-\nity distribution over the preceding token sequence\nx<t, defined as xt∼p(x|x <t). The token xt\ncan be selecteddeterministicallyby choosing the\nmost probable token: xt= arg max xp(x|x <t).\nAlternatively, xtcan be chosenstochasticallyby\nsampling from the adjusted distribution, using tech-\nniques such as temperature scaling, top- ksampling,\nor top- psampling. This iterative process continues\nuntil the model produces a special end-of-sequence(EOS) token, which terminates generation.\n2.1.2 Speculative Decoding\nSpeculative decoding is designed to address the\nhigh inference time of auto-regressive generation\nin the large language model, denoted as thetarget\nmodel Mp.",
+      "section": "2 Background",
+      "char_count": 1179,
+      "chunk_index": 8,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0009",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "tes generation.\n2.1.2 Speculative Decoding\nSpeculative decoding is designed to address the\nhigh inference time of auto-regressive generation\nin the large language model, denoted as thetarget\nmodel Mp. To mitigate this, a smaller and faster\nmodel Mq, referred to as thedraft model, is in-\ntroduced to approximate the target model’s output\ndistribution.\nFigure 1a illustrates the process of speculative\ndecoding. Each iteration of speculative decoding\nconsists of two steps:generationandverification.\nIn the generation step, the draft model proposes\ncandidate tokens by sequentially producing a num-\nber of tokens up to a limit, which may be fixed or\nadaptively adjusted. In the verification step, the tar-\nget model evaluates these candidate tokens in par-\nallel by expanding them into a batch and accepting\nthe longest valid prefix to ensure correctness. By\ncombining fast speculative generation with efficient\nverification, speculative decoding lowers inference\nlatency without compromising output quality.\n2.1.3 Sampling Strategy\nTo determine which tokens are accepted during the\nverification step of speculative decoding, a straight-\nforward deterministic strategy isgreedy decoding.",
+      "section": "2 Background",
+      "char_count": 1186,
+      "chunk_index": 9,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0010",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "ising output quality.\n2.1.3 Sampling Strategy\nTo determine which tokens are accepted during the\nverification step of speculative decoding, a straight-\nforward deterministic strategy isgreedy decoding.\nIn this approach, both the draft model Mqand the\ntarget model Mpalways select the token with the\nhighest probability:\nxq\nt= arg max\nxMq(x|x <t),\nxp\nt= arg max\nxMp(x|x <t),\nwhere xq\ntandxp\ntare the tokens chosen by the draft\nand target models at step t, respectively. Greedy de-\ncoding imposes a strict acceptance rule: the candi-\ndate token xq\ntis accepted only if it exactly matches\nxp\nt. Verification proceeds sequentially, and tokens\ncontinue to be accepted until the first mismatch or\nall candidate tokens are successfully verified.\nAlthough greedy decoding is simple, it is overly\nrestrictive and limits diversity in text generation.\nTo address this limitation, prior work (Leviathan\net al., 2023; Chen et al., 2023) introducesspecula-\ntive sampling, which relaxes the strict matching re-\nquirement by allowing tokens from the draft model\nto be probabilistically accepted by the target model.",
+      "section": "2 Background",
+      "char_count": 1098,
+      "chunk_index": 10,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0011",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "2023; Chen et al., 2023) introducesspecula-\ntive sampling, which relaxes the strict matching re-\nquirement by allowing tokens from the draft model\nto be probabilistically accepted by the target model.\nSpeculative sampling preserves the target distribu-\ntion by jointly considering the distributions of both\nmodels. A candidate token ˜xtis first sampled from\n2\n\nDraft ModelTarget ModelAccept Accept Accept Reject\nFixed Candidate Token Length(a) Speculative Decoding\nDraft Model, with Generation Threshold \nStopTarget Model, with V erification Threshold Acc Acc Rej Acc RejAcc\nAdaptive Threshold Update\nBased on Generated Tokens \nEntropy JS Distance (b) AdaSD\nFigure 1: Progression of language model inference. (a) Speculative decoding accelerates inference by introducing a\ndraft model and a generation–verification mechanism. (b) AdaSD employs adaptive thresholds based on entropy\nand Jensen–Shannon distance to dynamically control the decoding process.\nthe draft model distribution and then accepted by\nthe target model with probabilityα:\n˜xt∼M q(x|x <t),\nα= min\u0012\n1,Mp( ˜xt|x<t)\nMq( ˜xt|x<t)\u0013\n.",
+      "section": "2 Background",
+      "char_count": 1095,
+      "chunk_index": 11,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0012",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "nnon distance to dynamically control the decoding process.\nthe draft model distribution and then accepted by\nthe target model with probabilityα:\n˜xt∼M q(x|x <t),\nα= min\u0012\n1,Mp( ˜xt|x<t)\nMq( ˜xt|x<t)\u0013\n.\nIf the candidate token is rejected, the target model\nre-samples a new token from an adjusted distribu-\ntion that excludes˜x t.\n2.2 Information Theory\n2.2.1 Entropy\nIn information theory, entropy measures the uncer-\ntainty associated with a random variable. For a\ndiscrete random variable Xtaking values x∈ X\nwith a probability distribution p:X →[0,1] , the\nentropy is defined as:\nH(X) =E[−logp(x)]\n=−X\nx∈Xp(x) logp(x).\nEntropy can be interpreted as the expected value of\nthe self-information −logp(x) , representing the\naverage number of bits needed to encode the out-\ncome of X. A larger entropy value indicates higher\nuncertainty or greater variability in the distribution.\n2.2.2 Cross-Entropy\nCross-entropy quantifies the difference between\ntwo probability distributions pandqdefined over\nthe same event space X.",
+      "section": "2 Background",
+      "char_count": 1016,
+      "chunk_index": 12,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0013",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "gher\nuncertainty or greater variability in the distribution.\n2.2.2 Cross-Entropy\nCross-entropy quantifies the difference between\ntwo probability distributions pandqdefined over\nthe same event space X. Formally, the cross-\nentropy of an estimated distribution qwith respect\nto a true distributionpis defined as:\nH(p, q) =E p[−logq(x)]\n=−X\nx∈Xp(x) logq(x).Cross-entropy represents the expected number of\nbits needed to encode samples drawn from pusing\na code optimized for q. Hence, it captures both the\ninherent uncertainty of pand the additional cost\ndue to the divergence betweenpandq.\n2.2.3 Kullback–Leibler Divergence\nThe Kullback–Leibler (KL) divergence measures\nthe discrepancy between a true distribution pand an\napproximating distribution q. It can be expressed as\nthe difference between cross-entropy and entropy:\nDKL(p∥q) =H(p, q)−H(p)\n=X\nx∈Xp(x) logp(x)\nq(x).\nSince KL divergence has no fixed upper bound, if\nan event occurs frequently under pbut rarely un-\nderq, the divergence can become arbitrarily large,\nmaking it difficult to stop or normalize the measure\nwithin a controlled range.",
+      "section": "2 Background",
+      "char_count": 1098,
+      "chunk_index": 13,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0014",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "ixed upper bound, if\nan event occurs frequently under pbut rarely un-\nderq, the divergence can become arbitrarily large,\nmaking it difficult to stop or normalize the measure\nwithin a controlled range.\n2.2.4 Jensen–Shannon Divergence\nTo address the unbounded nature of KL divergence,\nthe Jensen–Shannon (JS) divergence is defined as:\nDJS(p∥q) =1\n2DKL(p∥m) +1\n2DKL(q∥m)\n=H(m)−1\n2(H(p) +H(q)),\nwhere m=1\n2(p+q) is the mixture distribution.\nUnlike KL divergence, JS divergence is symmetric\nwith respect to pandq, and is bounded within [0,1]\nunder base-2 logarithm. These properties make it a\nmore stable and interpretable metric for quantifying\nthe dissimilarity between probability distributions.\n2.2.5 Jensen–Shannon Distance\nTo provide a more intuitive measure of the dif-\nference between distributions, we consider the\n3\n\nJensen–Shannon (JS) distance, defined as the\nsquare root of the JS divergence:\ndJS(p∥q) =p\nDJS(p∥q)\nSince the JS distance satisfies the properties of a\nmetric (Endres and Schinde",
+      "section": "2 Background",
+      "char_count": 1000,
+      "chunk_index": 14,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0015",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "s, we consider the\n3\n\nJensen–Shannon (JS) distance, defined as the\nsquare root of the JS divergence:\ndJS(p∥q) =p\nDJS(p∥q)\nSince the JS distance satisfies the properties of a\nmetric (Endres and Schindelin, 2003), it provides a\nwell-defined notion of distance between probability\ndistributions within the metric space it induces.",
+      "section": "2 Background",
+      "char_count": 327,
+      "chunk_index": 15,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0016",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "3 Related Work\nSeveral studies enhance speculative decoding by\nmodifying model architectures. Medusa (Cai et al.,\n2024) retains a single model but equips it with\nmultiple decoding heads, enabling parallel pre-\ndiction of consecutive future tokens at each step.\nEAGLE (Li et al., 2024b,a) reconstructs the draft\nmodel’s transformer layers to better align with the\ntarget distribution. Both approaches, however, en-\ntail significant model adaptation and require extra\ntraining before yielding performance gains.\nAnother line of research focuses on adjusting the\ncandidate token generation length in draft models.\nDISCO (Mamou et al., 2024) employs a two-layer\nfeedforward network (FFN) classifier to adaptively\nset a probability threshold, terminating generation\nonce a candidate token’s probability falls below\nthe threshold. Hugging Face’s Assisted Genera-\ntion (Joao Gante, 2023) extends DISCO to an un-\nsupervised variant that preserves the same decision\nmechanism but replaces the FFN classifier with\na receiver operating characteristic (ROC) curve.",
+      "section": "3 Related Work",
+      "char_count": 1052,
+      "chunk_index": 16,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0017",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "era-\ntion (Joao Gante, 2023) extends DISCO to an un-\nsupervised variant that preserves the same decision\nmechanism but replaces the FFN classifier with\na receiver operating characteristic (ROC) curve.\nSpecDec++ (Huang et al., 2025) formulates the\nproblem as a Markov decision process and intro-\nduces a trained head that predicts the acceptance\nprobability of candidate tokens to decide when to\nstop. PEARL (Liu et al., 2025) simulates dynamic\ndraft lengths through two strategies: it first veri-\nfies whether a newly generated token is accepted\nby the target model, and upon success, allows the\ndraft model to continue generating tokens in par-\nallel with verification, creating the effect of dy-\nnamic length adjustment. HSDDW (Syu and Lee,\n2025) proposes a three-layer hierarchical structure\nof progressively larger models. The smallest model\napplies a threshold-based mechanism to control\ngeneration or forward tokens to larger models in\nthe hierarchy for verification. Although effective,\nthese approaches primarily focus on the genera-\ntion process of draft models, and leave the target\nmodel’s role in verification unexplored.",
+      "section": "3 Related Work",
+      "char_count": 1133,
+      "chunk_index": 17,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0018",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "odels in\nthe hierarchy for verification. Although effective,\nthese approaches primarily focus on the genera-\ntion process of draft models, and leave the target\nmodel’s role in verification unexplored.\nA number of works define acceptance criteria\nbased on the divergence between draft and targetdistributions. BiLD (Kim et al., 2023) uses a fixed\ncross-entropy threshold to determine whether to ac-\ncept draft tokens, while FSD (Holsman et al., 2025)\nutilizes a fixed JS divergence threshold, accepting\ntokens when the divergence between draft and tar-\nget models is sufficiently small. However, both\nmethods require model- or task-specific informa-\ntion in advance for deciding the optimal thresholds,\nwhich limits their general applicability.\n4 Adaptive Speculative Decoding\nIn this section, we first provide an overview of\nAdaSD. We then present the empirical study, whose\ninsights motivate this work. Finally, we describe\nour method in detail.\n4.1 Overview\nWe propose Adaptive Speculative Decoding\n(AdaSD), a hyperparameter-free scheme for effi-\ncient LLM inference.",
+      "section": "3 Related Work",
+      "char_count": 1069,
+      "chunk_index": 18,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0019",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "whose\ninsights motivate this work. Finally, we describe\nour method in detail.\n4.1 Overview\nWe propose Adaptive Speculative Decoding\n(AdaSD), a hyperparameter-free scheme for effi-\ncient LLM inference. AdaSD differs from prior\nmethods in that it requires neither additional train-\ning nor any model- or task-specific information in\nadvance, and it optimizes decoding decisions by\ntaking both the draft and target models into account.\nIn particular, it eliminates the burden of hyperpa-\nrameter tuning, which often requires exhaustive\nsearch and manual effort.\nAdaSD operates with two thresholds. Thegen-\neration threshold(Section 4.3) determines when\nthe draft model should stop generating candidate\ntokens and hand them off to the target model. The\nverification threshold(Section 4.4) regulates the\nacceptable level of dissimilarity between the prob-\nability distributions of the draft and target models.\nThe workflow of AdaSD is illustrated in Figure 1b.\nTo further improve efficiency, AdaSD introduces\na heuristic feedback mechanism that adaptively ad-\njusts thresholds during inference.",
+      "section": "3 Related Work",
+      "char_count": 1089,
+      "chunk_index": 19,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0020",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "target models.\nThe workflow of AdaSD is illustrated in Figure 1b.\nTo further improve efficiency, AdaSD introduces\na heuristic feedback mechanism that adaptively ad-\njusts thresholds during inference. Instead of re-\nlying on pre-analysis of models or tasks, AdaSD\ndynamically leverages statistics from previously\ngenerated tokens to compute entropy and JS dis-\ntance, and uses them to update thresholds on the\nfly. Further details of the algorithm are provided in",
+      "section": "3 Related Work",
+      "char_count": 462,
+      "chunk_index": 20,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0021",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "Appendix A.\n4.2 Empirical Study\nWe begin by considering the generation threshold\nof the draft model. As discussed earlier, entropy\nquantifies the uncertainty associated with asingle\nrandom variable. Therefore, we use entropy solely\nwithin the draft model to estimate the uncertainty\n4\n\nof its generated candidate tokens, independent of\nthe target model. This uncertainty measurement\nis commonly employed in early-exit networks (El-\nhoushi et al., 2024).\nFor the verification threshold, we propose a joint\noptimization approach that simultaneously consid-\ners both the draft and target models. The main chal-\nlenge lies in selecting an appropriate indicator that\ncaptures the correlation of both models and effec-\ntively distinguishes accepted from rejected tokens.\nAt the same time, the indicator must be bounded to\nensure that the adaptive threshold functions reliably\nand robustly against outliers, preventing extreme\nvalues from destabilizing the verification process.\nCross-entropy and KL divergence are unsuitable\nin this context because, when the distributions p\nandqdiffer substantially, their values can diverge\nto infinity, making the threshold unmanageable.",
+      "section": "Appendix A.",
+      "char_count": 1167,
+      "chunk_index": 21,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0022",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "ess.\nCross-entropy and KL divergence are unsuitable\nin this context because, when the distributions p\nandqdiffer substantially, their values can diverge\nto infinity, making the threshold unmanageable.\nFor example, this can occur when the draft model\ngenerates a rare token that the target model assigns\nnear-zero probability. To address this issue, we\npropose to use JS distance. While both JS diver-\ngence and JS distance are bounded, JS distance\noffers the additional advantage of defining a proper\nmetric, which allows the threshold to be directly\nand consistently adjusted within a metric space.\nTo validate the effectiveness of these measures,\nwe conduct an experiment analyzing entropy and JS\ndistance for accepted and rejected tokens. We sam-\nple 20 examples from the widely used instruction-\ntuning dataset Alpaca (Taori et al., 2023), and use\nLlama 3.1 8B as the draft model and Llama 3.1\n70B as the target model. For each example, we\ncompute the mean entropy of the candidate token\ndistributions produced by the draft model, as well\nas the mean JS distance between the draft and tar-\nget models for both accepted and rejected tokens.",
+      "section": "Appendix A.",
+      "char_count": 1143,
+      "chunk_index": 22,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0023",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "compute the mean entropy of the candidate token\ndistributions produced by the draft model, as well\nas the mean JS distance between the draft and tar-\nget models for both accepted and rejected tokens.\nThe results, illustrated in Figure 2, show a clear sep-\naration. The rejected tokens consistently exhibit\nhigher entropy and JS distance than the accepted\ntokens, suggesting that both measures can serve as\neffective signals for predicting token acceptance\nand guiding the design of adaptive thresholds.\nTo further understand the correlation between\nboth models, we examine the distribution of JS\ndistances across the sample data. As shown in Fig-\nure 3, a certain samples of rejected tokens have JS\ndistances near 1, whereas such cases would that pro-\nduce extreme values that destabilize the threshold\nwith cross-entropy or KL divergence. Furthermore,\nthe JS distance distribution for accepted tokens\nshows two distinct clusters.",
+      "section": "Appendix A.",
+      "char_count": 930,
+      "chunk_index": 23,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0024",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "cases would that pro-\nduce extreme values that destabilize the threshold\nwith cross-entropy or KL divergence. Furthermore,\nthe JS distance distribution for accepted tokens\nshows two distinct clusters. The first cluster (i.e.,\n2 4 6 8 10 12 14 16 18 20\nData Index0.00.51.01.52.02.5Entropy\nrej entropy mean\nacc entropy mean\n0.00.20.40.60.81.0\nJensen-Shannon Distance\nrej JSDist mean\nacc JSDist meanFigure 2: Mean entropy and Jensen–Shannon distance\nfor accepted and rejected tokens, evaluated individually\non 20 samples from Alpaca dataset, using Llama 3.1 8B\nand 70B as the draft and target models, respectively.\n255075\n0.0 0.2 0.4 0.6 0.8 1.0\nJensen-Shannon Distance04812Percentage (%)rejected\naccepted\nFigure 3: Jensen–Shannon distance distribution of ac-\ncepted and rejected tokens across 20 samples from the\nAlpaca dataset.\nnear zero) occurs when both models assign most of\nthe probability mass to thesametoken, typically in\nhighly predictable contexts. The second cluster ap-\npears when both models distribute probability more\nevenly across multiple options but ultimately select\nthe same token, usually in contexts with weaker\ncontextual correlation.",
+      "section": "Appendix A.",
+      "char_count": 1155,
+      "chunk_index": 24,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0025",
+      "source_id": "AdaptiveSpec_2025",
+      "text": ". The second cluster ap-\npears when both models distribute probability more\nevenly across multiple options but ultimately select\nthe same token, usually in contexts with weaker\ncontextual correlation. These results provide in-\nsights that JS distance effectively captures model\nagreement and measures uncertainty, allowing ro-\nbust thresholding for token verification in AdaSD.\n4.3 Generation Threshold\nThe generation threshold derived from entropy de-\ntermines when to stop candidate token generation\nin the draft model. If the entropy of the newly\ngenerated candidate token exceeds the threshold,\nindicating that the token is likely to be rejected,\nthe generation process is terminated and controls\nproceed to the verification step.\nThe generation threshold is updated adaptively\nduring inference. At each iteration, the entropy\n5\n\nof the rejected candidate token is recorded. The\nthreshold is then recalculated as the mean entropy\nof all rejected tokens collected from the start of the\nprocess. Let TGdenote the generation threshold,\nandavg(e r)represent the mean entropy of the pre-\nviously rejected tokens. The generation threshold\nis then updated as follows:\nTG=avg(e r).",
+      "section": "Appendix A.",
+      "char_count": 1177,
+      "chunk_index": 25,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0026",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "tart of the\nprocess. Let TGdenote the generation threshold,\nandavg(e r)represent the mean entropy of the pre-\nviously rejected tokens. The generation threshold\nis then updated as follows:\nTG=avg(e r).\nThis adaptive mechanism enables the threshold\nto adjust dynamically based on the draft model’s\nown output, ensuring that token generation stops at\nthe most appropriate point.\n4.4 Verification Threshold\nThe verification threshold leverages the JS distance\nto regulate token acceptance in the target model.\nAt each verification step, we compute the JS dis-\ntance between the probability distributions of the\nverification pair (the candidate token proposed by\nthe draft model and the token predicted by the tar-\nget model). If the computed distance is smaller\nthan the threshold, the candidate token is accepted,\nregardless of whether the actual generated tokens\nfrom both models are identical or not.\nDetermining an appropriate distance threshold,\nhowever, is non-trivial. One possible strategy is to\nset the threshold based on the mean JS distance of\npreviously accepted tokens.",
+      "section": "Appendix A.",
+      "char_count": 1078,
+      "chunk_index": 26,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0027",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "are identical or not.\nDetermining an appropriate distance threshold,\nhowever, is non-trivial. One possible strategy is to\nset the threshold based on the mean JS distance of\npreviously accepted tokens. While this ensures con-\nservative verification and high accuracy, it results\nin few tokens being accepted, thereby reducing\nthe throughput of speculative decoding. Alterna-\ntively, we could set the threshold using the mean\nJS distance of previously rejected tokens. How-\never, this could lead to excessive acceptance of\nlow-confidence tokens, and thus, significantly de-\ngrade overall accuracy. Therefore, an effective ver-\nification threshold must strike a careful balance be-\ntween efficiency and reliability. It should be tight\nenough to preserve semantic alignment with the\ntarget model while being loose enough to enable\nmeaningful acceleration during inference.\nTo this end, we incorporate information from\nboth accepted and rejected tokens. As shown in\nFigure 2, the JS distances of rejected tokens are con-\nsistently higher and clearly separable from those\nof accepted tokens.",
+      "section": "Appendix A.",
+      "char_count": 1085,
+      "chunk_index": 27,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0028",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "incorporate information from\nboth accepted and rejected tokens. As shown in\nFigure 2, the JS distances of rejected tokens are con-\nsistently higher and clearly separable from those\nof accepted tokens. Motivated by this observation,\nwe define the verification threshold as the midpoint\nbetween the mean JS distances of the previous ac-\ncepted and rejected tokens. That is,\nTV=avg(d a) +avg(d r)\n2,where TVdenotes the verification threshold, and\navg(d a)andavg(d r)represent the mean JS dis-\ntances of previously accepted and rejected tokens,\nrespectively. This heuristic strikes a balance that\nguides the verification process between precision\nand efficiency.\nSimilar to the generation threshold, the verifi-\ncation threshold is adjusted adaptively throughout\ninference. At each iteration, the JS distance of each\nnewly generated token is recorded separately based\non whether it was accepted or rejected. The mean\nJS distance of all accepted and rejected tokens since\nthe start of the speculative decoding process are up-\ndated accordingly, and the verification threshold\nis subsequently adjusted to reflect these updated\nstatistics.",
+      "section": "Appendix A.",
+      "char_count": 1132,
+      "chunk_index": 28,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0029",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "accepted and rejected tokens since\nthe start of the speculative decoding process are up-\ndated accordingly, and the verification threshold\nis subsequently adjusted to reflect these updated\nstatistics. For example, assume we have recorded\ntwenty accepted and twenty rejected tokens with\nJS distances using the numbers shown in Figure 2.\nIn this case, the mean JS distances of accepted and\nrejected tokens are 0.15 and 0.49 respectively, and\nthe verification threshold will be 0.32.\nIn addition to this approach, we explore several\nmore sophisticated heuristics to adjust the verifica-\ntion threshold, which are described in Appendix B.\nHowever, these methods do not outperform the pro-\nposed simple yet effective heuristic.",
+      "section": "Appendix A.",
+      "char_count": 722,
+      "chunk_index": 29,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0030",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "5 Experiments\n5.1 Experimental Setup\nBenchmarks.We select three benchmark\ndatasets, each focusing on a different task.\nGSM8K (Cobbe et al., 2021) contains grade\nschool–level mathematical word problems. Hu-\nmanEval (Chen et al., 2021) benchmarks program-\nming and code generation. MMLU (Hendrycks\net al., 2021) covers multiple-choice questions\nacross a wide range of subjects.\nModels.We select two representative model fam-\nilies, Llama 3 (Grattafiori et al., 2024) and Qwen\n2.5 (Yang et al., 2025), with different size configu-\nrations. We consider three target-draft model pairs:\n(Llama 3.1 70B, Llama 3.1 8B), (Llama 3.1 70B,\nLlama 3.2 1B), and (Qwen 2.5 72B, Qwen 2.5 7B).\nThese configurations enable a comprehensive evalu-\nation of performance within the same model family\nacross different scales and across model families\nof comparable sizes.",
+      "section": "5 Experiments",
+      "char_count": 847,
+      "chunk_index": 30,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0031",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "(Qwen 2.5 72B, Qwen 2.5 7B).\nThese configurations enable a comprehensive evalu-\nation of performance within the same model family\nacross different scales and across model families\nof comparable sizes.\nBaselines.We compare two speculative decod-\ning methods that require no additional training\nand are agnostic to task-specific information: (a)\n6\n\nVanilla speculative decoding (Leviathan et al.,\n2023), which uses a fixed candidate token length of\nfive, and (b) Hugging Face’s built-in Assisted Gen-\neration (Joao Gante, 2023), which extends the state-\nof-the-art DISCO method (Mamou et al., 2024)\nwithout the need to train a classifier beforehand. In\nthe following experiments, we useVanillaandAs-\nsistedGento represent both methods, respectively.\nImplementation.All experiments are conducted\nusing the Hugging Face Transformer frame-\nwork (Wolf et al., 2020) version 4.55. We run\ntests on four NVIDIA A6000 GPUs and enable\n“device_map=auto ” to evenly split the model on\nall available GPUs. All evaluated approaches use\nsampling to select the predicted tokens.\n5.2 Performance Results\nTable 1 presents the throughput and accuracy re-\nsults.",
+      "section": "5 Experiments",
+      "char_count": 1141,
+      "chunk_index": 31,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0032",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "” to evenly split the model on\nall available GPUs. All evaluated approaches use\nsampling to select the predicted tokens.\n5.2 Performance Results\nTable 1 presents the throughput and accuracy re-\nsults. The performance of draft and target mod-\nels are also included for reference. For AdaSD,\nwe also evaluate two variants:Gen-Only, which\napplies only the generation threshold, andVerify-\nOnly, which applies only the verification thresh-\nold. Efficiency is measured as the speedup over\nthe vanilla speculative decoding method. Because\nour AdaSD adjusts the acceptance criteria, we also\nreport the resulting accuracy. Note that the accura-\ncies of all other methods may differ slightly from\nthe target model due to the use of sampling.\nOverall, AdaSD consistently achieves the high-\nest speedup among all methods on Llama models\nand is only slightly slower than AssistedGen on\nthe Qwen model. For GSM8K and HumanEval,\nAdaSD achieves 23–49% higher throughput than\nVanilla and 10% higher than AssistedGen, with\naccuracy of only 0.5–2% lower than the baseline.\nA notable observation is the relatively modest\nspeedup achieved by AdaSD on the MMLU dataset.",
+      "section": "5 Experiments",
+      "char_count": 1148,
+      "chunk_index": 32,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0033",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "ughput than\nVanilla and 10% higher than AssistedGen, with\naccuracy of only 0.5–2% lower than the baseline.\nA notable observation is the relatively modest\nspeedup achieved by AdaSD on the MMLU dataset.\nBoth AdaSD and AssistedGen exhibit limited accel-\neration, with only about 8% of improvement. This\nis because MMLU is a multiple-choice benchmark,\nwhere the model generates only a smalls number of\ntokens corresponding to the selected answer. The\nshort sequence of these outputs inherently limits\nopportunities for acceleration.\nWe also observe that AdaSD achieves lower\nspeedup than AssistedGen with Qwen 2.5. To in-\nvestigate this, we analyze the number of generated\nand accepted tokens, as well as the correspond-\ning acceptance rates. As Table 2 shows, both the\naverage lengths of generated and accepted tokensin AdaSD are longer than those in AssistedGen.\nAlthough AssistedGen produces shorter sequence\nper speculative decoding step, it can still gener-\nate sufficiently long sequences while maintaining a\nhigh acceptance rate. This results from its design\nobjective, which jointly maximizes generation effi-\nciency and the acceptance rate.",
+      "section": "5 Experiments",
+      "char_count": 1145,
+      "chunk_index": 33,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0034",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "still gener-\nate sufficiently long sequences while maintaining a\nhigh acceptance rate. This results from its design\nobjective, which jointly maximizes generation effi-\nciency and the acceptance rate. While AssistedGen\noccasionally adopts a conservative strategy that\nunderestimates the candidate sequence length, it\nterminates generation at an appropriate point with-\nout excessive token generation, thus minimizing\nthe draft model’s inference overhead.\nIn contrast, AdaSD’s generation threshold relies\non the uncertainty of tokens produced by the draft\nmodel. Consequently, this can lead to relatively\nmore number of candidate tokens, which increases\nboth generation and verification overhead, and the\nlikelihood of tokens being rejected as well. This\nexplains why AssistedGen outperforms AdaSD in\nthe Qwen 2.5 experiments. These findings sug-\ngest that AdaSD’s efficiency could be further im-\nproved by incorporating more precise generation\nand acceptance-aware control mechanisms.",
+      "section": "5 Experiments",
+      "char_count": 983,
+      "chunk_index": 34,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0035",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "rforms AdaSD in\nthe Qwen 2.5 experiments. These findings sug-\ngest that AdaSD’s efficiency could be further im-\nproved by incorporating more precise generation\nand acceptance-aware control mechanisms.\n5.3 Ablation Studies\nIn this section, we analyze the individual impact\nof the generation and verification thresholds by\ncomparing AdaSD with its two variants, Gen-Only\nand Verify-Only, as reported in Tables 1 and 2. For\nVerify-Only, we fix the candidate token length to\nfive, consistent with the Vanilla setting.\nGen-Only.Gen-Only demonstrates strong infer-\nence speedup over Vanilla, achieving a 17–42% im-\nprovement across the experiments. In some cases,\nit even outperforms or achieves comparable effi-\nciency with AssistedGen. This improvement arises\nfrom generating longer candidate sequences while\nusing an effective control mechanism. The draft\nmodel continues generating tokens until the token\nentropy exceeds the generation threshold, which\nis adaptively updated based on feedback from the\ntarget model.\nVerify-Only.In contrast, the speedup of Verify-\nOnly is limited when used alone, with at most\n7% improvement over Vanilla on MMLU.",
+      "section": "5 Experiments",
+      "char_count": 1144,
+      "chunk_index": 35,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0036",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "which\nis adaptively updated based on feedback from the\ntarget model.\nVerify-Only.In contrast, the speedup of Verify-\nOnly is limited when used alone, with at most\n7% improvement over Vanilla on MMLU. This\nis because Vanilla achieves a high acceptance rate\nwith its carefully chosen candidate length, effec-\ntively covering most general cases. However, when\ncombined with the generation threshold, AdaSD\nachieves an additional 13% improvement. These\n7\n\nGSM8K HumanEval MMLU\nLlama 3.1 70B – Llama 3.1 8B\ntks/sec JSDist acc speedup tks/sec JSDist acc speedup tks/sec JSDist acc speedup\nDraft 36.446 - 0.828 2.624 36.257 - 0.634 2.532 33.274 - 0.695 4.206\nTarget 4.842 - 0.939 0.349 4.838 - 0.750 0.338 4.376 - 0.836 0.553\nVanilla 13.890 - 0.945 1.000 14.319 - 0.768 1.000 7.912 - 0.835 1.000\nAssistedGen 16.062 - 0.944 1.156 18.137 - 0.756 1.267 7.970 - 0.835 1.007\nGen-Only 16.243 - 0.943 1.169 18.017 - 0.762 1.258 8.023 - 0.831 1.014\nVerify-Only 14.431 0.310 0.933 1.039 14.499 0.309 0.793 1.013 8.4",
+      "section": "5 Experiments",
+      "char_count": 999,
+      "chunk_index": 36,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0037",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "n 16.062 - 0.944 1.156 18.137 - 0.756 1.267 7.970 - 0.835 1.007\nGen-Only 16.243 - 0.943 1.169 18.017 - 0.762 1.258 8.023 - 0.831 1.014\nVerify-Only 14.431 0.310 0.933 1.039 14.499 0.309 0.793 1.013 8.481 0.418 0.833 1.072\nAdaSD 17.505 0.309 0.9371.260 18.839 0.313 0.7441.316 8.623 0.419 0.8221.090\nLlama 3.1 70B – Llama 3.2 1B\ntks/sec JSDist acc speedup tks/sec JSDist acc speedup tks/sec JSDist acc speedup\nDraft 99.919 - 0.375 6.080 100.683 - 0.348 5.764 95.141 - 0.453 10.878\nTarget 4.842 - 0.939 0.295 4.838 - 0.750 0.277 4.376 - 0.836 0.500\nVanilla 16.434 - 0.939 1.000 17.467 - 0.756 1.000 8.746 - 0.838 1.000\nAssistedGen 19.892 - 0.936 1.210 23.265 - 0.774 1.332 8.920 - 0.833 1.020\nGen-Only 21.126 - 0.939 1.286 24.842 - 0.768 1.422 9.085 - 0.835 1.039\nVerify-Only 17.192 0.375 0.941 1.046 17.793 0.359 0.726 1.019 9.385 0.465 0.816 1.073\nAdaSD 23.202 0.369 0.9311.412 26.045 0.356 0.7381.491 9.937 0.463 0.8131.136\nQwen 2.5 72B – Qwen 2.5 7B\ntks/sec JSDist acc speedup tks/sec JSDist acc spe",
+      "section": "5 Experiments",
+      "char_count": 1000,
+      "chunk_index": 37,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0038",
+      "source_id": "AdaptiveSpec_2025",
+      "text": ".793 0.359 0.726 1.019 9.385 0.465 0.816 1.073\nAdaSD 23.202 0.369 0.9311.412 26.045 0.356 0.7381.491 9.937 0.463 0.8131.136\nQwen 2.5 72B – Qwen 2.5 7B\ntks/sec JSDist acc speedup tks/sec JSDist acc speedup tks/sec JSDist acc speedup\nDraft 38.796 - 0.867 2.667 38.724 - 0.720 2.840 38.544 - 0.725 3.667\nTarget 4.728 - 0.913 0.325 4.717 - 0.787 0.346 4.690 - 0.845 0.446\nVanilla 14.546 - 0.912 1.000 13.634 - 0.799 1.000 10.511 - 0.837 1.000\nAssistedGen 18.721 - 0.9171.287 17.482 - 0.7991.282 11.436 - 0.8371.088\nGen-Only 18.054 - 0.920 1.241 16.733 - 0.787 1.227 10.735 - 0.841 1.021\nVerify-Only 14.663 0.321 0.918 1.008 13.821 0.354 0.780 1.014 10.952 0.408 0.849 1.042\nAdaSD 18.588 0.324 0.914 1.278 16.752 0.344 0.817 1.229 11.395 0.407 0.835 1.084\nTable 1: Comparison of speculative decoding methods across different benchmarks for three draft–target model\npairs. Metrics include decoding speed (tks/sec), average JS distance at the verification threshold, accuracy, and\nrelative speedup compared to the Vanilla baseline. Gen-Only and Verify-Only represent variants of AdaSD that use\nonly the generation threshold and verification threshold, respectively.",
+      "section": "5 Experiments",
+      "char_count": 1158,
+      "chunk_index": 38,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0039",
+      "source_id": "AdaptiveSpec_2025",
+      "text": ", accuracy, and\nrelative speedup compared to the Vanilla baseline. Gen-Only and Verify-Only represent variants of AdaSD that use\nonly the generation threshold and verification threshold, respectively.\nQwen 2.5 72B – Qwen 2.5 7B\nGSM8K HumanEval MMLU\n#cand #match AccRate speedup #cand #match AccRate speedup #cand #match AccRate speedup\nVanilla 5.000 4.228 0.846 1.000 5.000 3.942 0.788 1.000 5.000 2.811 0.562 1.000\nAssistedGen 10.038 8.335 0.8301.287 9.745 7.720 0.7921.282 6.109 3.618 0.5921.088\nGen-Only 14.254 9.967 0.699 1.241 13.199 8.832 0.669 1.227 8.962 4.210 0.470 1.021\nVerify-Only 5.000 4.287 0.857 1.008 5.000 4.026 0.805 1.014 5.000 2.983 0.597 1.042\nAdaSD 14.491 10.434 0.720 1.278 13.252 8.879 0.670 1.229 9.205 4.596 0.499 1.084\nTable 2: Decoding results on different datasets using Qwen 2.5. The result demonstrates how the number of\ngenerated candidates (#cand), accepted tokens (#match), and the resulting acceptance rate (AccRate) collectively\ninfluence the decoding speedup.",
+      "section": "5 Experiments",
+      "char_count": 996,
+      "chunk_index": 39,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0040",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "ing Qwen 2.5. The result demonstrates how the number of\ngenerated candidates (#cand), accepted tokens (#match), and the resulting acceptance rate (AccRate) collectively\ninfluence the decoding speedup.\nresults indicate that our JS distance–based accep-\ntance criteria can further accelerate inference while\nmaintaining accuracy.",
+      "section": "5 Experiments",
+      "char_count": 327,
+      "chunk_index": 40,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0041",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "6 Conclusion\nThis paper proposes AdaSD, a novel speculative de-\ncoding method without the need for manual hyper-\nparameter tuning. AdaSD significantly improves\nspeculative decoding speed, with only a minor re-\nduction in accuracy. While AdaSD enhances de-\ncoding efficiency, there is still room for further\nimprovement in its adaptive mechanisms. For gen-\neration, incorporating additional indicators beyondentropy could enable more precise decisions. For\nverification, designing more effective heuristics to\nadjust the JS distance could improve the acceptance\nrate and further reduce accuracy degradation. We\nbelieve that AdaSD represents a practical step to-\nward more efficient and adaptive decoding for large\nlanguage models.\nLimitations\nAdaSD is applicable when the draft and target mod-\nels share the same vocabulary, meaning that both\nmodels must have identical token sizes and token\ncontent. This requirement arises because AdaSD\n8\n\nrelies on computing entropy and JS distance for\noutput tokens. When the vocabulary differs, these\nmetrics cannot be calculated consistently, and deter-\nmining an appropriate threshold becomes difficult.",
+      "section": "6 Conclusion",
+      "char_count": 1143,
+      "chunk_index": 41,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0042",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "lies on computing entropy and JS distance for\noutput tokens. When the vocabulary differs, these\nmetrics cannot be calculated consistently, and deter-\nmining an appropriate threshold becomes difficult.\nAnother limitation lies in the challenge of se-\nlecting compatible draft and target model pairs. In\npractice, the optimal size gap between the draft\nand target models is roughly 50–100 times. How-\never, within this range, few well-known model pairs\nshare an identical vocabulary. This issue is exacer-\nbated by recent model development trends, where\nsmaller models (<1B) often use different vocabu-\nlaries from larger-sized models (>70B). Moreover,\nsmaller models frequently incorporate architectural\nmodifications beyond simply reducing the number\nof Transformer layers, such as changes to embed-\nding layers or tokenization schemes, which further\nlimits compatibility and applicability of AdaSD.",
+      "section": "6 Conclusion",
+      "char_count": 898,
+      "chunk_index": 42,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0043",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "ing layers or tokenization schemes, which further\nlimits compatibility and applicability of AdaSD.",
+      "section": "6 Conclusion",
+      "char_count": 98,
+      "chunk_index": 43,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0044",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "References\nTom Brown, Benjamin Mann, Nick Ryder, Melanie\nSubbiah, Jared D Kaplan, Prafulla Dhariwal, Arvind\nNeelakantan, Pranav Shyam, Girish Sastry, Amanda\nAskell, Sandhini Agarwal, Ariel Herbert-V oss,\nGretchen Krueger, Tom Henighan, Rewon Child,\nAditya Ramesh, Daniel Ziegler, Jeffrey Wu, Clemens\nWinter, and 12 others. 2020. Language models are\nfew-shot learners. InAdvances in Neural Information\nProcessing Systems, volume 33, pages 1877–1901.\nCurran Associates, Inc.\nTianle Cai, Yuhong Li, Zhengyang Geng, Hongwu Peng,\nJason D. Lee, Deming Chen, and Tri Dao. 2024.\nMedusa: Simple LLM inference acceleration frame-\nwork with multiple decoding heads. InForty-first\nInternational Conference on Machine Learning.\nCharlie Chen, Sebastian Borgeaud, Geoffrey Irving,\nJean-Baptiste Lespiau, Laurent Sifre, and John\nJumper. 2023. Accelerating large language model\ndecoding with speculative sampling.Preprint,\narXiv:2302.01318.",
+      "section": "References",
+      "char_count": 923,
+      "chunk_index": 44,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0045",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "Chen, Sebastian Borgeaud, Geoffrey Irving,\nJean-Baptiste Lespiau, Laurent Sifre, and John\nJumper. 2023. Accelerating large language model\ndecoding with speculative sampling.Preprint,\narXiv:2302.01318.\nMark Chen, Jerry Tworek, Heewoo Jun, Qiming Yuan,\nHenrique Ponde de Oliveira Pinto, Jared Kaplan,\nHarri Edwards, Yuri Burda, Nicholas Joseph, Greg\nBrockman, Alex Ray, Raul Puri, Gretchen Krueger,\nMichael Petrov, Heidy Khlaaf, Girish Sastry, Pamela\nMishkin, Brooke Chan, Scott Gray, and 39 others.\n2021. Evaluating large language models trained on\ncode.Preprint, arXiv:2107.03374.\nAakanksha Chowdhery, Sharan Narang, Jacob Devlin,\nMaarten Bosma, Gaurav Mishra, Adam Roberts,\nPaul Barham, Hyung Won Chung, Charles Sutton,\nSebastian Gehrmann, Parker Schuh, Kensen Shi,\nSasha Tsvyashchenko, Joshua Maynez, Abhishek\nRao, Parker Barnes, Yi Tay, Noam Shazeer, Vinodku-\nmar Prabhakaran, and 48 others. 2023. Palm: Scalinglanguage modeling with pathways.Journal of Ma-\nchine Learning Research, 24(240):1–113.\nKarl Cobbe, Vineet Kosaraju, Mohammad Bavarian,\nMark Chen, Heewoo Jun, Lukasz Kaiser, Matthias\nPlappert, Jerry Tworek, Jacob Hilton, Reiichiro\nNakano, Christopher Hesse, and John Schulman.\n2021.",
+      "section": "References",
+      "char_count": 1195,
+      "chunk_index": 45,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0046",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "–113.\nKarl Cobbe, Vineet Kosaraju, Mohammad Bavarian,\nMark Chen, Heewoo Jun, Lukasz Kaiser, Matthias\nPlappert, Jerry Tworek, Jacob Hilton, Reiichiro\nNakano, Christopher Hesse, and John Schulman.\n2021. Training verifiers to solve math word prob-\nlems.Preprint, arXiv:2110.14168.\nMostafa Elhoushi, Akshat Shrivastava, Diana Liskovich,\nBasil Hosmer, Bram Wasti, Liangzhen Lai, Anas\nMahmoud, Bilge Acun, Saurabh Agarwal, Ahmed\nRoman, Ahmed Aly, Beidi Chen, and Carole-Jean\nWu. 2024. LayerSkip: Enabling early exit inference\nand self-speculative decoding. InProceedings of the\n62nd Annual Meeting of the Association for Compu-\ntational Linguistics, pages 12622–12642.\nD.M. Endres and J.E. Schindelin. 2003. A new metric\nfor probability distributions.IEEE Transactions on\nInformation Theory, 49(7):1858–1860.\nAaron Grattafiori, Abhimanyu Dubey, Abhinav Jauhri,\nAbhinav Pandey, Abhishek Kadian, Ahmad Al-\nDahle, Aiesha Letman, Akhil Mathur, Alan Schel-\nten, Alex Vaughan, Amy Yang, Angela Fan, Anirudh\nGoyal, Anthony Hartshorn, Aobo Yang, Archi Mi-\ntra, Archie Sravankumar, Artem Korenev, Arthur\nHinsvark, and 542 others. 2024. The llama 3 herd of\nmodels.Preprint, arXiv:2407.21783.",
+      "section": "References",
+      "char_count": 1175,
+      "chunk_index": 46,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0047",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "Angela Fan, Anirudh\nGoyal, Anthony Hartshorn, Aobo Yang, Archi Mi-\ntra, Archie Sravankumar, Artem Korenev, Arthur\nHinsvark, and 542 others. 2024. The llama 3 herd of\nmodels.Preprint, arXiv:2407.21783.\nDan Hendrycks, Collin Burns, Steven Basart, Andy Zou,\nMantas Mazeika, Dawn Song, and Jacob Steinhardt.\n2021. Measuring massive multitask language under-\nstanding. InInternational Conference on Learning\nRepresentations.\nMaximilian Holsman, Yukun Huang, and Bhuwan Dhin-\ngra. 2025. Fuzzy speculative decoding for a tunable\naccuracy-runtime tradeoff. InFindings of the Asso-\nciation for Computational Linguistics: ACL 2025,\npages 26257–26273.\nKaixuan Huang, Xudong Guo, and Mengdi Wang. 2025.\nSpecdec++: Boosting speculative decoding via adap-\ntive candidate lengths. InSecond Conference on\nLanguage Modeling.\nJoao Gante. 2023. Assisted generation: a new direction\ntoward low-latency text generation.\nSehoon Kim, Karttikeya Mangalam, Suhong Moon, Ji-\ntendra Malik, Michael W Mahoney, Amir Gholami,\nand Kurt Keutzer. 2023. Speculative decoding with\nbig little decoder. InAdvances in Neural Information\nProcessing Systems, volume 36, pages 39236–39256.\nCurran Associates, Inc.",
+      "section": "References",
+      "char_count": 1172,
+      "chunk_index": 47,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0048",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "Mahoney, Amir Gholami,\nand Kurt Keutzer. 2023. Speculative decoding with\nbig little decoder. InAdvances in Neural Information\nProcessing Systems, volume 36, pages 39236–39256.\nCurran Associates, Inc.\nYaniv Leviathan, Matan Kalman, and Yossi Matias.\n2023. Fast inference from transformers via spec-\nulative decoding. InInternational Conference on\nMachine Learning, pages 19274–19286.\n9\n\nYuhui Li, Fangyun Wei, Chao Zhang, and Hongyang\nZhang. 2024a. EAGLE-2: Faster inference of lan-\nguage models with dynamic draft trees. InProceed-\nings of the 2024 Conference on Empirical Methods\nin Natural Language Processing, pages 7421–7432.\nYuhui Li, Fangyun Wei, Chao Zhang, and Hongyang\nZhang. 2024b. EAGLE: Speculative sampling re-\nquires rethinking feature uncertainty. InForty-first\nInternational Conference on Machine Learning.\nTianyu Liu, Yun Li, Qitan Lv, Kai Liu, Jianchen Zhu,\nWinston Hu, and Xiao Sun. 2025. PEARL: Parallel\nspeculative decoding with adaptive draft length. In\nThe Thirteenth International Conference on Learning\nRepresentations.\nJonathan Mamou, Oren Pereg, Daniel Korat, Moshe\nBerchansky, Nadav Timor, Moshe Wasserblat, and\nRoy Schwartz. 2024.",
+      "section": "References",
+      "char_count": 1159,
+      "chunk_index": 48,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0049",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "draft length. In\nThe Thirteenth International Conference on Learning\nRepresentations.\nJonathan Mamou, Oren Pereg, Daniel Korat, Moshe\nBerchansky, Nadav Timor, Moshe Wasserblat, and\nRoy Schwartz. 2024. Dynamic speculation looka-\nhead accelerates speculative decoding of large lan-\nguage models. InProceedings of The 4th NeurIPS\nEfficient Natural Language and Speech Processing\nWorkshop, volume 262, pages 456–467.\nJack W. Rae, Sebastian Borgeaud, Trevor Cai, Katie\nMillican, Jordan Hoffmann, Francis Song, John\nAslanides, Sarah Henderson, Roman Ring, Susan-\nnah Young, Eliza Rutherford, Tom Hennigan, Ja-\ncob Menick, Albin Cassirer, Richard Powell, George\nvan den Driessche, Lisa Anne Hendricks, Maribeth\nRauh, Po-Sen Huang, and 61 others. 2022. Scaling\nlanguage models: Methods, analysis & insights from\ntraining gopher.Preprint, arXiv:2112.11446.\nColin Raffel, Noam Shazeer, Adam Roberts, Kather-\nine Lee, Sharan Narang, Michael Matena, Yanqi\nZhou, Wei Li, and Peter J. Liu. 2020. Exploring the\nlimits of transfer learning with a unified text-to-text\ntransformer.Journal of Machine Learning Research,\n21(140):1–67.\nShensian Syu and Hung-yi Lee. 2025.",
+      "section": "References",
+      "char_count": 1151,
+      "chunk_index": 49,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0050",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "ei Li, and Peter J. Liu. 2020. Exploring the\nlimits of transfer learning with a unified text-to-text\ntransformer.Journal of Machine Learning Research,\n21(140):1–67.\nShensian Syu and Hung-yi Lee. 2025. Hierarchical\nspeculative decoding with dynamic window. InFind-\nings of the Association for Computational Linguistics:\nNAACL 2025, pages 8260–8273.\nRohan Taori, Ishaan Gulrajani, Tianyi Zhang, Yann\nDubois, Xuechen Li, Carlos Guestrin, Percy Liang,\nand Tatsunori B. Hashimoto. 2023. Stanford alpaca:\nAn instruction-following llama model. https://\ngithub.com/tatsu-lab/stanford_alpaca.\nAshish Vaswani, Noam Shazeer, Niki Parmar, Jakob\nUszkoreit, Llion Jones, Aidan N Gomez, Ł ukasz\nKaiser, and Illia Polosukhin. 2017. Attention is all\nyou need. InAdvances in Neural Information Pro-\ncessing Systems, volume 30. Curran Associates, Inc.\nThomas Wolf, Lysandre Debut, Victor Sanh, Julien\nChaumond, Clement Delangue, Anthony Moi, Pier-\nric Cistac, Tim Rault, Remi Louf, Morgan Funtowicz,\nJoe Davison, Sam Shleifer, Patrick von Platen, Clara\nMa, Yacine Jernite, Julien Plu, Canwen Xu, Teven\nLe Scao, Sylvain Gugger, and 3 others. 2020.",
+      "section": "References",
+      "char_count": 1127,
+      "chunk_index": 50,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0051",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "-\nric Cistac, Tim Rault, Remi Louf, Morgan Funtowicz,\nJoe Davison, Sam Shleifer, Patrick von Platen, Clara\nMa, Yacine Jernite, Julien Plu, Canwen Xu, Teven\nLe Scao, Sylvain Gugger, and 3 others. 2020. Trans-\nformers: State-of-the-art natural language processing.InConference on Empirical Methods in Natural Lan-\nguage Processing: System Demonstrations, pages\n38–45.\nAn Yang, Baosong Yang, Beichen Zhang, Binyuan\nHui, Bo Zheng, Bowen Yu, Chengyuan Li, Dayi-\nheng Liu, Fei Huang, Haoran Wei, Huan Lin, Jian\nYang, Jianhong Tu, Jianwei Zhang, Jianxin Yang, Ji-\naxi Yang, Jingren Zhou, Junyang Lin, Kai Dang, and\n23 others. 2025. Qwen2.5 technical report.Preprint,\narXiv:2412.15115.\nYongchao Zhou, Kaifeng Lyu, Ankit Singh Rawat,\nAditya Krishna Menon, Afshin Rostamizadeh, Sanjiv\nKumar, Jean-François Kagy, and Rishabh Agarwal.\n2024. Distillspec: Improving speculative decoding\nvia knowledge distillation. InThe Twelfth Interna-\ntional Conference on Learning Representations.\nA Algorithm of AdaSD\nAlgorithm 1 shows the AdaSD procedure, which\ncomprises three main steps: generation, verifica-\ntion, and update.",
+      "section": "References",
+      "char_count": 1104,
+      "chunk_index": 51,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0052",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "he Twelfth Interna-\ntional Conference on Learning Representations.\nA Algorithm of AdaSD\nAlgorithm 1 shows the AdaSD procedure, which\ncomprises three main steps: generation, verifica-\ntion, and update. To enable adaptive threshold ad-\njustment, we record the entropy of generated tokens\nand the JS distances during inference in three lists:\nrejected entropy ( LR\nE), rejected JS distance ( LR\nD),\nand accepted JS distance ( LA\nD). These statistics\nare used to update the generation and verification\nthresholds. Moreover, two additional constraints\nare imposed. First, we set the maximum window\nsizeWto 20, limiting the number of candidate to-\nkens generated per iteration and prevent unbounded\ndraft expansion. Second, due to the inherent maxi-\nmum context length of LLMs, we define a limit K\non the total number of generated tokens to ensure\nthe contextXremains within allowable bounds.\nB Extensive Experiments\nWe explore three alternative heuristics for adjust-\ning the verification threshold to better understand\nthe influence of JS distance.",
+      "section": "References",
+      "char_count": 1044,
+      "chunk_index": 52,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0053",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "e contextXremains within allowable bounds.\nB Extensive Experiments\nWe explore three alternative heuristics for adjust-\ning the verification threshold to better understand\nthe influence of JS distance. We use TVto denote\nthe verification threshold, daanddrto denote the\nJS distances of an accepted and a rejected token,\nrespectively, and naandnrto denote the total num-\nbers of accepted and rejected tokens that have been\nrecorded.\n•Variant A: Compute the verification threshold\nby the mean JS distances of accepted tokens:\nTV=Pna\ni=1d(i)\na\nna.\n•Variant B: Compute the verification thresh-\nold by weighting the mean JS distances of\n10\n\nAlgorithm 1:Adaptive Speculative Decoding\nInput: the target model Mp, the draft model Mq, the context X, the maximum generated tokens K,\nthe maximum window sizeW\nOutput:the final generated contextX\nInitialization :LR\nE=LR\nD=LA\nD= [null]/* L: list, E: entropy, D: JS distance, A: accepted, R:\nrejected */,\nTG=TV= 0/* T: threshold, G: generation, V: verification */,\nw= 0/* window length counter */\n1whilelen(X)< Kdo\n// 1.",
+      "section": "References",
+      "char_count": 1055,
+      "chunk_index": 53,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0054",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "R\nD=LA\nD= [null]/* L: list, E: entropy, D: JS distance, A: accepted, R:\nrejected */,\nTG=TV= 0/* T: threshold, G: generation, V: verification */,\nw= 0/* window length counter */\n1whilelen(X)< Kdo\n// 1. The draft model generates tokens sequentially\n2fori←1toWdo\n3q i←M q(X, x 1:i−1)// Definex 1:0is null\n4x i∼qi // Samplex ifromq i\n5w←i// Record generated window length\n6ifT G< H(q i)then// Check generation threshold\n7break\n// 2. The target model verifies tokens in parallel\n8p 1, p2, . . . , p w+1←M p(X, x 1:0), M p(X, x 1:1), . . . , M p(X, x 1:w)\n9y 1, y2, . . . , y w+1∼p1, p2, . . . , p w+1 // Sampley ifromp i\n10fori←1towdo\n11ifx i̸=yiandT V< dJS(pi∥qi)then// Check verification threshold\n12LR\nE.append(H(q i))// Record rejected entropy\n13LR\nD.append(d JS(pi∥qi))// Record rejected JS distance\n14w←i−1// Record accepted window length\n15break\n16LA\nD.append(d JS(pi∥qi))// Record accepted JS distance\n// 3. Update parameters\n17X.append(x 1:w, yw+1)// Update context\n18T G←average(LR\nE)// Update generation threshold\n19T V←\u0000\naverage(LA\nD) +average(LR\nD)\u0001\n/2// Update verification threshold\naccepted and rejected tokens with their respec-\ntive total counts:\nTV=Pna\ni=1d(i)\na+Pnr\nj=1d(j)\nr\nna+nr.",
+      "section": "References",
+      "char_count": 1197,
+      "chunk_index": 54,
+      "page_numbers": [
+        11
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0055",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "e generation threshold\n19T V←\u0000\naverage(LA\nD) +average(LR\nD)\u0001\n/2// Update verification threshold\naccepted and rejected tokens with their respec-\ntive total counts:\nTV=Pna\ni=1d(i)\na+Pnr\nj=1d(j)\nr\nna+nr.\n•Variant C: We define two additional counters,\ncaandcr, to record the numbers of accepted\nand rejected sequences, respectively. For each\ndraft token sequence, if it contains at least\none accepted token, we increase caby one;\nif it contains at least one rejected token, we\nincrease crby one. The verification threshold\nis defined as:\nTV=ca×Pna\ni=1d(i)\na\nna+cr×Pnr\nj=1d(j)\nr\nnr\nca+cr.\nWhen the numbers of accepted and rejectedsequences are equal (i.e., ca=cr), this is the\nsame as AdaSD.\nTables 3, 4, and 5 present the performance results\non the GSM8K, HumanEval, and MMLU datasets,\nrespectively. For a fair comparison, we fix the ran-\ndom seed using “ torch.manual_seed(48763) ”.\nOverall, these heuristic variants do not outperform\nAdaSD. The verification thresholds derived from\nVariants A and B are close to zero, which fail to pro-\nvide any speedup and even cause accuracy degra-\ndation. In contrast, Variant C achieves a better bal-\nance between accuracy and speedup.",
+      "section": "References",
+      "char_count": 1171,
+      "chunk_index": 55,
+      "page_numbers": [
+        11
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0056",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "ved from\nVariants A and B are close to zero, which fail to pro-\nvide any speedup and even cause accuracy degra-\ndation. In contrast, Variant C achieves a better bal-\nance between accuracy and speedup. We observe\nthatcais typically greater than cr, which leads Vari-\nant C to a lower verification threshold compared\nto AdaSD and, thus, a lower token acceptance rate.\nAs a result, Variant C achieves higher accuracy than\nAdaSD, but its speedup is slightly lower.\nWe argue that setting AdaSD’s threshold at half\n11\n\nthe JS distances of accepted and rejected tokens is\nsufficiently conservative. If the verification thresh-\nold is increased beyond this point, many tokens\nthat should be rejected would instead be accepted,\npotentially leading to a drop in accuracy.\n12\n\nopenai/gsm8k, main, test, num_rows = 1319\nLlama 3.1 70B – Llama 3.1 8B\ntks/sec JSDist #cand #match AccRate acc speedup\nDraft 36.446 - - - - 0.828 2.624\nTarget 4.842 - - - - 0.939 0.349\nVanilla 13.890 - 5.000 4.057 0.811 0.945 1.000\nAs",
+      "section": "References",
+      "char_count": 1000,
+      "chunk_index": 56,
+      "page_numbers": [
+        11
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0057",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "= 1319\nLlama 3.1 70B – Llama 3.1 8B\ntks/sec JSDist #cand #match AccRate acc speedup\nDraft 36.446 - - - - 0.828 2.624\nTarget 4.842 - - - - 0.939 0.349\nVanilla 13.890 - 5.000 4.057 0.811 0.945 1.000\nAssistedGen 16.062 - 7.898 6.311 0.799 0.944 1.156\nGen-Only 16.243 - 11.157 7.850 0.704 0.943 1.169\nVerify-Only 14.431 0.310 5.000 4.270 0.854 0.933 1.039\nAdaSD 17.505 0.309 11.472 8.737 0.762 0.937 1.260\nVariant A 16.213 0.048 11.059 7.824 0.707 0.938 1.167\nVariant B 16.399 0.069 11.121 7.935 0.714 0.942 1.181\nVariant C 16.733 0.179 11.387 8.261 0.725 0.931 1.205\nLlama 3.1 70B – Llama 3.2 1B\ntks/sec JSDist #cand #match AccRate acc speedup\nDraft 99.919 - - - - 0.375 6.080\nTarget 4.842 - - - - 0.939 0.295\nVanilla 16.434 - 5.000 3.596 0.719 0.939 1.000\nAssistedGen 19.892 - 6.918 5.047 0.730 0.936 1.210\nGen-Only 21.126 - 10.438 6.189 0.593 0.939 1.286\nVerify-Only 17.192 0.375 4.967 3.806 0.766 0.941 1.046\nAdaSD 23.202 0.369 10.823 7.007 0.647 0.931 1.412\nVariant A 20.899 0.059 10.394 6.218 0.59",
+      "section": "References",
+      "char_count": 999,
+      "chunk_index": 57,
+      "page_numbers": [
+        13
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0058",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "1.210\nGen-Only 21.126 - 10.438 6.189 0.593 0.939 1.286\nVerify-Only 17.192 0.375 4.967 3.806 0.766 0.941 1.046\nAdaSD 23.202 0.369 10.823 7.007 0.647 0.931 1.412\nVariant A 20.899 0.059 10.394 6.218 0.598 0.935 1.272\nVariant B 21.214 0.099 10.404 6.243 0.600 0.943 1.291\nVariant C 21.811 0.254 10.581 6.562 0.620 0.943 1.327\nQwen 2.5 72B – Qwen 2.5 7B\ntks/sec JSDist #cand #match AccRate acc speedup\nDraft 38.796 - - - - 0.867 2.667\nTarget 4.728 - - - - 0.913 0.325\nVanilla 14.546 - 5.000 4.228 0.846 0.912 1.000\nAssistedGen 18.721 - 10.038 8.335 0.830 0.917 1.287\nGen-Only 18.054 - 14.254 9.967 0.699 0.920 1.241\nVerify-Only 14.663 0.321 4.971 4.287 0.862 0.918 1.008\nAdaSD 18.588 0.324 14.491 10.434 0.720 0.914 1.278\nVariant A 18.267 0.025 14.431 10.225 0.709 0.914 1.256\nVariant B 18.265 0.044 14.361 10.176 0.709 0.914 1.256\nVariant C 18.364 0.174 14.347 10.236 0.713 0.914 1.262\nTable 3: Inference results on the GSM8K test set with different schemes across three model pair combinations.",
+      "section": "References",
+      "char_count": 991,
+      "chunk_index": 58,
+      "page_numbers": [
+        13
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0059",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "044 14.361 10.176 0.709 0.914 1.256\nVariant C 18.364 0.174 14.347 10.236 0.713 0.914 1.262\nTable 3: Inference results on the GSM8K test set with different schemes across three model pair combinations.\n13\n\nopenai/openai_humaneval, test, num_rows = 164\nLlama 3.1 70B – Llama 3.1 8B\ntks/sec JSDist #cand #match AccRate acc speedup\nDraft 36.257 - - - - 0.634 2.532\nTarget 4.838 - - - - 0.750 0.338\nVanilla 14.319 - 5.000 4.264 0.853 0.768 1.000\nAssistedGen 18.137 - 9.095 7.927 0.872 0.756 1.267\nGen-Only 18.017 - 13.274 9.972 0.751 0.762 1.258\nVerify-Only 14.499 0.309 4.970 4.361 0.877 0.793 1.013\nAdaSD 18.839 0.313 13.491 10.634 0.788 0.744 1.316\nVariant A 17.896 0.030 13.168 9.889 0.751 0.762 1.250\nVariant B 18.000 0.048 12.874 9.789 0.760 0.701 1.257\nVariant C 18.197 0.167 13.069 10.022 0.767 0.774 1.271\nLlama 3.1 70B – Llama 3.2 1B\ntks/sec JSDist #cand #match AccRate acc speedup\nDraft 100.683 - - - - 0.348 5.764\nTarget 4.838 - - - - 0.750 0.277\nVanilla 17.467 - 5.000 3.915 0.783 0.756 1.000",
+      "section": "References",
+      "char_count": 1000,
+      "chunk_index": 59,
+      "page_numbers": [
+        13
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0060",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "774 1.271\nLlama 3.1 70B – Llama 3.2 1B\ntks/sec JSDist #cand #match AccRate acc speedup\nDraft 100.683 - - - - 0.348 5.764\nTarget 4.838 - - - - 0.750 0.277\nVanilla 17.467 - 5.000 3.915 0.783 0.756 1.000\nAssistedGen 23.265 - 7.759 6.362 0.820 0.774 1.332\nGen-Only 24.842 - 11.962 7.930 0.663 0.768 1.422\nVerify-Only 17.793 0.359 5.000 4.041 0.808 0.726 1.019\nAdaSD 26.045 0.356 12.240 8.512 0.695 0.738 1.491\nVariant A 24.943 0.039 11.950 8.055 0.674 0.750 1.428\nVariant B 24.809 0.070 11.826 8.001 0.677 0.738 1.420\nVariant C 24.795 0.229 11.936 7.993 0.670 0.780 1.420\nQwen 2.5 72B – Qwen 2.5 7B\ntks/sec JSDist #cand #match AccRate acc speedup\nDraft 38.724 - - - - 0.720 2.840\nTarget 4.717 - - - - 0.787 0.346\nVanilla 13.634 - 5.000 3.942 0.788 0.799 1.000\nAssistedGen 17.482 - 9.745 7.720 0.792 0.799 1.282\nGen-Only 16.733 - 13.199 8.832 0.669 0.787 1.227\nVerify-Only 13.821 0.354 5.000 4.026 0.805 0.780 1.014\nAdaSD 16.752 0.344 13.252 8.879 0.670 0.817 1.229\nVariant A 16.711 0.025 13.199 8.832 0.6",
+      "section": "References",
+      "char_count": 1000,
+      "chunk_index": 60,
+      "page_numbers": [
+        14
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0061",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "1.282\nGen-Only 16.733 - 13.199 8.832 0.669 0.787 1.227\nVerify-Only 13.821 0.354 5.000 4.026 0.805 0.780 1.014\nAdaSD 16.752 0.344 13.252 8.879 0.670 0.817 1.229\nVariant A 16.711 0.025 13.199 8.832 0.669 0.787 1.226\nVariant B 16.712 0.051 13.199 8.832 0.669 0.787 1.226\nVariant C 16.416 0.206 13.282 8.705 0.655 0.793 1.204\nTable 4: Inference results on the HumanEval test set with different schemes across three model pair combinations.\n14\n\ncais/mmlu, all, validation, num_rows = 1531\nLlama 3.1 70B – Llama 3.1 8B\ntks/sec JSDist #cand #match AccRate acc speedup\nDraft 33.274 - - - - 0.695 4.206\nTarget 4.376 - - - - 0.836 0.553\nVanilla 7.912 - 5.000 2.162 0.432 0.835 1.000\nAssistedGen 7.970 - 5.581 2.482 0.445 0.835 1.007\nGen-Only 8.023 - 6.297 2.726 0.433 0.831 1.014\nVerify-Only 8.481 0.418 5.000 2.386 0.477 0.833 1.072\nAdaSD 8.623 0.419 6.147 3.032 0.493 0.822 1.090\nVariant A 8.044 0.123 6.278 2.729 0.435 0.839 1.017\nVariant B 8.170 0.230 6.169 2.770 0.449 0.832 1.033\nVariant C 8.504 0.351 6",
+      "section": "References",
+      "char_count": 999,
+      "chunk_index": 61,
+      "page_numbers": [
+        14
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0062",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "2.386 0.477 0.833 1.072\nAdaSD 8.623 0.419 6.147 3.032 0.493 0.822 1.090\nVariant A 8.044 0.123 6.278 2.729 0.435 0.839 1.017\nVariant B 8.170 0.230 6.169 2.770 0.449 0.832 1.033\nVariant C 8.504 0.351 6.316 2.966 0.470 0.837 1.075\nLlama 3.1 70B – Llama 3.2 1B\ntks/sec JSDist #cand #match AccRate acc speedup\nDraft 95.141 - - - - 0.453 10.878\nTarget 4.376 - - - - 0.836 0.500\nVanilla 8.746 - 5.000 1.714 0.343 0.838 1.000\nAssistedGen 8.920 - 4.759 1.845 0.388 0.833 1.020\nGen-Only 9.085 - 5.205 1.956 0.376 0.835 1.039\nVerify-Only 9.385 0.465 5.000 1.938 0.388 0.816 1.073\nAdaSD 9.937 0.463 5.284 2.265 0.429 0.813 1.136\nVariant A 9.039 0.150 5.209 1.970 0.378 0.824 1.034\nVariant B 9.316 0.311 5.342 2.074 0.388 0.816 1.065\nVariant C 9.817 0.432 5.275 2.246 0.426 0.807 1.122\nQwen 2.5 72B – Qwen 2.5 7B\ntks/sec JSDist #cand #match AccRate acc speedup\nDraft 38.544 - - - - 0.725 3.667\nTarget 4.690 - - - - 0.845 0.446\nVanilla 10.511 - 5.000 2.811 0.562 0.837 1.000\nAssistedGen 11.436 - 6.109 3.618 0.592",
+      "section": "References",
+      "char_count": 999,
+      "chunk_index": 62,
+      "page_numbers": [
+        15
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "AdaptiveSpec_2025_chunk_0063",
+      "source_id": "AdaptiveSpec_2025",
+      "text": "tks/sec JSDist #cand #match AccRate acc speedup\nDraft 38.544 - - - - 0.725 3.667\nTarget 4.690 - - - - 0.845 0.446\nVanilla 10.511 - 5.000 2.811 0.562 0.837 1.000\nAssistedGen 11.436 - 6.109 3.618 0.592 0.837 1.088\nGen-Only 10.735 - 8.962 4.210 0.470 0.841 1.021\nVerify-Only 10.952 0.408 4.917 2.983 0.607 0.849 1.042\nAdaSD 11.395 0.407 9.205 4.596 0.499 0.835 1.084\nVariant A 10.687 0.079 8.956 4.195 0.468 0.837 1.017\nVariant B 10.735 0.168 8.960 4.216 0.471 0.830 1.021\nVariant C 11.146 0.341 9.084 4.441 0.489 0.843 1.060\nTable 5: Inference results on the MMLU validation set with different schemes across three model pair combinations.\n15",
+      "section": "References",
+      "char_count": 640,
+      "chunk_index": 63,
+      "page_numbers": [
+        15
+      ],
+      "source_file": "AdaptiveSpeculative_2025_2512_11280.pdf",
+      "total_source_pages": 15
+    }
+  ]
+}

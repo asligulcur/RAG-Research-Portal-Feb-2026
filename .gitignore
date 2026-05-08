@@ -26,8 +26,6 @@ ENV/
 Thumbs.db
 
 # Project specific
-data/raw/*.pdf
-data/processed/*.json
 logs/*.json
 *.log
 
@@ -37,14 +35,11 @@ logs/*.json
 *.MP4
 *.MOV
 
+# Node
+node_modules/
+
 # Keep folder structure
 !data/raw/.gitkeep
 !data/processed/.gitkeep
 !logs/.gitkeep
 !outputs/.gitkeep
-venv/
-__pycache__/
-.DS_Store
-venv/
-__pycache__/
-node_modules/

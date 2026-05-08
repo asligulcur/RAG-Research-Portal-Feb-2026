@@ -1,0 +1,415 @@
+{
+  "source_id": "ModelSize_2025",
+  "metadata": {
+    "title": "On the Surprising Effectiveness of Smaller Language Models",
+    "authors": "Research Team",
+    "year": "2025",
+    "venue": "arXiv",
+    "url": "https://arxiv.org/abs/2510.21443",
+    "source_type": "peer-reviewed",
+    "relevance_note": "Investigates when and why smaller models outperform larger ones - key for understanding SLM capabilities (Oct 2025)"
+  },
+  "pdf_metadata": {
+    "title": "Does Model Size Matter? A Comparison of Small and Large Language Models for Requirements Classification",
+    "author": "Mohammad Amin Zadenoori; Vincenzo De Martino; Jacek Dabrowski; Xavier Franch; Alessio Ferrari",
+    "total_pages": 8
+  },
+  "statistics": {
+    "total_pages": 8,
+    "total_chunks": 30,
+    "avg_chunk_size": 990.5666666666667,
+    "ingestion_timestamp": "2026-02-02T19:03:42.759253"
+  },
+  "chunks": [
+    {
+      "chunk_id": "ModelSize_2025_chunk_0000",
+      "source_id": "ModelSize_2025",
+      "text": "Does Model Size Matter? A Comparison\nof Small and Large Language Models\nfor Requirements Classification\nMohammad Amin Zadenoori1[0000−0003−4591−153X], Vincenzo De\nMartino2,3[0000−0003−1485−4560], Jacek Dąbrowski4[0000−0003−3392−0690],\nXavier Franch3[0000−0001−9733−8830], and Alessio Ferrari5[0000−0002−0636−5663]\n1University of Padova, Italy\n\n2Software Engineering (SeSa) Lab, University of Salerno, Italy\n\n3Universitat Politècnica de Catalunya, Spain\n{vincenzo.de.martino, \n4Lero, the Research Ireland Centre for Software, University of Limerick, Ireland\n\n5University College Dublin (UCD), Ireland\n\nAbstract. [Context and motivation]Large language models (LLMs)\nshow notable results in natural language processing (NLP) tasks for\nrequirements engineering (RE). However, their use is compromised by\nhigh computational cost, data-sharing risks, and dependence on external\nservices.",
+      "section": "Header/Title",
+      "char_count": 881,
+      "chunk_index": 0,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "2_Paper_Triage_ModelSize2510.21443v1.pdf",
+      "total_source_pages": 8
+    },
+    {
+      "chunk_id": "ModelSize_2025_chunk_0001",
+      "source_id": "ModelSize_2025",
+      "text": "lts in natural language processing (NLP) tasks for\nrequirements engineering (RE). However, their use is compromised by\nhigh computational cost, data-sharing risks, and dependence on external\nservices. In contrast, small language models (SLMs) offer a lightweight,\nlocally deployable alternative.[Question/problem]It remains unclear\nhow well SLMs perform compared to LLMs in RE tasks in terms of accu-\nracy.[Results]Our preliminary study compares eight models, including\nthree LLMs and five SLMs, on requirements-classification tasks using the\nPROMISE, PROMISE Reclass, and SecReq datasets. Our results show\nthat although LLMs achieve an average F1 score of 2% higher than SLMs,\nthis difference is not statistically significant. SLMs almost reach LLMs\nperformance across all datasets and even outperform them in recall on\nthe PROMISE Reclass dataset, despite being up to 300 times smaller.",
+      "section": "Header/Title",
+      "char_count": 888,
+      "chunk_index": 1,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "2_Paper_Triage_ModelSize2510.21443v1.pdf",
+      "total_source_pages": 8
+    },
+    {
+      "chunk_id": "ModelSize_2025_chunk_0002",
+      "source_id": "ModelSize_2025",
+      "text": "rence is not statistically significant. SLMs almost reach LLMs\nperformance across all datasets and even outperform them in recall on\nthe PROMISE Reclass dataset, despite being up to 300 times smaller.\nWe also found that dataset characteristics play a more significant role\nin performance than model size.[Contribution]Our study contributes\nwith evidence that SLMs are a valid alternative to LLMs for requirements\nclassification, offering advantages in privacy, cost, and local deployability.",
+      "section": "Header/Title",
+      "char_count": 491,
+      "chunk_index": 2,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "2_Paper_Triage_ModelSize2510.21443v1.pdf",
+      "total_source_pages": 8
+    },
+    {
+      "chunk_id": "ModelSize_2025_chunk_0003",
+      "source_id": "ModelSize_2025",
+      "text": "1 Introduction\nRequirements classification is a critical task in requirements engineering (RE). It\ninvolves categorizing requirements into types such as functional/non-functional,\nor more fine-grained classes (e.g., security, performance) [ 17]. This task supports\nother RE activities, including requirements management and traceability [ 1].arXiv:2510.21443v1 [cs.SE] 24 Oct 2025\n\n2 Zadenoori et al.\nHowever, as projects grow larger, the number of requirements can reach thou-\nsands, making manual classification labor-intensive and error-prone. This has\nmotivated research on automating requirements classification using natural lan-\nguage processing (NLP) techniques [ 17,7]. Recent advances in large language\nmodels (LLMs), such as GPT and Claude, have transformed NLP, achieving\nstate-of-the-art results in text understanding, classification, and generation [ 15].\nConsequently, the RE community is increasingly exploring their use for RE tasks,\nparticularly automated requirements classification [2].\nDespite their power, LLMs raise concerns about privacy, security, and repro-\nducibility.",
+      "section": "1 Introduction",
+      "char_count": 1095,
+      "chunk_index": 3,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "2_Paper_Triage_ModelSize2510.21443v1.pdf",
+      "total_source_pages": 8
+    },
+    {
+      "chunk_id": "ModelSize_2025_chunk_0004",
+      "source_id": "ModelSize_2025",
+      "text": "unity is increasingly exploring their use for RE tasks,\nparticularly automated requirements classification [2].\nDespite their power, LLMs raise concerns about privacy, security, and repro-\nducibility. They are typically closed-source and cloud-hosted, which increases the\nrisk of data exposure, as company requirements constitute confidential assets [ 9]\nand the cloud operates as an external service. Their proprietary nature also limits\nresearchers’ ability to adapt models for RE-specific needs and reduces their prac-\nticality in industrial settings. Open small language models (SLMs) offer a viable\nalternative for local execution on private machines or servers, enabling secure\nprocessing of sensitive data. Local deployment also lowers costs and enables easier\ncustomization and fine-tuning [ 13]. Furthermore, they offer advantages in terms\nof energy consumption [ 6]. However, despite their advantages, the performance\ncomparison between SLMs and LLMs in RE tasks remains unexplored.\nThis study addresses that gap through a systematic comparison of eight\nlanguage models.",
+      "section": "1 Introduction",
+      "char_count": 1080,
+      "chunk_index": 4,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "2_Paper_Triage_ModelSize2510.21443v1.pdf",
+      "total_source_pages": 8
+    },
+    {
+      "chunk_id": "ModelSize_2025_chunk_0005",
+      "source_id": "ModelSize_2025",
+      "text": "ever, despite their advantages, the performance\ncomparison between SLMs and LLMs in RE tasks remains unexplored.\nThis study addresses that gap through a systematic comparison of eight\nlanguage models. We include five SLMs with 7-8 billion parameters (Qwen2-7B,\nFalcon-7B,Granite-3.2-8B,Ministral-8B, andLlama-3-8B) and three LLMs\n(GPT-5,Grok-4, andClaude-4), with 1-2 trillion parameters. The models were\nselected based on the top-performing LLMs in the Hugging Face OpenLLM\nLeaderboard6to ensure a fair comparison. We evaluated all models on three public\ndatasets:PROMISE[ 3], a re-classification of PROMISE that we callPROMISE\nReclass[4], andSecReq[ 10]. Our results show that SLMs perform comparably to\nLLMs, although the latter are 100 to 300 times larger in terms of parameters.\nAmong all LLMs,Claude-4consistently achieves the highest F1 scores, including\n0.81 on PROMISE, 0.80 on PROMISE Reclass, and 0.89 on SecReq. The best-\nperforming SLM,Llama-3-8B, reached 0.76, 0.78, and 0.88 on the same tasks,\nrespectively, yielding an average F1 margin of 0.02 in favor of the LLMs.",
+      "section": "1 Introduction",
+      "char_count": 1082,
+      "chunk_index": 5,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "2_Paper_Triage_ModelSize2510.21443v1.pdf",
+      "total_source_pages": 8
+    },
+    {
+      "chunk_id": "ModelSize_2025_chunk_0006",
+      "source_id": "ModelSize_2025",
+      "text": "0 on PROMISE Reclass, and 0.89 on SecReq. The best-\nperforming SLM,Llama-3-8B, reached 0.76, 0.78, and 0.88 on the same tasks,\nrespectively, yielding an average F1 margin of 0.02 in favor of the LLMs. Our\nresults suggest that model size has a limited effect on classification accuracy,\nwhile SLMs offer a promising balance between performance, privacy, and resource\nefficiency. Furthermore, we show that performance highly depends on the dataset\nused for classification.Data Availability Statement.To promote transparency\nand reproducibility, we make our replication package publicly available [14].\n2 Study Design\nOur study aims to address the following research question(RQ):\n♂searchRQ:What is the performance difference between SLMs and LLMs in\nrequirements classification tasks?\n6\n\nDoes Model Size Matter? 3\nTo address our RQ, we designed a reproducible pipeline, described in Table 1.",
+      "section": "1 Introduction",
+      "char_count": 889,
+      "chunk_index": 6,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "2_Paper_Triage_ModelSize2510.21443v1.pdf",
+      "total_source_pages": 8
+    },
+    {
+      "chunk_id": "ModelSize_2025_chunk_0007",
+      "source_id": "ModelSize_2025",
+      "text": "hat is the performance difference between SLMs and LLMs in\nrequirements classification tasks?\n6\n\nDoes Model Size Matter? 3\nTo address our RQ, we designed a reproducible pipeline, described in Table 1.\nIt should be noted that, although some open-source LLMs now approach or\nexceed 100B parameters (e.g., Falcon-180B, Mixtral-8x22B) and can be executed\non personal servers,LLMsin this study refer exclusively to proprietary models\nmaintained by private companies and accessed via commercial APIs (e.g., GPT-5,\nClaude-4, Grok-4). In contrast,SLMsdenote openly accessible models (e.g.,\nQwen2-7B, Falcon-7B) that support local deployment. The evaluated SLMs range\nfrom 7B to 8B parameters, whereas LLMs can reach trillions, although their\nprecise sizes remain undisclosed.\nTable 1.Study Design Overview Following the PRIMES Framework [5]\nComponent Description\nDatasets PROMISE[ 3]: Binary classification of Functional Requirements (FR) vs. Non-\nFunctional Requirements (NFR). Composed of 625 requirements (255 FR, 370\nNFR).\nPROMISE Reclass[ 4]: Two binary subtasks: FR vs. NFR and QR vs. Non-QR.\nEach requirement has two labels. Composed of 625 requirements (310 FR, 230\nFR only; 382 QR, 302 QR only).",
+      "section": "1 Introduction",
+      "char_count": 1196,
+      "chunk_index": 7,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "2_Paper_Triage_ModelSize2510.21443v1.pdf",
+      "total_source_pages": 8
+    },
+    {
+      "chunk_id": "ModelSize_2025_chunk_0008",
+      "source_id": "ModelSize_2025",
+      "text": "nts (255 FR, 370\nNFR).\nPROMISE Reclass[ 4]: Two binary subtasks: FR vs. NFR and QR vs. Non-QR.\nEach requirement has two labels. Composed of 625 requirements (310 FR, 230\nFR only; 382 QR, 302 QR only).\nSecReq[ 10]:Binary classification of Security-related (Sec) vs. Non-Security\n(NSec) requirements. Composed of 510 requirements (187 Sec, 323 NSec).\nModels SLMs:Qwen2-7B-Instruct, Falcon-7B-Instruct, Granite-3.2-8B-Instruct,\nMinistral-8B-Instruct-2410, Meta-Llama-3-8B-Instruct.\nLLMs:GPT-5, xAI Grok-4, Claude-4.\nPrompting\nStrategyChain-of-Thought(CoT) plusFew-Shotprompting with four examples per\nclass, which—based on our prior work [ 16]—emerged as the most effective among\nall evaluated prompting strategies. Definitions of categories are based on expert-\ndefined RE definitions [11,8].\nParameters Default parameters; temperature fixed at 0 for deterministic outputs.\nHardware and\nsoftwareSLMs executed on Linux 6.14 server with Intel i9-13900K CPU, 128 GB RAM,\nNVIDIA RTX 4090 GPU, Python 3.12. LLMs accessed via commercial APIs.\nRuns Each model evaluated on all datasets, with three executions per task. Majority\nvoting (2/3) is used for the final label. Metrics computed via macro-averaging.",
+      "section": "1 Introduction",
+      "char_count": 1198,
+      "chunk_index": 8,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "2_Paper_Triage_ModelSize2510.21443v1.pdf",
+      "total_source_pages": 8
+    },
+    {
+      "chunk_id": "ModelSize_2025_chunk_0009",
+      "source_id": "ModelSize_2025",
+      "text": ". LLMs accessed via commercial APIs.\nRuns Each model evaluated on all datasets, with three executions per task. Majority\nvoting (2/3) is used for the final label. Metrics computed via macro-averaging.\nStatistical test Scheirer-Ray-Hare test, a non-parametric equivalent of two-way ANOVA.\n3 Preliminary Results and Discussion\nThis section presents the preliminary results of our investigation, analyzing the\nperformance of the evaluated models across the selected datasets. Table 2 reports\nclassification performance per dataset, including average metrics, considering\nprecision (P), recall (R), and F1. Our evaluation employs these standard metrics\nwithout assuming any specific trade-off between P and R, as their relative\nimportance varies across application contexts.\nOverall Performance.Across the evaluated classification tasks, LLMs demon-\nstrate a consistent, albeit subtle, performance advantage over SLMs. However,\na detailed examination reveals a more complex picture where SLMs are highly\ncompetitive and even excel in specific areas. While LLMs lead in average F1 score\nin all datasets, the performance gap is not uniform.",
+      "section": "1 Introduction",
+      "char_count": 1134,
+      "chunk_index": 9,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "2_Paper_Triage_ModelSize2510.21443v1.pdf",
+      "total_source_pages": 8
+    },
+    {
+      "chunk_id": "ModelSize_2025_chunk_0010",
+      "source_id": "ModelSize_2025",
+      "text": "examination reveals a more complex picture where SLMs are highly\ncompetitive and even excel in specific areas. While LLMs lead in average F1 score\nin all datasets, the performance gap is not uniform. In fact, in all datasets and\nmetrics, we observe that there is always at least one SLM behaving better than\none LLM. In the PROMISE dataset, the leading SLMs (Qwen2-7B, Falcon3-7B,\nand Granite-3.2) achieve an F1 score of 0.83, effectively tying with the best\n\n4 Zadenoori et al.\nTable 2.Results across all datasets using CoT∪Few-shot.\nPROMISE PROMISE Reclass SecReq\nP R F1 P R F1 P R F1\nQwen2-7B 0.86 0.80 0.83 0.550.960.70 0.83 0.90 0.86\nFalcon3-7B 0.86 0.80 0.83 0.580.960.72 0.79 0.90 0.84\nGranite-3.2 0.84 0.82 0.83 0.62 0.87 0.72 0.84 0.90 0.87\nMinistral-8B 0.84 0.77 0.80 0.64 0.89 0.75 0.83 0.88 0.85\nLlama-3-8B 0.84 0.77 0.80 0.70 0.87 0.78 0.86 0.91 0.88\nSLMs (Mean) 0.85 0.79 0.82 0.62 0.91 0.73 0.83 0.90 0.86\nGrok-4 0.88 0.83 0.85 0.60 0.82 0.69 0.84 0.89 0.86\nGPT-5o 0.85 0.81 0.83 0.68 0.88 0.77 0.85 0.90 0.87\nClaude-4 0.85 0.80 0.82 0.720.900.80 0.87 0.92 0.89\nLLMs (Mean) 0.86 0.81 0.83 0.67 0.87 0.75 0.85 0.90 0.88\nLLM, Grok-4 (0.85).",
+      "section": "1 Introduction",
+      "char_count": 1153,
+      "chunk_index": 10,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "2_Paper_Triage_ModelSize2510.21443v1.pdf",
+      "total_source_pages": 8
+    },
+    {
+      "chunk_id": "ModelSize_2025_chunk_0011",
+      "source_id": "ModelSize_2025",
+      "text": "0.69 0.84 0.89 0.86\nGPT-5o 0.85 0.81 0.83 0.68 0.88 0.77 0.85 0.90 0.87\nClaude-4 0.85 0.80 0.82 0.720.900.80 0.87 0.92 0.89\nLLMs (Mean) 0.86 0.81 0.83 0.67 0.87 0.75 0.85 0.90 0.88\nLLM, Grok-4 (0.85). More notably, in the PROMISE Reclass dataset, SLMs\ndemonstrate a remarkable advantage in Recall, with Qwen2-7B and Falcon3-7B\nreaching 0.96—significantly higher than any LLM. This indicates that SLMs are\nexceptionally effective at identifying all relevant instances within this specific\ncontext, minimizing false negatives. Furthermore, the SLM Ministral-8B achieves\na Precision of 0.64 in PROMISE Reclass, outperforming the LLM Grok-4 (0.60),\nsuggesting greater reliability in its positive predictions for that dataset.\nEven in the SecReq dataset, the performance difference is minimal, with\nthe top SLM, Llama-3-8B (F1: 0.88), closely trailing the top LLM, Claude-4\n(F1: 0.89). These nuanced results indicate that while LLMs possess a slight\nedge in balanced overall performance (F1), SLMs are not merely competitive;\nthey can peak higher than LLMs in isolated but crucial metrics like Recall and\nPrecision.",
+      "section": "1 Introduction",
+      "char_count": 1110,
+      "chunk_index": 11,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "2_Paper_Triage_ModelSize2510.21443v1.pdf",
+      "total_source_pages": 8
+    },
+    {
+      "chunk_id": "ModelSize_2025_chunk_0012",
+      "source_id": "ModelSize_2025",
+      "text": "e that while LLMs possess a slight\nedge in balanced overall performance (F1), SLMs are not merely competitive;\nthey can peak higher than LLMs in isolated but crucial metrics like Recall and\nPrecision. This suggests that SLMs have specialized strengths that make them\nhighly capable for specific classification scenarios where minimizing certain types\nof errors is paramount. To summarize our performance findings in each dataset:\n–PROMISE:Grok-4 (LLM) shows best behaviour for all metrics, but inter-\nestingly three SLMs behave similarly than the other two LLMs. As result,\naverages are quite close among both types.\n–PROMISE Reclass:We notice remarkable variations of different sign in\nP and R, and consequently a drop in F1. LLMs behave better in P and F1\n(with Claude-4 as best) but SLMs exhibit higher R.\n–SecReq:Claude-4 also dominates in this dataset, remarkable in all metrics.\nBehaviour of all other LLMs and SLMs is quite close to each other, with an\noverall minor dominance on the side of LLMs.\nTests and Hypothesis.We next formulate and test our hypothesis.",
+      "section": "1 Introduction",
+      "char_count": 1068,
+      "chunk_index": 12,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "2_Paper_Triage_ModelSize2510.21443v1.pdf",
+      "total_source_pages": 8
+    },
+    {
+      "chunk_id": "ModelSize_2025_chunk_0013",
+      "source_id": "ModelSize_2025",
+      "text": "in all metrics.\nBehaviour of all other LLMs and SLMs is quite close to each other, with an\noverall minor dominance on the side of LLMs.\nTests and Hypothesis.We next formulate and test our hypothesis. Although\nour RQ focuses on performance differences, here we also consider thedataset\nvariable, as this could be a factor influencing the results. The null hypotheses\nare: (i) H0Amodel type has no effect on performance, (ii) H0Bdataset has no\neffect on performance, and (iii) H0Cthere is no interaction between model type\nand dataset. Since the sample distributions did not meet the assumptions of\nnormality, as assessed by theShapiro-Wilk test, we used theScheirer-Ray-\nHare test, a non-parametric equivalent of two-way ANOVA (see results in Table\n3). The post-hoc tests are follow-up analyses that break down the overall effects\nreported in 3, specifying whether differences between model types or datasets are\n\nDoes Model Size Matter? 5\nTable 3.Scheirer-Ray-Hare Test Results for Model Performance (F1 Score). Effect\nsizes:η2\nH= 0.01 (small), 0.06 (medium), 0.14 (large).",
+      "section": "1 Introduction",
+      "char_count": 1073,
+      "chunk_index": 13,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "2_Paper_Triage_ModelSize2510.21443v1.pdf",
+      "total_source_pages": 8
+    },
+    {
+      "chunk_id": "ModelSize_2025_chunk_0014",
+      "source_id": "ModelSize_2025",
+      "text": "es between model types or datasets are\n\nDoes Model Size Matter? 5\nTable 3.Scheirer-Ray-Hare Test Results for Model Performance (F1 Score). Effect\nsizes:η2\nH= 0.01 (small), 0.06 (medium), 0.14 (large).\nHp Variable Effect Size (η2\nH) p-value Reject/Fail to Reject\nH0AModel Type 0.04 0.296 Fail to RejectH 0A\nH0BDataset 0.63<0.001 RejectH 0B\nH0CModel Type×Dataset 0.001 0.790 Fail to RejectH 0C\nstatistically significant within individual comparisons. Post-hoc analyses were\nconducted using pairwise Mann-Whitney U tests with Bonferroni correction.\nPost-hoc Model Type Comparisons within each Dataset:\n–PROMISE: U = 7.0, p = 0.134 (Not Significant)\n–PROMISE_Reclass: U = 11.0, p = 0.764 (Not Significant)\n–SecReq: U = 7.0, p = 0.291 (Not Significant)\nPost-hoc Pairwise Dataset Comparisons (Bonferroni-corrected):\n–PROMISE_Reclass vs. PROMISE: U = 6.50, p = 0.0084 (Significant)\n–PROMISE_Reclass vs. SecReq: U = 0.00, p = 0.0009 (Significant)\n–PROMISE vs. SecReq: U = 3.50, p = 0.0031 (Significant)\nInterpretation of Findings.Based on the results, the following conclusions\ncan be derived.",
+      "section": "1 Introduction",
+      "char_count": 1085,
+      "chunk_index": 14,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "2_Paper_Triage_ModelSize2510.21443v1.pdf",
+      "total_source_pages": 8
+    },
+    {
+      "chunk_id": "ModelSize_2025_chunk_0015",
+      "source_id": "ModelSize_2025",
+      "text": "eclass vs. SecReq: U = 0.00, p = 0.0009 (Significant)\n–PROMISE vs. SecReq: U = 3.50, p = 0.0031 (Significant)\nInterpretation of Findings.Based on the results, the following conclusions\ncan be derived.\n1.ModelTypeEffect(SLMvs.LLM):Theanalysisconfirmsnostatistically\nsignificant main effect of model type on F1 score (H = 1.09, p = 0.296, and\nsmall effect size η2\nH= 0.04). Despite descriptive statistics showing slightly\nhigher mean F1 scores for LLMs (0.818) compared to SLMs (0.793), this\ndifference is not large enough to be considered statistically significant.\n2.Dataset Effect:We found a highly significant main effect of the dataset on\nF1 score (H = 17.53, p < 0.001, and large effect size η2\nH= 0.63). Post-hoc\ntests revealed that all pairwise differences between datasets are statistically\nsignificant, with a clear performance hierarchy: models performed worst on\nPROMISE_Reclass(Median F1 = 0.730), better onPROMISE(Median\nF1 = 0.805), and best onSecReq(Median F1 = 0.865).\n3.Interaction Effect (Model Type ×Dataset):Critically, theinteraction\nbetween Model Type and Dataset was not significant(H = 0.47,\np = 0.790, and small effect size η2\nH= 0.001).",
+      "section": "1 Introduction",
+      "char_count": 1161,
+      "chunk_index": 15,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "2_Paper_Triage_ModelSize2510.21443v1.pdf",
+      "total_source_pages": 8
+    },
+    {
+      "chunk_id": "ModelSize_2025_chunk_0016",
+      "source_id": "ModelSize_2025",
+      "text": "eq(Median F1 = 0.865).\n3.Interaction Effect (Model Type ×Dataset):Critically, theinteraction\nbetween Model Type and Dataset was not significant(H = 0.47,\np = 0.790, and small effect size η2\nH= 0.001). Since the interaction is not\nsignificant, the effect of Dataset observed above is consistent across models—\nall models are affected by datasets in roughly the same way. This is\nfurther supported by the post-hoc tests within each dataset, which all failed\nto show a significant difference between SLMs and LLMs on any individual\ndataset.\nIt should be noted that, while the analysis found no statistically significant\nperformance difference between SLMs and LLMs ( p= 0.296), the consistent\ndirectional advantage for LLM type (represented by the mean of all models)\nacross all datasets might indicate a high probability of Type II error (i.e., we\nfail to reject H0A, although there is a difference between the performance of\nSLMs and LLMs). The limited sample size of eight models substantially reduces\n\n6 Zadenoori et al.\nstatistical power, likely obscuring genuine performance differences.",
+      "section": "1 Introduction",
+      "char_count": 1090,
+      "chunk_index": 16,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "2_Paper_Triage_ModelSize2510.21443v1.pdf",
+      "total_source_pages": 8
+    },
+    {
+      "chunk_id": "ModelSize_2025_chunk_0017",
+      "source_id": "ModelSize_2025",
+      "text": "erence between the performance of\nSLMs and LLMs). The limited sample size of eight models substantially reduces\n\n6 Zadenoori et al.\nstatistical power, likely obscuring genuine performance differences. Nevertheless,\neven if the difference is confirmed to be significant by future studies, we argue\nthat a loss of 2% can be considered acceptable, given the advantages of SLMs in\ndata privacy and resource efficiency.\n/hand-p⌢int-rightAnswer to RQ:LLMs show a slight edge in performance compared to\nSLMs, leading by 2% in F1. The difference is, however, not statistically\nsignificant. Furthermore, when considering the recall metric on specific\ndatasets, SLMs tend to outperform LLMs.\nThreats to Validity.Construct.We have used traditional metrics for evaluation,\nand not accounted for Fβ. Further experiments are required to identify the appro-\npriate βvalue for our context. These were not conducted, given the preliminary\nnature of the study.Internal.The same prompt was applied across all models to\nensure consistency; however, relying on a single prompt, even if informed by prior\nstudies [16], may affect internal validity since model performance could depend\non prompt phrasing [ 2].",
+      "section": "1 Introduction",
+      "char_count": 1187,
+      "chunk_index": 17,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "2_Paper_Triage_ModelSize2510.21443v1.pdf",
+      "total_source_pages": 8
+    },
+    {
+      "chunk_id": "ModelSize_2025_chunk_0018",
+      "source_id": "ModelSize_2025",
+      "text": "ll models to\nensure consistency; however, relying on a single prompt, even if informed by prior\nstudies [16], may affect internal validity since model performance could depend\non prompt phrasing [ 2]. Internal validity is also affected by the variability of\nmodel output. To address this, we repeated each run three times, and performed\nmajority voting. There is also a risk of data leakage, as some datasets may have\nbeen included in the pre-training corpora of the evaluated LLMs, potentially\ninflating their performance. This could not be entirely mitigated.External.We\nhave considered the binary classification task, so our results might not generalise\nto other RE tasks. On the other hand, we have used three different datasets,\nwhich increase the generalisability of our results, at least for the task at hand\nConclusion.We performed appropriate statistical tests to check our conclusions.\nHowever, the limited sample size might have led to Type II errors. This is justified\nby the preliminary nature of the experiments.",
+      "section": "1 Introduction",
+      "char_count": 1026,
+      "chunk_index": 18,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "2_Paper_Triage_ModelSize2510.21443v1.pdf",
+      "total_source_pages": 8
+    },
+    {
+      "chunk_id": "ModelSize_2025_chunk_0019",
+      "source_id": "ModelSize_2025",
+      "text": ".We performed appropriate statistical tests to check our conclusions.\nHowever, the limited sample size might have led to Type II errors. This is justified\nby the preliminary nature of the experiments. To prevent multiple comparison\nproblems arising from different dependent variables, we used only the F1 metric\nfor statistical analysis, which might not account for all performance nuances. To\naddress this, we have complemented the results with observations on precision\nand recall for specific cases, and reported the values in Table 2.",
+      "section": "1 Introduction",
+      "char_count": 538,
+      "chunk_index": 19,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "2_Paper_Triage_ModelSize2510.21443v1.pdf",
+      "total_source_pages": 8
+    },
+    {
+      "chunk_id": "ModelSize_2025_chunk_0020",
+      "source_id": "ModelSize_2025",
+      "text": "4 Conclusion and Roadmap\nOur study compared LLMs and SLMs performance in requirements classification,\nshowing that the formed gives only marginal F1 improvement (2%) over the\nlatter. This suggests that, at least for this RE tasks, companies can profit for\nthe advantages of SLMs in terms of data privacy and resource demands. The\nfollowing research avenues will be explored in our future research.\nExplainability.While LLMs and SLMs have shown strong and comparable\nperformance in requirements classification, such tasks do not fully leverage their\ngenerative capabilities: classification alone captures the outcome of reasoning but\nnot the reasoning process itself. To exploit the full potential of these models, we\nshould move beyond simple label prediction and focus on generatingexplanations\nthat justify classifications. Explanations are particularly important in RE, as they\nenable practitioners to make informed decisions based on the rationale behind\n\nDoes Model Size Matter? 7\nclassifications rather than on predictions alone.",
+      "section": "4 Conclusion and Roadmap",
+      "char_count": 1035,
+      "chunk_index": 20,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "2_Paper_Triage_ModelSize2510.21443v1.pdf",
+      "total_source_pages": 8
+    },
+    {
+      "chunk_id": "ModelSize_2025_chunk_0021",
+      "source_id": "ModelSize_2025",
+      "text": "ons are particularly important in RE, as they\nenable practitioners to make informed decisions based on the rationale behind\n\nDoes Model Size Matter? 7\nclassifications rather than on predictions alone. Understanding why a requirement\nis categorized in a certain way supports confidence in automated analyses, as\nwell as more informed downstream tasks, e.g., traceability, and auditing.\nDifferent RE Tasks and Hybrid Pipelines.We plan to extend the evaluation\nto additional RE tasks such as traceability, model generation, and requirements\nelicitation, which have already seen interest in LLM for RE [ 15]. Special attention\nwill be given to tasks that require the generation of artifacts, as these are the\nones where generative models can offer a true competitive advantage with respect\nto more traditional machine learning (ML) solutions.",
+      "section": "4 Conclusion and Roadmap",
+      "char_count": 838,
+      "chunk_index": 21,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "2_Paper_Triage_ModelSize2510.21443v1.pdf",
+      "total_source_pages": 8
+    },
+    {
+      "chunk_id": "ModelSize_2025_chunk_0022",
+      "source_id": "ModelSize_2025",
+      "text": "o tasks that require the generation of artifacts, as these are the\nones where generative models can offer a true competitive advantage with respect\nto more traditional machine learning (ML) solutions. Experimenting with SLMs\nand LLMs in different tasks will potentially enable the identification of hybrid\npipelines for RE workflows, where each model type is used for the task or phase\nwhere it brings the best advantage, e.g., traditional ML models for classification,\nSLMs for explanation, and LLMs for supporting analyst interaction and iterative\nrefinement through conversational assistance.\nEnergy Consumption.Sustainability of AI computation is a major concern,\nas LLMs can have substantial environmental impact—although still lower than\nmanual labour [ 12]. Further research is needed to quantify the energy footprint\nof RE-specific tasks, comparing SLMs and LLMs. This includes evaluating trade-\noffs between model performance and energy efficiency, especially in local vs.\ncloud-based deployments of SLMs and LLMs [6].",
+      "section": "4 Conclusion and Roadmap",
+      "char_count": 1027,
+      "chunk_index": 22,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "2_Paper_Triage_ModelSize2510.21443v1.pdf",
+      "total_source_pages": 8
+    },
+    {
+      "chunk_id": "ModelSize_2025_chunk_0023",
+      "source_id": "ModelSize_2025",
+      "text": "RE-specific tasks, comparing SLMs and LLMs. This includes evaluating trade-\noffs between model performance and energy efficiency, especially in local vs.\ncloud-based deployments of SLMs and LLMs [6].\nExecution Speed.Systematically studying speed differences between SLMs\nand LLMs is also an important avenue to consider, as RE activities need to\nbe accurate but also fast, to cope with the ever-changing nature of stakeholder\ndemands. In our study, Claude-4 is the fastest on PROMISE Reclass (300s), Grok-\n4 leads on PROMISE (162s), and GPT-5o is the quickest on SecReq (138s), while\nthe computation time of SLMs is on average 400s. This gap is expected, given\nthat proprietary LLMs are deployed on high-performance cloud infrastructure,\nwhereas the SLMs in this study were executed on a single local server given in\nTable 1. Although the execution speed is specific to our set-up and can widely\nvary, we believe that these numbers give an indication of the order of magnitude\nof the time difference that a small-medium company—–which can be considered\nsimilar in terms of resources to a research lab such as ours—–can expect when\nusing local SLMs.",
+      "section": "4 Conclusion and Roadmap",
+      "char_count": 1148,
+      "chunk_index": 23,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "2_Paper_Triage_ModelSize2510.21443v1.pdf",
+      "total_source_pages": 8
+    },
+    {
+      "chunk_id": "ModelSize_2025_chunk_0024",
+      "source_id": "ModelSize_2025",
+      "text": "on of the order of magnitude\nof the time difference that a small-medium company—–which can be considered\nsimilar in terms of resources to a research lab such as ours—–can expect when\nusing local SLMs. Further studies are needed to understand what speed range is\npractically acceptable for practitioners and how to optimise execution efficiency.\nTool Support.Deployment of LLMs in companies is a major pain point, and\ncomparison between SLM/LLM solutions can be cumbersome. As future work,\nwe envision the development of a tool that enables practitioners to flexibly select\nbetween locally hosted SLMs and API-based LLMs for requirements classification.\nThe tool will adapt model selection and prompt strategies according to specific\nconstraints, such as data privacy, computational resources, and task complexity,\nthus supporting context-aware and efficient RE workflows.\nAcknowledgementsThis work was supported in part by project EOSS6-0000000644\nfrom the Chan Zuckerberg Initiative. Grok-4 ( was used to improve\nthe readability, and the authors remain fully responsible for the final content.",
+      "section": "4 Conclusion and Roadmap",
+      "char_count": 1094,
+      "chunk_index": 24,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "2_Paper_Triage_ModelSize2510.21443v1.pdf",
+      "total_source_pages": 8
+    },
+    {
+      "chunk_id": "ModelSize_2025_chunk_0025",
+      "source_id": "ModelSize_2025",
+      "text": "ork was supported in part by project EOSS6-0000000644\nfrom the Chan Zuckerberg Initiative. Grok-4 ( was used to improve\nthe readability, and the authors remain fully responsible for the final content.\nDisclosure of Interests.The authors have no competing interests to declare that are\nrelevant to the content of this article.\n\n8 Zadenoori et al.",
+      "section": "4 Conclusion and Roadmap",
+      "char_count": 345,
+      "chunk_index": 25,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "2_Paper_Triage_ModelSize2510.21443v1.pdf",
+      "total_source_pages": 8
+    },
+    {
+      "chunk_id": "ModelSize_2025_chunk_0026",
+      "source_id": "ModelSize_2025",
+      "text": "References\n1.Alhoshan, W., Ferrari, A., Zhao, L.: Zero-shot learning for requirements classifi-\ncation: An exploratory study. Information and Software Technology159, 107202\n(2023)\n2.Alhoshan, W., Ferrari, A., Zhao, L.: How effective are generative large language\nmodels in performing requirements classification? (2025), \n2504.16768\n3.Cleland-Huang, J., Settimi, R., Zou, X., Solc, P.: Automated classification of non-\nfunctional requirements. Requirements Engineering12(2), 103–120 (Apr 2007).\n\n4.Dalpiaz, F., Dell’Anna, D., Aydemir, F., Cevikol, S.: Requirements classification\nwith interpretable machine learning and dependency parsing. pp. 142–152 (09 2019).\n\n5.De Martino, V., Castaño, J., Palomba, F., Franch, X., Martínez-Fernández, S.:\nA framework for using llms for repository mining studies in empirical software\nengineering. In: 2025 IEEE/ACM International Workshop on Methodological Issues\nwith Empirical Studies in Software Engineering (WSESE). pp. 6–11.",
+      "section": "References",
+      "char_count": 967,
+      "chunk_index": 26,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "2_Paper_Triage_ModelSize2510.21443v1.pdf",
+      "total_source_pages": 8
+    },
+    {
+      "chunk_id": "ModelSize_2025_chunk_0027",
+      "source_id": "ModelSize_2025",
+      "text": "lms for repository mining studies in empirical software\nengineering. In: 2025 IEEE/ACM International Workshop on Methodological Issues\nwith Empirical Studies in Software Engineering (WSESE). pp. 6–11. IEEE (2025)\n6.De Martino, V., Zadenoori, M.A., Franch, X., Ferrari, A.: Green prompt engineering:\nInvestigating the energy impact of prompt design in software engineering (2025)\n7.Dąbrowski, J., Letier, E., Perini, A., Susi, A.: Analysing app reviews for software\nengineering: a systematic literature review. Empirical Software Engineering27(2),\n43 (2022).\n8.Ernst, N.A., Mylopoulos, J.: On the perception of software quality requirements\nduringtheprojectlifecycle.In:Wieringa,R.,Persson,A.(eds.)REFSQ.pp.143–157.\nSpringer Berlin Heidelberg, Berlin, Heidelberg (2010)\n9.Ferrari, A., Dell’Orletta, F., Esuli, A., Gervasi, V., Gnesi, S., et al.: Natural language\nrequirements processing: a 4D vision. IEEE SOFTWARE34(6), 28–35 (2017)\n10.Knauss,E.,Houmb,S.,Schneider,K.,Islam,S.,Jürjens,J.:Supportingrequirements\nengineers in recognising security issues. In: REFSQ 2011. pp. 4–18.",
+      "section": "References",
+      "char_count": 1078,
+      "chunk_index": 27,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "2_Paper_Triage_ModelSize2510.21443v1.pdf",
+      "total_source_pages": 8
+    },
+    {
+      "chunk_id": "ModelSize_2025_chunk_0028",
+      "source_id": "ModelSize_2025",
+      "text": "cessing: a 4D vision. IEEE SOFTWARE34(6), 28–35 (2017)\n10.Knauss,E.,Houmb,S.,Schneider,K.,Islam,S.,Jürjens,J.:Supportingrequirements\nengineers in recognising security issues. In: REFSQ 2011. pp. 4–18. \norg/10.1007/978-3-642-19858-8_2\n11.Olsson, T., Sentilles, S., Papatheocharous, E.: A systematic literature review of\nempirical research on quality requirements. Requirements Engineering27(2), 249–\n271 (Jun 2022).\n12.Ren, S., Tomlinson, B., Black, R.W., Torrance, A.W.: Reconciling the contrasting\nnarratives on the environmental impact of large language models. Scientific Reports\n14(1), 26310 (2024)\n13.Wang, F., et al.: A comprehensive survey of small language models in the era of\nlarge language models: Techniques, enhancements, applications, collaboration with\nllms, and trustworthiness. preprint arXiv:2411.03350 (2024)\n14.Zadenoori, A.: Comparison of small and large language models for requirements\nclassification (Oct 2025),\n15.Zadenoori, M.A., Dąbrowski, J., Alhoshan, W., Zhao, L., Ferra",
+      "section": "References",
+      "char_count": 1000,
+      "chunk_index": 28,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "2_Paper_Triage_ModelSize2510.21443v1.pdf",
+      "total_source_pages": 8
+    },
+    {
+      "chunk_id": "ModelSize_2025_chunk_0029",
+      "source_id": "ModelSize_2025",
+      "text": "int arXiv:2411.03350 (2024)\n14.Zadenoori, A.: Comparison of small and large language models for requirements\nclassification (Oct 2025),\n15.Zadenoori, M.A., Dąbrowski, J., Alhoshan, W., Zhao, L., Ferrari, A.: Large language\nmodels (LLMs) for requirements engineering (RE): A systematic literature review\n(2025),\n16.Zadenoori, M.A., Zhao, L., Alhoshan, W., Ferrari, A.: Automatic prompt engineer-\ning: The case of requirements classification. In: Hess, A., Susi, A. (eds.) REFSQ.\npp. 217–225. Springer Nature Switzerland, Cham (2025)\n17.Zhao, L., Alhoshan, W., Ferrari, A., Letsholo, K.J., Ajagbe, M.A., Chioasca, E.V.,\nBatista-Navarro, R.T.: Natural language processing for requirements engineering:\nA systematic mapping study. ACM Comput. Surv.54(3) (Apr 2021)",
+      "section": "References",
+      "char_count": 760,
+      "chunk_index": 29,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "2_Paper_Triage_ModelSize2510.21443v1.pdf",
+      "total_source_pages": 8
+    }
+  ]
+}

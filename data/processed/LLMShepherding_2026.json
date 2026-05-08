@@ -1,0 +1,961 @@
+{
+  "source_id": "LLMShepherding_2026",
+  "metadata": {
+    "title": "Pay for Hints, Not Answers: LLM Shepherding for Cost-Efficient Inference",
+    "authors": "Research Team",
+    "year": "2026",
+    "venue": "arXiv",
+    "url": "https://arxiv.org/abs/2601.22132",
+    "source_type": "peer-reviewed",
+    "relevance_note": "Cost-efficient inference with SLMs - deployment economics (Jan 29, 2026)"
+  },
+  "pdf_metadata": {
+    "title": "Pay for Hints, Not Answers: LLM Shepherding for Cost-Efficient Inference",
+    "author": "Ziming Dong; Hardik Sharma; Evan O'Toole; Jaya Prakash Champati; Kui Wu",
+    "total_pages": 17
+  },
+  "statistics": {
+    "total_pages": 17,
+    "total_chunks": 72,
+    "avg_chunk_size": 1057.3055555555557,
+    "ingestion_timestamp": "2026-02-02T19:04:00.075206"
+  },
+  "chunks": [
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0000",
+      "source_id": "LLMShepherding_2026",
+      "text": "Pay for Hints, Not Answers: LLM Shepherding for Cost-Efficient Inference\nZiming Dong1Hardik Sharma2Evan O’Toole1Jaya Prakash Champati1Kui Wu1",
+      "section": "Header/Title",
+      "char_count": 141,
+      "chunk_index": 0,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0001",
+      "source_id": "LLMShepherding_2026",
+      "text": "Abstract\nLarge Language Models (LLMs) deliver state-of-\nthe-art performance on complex reasoning tasks,\nbut their inference costs limit deployment at scale.\nSmall Language Models (SLMs) offer dramatic\ncost savings yet lag substantially in accuracy. Ex-\nisting approaches—routing and cascading—treat\nthe LLM as an all-or-nothing resource: either the\nquery bypasses the LLM entirely, or the LLM\ngenerates a complete response at full cost. We\nintroduce LLM Shepherding, a framework that\nrequests only a short prefix (a hint) from the\nLLM and provides it to SLM. This simple mecha-\nnism is surprisingly effective for math and coding\ntasks: even hints comprising 10–30% of the full\nLLM response improve SLM accuracy signifi-\ncantly. Shepherding generalizes both routing and\ncascading, and it achieves lower cost under oracle\ndecision-making. We develop a two-stage predic-\ntor that jointly determines whether a hint is needed\nand how many tokens to request. On the widely-\nused mathematical reasoning (GSM8K, CNK12)\nand code generation (HumanEval, MBPP) bench-\nmarks, Shepherding reduces costs by 42–94% rel-\native to LLM-only inference.",
+      "section": "Abstract",
+      "char_count": 1132,
+      "chunk_index": 1,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0002",
+      "source_id": "LLMShepherding_2026",
+      "text": "y tokens to request. On the widely-\nused mathematical reasoning (GSM8K, CNK12)\nand code generation (HumanEval, MBPP) bench-\nmarks, Shepherding reduces costs by 42–94% rel-\native to LLM-only inference. Compared to state-\nof-the-art routing and cascading baselines, shep-\nherding delivers up to 2.8 ×cost reduction while\nmatching accuracy. To our knowledge, this is the\nfirst work to exploit token-level budget control for\nSLM-LLM collaboration.",
+      "section": "Abstract",
+      "char_count": 443,
+      "chunk_index": 2,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0003",
+      "source_id": "LLMShepherding_2026",
+      "text": "1. Introduction\nLarge Language Models (LLMs) deliver state-of-the-art\nperformance on complex reasoning tasks, but their infer-\nence costs limit deployment at scale. Meanwhile, the emer-\n1Department of Computer Science, University of Victo-\nria, Victoria, Canada2Department Of Information Technol-\nogy, Manipal University, Manipal, India. Correspondence\nto: Ziming Dong  >, Hardik Sharma\n >, Evan O’Toole\n >, Jaya Prakash Champati <jpcham-\n Kui \nPreprint. January 30, 2026.gence of highly capable open-source Small Language Mod-\nels (SLMs) has created new opportunities for cost-efficient\ninference—whether on edge devices, private servers, or\nshared datacenters. SLMs offer clear advantages: lower la-\ntency, improved privacy, and significantly smaller monetary\nand energy costs. However, for tasks involving logic and\nmathematics, the quality gap between SLMs and frontier\nLLMs (e.g., GPT, Gemini, Claude) remains substantial (Sub-\nramanian et al., 2025). Users and organizations thus face\na difficult trade-off: accept inferior response quality to re-\nduce costs, or pay a premium for LLM access to maintain\naccuracy.",
+      "section": "1. Introduction",
+      "char_count": 1119,
+      "chunk_index": 3,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0004",
+      "source_id": "LLMShepherding_2026",
+      "text": "tantial (Sub-\nramanian et al., 2025). Users and organizations thus face\na difficult trade-off: accept inferior response quality to re-\nduce costs, or pay a premium for LLM access to maintain\naccuracy.\nThis cost-quality trade-off motivates a central question:How\ncan we substantially improve SLM output quality while min-\nimizing reliance on expensive LLMs?The question is es-\npecially pressing in resource-constrained settings—edge\ndevices with limited connectivity, latency-sensitive applica-\ntions, and cost-conscious deployments—where every LLM\ncall carries significant overhead. The goal is not merely\nfaster inference, but fundamentally less LLM computation\nfor a given quality target.\nTwo complementary paradigms have emerged to address\nthis challenge: routing and cascading (Behera et al., 2025).",
+      "section": "1. Introduction",
+      "char_count": 803,
+      "chunk_index": 4,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0005",
+      "source_id": "LLMShepherding_2026",
+      "text": "ly\nfaster inference, but fundamentally less LLM computation\nfor a given quality target.\nTwo complementary paradigms have emerged to address\nthis challenge: routing and cascading (Behera et al., 2025).\nRouting(Lu et al., 2024; Ding et al., 2024; Ong et al., 2025)\nuses a learned classifier to direct each query to exactly one\nmodel—either the SLM handles the query entirely, or it is\nforwarded to the LLM based on query complexity.Cas-\ncading(Chen et al., 2024; Aggarwal et al., 2024; Gupta\net al., 2024) takes a sequential approach: the SLM attempts\na response first, and the LLM is invoked only if the SLM\nresponse fails a confidence or correctness check.\nWe observe that both routing and cascading share a funda-\nmental limitation: they treat the LLM as an all-or-nothing\nresource. Either the query bypasses the LLM entirely, or the\nLLM generates a complete response, incurring the full LLM\ninference cost. This binary view overlooks a key oppor-\ntunity:most LLM service providers allow users to specify\nmaxnewtokens , a user-defined limit for the number of\noutput tokens. This capability can be strategically leveraged\nto reduce LLM costs while simultaneously improving SLM\nanswer quality.",
+      "section": "1. Introduction",
+      "char_count": 1192,
+      "chunk_index": 5,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0006",
+      "source_id": "LLMShepherding_2026",
+      "text": "rs to specify\nmaxnewtokens , a user-defined limit for the number of\noutput tokens. This capability can be strategically leveraged\nto reduce LLM costs while simultaneously improving SLM\nanswer quality.\nWe proposeLLM Shepherding, a novel framework that\ncomplements routing and cascading by enablingpartial\n1arXiv:2601.22132v1 [cs.LG] 29 Jan 2026\n\nLLM Shepherding\nLocal deviceCloudProactive\nSheperding\nLow-cost SLMLLM Query\nHint = First n tokensRequest first n tokens\nQuery + HintFinal response\n(a)Proactive Shepherding\nLocal deviceCloudLow-cost SLM\nReactive\nSheperdingLLMQuery\nResponse\nFinal responseRequest first n tokens\nHint = First n tokensQuery + Hint (b)Reactive Shepherding\nFigure 1.Two modes of LLM Shepherding. Both modes request only the first ntokens from the LLM as a hint, which the SLM uses to\noutput the response. (a) Proactive: hint decision made upfront. (b) Reactive: hint requested only after SLM failure.\n0 10 20 30 40 50 60 70 80 90\nHint size (% of full LLM response)405060708090100% Correct\nEffect of hint size on SLM accuracy\nCNK12\nGSM8K\nHumanEval\nMBPP\nFigure 2.SLM (Llama-3.2-3B-Instruct) accuracy as a function of\nLLM (Llama-3.3-70B-Versatile) hint size.",
+      "section": "1. Introduction",
+      "char_count": 1177,
+      "chunk_index": 6,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0007",
+      "source_id": "LLMShepherding_2026",
+      "text": "response)405060708090100% Correct\nEffect of hint size on SLM accuracy\nCNK12\nGSM8K\nHumanEval\nMBPP\nFigure 2.SLM (Llama-3.2-3B-Instruct) accuracy as a function of\nLLM (Llama-3.3-70B-Versatile) hint size. Even small hints (10–\n30% of the full LLM response) yield substantial accuracy gains,\nwith diminishing returns beyond 60%. This motivates shepherding:\nrequesting hints rather than full LLM responses. Dashed lines\nindicate the LLM accuracy for each dataset.\nLLM assistance. Rather than having the LLM produce\ncomplete responses, shepherding requests the LLM to out-\nput only a short prefix – first ntokens of the LLM re-\nsponse – called ahint. The hint is then concatenated\nwith the query and is given to SLM for the final re-\nsponse. To validate whether LLM hints can benefit SLM\ninference, we evaluate on four widely-used benchmarks\nspanning mathematical reasoning—GSM8K (Cobbe et al.,\n2021) and CNK12 (OpenR1, 2025)—and code genera-\ntion—HumanEval (Chen, 2021) and MBPP (Austin et al.,\n2021). We use Llama-3.2-3B-Instruct as the SLM and\nLlama-3.3-70B-Versatile as the LLM (Dubey et al., 2024).\nAs shown in Figure 2, even small hints substantially improve\nSLM accuracy across all datasets.",
+      "section": "1. Introduction",
+      "char_count": 1191,
+      "chunk_index": 7,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0008",
+      "source_id": "LLMShepherding_2026",
+      "text": "21). We use Llama-3.2-3B-Instruct as the SLM and\nLlama-3.3-70B-Versatile as the LLM (Dubey et al., 2024).\nAs shown in Figure 2, even small hints substantially improve\nSLM accuracy across all datasets.\nAs illustrated in Figure 1, we instantiate two modes of\nshepherding: 1)Proactive Shepherding(Figure 1a) is a\nrouting-basedshepherding, where a learned router directly\npredicts whether a hint is needed and how many tokens\nto request, and 2)Reactive Shepherding(Figure 1b) is\nacascading-basedshepherding, where the features of the\nSLM response(es) are used for cascading decision and hint\nprediction. Observe that proactive shepherding reduces to\nrouting at the extremes: hint size zero (SLM only) or maxi-mal (full LLM response). Similarly, reactive shepherding\nreduces to cascading when a complete LLM output is re-\nquested upon SLM failure. Shepherding thus generalizes\nboth paradigms. By operating in the intermediate regime\n– requesting hints rather than full responses – shepherding\ntheoretically achieves lower costs than either approach.\nRealizing this vision in practice presents substantial chal-\nlenges.",
+      "section": "1. Introduction",
+      "char_count": 1113,
+      "chunk_index": 8,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0009",
+      "source_id": "LLMShepherding_2026",
+      "text": "mediate regime\n– requesting hints rather than full responses – shepherding\ntheoretically achieves lower costs than either approach.\nRealizing this vision in practice presents substantial chal-\nlenges. First, the ‘minimum’ hint size required by different\nqueries has a heavy-tailed distribution: on GSM8K, 80%\nof queries need no hint, while the rest span 10–90% of the\nfull LLM response. Second, the benefit of additional tokens\nis non-smooth—critical information may appear at specific\ntoken boundaries, causing abrupt quality transitions. Third,\nthe relationship between hint length and SLM accuracy is\nnon-monotonic; excessive hints can over-constrain SLM\ngeneration, degrading performance even when shorter hints\nsucceed (cf. HumanEval in Figure 2). These challenges\nmotivate our two-stage prediction framework that jointly\ndetermines whether a hint is needed and how many tokens\nto request.\nContributions:\n•We formalize LLM Shepherding and prove it achieves\nlower cost than routing and cascading under oracle\ndecision-making (Section 2).",
+      "section": "1. Introduction",
+      "char_count": 1041,
+      "chunk_index": 9,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0010",
+      "source_id": "LLMShepherding_2026",
+      "text": "ther a hint is needed and how many tokens\nto request.\nContributions:\n•We formalize LLM Shepherding and prove it achieves\nlower cost than routing and cascading under oracle\ndecision-making (Section 2).\n•We develop a two-stage prediction model that jointly\npredicts whether a query requires a hint and how many\ntokens to request, addressing key challenges including\nnon-monotonic quality response and heavy-tailed hint\ndistributions (Section 3).\n•We empirically evaluate shepherding against state-of-\nthe-art routing strategies (RouteLLM (Ong et al., 2025),\nGraphRouter (Feng et al., 2025)) and cascading strate-\ngies (FrugalGPT (Chen et al., 2024), ABC (Kolawole\net al., 2025)) on mathematical reasoning (GSM8K,\nCNK12) and code generation (HumanEval, MBPP)\nbenchmarks. Reactive Shepherding achieves the high-\nest Accuracy-per-Cost Efficiency (ACE) on all datasets,\ndelivering 2×greater cost reduction than routing base-\nlines on challenging multilingual queries (CNK12) and\n2\n\nLLM Shepherding\n2.8× greater cost reduction than cascading baselines on\ncross-domain transfer (HumanEval)—the latter with-\nout code-specific training (Section 4).\n2. Problem Formulation\n2.1.",
+      "section": "1. Introduction",
+      "char_count": 1166,
+      "chunk_index": 10,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0011",
+      "source_id": "LLMShepherding_2026",
+      "text": "2) and\n2\n\nLLM Shepherding\n2.8× greater cost reduction than cascading baselines on\ncross-domain transfer (HumanEval)—the latter with-\nout code-specific training (Section 4).\n2. Problem Formulation\n2.1. System and Notation\nLetQdenote the set of all possible queries and let q∈ Q\ndenote an individual query. Let Xdenote a finite vocabulary\nof tokens and X∗denote the set of all finite token sequences\noverX. We consider two language models: an open-source\nSLM hs:Q → X∗deployed on a local device, such as a\nsmartphone, laptop, or local server, and an LLM hl:Q →\nX∗accessible through an LLM API.\nFor any token sequence x∈ X∗, we use |x|to denote its\nsize (number of tokens). For two sequences x, y∈ X∗, we\ndenote their concatenation as x⊕y . Given a sequence xand\nan integer n≤ |x| , we write x[1:n] to denote the prefix of x\nconsisting of its first ntokens. We use 1[·]for the standard\nindicator function.\nWe define a quality function ϕ:Q × X∗→[0,1] that\nmeasures the quality of a response r∈ X∗to a query q∈ Q .\nHigher values indicate better response quality.",
+      "section": "1. Introduction",
+      "char_count": 1057,
+      "chunk_index": 11,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0012",
+      "source_id": "LLMShepherding_2026",
+      "text": "use 1[·]for the standard\nindicator function.\nWe define a quality function ϕ:Q × X∗→[0,1] that\nmeasures the quality of a response r∈ X∗to a query q∈ Q .\nHigher values indicate better response quality. In practice,\nϕmay be instantiated as an exact-match accuracy metric\n(for tasks with ground-truth answers), a semantic similarity\nscore, or a learned reward model. We define a quality\nthreshold τ∈(0,1] andIs(q) =1 [ϕ(q,h s(q))≥τ] to indicate\nwhether the SLM alone produces a satisfactory response.\n2.2. Hints and Shepherding Policy\nThe central concept in LLM shepherding is thehint, defined\nas a prefix of the LLM’s response provided to the SLM to\nguide its generation. Formally, for a query qand hint size\nn≥0, the hint is given by:\nhint(q, n) =h l(q)[1:n]\nThe hint-augmented SLM response is then:\nh(n)\ns(q) =h s\u0000\nq⊕hint(q, n)\u0001\nwhere the SLM generates a response conditioned on the\noriginal query concatenated with the hint prefix.\nShepherding Policy.Ashepherding policy π:Q →\n{0,1, . . . , N max}maps each query qto a hint size n=π(q) ,\nwhere Nmaxis the maximum output token limit of the LLM.",
+      "section": "1. Introduction",
+      "char_count": 1093,
+      "chunk_index": 12,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0013",
+      "source_id": "LLMShepherding_2026",
+      "text": "ery concatenated with the hint prefix.\nShepherding Policy.Ashepherding policy π:Q →\n{0,1, . . . , N max}maps each query qto a hint size n=π(q) ,\nwhere Nmaxis the maximum output token limit of the LLM.\nWhen n= 0 , the SLM responds without assistance; when\nn >0 , the system requests an n-token hint before SLM\ncompletion.\nFor each query q, we define theminimum hint sizeas the\nsmallest number of LLM tokens required for the SLM toproduce a satisfactory response:\nn∗(q) = minn\nn∈Z ≥0:ϕ\u0000\nq, h(n)\ns(q)\u0001\n≥τo\n(1)\nTheOracle Shepherding Policy π∗maps each query qto\nn∗(q).\n2.3. Cost Model and Evaluation Metrics\nWe adopt a token-based cost model consistent with com-\nmercial LLM API pricing. Let cin\nlandcout\nldenote the cost\nper input token and output token for the LLM, respectively.\nSimilarly, let cin\nsandcout\nsdenote the corresponding costs for\nthe SLM. For open-source SLMs deployed on a local device,\nwe havecin\ns=cout\ns= 0.\nThe cost of shepherding a queryqwith hint sizen >0is:\ncshep(q, n) =|q|cin\nl+ncout\nl+ (|q|+n)cin\ns+|h(n)\ns(q)|cout\ns.",
+      "section": "1. Introduction",
+      "char_count": 1040,
+      "chunk_index": 13,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0014",
+      "source_id": "LLMShepherding_2026",
+      "text": "r\nthe SLM. For open-source SLMs deployed on a local device,\nwe havecin\ns=cout\ns= 0.\nThe cost of shepherding a queryqwith hint sizen >0is:\ncshep(q, n) =|q|cin\nl+ncout\nl+ (|q|+n)cin\ns+|h(n)\ns(q)|cout\ns.\nTo compare the cost-performance trade-offs across different\nstrategies/policies, we introduce a normalized efficiency\nmetric calledAccuracy-per-Cost Efficiency(ACE). Let Al\ndenote the accuracy of the remote large model with total cost\nCl=P\nq∈Qcl(q), and Asdenote the accuracy of the on-\ndevice small model with cost zero (assuming cin\ns=cout\ns= 0).\nFor a policy πwith accuracy Aπand total cost Cπ, we define\nAccuracy-Cost Efficiency:\nACE(π) =(Aπ−As)/(A l−As)\nCπ/Cl,\nwhich captures accuracy gain per unit cost relative to the\nSLM and LLM baselines. Note that we exclude the SLM-\nonly policy for ACE calculation because a scenario in which\nthe SLM possesses sufficient standalone capability would\nrender the shepherding or any SLM-LLM collaboration\nframework redundant.\nFor a fair comparison between the strategies, we also present\nthe minimum cost achieved by the strategies while guar-\nanteeing a target quality level. This is formulated in the\nfollowing problem.",
+      "section": "1. Introduction",
+      "char_count": 1164,
+      "chunk_index": 14,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0015",
+      "source_id": "LLMShepherding_2026",
+      "text": "ant.\nFor a fair comparison between the strategies, we also present\nthe minimum cost achieved by the strategies while guar-\nanteeing a target quality level. This is formulated in the\nfollowing problem.\nProblem.Given a query distribution Dand a target expected\nquality τ, find a policy π∗that minimizes expected cost\nwhile achieving the quality target:\nmin\nπE[c shep(q, π(q))]\ns.t.Eh\nϕ\u0000\nq, h(π(q))\ns (q)\u0001i\n≥τ.(2)\n2.4. Cost Analysis (Oracle)\nWe analyze the monetary cost of routing, cascading, and\nshepherding under oracle (optimal) decision-making. Note\nthat routing incurs either the full SLM cost (when the SLM\n3\n\nLLM Shepherding\nsuffices) or the full LLM cost (when escalation is needed),\nbut never both. Cascading always incurs the SLM cost first;\nif the SLM fails, it additionally incurs the full LLM cost,\npotentially paying for both models. Shepherding incurs\nonly the SLM cost when no hint is needed ( n∗(q) = 0 );\notherwise, it incurs (i) the LLM input cost for processing\nthe query, (ii) the LLM output cost for generating n∗(q)hint\ntokens, and (iii) the SLM cost for processing the augmented\ninput. Thus, we have the following proposition.",
+      "section": "1. Introduction",
+      "char_count": 1148,
+      "chunk_index": 15,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0016",
+      "source_id": "LLMShepherding_2026",
+      "text": "e LLM input cost for processing\nthe query, (ii) the LLM output cost for generating n∗(q)hint\ntokens, and (iii) the SLM cost for processing the augmented\ninput. Thus, we have the following proposition.\nProposition 2.1(Oracle Costs).Under oracle decision-\nmaking, the monetary cost per query q∈ Q for routing,\ncascading, and shepherding is given by:\nc∗\nroute(q)=(|q|cin\ns+|hs(q)|cout\ns)Is(q)\n+\u0000\n1−I s(q)\u0001\n(|q|cin\nl+|hl(q)|cout\nl)\nc∗\ncasc(q)=|q|cin\ns+|hs(q)|cout\ns+\u0000\n1−I s(q)\u0001\u0000\n|q|cin\nl+|hl(q)|cout\nl\u0001\nc∗\nshep(q)=|q|1 [n∗(q)>0] cin\nl+n∗(q)cout\nl\n+(|q|+n∗(q))cin\ns+|h(n∗(q))\ns (q)|cout\ns\nwhere h(n)\ns(q) =h s(q⊕hint(q, n)) denotes the SLM’s\nresponse when augmented with ann-token hint.\nFor open-source SLMs deployed on a local device or on\nprivate infrastructure, we have cin\ns=cout\ns= 0. Under this\nassumption, we have the following corollary (proof in Ap-\npendix A).\nCorollary 2.2.If cin\ns=cout\ns= 0, then for all queries q∈ Q :\nc∗\nshep(q)≤c∗\nroute(q) =c∗\ncasc(q).\nThe cost advantage of shepherding arises from replacing\nthe full LLM output cost |hl(q)|cout\nlwith the partial hint\ncostn∗(q)cout\nl.",
+      "section": "1. Introduction",
+      "char_count": 1095,
+      "chunk_index": 16,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0017",
+      "source_id": "LLMShepherding_2026",
+      "text": "0, then for all queries q∈ Q :\nc∗\nshep(q)≤c∗\nroute(q) =c∗\ncasc(q).\nThe cost advantage of shepherding arises from replacing\nthe full LLM output cost |hl(q)|cout\nlwith the partial hint\ncostn∗(q)cout\nl. Since LLM output tokens are typically the\ndominant cost factor (with cout\nl> cin\nlfor most commercial\nAPIs), even modest reductions in output token count yield\nsignificant savings.\nRemark2.3.The cost expressions in Proposition 2.1 and\nCorollary 2.2 apply directly to proactive shepherding. Reac-\ntive shepherding incurs an additional SLM inference cost;\nhowever, when cin\ns=cout\ns= 0, the oracle costs are identical,\nand Corollary 2.2 holds for both variants.\n3. Training the Shepherding System\nOur goal is to learn a policy πθ:Q →Z ≥0, that predicts\nthe minimum hint size n∗(q). However, predicting n∗(q)\ndirectly is challenging for several reasons: 1)Heavy-tailed\nhint sizes: n∗(q)varies significantly across queries – on\nGSM8K, 80.6% of queries require no hint at all, while the\nremaining 19.4% s",
+      "section": "1. Introduction",
+      "char_count": 999,
+      "chunk_index": 17,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0018",
+      "source_id": "LLMShepherding_2026",
+      "text": "n∗(q)\ndirectly is challenging for several reasons: 1)Heavy-tailed\nhint sizes: n∗(q)varies significantly across queries – on\nGSM8K, 80.6% of queries require no hint at all, while the\nremaining 19.4% span a wide range from 10% to 90% of\nthe full LLM response (see Appendix D for a detailed dis-\ncussion), 2)Non-smooth benefit:A small change in ncanabruptly determine whether the SLM crosses the quality\nthreshold τ, as critical information (e.g., a key constraint\nor intermediate step) may appear at specific token bound-\naries, 3)Non-monotonic quality:The quality function\nϕ(q, h(n)\ns(q)) may not increase monotonically with n(cf.\nFig. 2). Excessive hint tokens can over-constrain the SLM,\ndegrading performance even when shorter hints succeed,\nand 4)Tokenization sensitivity:The same semantic con-\ntent yields different token counts depending on the model\nand query phrasing, making direct regression to absolute\ntoken counts brittle.\nWe address the above challenges by adopting a two-step\npolicy design: we first predict whether any hint is needed\n(i.e., whether n∗(q)>0 ), and only then predict the required\nhint size conditioned on needing a hint.",
+      "section": "1. Introduction",
+      "char_count": 1150,
+      "chunk_index": 18,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0019",
+      "source_id": "LLMShepherding_2026",
+      "text": "above challenges by adopting a two-step\npolicy design: we first predict whether any hint is needed\n(i.e., whether n∗(q)>0 ), and only then predict the required\nhint size conditioned on needing a hint. Concretely, we train\nabinary classifier y(q) =1 [n∗(q)>0] and aregressorfor\nn∗(q)on the subset of queries withn∗(q)>0.\n3.1. Training Data and Supervision Signals\nTo train the Shepherding model, we construct supervision\nlabels n∗(q)by evaluating candidate hints at discretized\nhint sizes. For each query q, we generate hints at per-\ncentage sizes p∈ {0,10,20, . . . ,90} of the full LLM re-\nsponse length |hl(q)|, computing np=⌊p\n100|hl(q)|⌋ and\nquerying the LLM with maxnewtokens=n pto ob-\ntainhint(q, n p) =h(np)\nl(q). We then evaluate each hint by\nrunning the SLM on the augmented prompt and record the\nminimal sufficient size:\nn∗(q) = min\b\nnp:ϕ\u0000\nq, hs(q⊕hint(q, n p))\u0001\n≥τ\t\n.\nIf no partial hint meets the threshold, we set n∗(q) =|h l(q)|\nand use the full LLM response. We provide a detailed dis-\ncussion of the labeling procedure, discretization granularity,\nand design rationale in Appendix B.1.",
+      "section": "1. Introduction",
+      "char_count": 1100,
+      "chunk_index": 19,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0020",
+      "source_id": "LLMShepherding_2026",
+      "text": "ets the threshold, we set n∗(q) =|h l(q)|\nand use the full LLM response. We provide a detailed dis-\ncussion of the labeling procedure, discretization granularity,\nand design rationale in Appendix B.1. We filter samples\nwhere no hint size improves SLM accuracy, and the LLM\nresponse is also incorrect; see Appendix C for details.\nRecall that y(q) =1 [n∗(q)>0] . The log-transformed hint\nsize is given by r(q) = log(1 +n∗(q)) for queries requir-\ning hints. The model produces logit by(q) for hint/no-hint\nclassification and predictionbr(q)for the hint size.\n3.2. Model Architecture\nWe use DeBERTa-v3-large (He et al., 2023) as the text\nencoder. Let hCLS(q)denote the [CLS] embedding of\nquery q. Let f(q) denote the input feature vector. We pass\nit through a Multi-layer Perceptron (MLP) and obtain the\ntransformed numeric features g(q) = MLP(f(q)) . We\nconstruct the fused representation u(q) =\u0002\nhCLS(q);g(q)\u0003\n.\nUsingu(q), the Shepherding system produces:\nby(q) = Head hint(u(q))∈R,\n4\n\nLLM Shepherding\nbr(q) = Head size(u(q))∈R,\nwhereby(q) is the logit for the hint indicator y(q) andbr(q)\npredicts r(q).",
+      "section": "1. Introduction",
+      "char_count": 1102,
+      "chunk_index": 20,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0021",
+      "source_id": "LLMShepherding_2026",
+      "text": "g(q)\u0003\n.\nUsingu(q), the Shepherding system produces:\nby(q) = Head hint(u(q))∈R,\n4\n\nLLM Shepherding\nbr(q) = Head size(u(q))∈R,\nwhereby(q) is the logit for the hint indicator y(q) andbr(q)\npredicts r(q). Here, Head hintandHead sizeare lightweight\nprediction heads (small feed-forward networks) attached to\nthe shared fused representation u(q) :Head hintmaps u(q)\nto a single scalar logit for binary classification (hint-needed\nvs. no-hint), while Head sizemaps u(q) to a single scalar\nfor the regression target r(q). To reduce variance in the\nhint-indicator logits, we apply multi-sample dropout and\naverage logits across multiple passes (Inoue, 2019).\n3.3. Training Objective\nWe optimize a joint objective over the training set. For the\nhint indicator, we use binary cross-entropy on the logit by(q):\nLhint=−h\ny(q) logσ\u0000\nby(q)\u0001\n+\u0000\n1−y(q)\u0001\nlog\u0010\n1−σ\u0000\nby(q)\u0001\u0011i\n.\nWe address class imbalance via minibatch balancing.\nFor the hint size, we train only on positive examples Q+=\n{q∈ Q |y(q) = 1} using Smooth L1 (Huber) loss (Huber,\n1964):\nLsize=1\n|Q+|X\nq∈Q+SmoothL1\u0000\nbr(q)−r(q)\u0001\n,\nwhich penalizes the regression residual on the log-\ntransformed target and is more robust to outliers than ℓ2loss.",
+      "section": "1. Introduction",
+      "char_count": 1185,
+      "chunk_index": 21,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0022",
+      "source_id": "LLMShepherding_2026",
+      "text": "using Smooth L1 (Huber) loss (Huber,\n1964):\nLsize=1\n|Q+|X\nq∈Q+SmoothL1\u0000\nbr(q)−r(q)\u0001\n,\nwhich penalizes the regression residual on the log-\ntransformed target and is more robust to outliers than ℓ2loss.\nIntuitively, Lsizeis computed only when a hint is needed\n(y(q) = 1 ), since the size is undefined for no-hint queries.\nThe total loss is L=λL hint+(1−λ)L size, where λ∈[0,1]\nis the relative weight parameter. Additional optimization\ndetails, including the use of AdamW, EMA, class balancing\nvia weighted sampling, and policy calibration procedures,\nare provided in Appendix B.2.\n3.4. Inference: Mapping Predictions to Decisions\nAt test time, we first compute the hint probability from the\nbinary classification head: P(q) =σ(by(q)) , where σ(·) is\nthe sigmoid function. We then use a threshold α∈[0,1]\nto obtain the binary hint decision 1[P(q)≥α] . The predicted\nhint size is then defined as:\nπθ(q) =(\n0,ifP(q)< α,\n⌊clip(exp(br(q))−1,0, N max)⌉,ifP(q)≥α,\nwhere ⌊x⌉ denotes rounding xto the nearest integer,\nclip(x, a, b) = max(a,min(x, b)) clamps values to the in-\nterval [a, b] , and Nmaxis the maximum LLM output token\nlimit.",
+      "section": "1. Introduction",
+      "char_count": 1127,
+      "chunk_index": 22,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0023",
+      "source_id": "LLMShepherding_2026",
+      "text": "(q))−1,0, N max)⌉,ifP(q)≥α,\nwhere ⌊x⌉ denotes rounding xto the nearest integer,\nclip(x, a, b) = max(a,min(x, b)) clamps values to the in-\nterval [a, b] , and Nmaxis the maximum LLM output token\nlimit. The parameter θencompasses all learned model com-\nponents (backbone encoder, MLP, and prediction heads).\nHint Threshold.For queries not requiring hints ( πθ(q) =\n0), we return the direct SLM output hs(q). For queriesrequiring hints ( πθ(q)>0 ), we introduce a hint size thresh-\noldηhintto further distinguish between low-complexity and\nhigh-complexity queries:\n•If0< π θ(q)≤η hint, we query the LLM for a\nhint by setting maxnewtokens=π θ(q)and ob-\ntainhint(q, π θ(q)) =h(πθ(q))\nl(q), and return the shep-\nherded responseh s(q⊕hint(q, π θ(q)));\n•Ifπθ(q)> η hint, the query is deemed high-complexity\nand routed directly to LLM, returning hl(q)without\ninvoking the SLM.\nThis threshold-based routing captures the intuition that\nqueries requiring extensive hints may be better served by\nthe LLM’s full reasoning capacity, avoiding the overhead\nof generating a lengthy hint only to invoke the SLM. The\nthreshold ηhintis a hyperparameter tuned on the validation\nset to balance cost and accuracy.\n3.5.",
+      "section": "1. Introduction",
+      "char_count": 1194,
+      "chunk_index": 23,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0024",
+      "source_id": "LLMShepherding_2026",
+      "text": "ull reasoning capacity, avoiding the overhead\nof generating a lengthy hint only to invoke the SLM. The\nthreshold ηhintis a hyperparameter tuned on the validation\nset to balance cost and accuracy.\n3.5. Reactive Shepherding: Cascading Decision\nSo far, we have described the shepherding model that is\nused in proactive shepherding. For reactive shepherding,\nwe add a cascading decision module before the shepherding\nmodel. Further, we also incorporate features from SLM’s\nresponses to train the shepherding model.\nWe make the cascading decision based on the agreement\nbetween SLM’s responses – a simple, training-free tech-\nnique demonstrated to be effective in (Kolawole et al., 2025).\nSpecifically, for each query we run the SLM Ktimes inde-\npendently with temperature sampling ( T= 0.3 ) to generate\ncandidate answers {A1, . . . , A K}and associated predic-\ntive entropies {e1, . . . , e K}. We use stochastic sampling\nrather than deterministic decoding to obtain diversity in the\nresponses, which enables us to measure the SLM’s epis-\ntemic uncertainty through response variation and predictive\nentropy.",
+      "section": "1. Introduction",
+      "char_count": 1104,
+      "chunk_index": 24,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0025",
+      "source_id": "LLMShepherding_2026",
+      "text": "astic sampling\nrather than deterministic decoding to obtain diversity in the\nresponses, which enables us to measure the SLM’s epis-\ntemic uncertainty through response variation and predictive\nentropy. We set K= 3 in our experiments as a practical bal-\nance between signal quality and computational cost. Since\nwe work with math and coding datasets, the agreement\nbetween the responses is based on exact matches in final\nanswers. If at least kout of Kanswers agree, we output the\nagreed SLM answer directly; otherwise, we invoke the Shep-\nherding model. The choice of kreflects a precision-cost\ntrade-off: k= 3 (unanimous agreement) is more conser-\nvative, reducing false negatives at the expense of higher\nrouting rates and LLM costs, while k= 2 (majority voting)\nis more aggressive, allowing more queries to bypass the\nLLM but risking more errors in direct SLM outputs. We\nexplore both settings in our experiments (Section 4).\nGiven multiple responses from the SLM, we compute the\nfollowing features and incorporate them in training our shep-\nherding model.",
+      "section": "1. Introduction",
+      "char_count": 1058,
+      "chunk_index": 25,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0026",
+      "source_id": "LLMShepherding_2026",
+      "text": "SLM outputs. We\nexplore both settings in our experiments (Section 4).\nGiven multiple responses from the SLM, we compute the\nfollowing features and incorporate them in training our shep-\nherding model.\n5\n\nLLM Shepherding\n•Average entropy: ¯e(q) =1\nKPK\ni=1ei, capturing the\nmodel’s overall uncertainty;\n•Average output length: ¯Lout(q) =1\nKPK\ni=1|Ai|, re-\nflecting the typical response complexity;\n•Query length: |q|, measured in tokens via the back-\nbone model’s tokenizer.\nWe use token-level length features rather than character-\nlevel measurements because tokenization aligns with the\nmodels’ internal representations and provides a more seman-\ntically meaningful proxy for reasoning complexity, longer\noutputs typically indicate multi-step solutions requiring\nmore intermediate reasoning. Token-based features also\nenable efficient batched processing without additional tok-\nenization overhead at inference time.\nThese features are standardized and fused with the text rep-\nresentation through a lightweight MLP. Intuitively, higher\nentropy indicates greater uncertainty in the SLM’s responses,\nsuggesting that a hint is necessary.",
+      "section": "1. Introduction",
+      "char_count": 1134,
+      "chunk_index": 26,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0027",
+      "source_id": "LLMShepherding_2026",
+      "text": "standardized and fused with the text rep-\nresentation through a lightweight MLP. Intuitively, higher\nentropy indicates greater uncertainty in the SLM’s responses,\nsuggesting that a hint is necessary. The output length statis-\ntics provide additional context regarding the verbosity re-\nquired for the query.\n4. Performance Comparison\nIn this section, we compare the cost and accuracy of\nProactive and Reactive Shepherding strategies with state-\nof-the-art LLM routing and cascading strategies. The rout-\ning baselines include RouteLLM (Ong et al., 2025) and\nGraphRouter (Feng et al., 2025), while the cascading base-\nlines include FrugalGPT (Chen et al., 2024) and ABC (Kola-\nwole et al., 2025). We use the vanilla Llama-3.2-3B-Instruct\n(without finetuning) as the SLM, deployed on a local server\nwith an NVIDIA RTX 5090 GPU. For the LLM, we query\nLlama-3.3-70B-Versatile via the Groq API at $0.59 per 1M\ninput tokens and $0.79 per 1M output tokens.\n4.1.",
+      "section": "1. Introduction",
+      "char_count": 954,
+      "chunk_index": 27,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0028",
+      "source_id": "LLMShepherding_2026",
+      "text": "ng) as the SLM, deployed on a local server\nwith an NVIDIA RTX 5090 GPU. For the LLM, we query\nLlama-3.3-70B-Versatile via the Groq API at $0.59 per 1M\ninput tokens and $0.79 per 1M output tokens.\n4.1. Datasets and Experimental Setup\nDatasets.We evaluate all methods on four benchmarks\nspanning mathematical reasoning and code generation:\n(a) GSM8K(Cobbe et al., 2021) is a grade-school mathe-\nmatics dataset containing 7,473 training problems and 1,319\ntest problems. We use 776 questions for testing and the\nremaining 543 for validation. Each question requires multi-\nstep arithmetic reasoning and includes a natural language\nsolution and a numerical answer.\n(b) CNK12is a Chinese K-12 mathematics benchmark de-\nrived from the OpenR1-Math-220k dataset (OpenR1, 2025),\ncovering diverse topics including algebra, geometry, and\ncalculus across elementary through high school levels. We\nrandomly sample 21,471 problems from the full dataset,partitioned into 18,251 for training, 1,073 for validation,\nand 2,147 for testing.\n(c) HumanEval(Chen, 2021) is a code generation bench-\nmark with 164 programming problems.",
+      "section": "1. Introduction",
+      "char_count": 1110,
+      "chunk_index": 28,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0029",
+      "source_id": "LLMShepherding_2026",
+      "text": "blems from the full dataset,partitioned into 18,251 for training, 1,073 for validation,\nand 2,147 for testing.\n(c) HumanEval(Chen, 2021) is a code generation bench-\nmark with 164 programming problems. Each problem in-\ncludes a function signature, docstring, body, and multiple\nunit tests for verification. We evaluate this benchmark using\nthe model trained on GSM8K without any code-specific\ntraining to demonstrate the generalization capability of our\napproach.\n(d) MBPP(Austin et al., 2021) is the Mostly Basic Python\nProblems benchmark containing 974 crowd-sourced entry-\nlevel programming tasks, each with three automated test\ncases for solution verification. We evaluate MBPP in a zero-\nshot manner without any dataset-specific modifications.\nInference and Evaluation.Test sets contain no pre-\ncomputed hints. At inference time, our policy predicts a\nhint size πθ(q); when a hint is requested, we query the LLM\nwithmaxnewtokens set to πθ(q), obtaining a truncated\nprefix that is appended to the original prompt for SLM com-\npletion. All generations use temperature 0.3and top- p0.95 ,\ndetailed prompt templates are provided in Appendix E.",
+      "section": "1. Introduction",
+      "char_count": 1143,
+      "chunk_index": 29,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0030",
+      "source_id": "LLMShepherding_2026",
+      "text": "q), obtaining a truncated\nprefix that is appended to the original prompt for SLM com-\npletion. All generations use temperature 0.3and top- p0.95 ,\ndetailed prompt templates are provided in Appendix E.\nFor mathematical benchmarks (GSM8K, CNK12), we ex-\ntract the final numerical answer and compare against ground\ntruth. For coding benchmarks (HumanEval, MBPP), we\nexecute generated solutions and verify that all unit tests\npass. To obtain robust accuracy estimates under sampling\nvariability, we perform 7 independent trials per query and\napply majority voting.\n4.2. Performance Analysis\nTables 1–4 summarize results across four benchmarks. For\nthe baseline routing and cascading strategies, we use default\nparameter settings released by the authors in their respective\nGitHub repositories. For Proactive and Reactive Shepherd-\ning, we present the values for ηhint,α, and Kin Appendix\nF. Observe that Reactive Shepherding achieves the high-\nest ACE on all datasets, ranging from 1.25 (CNK12) to\n2.78 (MBPP), while reducing costs by 42–94% relative to\nLLM-only inference.\nComparison with routing.Routing baselines (RouteLLM,\nGraphRouter) struggle when query difficulty varies widely.",
+      "section": "1. Introduction",
+      "char_count": 1181,
+      "chunk_index": 30,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0031",
+      "source_id": "LLMShepherding_2026",
+      "text": "5 (CNK12) to\n2.78 (MBPP), while reducing costs by 42–94% relative to\nLLM-only inference.\nComparison with routing.Routing baselines (RouteLLM,\nGraphRouter) struggle when query difficulty varies widely.\nOn CNK12, they achieve only 5–8% cost reduction com-\npared to LLM, whereas Reactive Shepherding delivers\n42%—a 2×improvement at comparable accuracy. The\ngap is smaller on GSM8K, where most queries are SLM-\nsolvable, but shepherding still matches Oracle performance\n($0.034) while routing methods incur 2–3×higher cost.\nComparison with cascading.Cascading baselines (Frugal-\nGPT, ABC) achieve higher accuracy than routing but at\na greater cost. On GSM8K, ABC reaches 94.9% accu-\n6\n\nLLM Shepherding\nTable 1.Cost–accuracy analysis on the GSM8K test set (776\nquestions). LLM ($0.104, 98.0%)|SLM ($0, 73.0%).\nStrategy Cost ($) Acc. (%) Cost red. (%) ACE\nRouting\nRouteLLM 0.065 88.1 37.5 0.98\nGraphRouter 0.041 82.2 60.6 0.93\nProactive Shep. 0.036 80.9 65.9 0.93\nCascading\nFrugalGPT 0.047 86.7 54.8 1.21\nABC 0.04894.953.7 1.89\nReactive Shep.0.03489.167.4 1.97\nOracle Shep. 0.034 98.0 67.4 3.10\nTable 2.Cost–accuracy analysis on the CNK12 test set (2,147\nquestions). LLM ($0.559, 84.4%)|SLM ($0, 53.8%).",
+      "section": "1. Introduction",
+      "char_count": 1197,
+      "chunk_index": 31,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0032",
+      "source_id": "LLMShepherding_2026",
+      "text": "1\nABC 0.04894.953.7 1.89\nReactive Shep.0.03489.167.4 1.97\nOracle Shep. 0.034 98.0 67.4 3.10\nTable 2.Cost–accuracy analysis on the CNK12 test set (2,147\nquestions). LLM ($0.559, 84.4%)|SLM ($0, 53.8%).\nStrategy Cost ($) Acc. (%) Cost red. (%) ACE\nRouting\nRouteLLM 0.53382.64.65 0.99\nGraphRouter 0.513 81.7 8.2 0.99\nProactive Shep. 0.455 77.9 18.5 0.97\nCascading\nFrugalGPT 0.391 76.1 30.1 1.04\nABC 0.470 81.3 15.8 1.07\nReactive Shep.0.32476.042.1 1.25\nOracle Shep. 0.306 84.4 45.2 1.83\nracy—5.8 points above Reactive Shepherding—but costs\n41% more, yielding lower ACE (1.89 vs. 1.97). This il-\nlustrates a key trade-off: cascading pays for accuracy that\nmay exceed application requirements, while shepherding\noptimizes cost-efficiency by requesting only partial LLM\nassistance.\nWhen the SLM is already capable.On MBPP, the SLM base-\nline reaches 65.2% accuracy—only 9 points below the LLM.\nIn this regime, Reactive Shepherding excels: it achieves\n93.6% cost reduction with an ACE of 2.78, outperforming\nABC by 1.6× . Notably, Reactive Shepherding even sur-\npasses Oracle Shepherding in ACE (2.78 vs. 1.67).",
+      "section": "1. Introduction",
+      "char_count": 1104,
+      "chunk_index": 32,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0033",
+      "source_id": "LLMShepherding_2026",
+      "text": "Reactive Shepherding excels: it achieves\n93.6% cost reduction with an ACE of 2.78, outperforming\nABC by 1.6× . Notably, Reactive Shepherding even sur-\npasses Oracle Shepherding in ACE (2.78 vs. 1.67). This\noccurs because Oracle optimizes for matching LLM accu-\nracy (74.2%), which requires hints on many queries and\nincurs 7.5× higher cost ($0.015 vs. $0.002). When the\naccuracy gap is narrow, accepting slightly lower accuracy\nyields a substantially better ACE trade-off that Reactive\nShepherding captures.\nCross-domain generalization.HumanEval tests whether\nshepherding transfers to unseen domains: all methods use\nGSM8K-trained models without code-specific fine-tuning.\nReactive Shepherding matches ABC’s accuracy (76.2%)\nwhile achieving 2.8× better cost reduction (44% vs. 16%),\nyielding the highest ACE (1.42). This zero-shot transfer\nsuggests that hint allocation learns generalizable patterns of\nquery difficulty rather than task-specific heuristics.Table 3.Cost–accuracy analysis on the HumanEval test set (164\nproblems). LLM ($0.023, 83.5%) |SLM ($0, 48.8%). All methods\nuse models trained on GSM8K without code-specific training.\nStrategy Cost ($) Acc. (%) Cost red.",
+      "section": "1. Introduction",
+      "char_count": 1176,
+      "chunk_index": 33,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0034",
+      "source_id": "LLMShepherding_2026",
+      "text": "cy analysis on the HumanEval test set (164\nproblems). LLM ($0.023, 83.5%) |SLM ($0, 48.8%). All methods\nuse models trained on GSM8K without code-specific training.\nStrategy Cost ($) Acc. (%) Cost red. (%) ACE\nRouting\nRouteLLM 0.017 76.2 26.3 1.07\nGraphRouter 0.020 78.0 14.0 0.98\nProactive Shep.0.00962.862.71.03\nCascading\nFrugalGPT 0.02182.97.0 1.08\nABC 0.019 76.2 15.8 0.94\nReactive Shep. 0.013 76.2 44.31.42\nOracle Shep. 0.014 83.5 38.6 1.63\nTable 4.Cost–accuracy analysis on the MBPP test set (500 prob-\nlems). LLM ($0.025, 74.2%)|SLM ($0, 65.2%).\nStrategy Cost ($) Acc. (%) Cost red. (%) ACE\nRouting\nRouteLLM 0.006 67.0 75.2 0.81\nGraphRouter 0.005 66.6 79.6 0.76\nProactive Shep. 0.006 67.0 76.8 0.86\nCascading\nFrugalGPT 0.01169.655.6 1.10\nABC 0.004 67.8 83.6 1.76\nReactive Shep.0.00267.293.6 2.78\nOracle Shep. 0.015 74.2 40.0 1.67\nShepherding’s advantage stems from its ability to request\npartial hints (typically 10–30% of the LLM response)\nrather than full outputs. This granular control enables cost-\naccuracy trade-offs unavailable to binary routing and cas-\ncading methods.\n4.3.",
+      "section": "1. Introduction",
+      "char_count": 1088,
+      "chunk_index": 34,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0035",
+      "source_id": "LLMShepherding_2026",
+      "text": "quest\npartial hints (typically 10–30% of the LLM response)\nrather than full outputs. This granular control enables cost-\naccuracy trade-offs unavailable to binary routing and cas-\ncading methods.\n4.3. Minimum Accuracy Requirement\nTo evaluate cost efficiency under constrained accuracy tar-\ngets, we establish a threshold at 90% of the LLM’s baseline\naccuracy for each dataset. Figure 3 compares the minimum\ncost required by each method to meet or exceed this thresh-\nold. Since routing and cascading baselines cannot fine-tune\ntheir cost-accuracy trade-offs as granularly as shepherd-\ning’s continuous hint allocation, we set each baseline to\nits optimal operating point closest to meeting the accuracy\nthreshold (see Appendix F for details).\nAcross all four benchmarks, Reactive Shepherding consis-\ntently achieves the lowest cost while satisfying the accuracy\nconstraint, demonstrating that partial hints provide a more\nefficient operating point than binary escalation strategies.\nOn the mathematical reasoning tasks, the cost advantage is\nsubstantial.",
+      "section": "1. Introduction",
+      "char_count": 1054,
+      "chunk_index": 35,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0036",
+      "source_id": "LLMShepherding_2026",
+      "text": "ccuracy\nconstraint, demonstrating that partial hints provide a more\nefficient operating point than binary escalation strategies.\nOn the mathematical reasoning tasks, the cost advantage is\nsubstantial. For GSM8K (accuracy threshold: 88.2%), Reac-\ntive Shepherding achieves 89.0% accuracy at $0.034—30%\ncheaper than ABC ($0.048), which overshoots the target\n7\n\nLLM Shepherding\n(a)Math datasets\n(b)Coding datasets\nFigure 3.Minimum cost to achieve 90% of LLM accuracy on each\ndataset. Each method is tuned to its optimal operating point, which\nmeets or exceeds the accuracy requirement (shown above bars).\nat 94.8% and pays for accuracy it did not need. Frugal-\nGPT ($0.049, 88.7%) meets the threshold but costs 45%\nmore, suggesting its confidence-based escalation triggers\nfull LLM calls too aggressively. On CNK12 (threshold:\n76.0%), the pattern holds: Reactive Shepherding meets the\ntarget at $0.324, while ABC and FrugalGPT incur 45% and\n21% higher costs, respectively.\nThe advantage becomes more pronounced for code genera-\ntion datasets. On HumanEval (threshold: 75.2%), Reactive\nShepherding costs $0.013, 34% below ABC and 24% below\nRouteLLM.",
+      "section": "1. Introduction",
+      "char_count": 1145,
+      "chunk_index": 36,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0037",
+      "source_id": "LLMShepherding_2026",
+      "text": "her costs, respectively.\nThe advantage becomes more pronounced for code genera-\ntion datasets. On HumanEval (threshold: 75.2%), Reactive\nShepherding costs $0.013, 34% below ABC and 24% below\nRouteLLM. MBPP shows the starkest contrast: at $0.002,\nReactive Shepherding is 61% cheaper than the next best\nmethod (ABC, $0.004), suggesting that code completion\ntasks particularly benefit from the scaffolding that partial\nhints provide.\nWe conclude that adaptive hint allocation provides superior\ncost efficiency when accuracy requirements are fixed, a\ncommon scenario in production deployments with service-\nlevel agreements.\n4.4. Latency Overhead: Proactive vs Reactive\nWe measure inference latency on CNK12 using Llama-3.2-\n3B-Instruct on the NVIDIA RTX 5090 GPU. The shep-\nherding policy adds only 7.32 ms per query—negligible\ncompared to SLM generation (384.62 ms per run).Proactive Shepherding makes hint decisions before SLM\ninference, adding minimal latency to the pipeline. Reactive\nShepherding first generates three SLM responses for con-\nsensus and feature vector generation (1,163.48 ms), then\ninvokes the decision module (7.32 ms)—a 0.6% overhead.",
+      "section": "1. Introduction",
+      "char_count": 1154,
+      "chunk_index": 37,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0038",
+      "source_id": "LLMShepherding_2026",
+      "text": "tency to the pipeline. Reactive\nShepherding first generates three SLM responses for con-\nsensus and feature vector generation (1,163.48 ms), then\ninvokes the decision module (7.32 ms)—a 0.6% overhead.\nThus, though Reactive Shepherding achieves superior cost-\naccuracy trade-offs, Proactive Shepherding decision making\non the local server is159×faster.\n5. Scope and Future Directions\nThis work focuses on verifiable reasoning tasks, including\nmathematical problem-solving and code generation, where\ncorrectness can be automatically assessed. Extending shep-\nherding to open-ended tasks like summarization or creative\nwriting would require replacing the binary correctness func-\ntion with learned reward models or human evaluation, a\ncomplementary direction we leave for future work.\nOur experiments use SLM-LLM pairs from the same model\nfamily (Llama 3.2/3.3), which share a common tokenizer.",
+      "section": "1. Introduction",
+      "char_count": 891,
+      "chunk_index": 38,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0039",
+      "source_id": "LLMShepherding_2026",
+      "text": "ned reward models or human evaluation, a\ncomplementary direction we leave for future work.\nOur experiments use SLM-LLM pairs from the same model\nfamily (Llama 3.2/3.3), which share a common tokenizer.\nAn important open question is how shepherding performs\nwhen the SLM and LLM use different tokenizers or archi-\ntectures (e.g., Mixtral, Qwen), where hint prefixes may not\nalign semantically across model boundaries.",
+      "section": "1. Introduction",
+      "char_count": 415,
+      "chunk_index": 39,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0040",
+      "source_id": "LLMShepherding_2026",
+      "text": "6. Conclusion\nWe have challenged the prevailing binary paradigm of rout-\ning and cascading, which treats Large Language Models\n(LLMs) as all-or-nothing resources. By introducing LLM\nShepherding, we demonstrate that the most efficient path\ntoward high-quality inference is not to choose between mod-\nels, but to enable targeted collaboration. Our framework\nleverages token-level budget control, requesting only a short\nhint (prefix) from a frontier LLM to improve the accuracy\nof the Small Language Model (SLM).\nOur findings establish LLM Shepherding as a new ap-\nproach for cost-efficient deployment. Reactive Shepherding\nachieves the highest Accuracy-per-Cost Efficiency (ACE)\nacross all benchmarks, reducing costs by 42–94% relative\nto LLM-only inference while delivering up to 2×better\ncost reduction than routing baselines and 2.8× better than\ncascading baselines at comparable accuracy. The adaptive\nhint allocation mechanism also demonstrates strong gener-\nalization: when trained solely on math datasets, it transfers\nzero-shot to code generation, matching cascading accuracy\non HumanEval at a fraction of the cost.",
+      "section": "6. Conclusion",
+      "char_count": 1122,
+      "chunk_index": 40,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0041",
+      "source_id": "LLMShepherding_2026",
+      "text": "echanism also demonstrates strong gener-\nalization: when trained solely on math datasets, it transfers\nzero-shot to code generation, matching cascading accuracy\non HumanEval at a fraction of the cost. On MBPP, Reactive\nShepherding even surpasses Oracle Shepherding in ACE,\nshowing that when the SLM is already capable, partial hints\noutperform full LLM assistance.\n8\n\nLLM Shepherding",
+      "section": "6. Conclusion",
+      "char_count": 383,
+      "chunk_index": 41,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0042",
+      "source_id": "LLMShepherding_2026",
+      "text": "References\nAggarwal, P., Madaan, A., Anand, A., Potharaju, S. P.,\nMishra, S., Zhou, P., Gupta, A., Rajagopal, D., Kappagan-\nthu, K., Yang, Y ., et al. Automix: Automatically mixing\nlanguage models.Proc. NeurIPS, 37:131000–131034,\n2024.\nAustin, J., Odena, A., Nye, M., Bosma, M., Michalewski,\nH., Dohan, D., Jiang, E., Cai, C., Terry, M., Le, Q., and\nSutton, C. Program synthesis with large language models,\n2021.\nBehera, A. P., Champati, J. P., Morabito, R., Tarkoma, S.,\nand Gross, J. Towards efficient multi-llm inference: Char-\nacterization and analysis of llm routing and hierarchical\ntechniques.arXiv preprint arXiv:2506.06579, 2025.\nCai, T., Li, Y ., Geng, Z., Peng, H., Lee, J. D., Chen, D.,\nand Dao, T. Medusa: Simple llm inference acceleration\nframework with multiple decoding heads.arXiv preprint\narXiv:2401.10774, 2024.\nChen, C., Borgeaud, S., Irving, G., Lespiau, J.-B., Sifre,\nL., and Jumper, J. Accelerating large language model\ndecoding with speculative sampling, 2023.\nChen, G., Liao, M., Yu, P., Wang, D., Qiao, Z., Yang,\nC., Zhao, X., and Fan, K. C-3po: Compact plug-and-\nplay proxy optimization to achieve human-like retrieval-\naugmented generation, 2025.",
+      "section": "References",
+      "char_count": 1174,
+      "chunk_index": 42,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0043",
+      "source_id": "LLMShepherding_2026",
+      "text": "ing, 2023.\nChen, G., Liao, M., Yu, P., Wang, D., Qiao, Z., Yang,\nC., Zhao, X., and Fan, K. C-3po: Compact plug-and-\nplay proxy optimization to achieve human-like retrieval-\naugmented generation, 2025.\nChen, L., Zaharia, M., and Zou, J. FrugalGPT: How to\nuse large language models while reducing cost and im-\nproving performance.Transactions on Machine Learn-\ning Research, 2024. ISSN 2835-8856. URL https://\nopenreview.net/forum?id=cSimKw5p6R . Fea-\ntured Certification.\nChen, M. Evaluating large language models trained on code.\narXiv preprint arXiv:2107.03374, 2021.\nCobbe, K., Kosaraju, V ., Bavarian, M., Chen, M., Jun, H.,\nKaiser, L., Plappert, M., Tworek, J., Hilton, J., Nakano,\nR., Hesse, C., and Schulman, J. Training verifiers to solve\nmath word problems.arXiv preprint arXiv:2110.14168,\n2021.\nDing, D., Mallick, A., Wang, C., Sim, R., Mukherjee, S.,\nR¨uhle, V ., Lakshmanan, L. V . S., and Awadallah, A. H.\nHybrid LLM: Cost-efficient and quality-aware query rout-\ning. InProc. ICLR, 2024.\nDubey, A., Jauhri, A., Pandey, A., Kadian, A., Al-Dahle, A.,\nLetman, A., Mathur, A., Schelten, A., Yang, A., Fan, A.,\net al. The Llama 3 herd of models. 2024.\nFeng, T., Shen, Y ., and You, J.",
+      "section": "References",
+      "char_count": 1191,
+      "chunk_index": 43,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0044",
+      "source_id": "LLMShepherding_2026",
+      "text": "R, 2024.\nDubey, A., Jauhri, A., Pandey, A., Kadian, A., Al-Dahle, A.,\nLetman, A., Mathur, A., Schelten, A., Yang, A., Fan, A.,\net al. The Llama 3 herd of models. 2024.\nFeng, T., Shen, Y ., and You, J. Graphrouter: A graph-based\nrouter for llm selections. In Yue, Y ., Garg, A., Peng, N.,Sha, F., and Yu, R. (eds.),Proc. ICLR, pp. 26186–26203,\n2025.\nGou, J., Yu, B., Maybank, S. J., and Tao, D. Knowledge\ndistillation: A survey.International journal of computer\nvision, 129(6):1789–1819, 2021.\nGu, Y ., Dong, L., Wei, F., and Huang, M. MiniLLM: Knowl-\nedge distillation of large language models. InProc. ICLR,\n2024.\nGupta, N., Narasimhan, H., Jitkrittum, W., Rawat, A. S.,\nMenon, A. K., and Kumar, S. Language model cascades:\nToken-level uncertainty and beyond. InProc. ICLR, 2024.\nHe, P., Gao, J., and Chen, W. Debertav3: Improving\ndeberta using electra-style pre-training with gradient-\ndisentangled embedding sharing, 2023.\nHinton, G., Vinyals, O., and Dean, J. Distilling\nthe knowledge in a neural network.arXiv preprint\narXiv:1503.02531, 2015.\nHsieh, C.-Y ., Li, C.-L., Yeh, C.-K., Nakhost, H., Fujii, Y .,\nRatner, A., Krishna, R., Lee, C.-Y ., and Pfister, T. Distill-\ning step-by-step!",
+      "section": "References",
+      "char_count": 1191,
+      "chunk_index": 44,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0045",
+      "source_id": "LLMShepherding_2026",
+      "text": "a neural network.arXiv preprint\narXiv:1503.02531, 2015.\nHsieh, C.-Y ., Li, C.-L., Yeh, C.-K., Nakhost, H., Fujii, Y .,\nRatner, A., Krishna, R., Lee, C.-Y ., and Pfister, T. Distill-\ning step-by-step! outperforming larger language models\nwith less training data and smaller model sizes. InProc.\nACL, pp. 8003–8017, 2023.\nHu, Q. J., Bieker, J., Li, X., Jiang, N., Keigwin, B., Ran-\nganath, G., Keutzer, K., and Upadhyay, S. K. Router-\nbench: A benchmark for multi-llm routing system.arXiv\npreprint arXiv:2403.12031, 2024.\nHuber, P. J. Robust estimation of a location parameter.The\nAnnals of Mathematical Statistics, 35(1):73–101, 1964.\nInoue, H. Multi-sample dropout for accelerated training and\nbetter generalization.arXiv preprint, 2019.\nJiang, D., Ren, X., and Lin, B. Y . Llm-blender: Ensem-\nbling large language models with pairwise ranking and\ngenerative fusion. pp. 14165–14178, 2023.\nKolawole, S., Dennis, D., Talwalkar, A., and Smith,\nV . Agreement-based cascading for efficient inference.\nTMLR, 2025. ISSN 2835-8856.\nLeviathan, Y ., Kalman, M., and Matias, Y . Fast inference\nfrom transformers via speculative decoding. InProc.\nICML, pp. 19274–19286, 2023.",
+      "section": "References",
+      "char_count": 1164,
+      "chunk_index": 45,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0046",
+      "source_id": "LLMShepherding_2026",
+      "text": "scading for efficient inference.\nTMLR, 2025. ISSN 2835-8856.\nLeviathan, Y ., Kalman, M., and Matias, Y . Fast inference\nfrom transformers via speculative decoding. InProc.\nICML, pp. 19274–19286, 2023.\nLiu, X., Hu, L., Bailis, P., Cheung, A., Deng, Z., Stoica,\nI., and Zhang, H. Online speculative decoding. InProc.\nICML, 2024.\nLoshchilov, I. and Hutter, F. Decoupled weight decay regu-\nlarization. InProc. ICLR, 2019.\n9\n\nLLM Shepherding\nLu, K., Yuan, H., Lin, R., Lin, J., Yuan, Z., Zhou, C., and\nZhou, J. Routing to the expert: Efficient reward-guided\nensemble of large language models. InProc. ACL, pp.\n1964–1974, 2024.\nMorales-Brotons, D., V ogels, T., and Hendrikx, H. Ex-\nponential moving average of weights in deep learning:\nDynamics and benefits.Transactions on Machine Learn-\ning Research, 2024. ISSN 2835-8856.\nOng, I., Almahairi, A., Wu, V ., Chiang, W.-L., Wu, T.,\nGonzalez, J. E., Kadous, M. W., and Stoica, I. RouteLLM:\nLearning to route LLMs from preference data. InProc.\nICLR, 2025.\nOpenR1. Openr1-math-220k: A large-scale\ndataset for math reasoning tasks, 2025. URL\nopen-r1/OpenR1-Math-220k.\nSubramanian, S., Elango, V ., and Gungor, M.",
+      "section": "References",
+      "char_count": 1152,
+      "chunk_index": 46,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0047",
+      "source_id": "LLMShepherding_2026",
+      "text": "LMs from preference data. InProc.\nICLR, 2025.\nOpenR1. Openr1-math-220k: A large-scale\ndataset for math reasoning tasks, 2025. URL\nopen-r1/OpenR1-Math-220k.\nSubramanian, S., Elango, V ., and Gungor, M. Small lan-\nguage models (slms) can still pack a punch: A survey.\narXiv preprint arXiv:2501.05465, 2025.\nXu, M., Yin, W., Cai, D., Yi, R., Xu, D., Wang, Q., Wu, B.,\nZhao, Y ., Yang, C., Wang, S., et al. A survey of resource-\nefficient llm and multimodal foundation models.arXiv\npreprint arXiv:2401.08092, 2024.\nZhang, J., Wang, J., Li, H., Shou, L., Chen, K., Chen, G.,\nand Mehrotra, S. Draft & verify: Lossless large language\nmodel acceleration via self-speculative decoding. InProc.\nACL, pp. 11263–11282, 2024.\n10\n\nLLM Shepherding\nA. Proof of Corollary 2.2\nUsingcin\ns=cout\ns= 0in Proposition 2.1, we obtain\nc∗\nroute(q) =\u0000\n1−I s(q)\u0001\u0000\n|q|cin\nl+|h l(q)|cout\nl\u0001\nc∗\ncasc(q) =\u0000\n1−I s(q)\u0001\u0000\n|q|cin\nl+|h l(q)|cout\nl\u0001\nc∗\nshep(q) =|q|cin\nl+n∗(q)cout\nl\nRouting and cascading have identical Oracle costs when the SLM is free. Comparing shepherding to routing/cascading.\nIfIs(q) = 1 , then n∗(q) = 0 . Thus, all three strategies have zero cost.",
+      "section": "References",
+      "char_count": 1132,
+      "chunk_index": 47,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0048",
+      "source_id": "LLMShepherding_2026",
+      "text": "∗(q)cout\nl\nRouting and cascading have identical Oracle costs when the SLM is free. Comparing shepherding to routing/cascading.\nIfIs(q) = 1 , then n∗(q) = 0 . Thus, all three strategies have zero cost. If Is(q) = 0 : Routing and cascading incur\n|q|cin\nl+|h l(q)|cout\nl, while shepherding incurs |q|cin\nl+n∗(q)cout\nl. Since n∗(q)≤ |h l(q)|by definition, we have c∗\nshep(q)≤\nc∗\nroute(q).\nB. Training Shepherding System: Additional Details\nB.1. Training Dataset Construction Details\nThis appendix provides the complete methodology for constructing the training dataset used to supervise the Shepherding\nmodel, including the discretized token budget approach and labeling procedure.\nSUPERVISION VIADISCRETIZEDTOKENBUDGETS\nWe obtain supervision for the hint sizes by evaluating candidate hints at multiple granularities via token-budgeted LLM calls.\nFor each training query q, we first query the LLM once to obtain a reference completion hl(q)and use its LLM-token length\n|hl(q)|to define percentage sizes p∈ {0,10,20, . . . ,90} .",
+      "section": "References",
+      "char_count": 1025,
+      "chunk_index": 48,
+      "page_numbers": [
+        11
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0049",
+      "source_id": "LLMShepherding_2026",
+      "text": "udgeted LLM calls.\nFor each training query q, we first query the LLM once to obtain a reference completion hl(q)and use its LLM-token length\n|hl(q)|to define percentage sizes p∈ {0,10,20, . . . ,90} . We choose 10% increments as they provide sufficient granularity\nto capture the non-smooth benefit curve of hint tokens while maintaining computational tractability—finer granularities\n(e.g., 5% steps) would double the labeling cost with diminishing returns in identifying the minimal sufficient size, whereas\ncoarser granularities (e.g., 25% steps) risk missing critical transition points where hints become effective.\nFor eachp, we compute the target token size:\nnp=\u0004p\n100|hl(q)|\u0005\nand then re-query the LLM by setting the maxnewtokens parameter to np. This parameter acts as a hard constraint on\nthe generation length, ensuring the model outputs a completionh(np)\nl(q)that conforms to the pre-defined sizen p.\nWe treat this size-constrained completion as the candidate hint hint(q, n p) =h(np)\nl(q), and evaluate it by running the SLM\nonq⊕hint(q, n p)and computingϕ\u0000\nq, hs(q⊕hint(q, n p))\u0001\n.",
+      "section": "References",
+      "char_count": 1093,
+      "chunk_index": 49,
+      "page_numbers": [
+        11
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0050",
+      "source_id": "LLMShepherding_2026",
+      "text": "e-defined sizen p.\nWe treat this size-constrained completion as the candidate hint hint(q, n p) =h(np)\nl(q), and evaluate it by running the SLM\nonq⊕hint(q, n p)and computingϕ\u0000\nq, hs(q⊕hint(q, n p))\u0001\n.\nWe record the discretized minimal sufficient size\nn∗(q) = min\b\nnp:ϕ\u0000\nq, hs(q⊕hint(q, n p))\u0001\n≥τ\t\n,\nwhich is a grid-based approximation to the continuous optimum. The case p= 0 corresponds to hint(q,0) =∅ , i.e., the\nrouter chooses not to query the LLM for any hint and directly returns the SLM output hs(q). If none of the partial sizes up\ntop= 90meets the threshold, we setn∗(q) =|h l(q)|and use the full LLM response as the output.\nRATIONALE FORDESIGNCHOICES\n10% Granularity.The choice of 10% increments balances labeling efficiency with precision. Each training query requires\n|{0,10,20, . . . ,90}|= 10 LLM calls to construct the supervision signal. Finer granularities would provide marginally\nbetter approximations to n∗(q)but at high computational cost—5% steps would require 20 calls per query, doubling the\nlabeling budget.",
+      "section": "References",
+      "char_count": 1032,
+      "chunk_index": 50,
+      "page_numbers": [
+        11
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0051",
+      "source_id": "LLMShepherding_2026",
+      "text": "e supervision signal. Finer granularities would provide marginally\nbetter approximations to n∗(q)but at high computational cost—5% steps would require 20 calls per query, doubling the\nlabeling budget. Conversely, coarser granularities (e.g., 25% steps) risk missing critical transition points where the hint\nbecomes sufficient, particularly for queries with sharp quality transitions.\nDeterministic LLM Decoding.For all hint-labeling LLM calls, we use deterministic decoding ( temperature= 0 ,\ntopp= 1 ) to ensure reproducible supervision signals and eliminate variance from sampling across different training runs.\nThis design choice prioritizes consistency in the training labels over diversity in hint content.\n11\n\nLLM Shepherding\nGrid-based Approximation.The discretized target n∗(q)serves as a practical surrogate for a continuous optimum. While\nthis introduces quantization error, the 10% grid is sufficient to capture meaningful differences in hint requirements across\nqueries, and the log-transformation of the regression target (Section 3) further smooths over small discretization artifacts.\nB.2.",
+      "section": "References",
+      "char_count": 1106,
+      "chunk_index": 51,
+      "page_numbers": [
+        11
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0052",
+      "source_id": "LLMShepherding_2026",
+      "text": "ficient to capture meaningful differences in hint requirements across\nqueries, and the log-transformation of the regression target (Section 3) further smooths over small discretization artifacts.\nB.2. Optimization and Implementation Details\nWe train with AdamW (Loshchilov & Hutter, 2019) and maintain an exponential moving average (EMA) of parameters for\nevaluation and checkpoint selection (Morales-Brotons et al., 2024).\nClass Balancing.Given the potential class imbalance (i.e., when the proportion of queries requiring hints deviates from\n50%), we employ WeightedRandomSampler during training to balance the minibatch distribution. This ensures that\nboth positive and negative examples are adequately represented in each gradient update, yielding robust decision boundaries.\nPolicy Calibration.Post-training, we perform a grid search on the validation set to calibrate the policy for a target cost size.\nSpecifically, given a fixed cost constraint Ctarget, we search over the probability threshold αfor the binary classification\ndecision to identify the configuration that maximizes validation accuracy while satisfying the cost constraint.",
+      "section": "References",
+      "char_count": 1145,
+      "chunk_index": 52,
+      "page_numbers": [
+        12
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0053",
+      "source_id": "LLMShepherding_2026",
+      "text": "straint Ctarget, we search over the probability threshold αfor the binary classification\ndecision to identify the configuration that maximizes validation accuracy while satisfying the cost constraint. This allows us\nto adapt the trained model to different cost-accuracy operating points without retraining.\nC. Outlier Analysis\nC.1. Outlier Generation Strategy\nTo identify and filter outliers in our training datasets, we employ a consensus-based approach that leverages the agreement\npatterns across different hint sizes. For each sample, we generate SLM responses across 11 different hint-size configurations\nand compare them with the ground truth. At each hint size level, we classify the outcome as an outlier if the minority class\n(correct or incorrect) occurs, and as normal otherwise. We then aggregate these binary outlier flags to compute k, the total\nnumber of outliers per sample across all hint size settings.\nSamples with high outlier counts (e.g., k≥threshold ) exhibit inconsistent behavior across varying hint sizes and may\nintroduce noise during training. We therefore filter out such samples to refine the dataset quality.",
+      "section": "References",
+      "char_count": 1139,
+      "chunk_index": 53,
+      "page_numbers": [
+        12
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0054",
+      "source_id": "LLMShepherding_2026",
+      "text": "outlier counts (e.g., k≥threshold ) exhibit inconsistent behavior across varying hint sizes and may\nintroduce noise during training. We therefore filter out such samples to refine the dataset quality. Figures 4 and 5 illustrate\nthe distribution of outlier counts for the CNK12 and GSM8K datasets, respectively.\n0 1 2 3 4 5 6 7 8 9 10 11\nNumber of outliers in a row (k)0500100015002000250030003500Number of rows3636\n2563\n2175\n1909 1900\n17391651\n1522 1535\n139214481526Outlier Distribution\nFigure 4.Outlier distribution for CNK12 dataset.\nNote that we apply this outlier filtering strategy only to CNK12 and GSM8K, as these datasets contain sufficient training\nsamples to justify statistical filtering. For HumanEval, which consists of only 165 problems designed specifically for\nevaluation purposes, we do not perform outlier analysis. Similarly, the MBPP dataset contains only 374 samples in its\ntraining set, making it impractical to remove additional samples without significantly reducing the training data size.\nTherefore, no outlier filtering is applied to HumanEval or MBPP.",
+      "section": "References",
+      "char_count": 1079,
+      "chunk_index": 54,
+      "page_numbers": [
+        12
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0055",
+      "source_id": "LLMShepherding_2026",
+      "text": "samples in its\ntraining set, making it impractical to remove additional samples without significantly reducing the training data size.\nTherefore, no outlier filtering is applied to HumanEval or MBPP.\n12\n\nLLM Shepherding\n0 1 2 3 4 5 6 7 8 9 10 11\nNumber of outliers in a row (k)01000200030004000Number of rows4286\n1208\n376251 239 193111 95 58 45 69Outlier Distribution\nFigure 5.Outlier distribution for GSM8K dataset.\nD. Heavy-Tailed Distribution of Hint Sizes\nAs mentioned in Section 3, the distribution of required hint sizes exhibits a pronounced heavy-tailed characteristic. Figure 6\nand Figure 7 illustrate this distribution across our training datasets CNK12 and GSM8K, respectively.\nThe distributions across both datasets demonstrate several key properties that motivate our two-stage prediction approach:\n•Dataset-dependent class imbalance:The proportion of queries requiring hints varies significantly between datasets.\nGSM8K shows extreme imbalance with 80.6% (6,026 out of 7,473) requiring no hint, while CNK12 is more balanced\nwith 46.7% (10,736 out of 22,996) requiring no hint.",
+      "section": "References",
+      "char_count": 1090,
+      "chunk_index": 55,
+      "page_numbers": [
+        12
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0056",
+      "source_id": "LLMShepherding_2026",
+      "text": "aries significantly between datasets.\nGSM8K shows extreme imbalance with 80.6% (6,026 out of 7,473) requiring no hint, while CNK12 is more balanced\nwith 46.7% (10,736 out of 22,996) requiring no hint. This dataset-dependent behavior necessitates a flexible approach\nthat can handle varying levels of class imbalance.\n•Consistent heavy-tail structure:Despite different absolute proportions, both datasets exhibit similar exponential\ndecay patterns in their hint size distributions. In CNK12, the distribution decays from 13.6% (10% hints) to 1.4% (90%\nhints), while in GSM8K it decays from 6.6% (10% hints) to 0.4% (90% hints). The consistent decay ratio across hint\nsizes (approximately 0.6-0.8×) confirms the heavy-tailed nature.\n•High variance:The standard deviation of hint sizes (computed only for queries requiring hints, i.e., >0% ) is\nsubstantial in both datasets. Directly regressing on raw token counts would be highly sensitive to these large values,\nmotivating our log-transformation strategy:r(q) = log(1 + ˜n∗(q))to compress the target range.",
+      "section": "References",
+      "char_count": 1055,
+      "chunk_index": 56,
+      "page_numbers": [
+        13
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0057",
+      "source_id": "LLMShepherding_2026",
+      "text": "n both datasets. Directly regressing on raw token counts would be highly sensitive to these large values,\nmotivating our log-transformation strategy:r(q) = log(1 + ˜n∗(q))to compress the target range.\n•Variable unsolvability rates:The proportion of queries unsolvable even with 90% hints varies substantially: 8.7%\n(2,008) in CNK12 versus only 1.3% (97) in GSM8K. This indicates CNK12 contains more inherently challenging\nqueries that exceed the SLM’s capabilities even with substantial guidance. These queries are excluded from hint-size\nprediction because they require full LLM deployment.\n•Exponential decay characteristic:Both datasets show clear exponential rather than linear or uniform decay. For\nexample, in CNK12: 13.6% →8.1%→5.8%→4.5%, and in GSM8K: 6.6% →3.0%→2.3%→1.5%. This\npower-law-like behavior distinguishes the distribution from normal or uniform patterns and validates the need for\nspecialized handling.",
+      "section": "References",
+      "char_count": 922,
+      "chunk_index": 57,
+      "page_numbers": [
+        13
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0058",
+      "source_id": "LLMShepherding_2026",
+      "text": "13.6% →8.1%→5.8%→4.5%, and in GSM8K: 6.6% →3.0%→2.3%→1.5%. This\npower-law-like behavior distinguishes the distribution from normal or uniform patterns and validates the need for\nspecialized handling.\nThis heavy-tailed distribution poses significant challenges for direct regression:\n1.A single regression model would struggle to accurately predict both the numerous no-hint cases (which constitute\n47-81% depending on the dataset) and the rare large-hint cases (which are critical for maintaining quality on difficult\nqueries).\n13\n\nLLM Shepherding\n0 10 20 30 40 50 60 70 80 90\nMinimum Hint Size Required (% of Full LLM Response)0200040006000800010000Number of Questions10736\n(46.7%)\n3138\n(13.6%)\n1873\n(8.1%)1338\n(5.8%) 1041\n(4.5%)822\n(3.6%)645\n(2.8%)618\n(2.7%)456\n(2.0%)321\n(1.4%)Total: 22996 queries\nSolvable: 20988 (91.3%)\nUnsolvable: 2008 (8.7%)\nNo hint: 10736 (46.7%)Distribution of Minimum Required Hint Sizes\nFigure 6.Distribution of minimum required hint sizes on CNK12 dataset (22,996 queries).\n2.Standard ℓ2loss would be dominated by reconstruction error on the tail, potentially sacrificing accuracy on the more\nfrequent short-hint cases.",
+      "section": "References",
+      "char_count": 1148,
+      "chunk_index": 58,
+      "page_numbers": [
+        13
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0059",
+      "source_id": "LLMShepherding_2026",
+      "text": "required hint sizes on CNK12 dataset (22,996 queries).\n2.Standard ℓ2loss would be dominated by reconstruction error on the tail, potentially sacrificing accuracy on the more\nfrequent short-hint cases.\n3.The varying class balance between datasets (47-53 split in CNK12 vs 81-19 split in GSM8K) requires flexible handling\nvia weighted sampling to ensure robust decision boundaries across different data distributions.\n4.The presence of unsolvable queries (1.3-8.7% depending on dataset) necessitates explicit handling to avoid the model\nattempting to predict hints for inherently infeasible cases.\nOur two-stage approach—first classifying whether any hint is needed, then predicting the size only for positive\ncases—naturally decomposes this challenging distribution into two more manageable sub-problems: a balanced binary\nclassification (via weighted sampling that adapts to dataset-specific imbalance) and a regression on the conditional distri-\nbution p(n∗|n∗>0) , which, while still heavy-tailed, excludes the dominant zero mass and focuses modeling capacity on\nthe continuous range of hint sizes.",
+      "section": "References",
+      "char_count": 1100,
+      "chunk_index": 59,
+      "page_numbers": [
+        14
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0060",
+      "source_id": "LLMShepherding_2026",
+      "text": "e) and a regression on the conditional distri-\nbution p(n∗|n∗>0) , which, while still heavy-tailed, excludes the dominant zero mass and focuses modeling capacity on\nthe continuous range of hint sizes. This decomposition proves robust across datasets with varying difficulty profiles, as\nevidenced by the consistent performance on both the balanced CNK12 and the imbalanced GSM8K datasets.\nE. Prompting Details\nThis section provides detailed prompting procedures used for large-model hint generation, small-model inference, and\nshepherding supervision.\nE.1. Prompt Template\nAcross all datasets, the small or large model receives the query with the same instructions and, when available, a generated\nlarge-model hint as additional contextual input. The general prompt structure is:\nInstruction:Produce a final answer following the task-specific constraints.\nQuestion:{query}\nHint:{generated large-model output}\nWhen no hint is provided, the prompt is identical except that theHint:line is omitted.\nGSM8K:We use a fixed few-shot prompt consisting of two example question–answer pairs, followed by the target query.\nWhen available, a generated large-model hint is appended as additional context.",
+      "section": "References",
+      "char_count": 1191,
+      "chunk_index": 60,
+      "page_numbers": [
+        14
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0061",
+      "source_id": "LLMShepherding_2026",
+      "text": "ted.\nGSM8K:We use a fixed few-shot prompt consisting of two example question–answer pairs, followed by the target query.\nWhen available, a generated large-model hint is appended as additional context.\n14\n\nLLM Shepherding\n0 10 20 30 40 50 60 70 80 90\nMinimum Hint Size Required (% of Full LLM Response)0100020003000400050006000Number of Questions6026\n(80.6%)\n(6.6%) 222\n(3.0%)174\n(2.3%)111\n(1.5%)122\n(1.6%)87\n(1.2%)69\n(0.9%)44\n(0.6%)31\n(0.4%)Total: 7473 queries\nSolvable: 7376 (98.7%)\nUnsolvable: 97 (1.3%)\nNo hint: 6026 (80.6%)Distribution of Minimum Required Hint Sizes\nFigure 7.Distribution of minimum required hint sizes on GSM8K dataset (7,473 queries).\nMBPP:The small and large models receive the function specifications, function signature, and provided test cases, along\nwith the generated large-model hint if available. The model is instructed to generate only executable Python code, without\nadditional explanation. The prompt structure otherwise follows the general template above.\nHumanEval:Follows the same prompting procedure as MBPP; however, the test cases and function signature are already\nincluded in the dataset’s original prompt.",
+      "section": "References",
+      "char_count": 1149,
+      "chunk_index": 61,
+      "page_numbers": [
+        14
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0062",
+      "source_id": "LLMShepherding_2026",
+      "text": "erwise follows the general template above.\nHumanEval:Follows the same prompting procedure as MBPP; however, the test cases and function signature are already\nincluded in the dataset’s original prompt.\nCNK12:Follows the same prompt template as GSM8K but uses single-shot prompting without example question–answer\npairs.\nF. Method Configurations for Minimum Accuracy Experiments\nTable 5 details the hyperparameter settings used for each method across all datasets in the minimum accuracy requirement\nexperiments (Section 4.3). Each baseline is tuned to achieve accuracy closest to the 90% LLM accuracy threshold on each\ndataset. For RouteLLM, the values shown in the table are for the routing threshold. For FrugalGPT, the values represent\nthe confidence threshold below which queries are escalated to the LLM. GraphRouter uses either its “Performance First”\n(P.F.) mode, which prioritizes accuracy, or an additional bias term added to increase cost orientation. ABC uses its default\nconfiguration with N= 2 , checking agreement between two SLM responses before escalating to the LLM.",
+      "section": "References",
+      "char_count": 1082,
+      "chunk_index": 62,
+      "page_numbers": [
+        15
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0063",
+      "source_id": "LLMShepherding_2026",
+      "text": "tizes accuracy, or an additional bias term added to increase cost orientation. ABC uses its default\nconfiguration with N= 2 , checking agreement between two SLM responses before escalating to the LLM. For Reactive\nShepherding, ηhintdenotes the hint token budget; Kdenotes the number of SLM responses used in consensus evaluation,\nandαdenotes the probability threshold for the binary hint classification decision.\nTable 5.Method configurations for minimum accuracy experiments. P.F. = Performance First mode; Bias = additive term to increase cost\norientation.\nMethod GSM8K CNK12 HumanEval MBPP\nRouteLLM 0.48 0.57 0.70 0.58\nGraphRouter P.F. P.F. P.F. +4×10−7Bias P.F.\nFrugalGPT 0.0006 0.001 0.001 0.00016\nABCN= 2N= 2N= 2N= 2\nReactive Shepherdingηhint= 58\nK= 3,α= 0.228ηhint= 60\nK= 2,α= 0.349ηhint= 110\nK= 2,α= 0.228ηhint= 130\nK= 2,α= 0.372\n15\n\nLLM Shepherding\nG. More Related Works\nExisting techniques for efficient, accurate, or low-cost SLM-LLM collaborative inference include: 1) LLM routing, 2) LLM\ncascading, 3) speculative decoding, and 4) knowledge distillation.\nG.1.",
+      "section": "References",
+      "char_count": 1072,
+      "chunk_index": 63,
+      "page_numbers": [
+        15
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0064",
+      "source_id": "LLMShepherding_2026",
+      "text": "d Works\nExisting techniques for efficient, accurate, or low-cost SLM-LLM collaborative inference include: 1) LLM routing, 2) LLM\ncascading, 3) speculative decoding, and 4) knowledge distillation.\nG.1. LLM Routing\nLLM routing addresses cost-quality trade-offs by using a learned router to decidea prioriwhich model should handle a given\nquery. Early work byLu et al.(Lu et al., 2024) introducedZooter, a reward-guided routing method that distills rewards from\ntraining queries to learn a routing function, achieving top performance on 44% of tasks across 26 benchmark subsets while\nmaintaining computational efficiency. Building on this foundation,Hybrid-LLM(Ding et al., 2024) proposed quality-aware\nquery routing that dynamically trades quality for cost based on predicted query difficulty, achieving up to 40% fewer calls to\nlarge models with no quality degradation.RouterBench(Hu et al., 2024) subsequently established a standardized evaluation\nframework comprising over 405k inference outcomes fr",
+      "section": "References",
+      "char_count": 1000,
+      "chunk_index": 64,
+      "page_numbers": [
+        16
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0065",
+      "source_id": "LLMShepherding_2026",
+      "text": "g up to 40% fewer calls to\nlarge models with no quality degradation.RouterBench(Hu et al., 2024) subsequently established a standardized evaluation\nframework comprising over 405k inference outcomes from representative LLMs, enabling systematic comparison of routing\nstrategies.RouteLLM(Ong et al., 2025) advanced the field by introducing a principled framework for learning routers from\nhuman preference data, demonstrating cost reductions of over 85% on MT-Bench and 35% on GSM8K while maintaining\n95% of GPT-4’s performance. Most recently,GraphRouter(Feng et al., 2025) proposed an inductive graph framework\nthat models contextual interactions among tasks, queries, and LLMs as a heterogeneous graph, achieving at least 12.3%\nimprovement over prior routers and enhanced generalization to unseen LLMs.\nDespite these advances, routing exhibits a fundamental structural limitation: the decision is inherently binary (SLM or\nLLM), and when the LLM is selected, the system incurs the full inference cost. Routing does not facilitate partial reuse of\nLLM knowledge, rendering it insufficiently flexible for strict cost constraints.\nG.2.",
+      "section": "References",
+      "char_count": 1132,
+      "chunk_index": 65,
+      "page_numbers": [
+        16
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0066",
+      "source_id": "LLMShepherding_2026",
+      "text": "when the LLM is selected, the system incurs the full inference cost. Routing does not facilitate partial reuse of\nLLM knowledge, rendering it insufficiently flexible for strict cost constraints.\nG.2. LLM Cascading\nLLM cascading arranges models hierarchically, escalating queries to more capable models when weaker models fail quality\ncriteria.FrugalGPT(Chen et al., 2024) pioneered this approach, demonstrating up to 98% cost reduction by learning which\nLLM combinations to use per query.LLM-Blender(Jiang et al., 2023) introduced an ensemble perspective, using pairwise\nranking to select among candidate outputs and generative fusion to merge top candidates.AutoMix(Aggarwal et al., 2024)\nadvanced cascading through few-shot self-verification and POMDP-based routing, reducing costs by over 50%. Recent\nwork has explored both learned and training-free approaches:C3PO(Chen et al., 2025) provides label-free cascading with\nformal cost guarantees, whileAgreement-Based Cascading (ABC)(Kolawole et al., 2025) proposes a simple, training-free\nstrategy where escalation decisions are based on agreement among an ensemble of model responses.",
+      "section": "References",
+      "char_count": 1136,
+      "chunk_index": 66,
+      "page_numbers": [
+        16
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0067",
+      "source_id": "LLMShepherding_2026",
+      "text": "uarantees, whileAgreement-Based Cascading (ABC)(Kolawole et al., 2025) proposes a simple, training-free\nstrategy where escalation decisions are based on agreement among an ensemble of model responses. In our single-SLM\nsetting, we adapt ABC by measuring consensus across multiple responses from the same SLM.\nWhile cascading reduces average cost, it remains ill-suited for strict budget constraints: SLMs frequently fail on complex\ntasks, triggering full LLM inference. Each escalation requires a complete LLM forward pass, limiting cost savings when\nSLM reliability is low.\nG.3. Speculative Decoding\nSpeculative decoding (Leviathan et al., 2023; Chen et al., 2023) is a widely adopted technique for accelerating LLM\ninference without sacrificing output quality. The approach uses a smallerdraft modelto generate candidate token sequences,\nwhich are then verified in parallel by the largertarget model.",
+      "section": "References",
+      "char_count": 902,
+      "chunk_index": 67,
+      "page_numbers": [
+        16
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0068",
+      "source_id": "LLMShepherding_2026",
+      "text": "celerating LLM\ninference without sacrificing output quality. The approach uses a smallerdraft modelto generate candidate token sequences,\nwhich are then verified in parallel by the largertarget model. Tokens that match the target model’s distribution are accepted,\namortizing the cost of large-model inference across multiple tokens.Medusa(Cai et al., 2024) extends this idea by adding\nmultiple decoding heads to the LLM itself, eliminating the need for a separate draft model.Draft & Verify(Zhang et al.,\n2024) achieves self-speculative decoding by selectively skipping intermediate layers during drafting, providing up to 2 ×\nspeedup without additional training.Online Speculative Decoding(Liu et al., 2024) continuously adapts the draft model\nduring inference to improve token acceptance rates.\nWhile speculative decoding and shepherding both involve collaboration between small and large models, their objectives\ndiffer fundamentally. Speculative decoding aims toaccelerateLLM inference by parallelizing token verification, but the\nlarge model remains involved in checking every output token.",
+      "section": "References",
+      "char_count": 1096,
+      "chunk_index": 68,
+      "page_numbers": [
+        16
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0069",
+      "source_id": "LLMShepherding_2026",
+      "text": "ls, their objectives\ndiffer fundamentally. Speculative decoding aims toaccelerateLLM inference by parallelizing token verification, but the\nlarge model remains involved in checking every output token. In contrast, shepherding aims tominimizeLLM usage by\nhaving the SLM produce the final response with only partial LLM guidance.\n16\n\nLLM Shepherding\nG.4. Knowledge Distillation\nKnowledge distillation (KD) (Hinton et al., 2015) transfers capabilities from a large teacher model to a smaller student\nmodel during training. Recent work has extended KD to LLMs:MiniLLM(Gu et al., 2024) proposes reverse KL divergence\nas the distillation objective, which better suits generative language models by preventing the student from overestimating\nlow-probability regions.Distilling Step-by-Step(Hsieh et al., 2023) extracts chain-of-thought rationales from LLMs to\ntrain smaller models more data-efficiently, enabling a 770M-parameter model to outperform few-shot prompted 540B PaLM.\nComprehensive surveys (Gou et al., 2021; Xu et al., 2024) provide extensive coverage of KD techniques for LLMs, including\nskill-specific and domain-specific distillation.",
+      "section": "References",
+      "char_count": 1142,
+      "chunk_index": 69,
+      "page_numbers": [
+        16
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0070",
+      "source_id": "LLMShepherding_2026",
+      "text": "few-shot prompted 540B PaLM.\nComprehensive surveys (Gou et al., 2021; Xu et al., 2024) provide extensive coverage of KD techniques for LLMs, including\nskill-specific and domain-specific distillation.\nKnowledge distillation and shepherding are complementary but distinct. KD is atraining-timetechnique: once distillation is\ncomplete, the student model operates independently at inference. Shepherding, in contrast, is aninference-timecollaboration\nthat dynamically injects LLM hints based on each query’s difficulty. KD improves the SLM’s baseline capability, while\nshepherding provides targeted assistance when that baseline proves insufficient.\nG.5. Positioning of LLM Shepherding\nOur work differs fundamentally from all the above approaches. Unlike routing and cascading, which make binary decisions\naboutwhichmodel generates the complete response, shepherding controlshow muchLLM output to request, enabling a\ncontinuous trade-off between cost and quality. Unlike speculative decoding, which accelerates LLM inference while keeping\nthe LLM in the critical path for every token, shepherding removes the LLM from final response generation entirely.",
+      "section": "References",
+      "char_count": 1149,
+      "chunk_index": 70,
+      "page_numbers": [
+        17
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    },
+    {
+      "chunk_id": "LLMShepherding_2026_chunk_0071",
+      "source_id": "LLMShepherding_2026",
+      "text": "d quality. Unlike speculative decoding, which accelerates LLM inference while keeping\nthe LLM in the critical path for every token, shepherding removes the LLM from final response generation entirely. Unlike\nknowledge distillation, which operates during training, shepherding provides dynamic, query-specific guidance at inference\ntime.\nShepherding complements existing approaches: proactive shepherding enhances routing by replacing full LLM calls\nwith partial hints, reactive shepherding enhances cascading by substituting full escalations with targeted guidance, and\nshepherding can be combined with distilled SLMs for further improvements. To our knowledge, this is the first work to\nexploit token-level budget control for SLM-LLM collaboration.\n17",
+      "section": "References",
+      "char_count": 752,
+      "chunk_index": 71,
+      "page_numbers": [
+        17
+      ],
+      "source_file": "LLMShepherding_2026_2601_22132.pdf",
+      "total_source_pages": 17
+    }
+  ]
+}

@@ -1,0 +1,896 @@
+{
+  "source_id": "SmolLM_2024",
+  "metadata": {
+    "title": "SmolLM - blazingly fast and remarkably powerful",
+    "authors": "Hugging Face Team",
+    "year": "2024",
+    "venue": "arXiv",
+    "url": "https://arxiv.org/abs/2410.16678",
+    "source_type": "peer-reviewed",
+    "relevance_note": "Very recent tiny models (Oct 2024) - 135M/360M/1.7B variants optimized for edge deployment"
+  },
+  "pdf_metadata": {
+    "title": "",
+    "author": "",
+    "total_pages": 33
+  },
+  "statistics": {
+    "total_pages": 33,
+    "total_chunks": 67,
+    "avg_chunk_size": 1060.8955223880596,
+    "ingestion_timestamp": "2026-02-02T19:03:50.778719"
+  },
+  "chunks": [
+    {
+      "chunk_id": "SmolLM_2024_chunk_0000",
+      "source_id": "SmolLM_2024",
+      "text": "arXiv:2410.16678v1 [gr-qc] 22 Oct 2024Impact of f(Q)Theory on the\nStability of Compact Spherical\nSolutions\nShamaila Rani1,2∗, Muhammad Adeel2†, M. Zeeshan Gul3,4‡,\nand Abdul Jawad1,2§1Institute for Theoretical Physics and Cosmology,\nZhejiang University of Technology, Hangzhou 310023, China\n2Department of Mathematics, COMSATS University Islamabad,\nLahore-Campus, Lahore-54000, Pakistan.\n3Department of Mathematics and Statistics, The University\nof Lahore 54792, Pakistan.\n4Research Center of Astrophysics and Cosmology, Khazar Univ ersity,\nBaku, AZ1096, 41 Mehseti Street, Azerbaijan.",
+      "section": "Header/Title",
+      "char_count": 585,
+      "chunk_index": 0,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0001",
+      "source_id": "SmolLM_2024",
+      "text": "Abstract\nThis research paper examines the feasibility and stability of com-\npact stars in the context of f(Q) theory, where Qrepresents the non-\nmetricity scalar. To achieve this objective, a static spher ical line ele-\nmentisassumedintheinteriorregionandtheSchwarzschild spacetime\nis used in the exterior region of the star. The unknown consta nts are\ndetermined by using the Darmois junction conditions. We con sider\na specific model of this theory to investigate the viability o f compact\nstars through various physical quantities such as matter co ntents, en-\nergy bounds, anisotropy and state parameters. The stabilit y states for\nthe stellar objects under consideration are determined by t he speed\n \n\n\n \n1\n\nof sound and adiabatic index, respectively. The resulting d ata indi-\ncate that the compact stars in this modified framework are phy sically\nviable and stable.\nKeywords: Modified gravitational theory; Stellar structures; Stability anal-\nysis.",
+      "section": "Abstract",
+      "char_count": 956,
+      "chunk_index": 1,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0002",
+      "source_id": "SmolLM_2024",
+      "text": ". The resulting d ata indi-\ncate that the compact stars in this modified framework are phy sically\nviable and stable.\nKeywords: Modified gravitational theory; Stellar structures; Stability anal-\nysis.\nPACS:98.35.Ac; 98.80.Jk; 04.50.Kd; 04.40.Dg.",
+      "section": "Abstract",
+      "char_count": 245,
+      "chunk_index": 2,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0003",
+      "source_id": "SmolLM_2024",
+      "text": "1 Introduction\nThe recent advancements in gravitational physics and cosmic scien ce have\nbrought significant attention to the rapid expansion of the univers e [1]-[2].\nThese developments have provided new insights into understanding the fun-\ndamental and practical modifications that contribute to the rapid growth\nof galaxies. Many results have provided strong evidence to unders tand the\nexpansion of the universe [3]-[5]. The universe is expanding faster th an ever\nbefore due to an unknown factor known as dark energy. Moreove r, it is es-\ntimated that 68 percent of total energy is unexplained in the form o f DE.\nTherefore, researchers need to make some modifications to the g eneral theory\nof relativity (GR) to determine the cosmic expansion. These kinds of stud-\nies encourage researchers to investigate viable modifications or ex tensions of\ngravity theories that could simulate the situations when the GR yields un-\nfavorable results. Cosmologists have explored some alternative gr avitational\ntheories in response to the limitations of GR. There are different for ms of\nmodified theories such as curvature, torsion and non-metricity-b ased theories\n[6]-[17].",
+      "section": "1 Introduction",
+      "char_count": 1170,
+      "chunk_index": 3,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0004",
+      "source_id": "SmolLM_2024",
+      "text": "ed some alternative gr avitational\ntheories in response to the limitations of GR. There are different for ms of\nmodified theories such as curvature, torsion and non-metricity-b ased theories\n[6]-[17].\nModified theories of gravity successfully offer the alternative expla nations\nto GR by addressing unsolved issues of the universe. Recently, ext ensive re-\nsearch has delved into the implications of modified theories. Weyl inhis work\n[18] integrated electromagnetic and gravitational forces into a mo re generic\ngeometry by introducing the concept of non-metricity (covariant divergence\nis zero for metric tensor). Cartan [19] developed the Einstein-Ca rtan theory\nby extending GR in the presence of torsion field. Weitzenbock space [20]\nfeatures zero curvature and torsion replaces curvature in telep arallel theory.\nIntroduction of non-metric variables such as the non-metricity in s ymmetric\nteleparallel gravity, further refines this framework. Notably, bo thtorsionand\ncurvature remain zero in this formulation.",
+      "section": "1 Introduction",
+      "char_count": 1017,
+      "chunk_index": 4,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0005",
+      "source_id": "SmolLM_2024",
+      "text": ".\nIntroduction of non-metric variables such as the non-metricity in s ymmetric\nteleparallel gravity, further refines this framework. Notably, bo thtorsionand\ncurvature remain zero in this formulation.\n2\n\nThef(Q) theory explores an alternative route where non-metricity is the\ndriving factor, capturing considerable attention among research ers due to\nits profound implications in gravitational physics. The exploration of this\ntheory is motivated by a desire to understand its theoretical implica tions\nand significance in astrophysical as well as cosmological contexts. Inf(Q)\ntheory, the inclusion of non-metricity enables a more detailed depict ion of\ngravitational interactions. Non-metricity represents the deviat ion from the\nLevi-Civita connection, which is the connection compatible with the me tric\ntensor in GR. By incorporating non-metricity into the gravitational action,\nthis theory introduces additional degrees of freedom, leading to n ew gravita-\ntional dynamics and cosmological solutions. This modification influenc es the\ninternal structure of pulsars, leading to alterations in the pressu re-density\nrelationship and changes in stellar radii and mass profiles.",
+      "section": "1 Introduction",
+      "char_count": 1180,
+      "chunk_index": 5,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0006",
+      "source_id": "SmolLM_2024",
+      "text": "nd cosmological solutions. This modification influenc es the\ninternal structure of pulsars, leading to alterations in the pressu re-density\nrelationship and changes in stellar radii and mass profiles. Conseque ntly,\nthe equations of motion derived from this theory impact the hydros tatic\nequilibrium and stability of stars. Neutron stars serve as prime sour ces of\ngravitational waves which exhibit distinct signatures under the influ ence of\nf(Q) gravity, differing from those predicted by GR. Noteworthy, outc omes\nhighlight the presence of additional correction terms, potentially in fluencing\nthe geometric viability when compared to GR. The exploration of this t he-\nory is motivated by a desire to understand its theoretical implication s and\nsignificance in astrophysical as well as cosmological contexts.\nThe non-metricity is a mathematical concept that emerges in theor ies in-\nvolving non-Riemannian geometries, providing an alternative cosmic m odel\nwithout dark energy.",
+      "section": "1 Introduction",
+      "char_count": 982,
+      "chunk_index": 6,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0007",
+      "source_id": "SmolLM_2024",
+      "text": "well as cosmological contexts.\nThe non-metricity is a mathematical concept that emerges in theor ies in-\nvolving non-Riemannian geometries, providing an alternative cosmic m odel\nwithout dark energy. Researchers are drawn to explore non-Riem annian ge-\nometry, specifically f(Q) theory, for various reasons such as its theoretical\nimplications, compatibilitywithobservationaldataanditssignificance incos-\nmologicalcontexts[21]. Recentinvestigationsinto f(Q)gravityhaverevealed\ncosmic issues and observational constraints can be employed to ind icate de-\nviations from the Λ CDMmodel [22]. Spherical symmetric configurations in\nf(Q) gravity have been analyzed in [23]. Ambrosio [24] described pertur ba-\ntion corrections to the Schwarzschild solution in the same theory. A mbrosio\net al [25] delved into the asymptotic behavior of Schwarzschild-like s olutions\ninf(Q) theory. The non-metricity scalar has been employed to detect th e\neffects of microscopic systems in [26]. The viable cosmological solution s in\nsymmetric teleparallel gravity throughtheNoether symmetry tec hnique have\nbeen explored in [27].",
+      "section": "1 Introduction",
+      "char_count": 1107,
+      "chunk_index": 7,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0008",
+      "source_id": "SmolLM_2024",
+      "text": "n employed to detect th e\neffects of microscopic systems in [26]. The viable cosmological solution s in\nsymmetric teleparallel gravity throughtheNoether symmetry tec hnique have\nbeen explored in [27]. Barros et al [28] analyzed the cosmic charact eristics\nthrough redshift space distortion data in non-metricity gravity. T his modi-\nfied theory can elucidate the cosmic bounce scenario [29] and desc ribes dark\n3\n\nenergy features at large scales [30]. For further details, we refer the readers\nto [31]-[36].\nAdak [37] studied the symmetric teleparallel gravity model in which on ly\nnon-metricity is non-zero. They obtained a spherically symmetric st atic solu-\ntion to Einstein equation in symmetric teleparallel gravity and discuss ed the\nsingularities. Nester and Yo [38] studied teleparallel geometry with z ero cur-\nvature and torsion while non-zero nonmetricity behaves as the gra vitational\nforce. Adak and Sert [39] explored a gravity model that is charact erized\nby nonmetricity, discovering that the horizon becomes singular in sy mmetric\nteleparallel gravity.",
+      "section": "1 Introduction",
+      "char_count": 1069,
+      "chunk_index": 8,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0009",
+      "source_id": "SmolLM_2024",
+      "text": "haves as the gra vitational\nforce. Adak and Sert [39] explored a gravity model that is charact erized\nby nonmetricity, discovering that the horizon becomes singular in sy mmetric\nteleparallel gravity. Adak et al [40] formulated a symmetric telepa rallel grav-\nity model incorporating the Lagrangian in the non-metricity tensor , compre-\nhensively analyzing the variations applicable to gravitational formula tions.\nThey derived a set of solutions encompassing Schwarzschild, Schwa rzschild-\nde Sitter and Reissner-Nordstrom solutions for specific parametr ic values.\nThe spherical symmetric configuration in f(Q) gravity was investigated in\n[41]. Maurya et al [42] noted the significant impact of the nonmetricit y pa-\nrameter and decoupling constant on the stability of CSs in f(Q) gravity.\nAdak et al [43] delved into the broader realm of teleparallel geometr y us-\ning differential forms. Their exploration encompassed the examinat ion of\nspecific instances such as metric and symmetric teleparallelism. They pro-\nvided insights into the connections between formulations employing g auge\nfixings and those without gauge fixing.",
+      "section": "1 Introduction",
+      "char_count": 1130,
+      "chunk_index": 9,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0010",
+      "source_id": "SmolLM_2024",
+      "text": "inat ion of\nspecific instances such as metric and symmetric teleparallelism. They pro-\nvided insights into the connections between formulations employing g auge\nfixings and those without gauge fixing. Additionally, the researcher s intro-\nduced a technique for transforming Riemannian geometries into tele parallel\nstructures.\nCosmologicalobservationsrevealedthattheuniverseisoriginated through\na significant expansion of matter and energy. Scientists raise spar king nu-\nmerous inquiries among the formation, evolution and structure of t he uni-\nverse. Delving into the enigmatic features of the universe cosmolog ists have\nfocused on the roles played by galaxies, planets, clusters and star s. Cosmol-\nogy also elucidates fundamental processes such as the evolution a nd ultimate\nfate of stars. In maintaining its equilibrium, star relay on the delicate bal-\nance between inward gravitational force and outward matter pre ssure. This\nequilibrium becomes precarious when pressure is insuﬃcient to count erbal-\nance the gravity, resulting in collapse of the star. This collapse gives rise to\nnew compact objects with reduced radii known as compact remnan ts.",
+      "section": "1 Introduction",
+      "char_count": 1158,
+      "chunk_index": 10,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0011",
+      "source_id": "SmolLM_2024",
+      "text": "ecarious when pressure is insuﬃcient to count erbal-\nance the gravity, resulting in collapse of the star. This collapse gives rise to\nnew compact objects with reduced radii known as compact remnan ts. Many\nresearchers have been intrigued by the nature and precise compo sition of\ncompact stars (CSs).\nAmong these celestial bodies, neutron stars have garnered signifi cant in-\n4\n\nterest due to their captivating properties and structures. Baad e and Zwicky\n[44] delved into the geometry of CSs attributing their formation to s uper-\nnovae and confirming their existence with the discovery of pulsars [ 45]. The\npresence of neutron stars becomes valid by identification of pulsar s which\ncaptivate the researchers to analysis its various attributes. Dev and Gleiser\n[46] explored physical attributes of rotating neutron stars. Mak and Harko\n[47] scrutinized the physical characteristics of pulsars assessing their stabil-\nity based on sound speed method. Kalam et al [48] examined viable an d\nstable CSs using Krori-Barua solutions. Rahaman et al [49] investiga ted the\nphysical characteristics of CSs by employing EoS parameters.",
+      "section": "1 Introduction",
+      "char_count": 1128,
+      "chunk_index": 11,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0012",
+      "source_id": "SmolLM_2024",
+      "text": "d on sound speed method. Kalam et al [48] examined viable an d\nstable CSs using Krori-Barua solutions. Rahaman et al [49] investiga ted the\nphysical characteristics of CSs by employing EoS parameters. Mau rya et al\n[50] explore viable characteristics of anisotropic stars by consider ing different\nmetric elements. Singh and Pant [51] applied a similar technique to asce r-\ntain the interior geometry of CSs. Bhar et al [52] assessed viable an d stable\nCSs. Jasim et al [53] delve a non-singular spherical symmetric for a nisotropic\nweird stars using the Tolman-Kuchowicz solution.\nIsotropy(equal principal stresses) isacommonassumptioninthe studyof\nself-gravitatingsystems, whenever thefluidapproximationisused todescribe\nthe matter distribution of the object. This character of fluids is su pported\nby a large amount of observational evidence, pointing towards the equality of\nprincipal stresses under a variety of circumstances. However, s trong theoret-\nical evidences presented in the last decades suggest that for cer tain density\nranges, different kinds of physical phenomena may take place, givin g rise to\nanisotropy.",
+      "section": "1 Introduction",
+      "char_count": 1126,
+      "chunk_index": 12,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0013",
+      "source_id": "SmolLM_2024",
+      "text": "nces. However, s trong theoret-\nical evidences presented in the last decades suggest that for cer tain density\nranges, different kinds of physical phenomena may take place, givin g rise to\nanisotropy. The number of physical processes giving rise to deviat ions from\nisotropy is quite large in both high and low density regimes. Thus, for h ighly\ndense systems, exotic phase transitions may occur during the pro cess of grav-\nitational collapse. The consideration of anisotropic fluids in the cont ext of\nCSs is essential to accurate capture the complex physical phenom ena that\ngovern their structure and stability. The inclusion of anisotropic pr essure al-\nlows for a more realistic representation of matter under extreme c onditions,\nleading to improved theoretical models that align better with observ ational\ndata and predictions regarding stellar evolution, gravitational colla pse and\noscillation modes. In the extreme gravitational environments of CS s, the\npressure and density may not be uniform throughout the star.\nAnisotropic fluids account for the directional dependence of pres sure,\nwhich can arise from several factors such as nuclear interactions , rotation\nand magnetic fields.",
+      "section": "1 Introduction",
+      "char_count": 1196,
+      "chunk_index": 13,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0014",
+      "source_id": "SmolLM_2024",
+      "text": "e uniform throughout the star.\nAnisotropic fluids account for the directional dependence of pres sure,\nwhich can arise from several factors such as nuclear interactions , rotation\nand magnetic fields. At high densities, the interactions between par ticles\ncan create different pressures in different directions due to the infl uence of\nstrong nuclear forces. Rapid rotation and strong magnetic fields c an in-\n5\n\nduce anisotropic pressure distributions. For instance, a rotating star may\nexperience greater pressure along its equatorial plane compared to its poles.\nAnisotropic models allow for a more flexible and realistic equation of sta te\nthat can better describe the thermodynamic properties of the ma tter in\nthese stars. In dense astrophysical environments, matter may undergo phase\ntransitions (e.g., from hadronic matter to quark-gluon plasma), lea ding to\nanisotropic pressure components. Anisotropic fluids can lead to diff erent sta-\nbility conditions compared to isotropic ones.",
+      "section": "1 Introduction",
+      "char_count": 992,
+      "chunk_index": 14,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0015",
+      "source_id": "SmolLM_2024",
+      "text": "ransitions (e.g., from hadronic matter to quark-gluon plasma), lea ding to\nanisotropic pressure components. Anisotropic fluids can lead to diff erent sta-\nbility conditions compared to isotropic ones. In CS models, stability ag ainst\ngravitational collapse and oscillation modes can be better understo od with\nanisotropicpressures, which might stabilize certainconfigurations that would\nbe unstable in isotropic models. Anisotropic pressure can play a cruc ial role\nin avoiding singularities within the star, allowing for solutions that are p hys-\nically viable. The detection of gravitational waves from neutron sta r mergers\nhas revealed complex dynamics that can be modeled more accurately with\nanisotropic fluid dynamics, reflecting the actual physical process es at play.\nAnisotropic models can provide a richer structure for the field equa tions, en-\nabling solutions that capture the complex nature of CSs. The influen ce of\nanisotropy has been extensively studied in [54]-[68].\nIn the study of CSs, the assumption of isotropic pressure might be con-\nvenient for simplification, but it often fails to capture the complex dy namics\npresent in these objects.",
+      "section": "1 Introduction",
+      "char_count": 1163,
+      "chunk_index": 15,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0016",
+      "source_id": "SmolLM_2024",
+      "text": "studied in [54]-[68].\nIn the study of CSs, the assumption of isotropic pressure might be con-\nvenient for simplification, but it often fails to capture the complex dy namics\npresent in these objects. The physical processes inherent in ste llar evolution,\nincluding dissipative phenomena anddynamic equilibrium, inherently lead to\nthe development of pressure anisotropy, reinforcing the necess ity to consider\nit in our models. Incorporating pressure anisotropy into the modelin g of CSs\nis not merely an academic exercise, but it reflects the underlying phy sical\nrealities of stellar dynamics. The inherent dissipative processes dur ing stel-\nlar evolution guarantee that anisotropic pressures will manifest, s haping the\nfinal equilibrium state. Thus, models that overlook this essential fe ature risk\nfailing to accurately describe the behavior of these fascinating ast rophysi-\ncal objects. Herrera [69] highlighted an important aspect that t he pressure\nanisotropy is not merely a consequence of specific physical conditio ns in com-\npact objects, but is rather an unavoidable outcome of the stellar e volution\nprocess.",
+      "section": "1 Introduction",
+      "char_count": 1124,
+      "chunk_index": 16,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0017",
+      "source_id": "SmolLM_2024",
+      "text": "mportant aspect that t he pressure\nanisotropy is not merely a consequence of specific physical conditio ns in com-\npact objects, but is rather an unavoidable outcome of the stellar e volution\nprocess. The consideration of anisotropic fluids in our model not on ly aligns\nwiththephysical phenomena expectedincompact objectsbutalso accommo-\ndates the natural evolution of pressure anisotropy during the sy stem history.\nBy adopting anisotropic fluid models, researchers can better capt ure the es-\nsential characteristics of CSs, leading to more accurate predictio ns of their\nbehavior such as mass-radius relationships and stability criteria.\n6\n\nIn astrophysics, CSs are objects that possess incredibly high den sities\nand are supported by the balance between gravity and pressure d ue to their\nmatter composition. To describe the internal structure and grav itational\nproperties of such stars, it is crucial to find suitable solutions to th e Einstein\nfieldequationsthataccountforthebehaviorofmatterunderext remegravita-\ntional and pressure conditions. One such solution is the Tolman-Kuc howicz\nspacetime.",
+      "section": "1 Introduction",
+      "char_count": 1106,
+      "chunk_index": 17,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0018",
+      "source_id": "SmolLM_2024",
+      "text": "l to find suitable solutions to th e Einstein\nfieldequationsthataccountforthebehaviorofmatterunderext remegravita-\ntional and pressure conditions. One such solution is the Tolman-Kuc howicz\nspacetime. The Tolman-Kuchowicz spacetime is a specific solution to t he\nfield equations that has been applied to model the interior structur e of CSs,\nsuch as neutron stars. The motivation for using this spacetime lies in cap-\nturing the essential physical properties of dense stellar objects and providing\na framework for studying the behavior of matter and spacetime in e xtreme\nconditions. The Tolman-Kuchowicz spacetime is designed to satisfy s everal\nphysical conditionsnecessary forrealisticstellar models, i.e., regula rityatthe\ncenter. The metric components are regular at the center of the s tar, avoiding\nsingularities and providing a smooth geometry. The solution can desc ribe\nmatter distributions with decreasing density and pressure from th e center to\nthe surface, mimicking the expected physical behavior of CS interio rs.",
+      "section": "1 Introduction",
+      "char_count": 1029,
+      "chunk_index": 18,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0019",
+      "source_id": "SmolLM_2024",
+      "text": "ding a smooth geometry. The solution can desc ribe\nmatter distributions with decreasing density and pressure from th e center to\nthe surface, mimicking the expected physical behavior of CS interio rs. Thus,\nthe Tolman-Kuchowicz spacetime is physically motivated in the contex t of\nCSs as it provides an exact solution to the field equations that satisfi es the\nnecessary physical conditions required for realistic models of CSs. It allows\nastrophysicists to explore how extreme densities and pressures in these stars\ninfluence their overall stability, making it a valuable tool for underst anding\nthe nature of compact objects.\nThe gravitational decoupling via complete geometricdeformationme thod\nthat has been introduced to explore the nonmetricity effects in rela tivistic as-\ntrophysics in [70]. Lohakare et al [71] studied simulates strange sta rs inf(Q)\ngravity with an additional source under an electric field using gravita tional\ndecoupling technique. Maurya et al [72] examined compact objects in the\nframework of gravity by employing the method of gravitational dec oupling.",
+      "section": "1 Introduction",
+      "char_count": 1085,
+      "chunk_index": 19,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0020",
+      "source_id": "SmolLM_2024",
+      "text": "l source under an electric field using gravita tional\ndecoupling technique. Maurya et al [72] examined compact objects in the\nframework of gravity by employing the method of gravitational dec oupling.\nKaur et al [73] presented a study on a spherically symmetric anisot ropic so-\nlution in f(Q) gravity in the framework of vanishing complexity formalism.\nMauryaetal[74]attemptedtofindananisotropicsolutionforaCS generated\nby gravitational decoupling in f(Q) gravity theory having a null complex-\nity factor. Maurya et al [75] investigated the effect of f(Q) parameters on\ntwo classes of exact spherically symmetric self-bound isotropic solu tions for\ncompact objects. Kumar et al [76] investigated the physical beh avior and\nstability of charged CSs in f(Q) gravity. Errehymy [77] et al presented a rig-\norous study of compact objects beyond the standard limit in f(Q) gravity in\n7\n\nparticular f(Q) =b1Q+b2, whereb1andb2are constants. Chaudhary et al\n[78] examined the properties of wormhole solutions in the this modified con-\ntext. They analyzed that their findings contribute to the current discussion\nabout alternative gravity theories and exotic spacetime geometrie s.",
+      "section": "1 Introduction",
+      "char_count": 1172,
+      "chunk_index": 20,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0021",
+      "source_id": "SmolLM_2024",
+      "text": "erties of wormhole solutions in the this modified con-\ntext. They analyzed that their findings contribute to the current discussion\nabout alternative gravity theories and exotic spacetime geometrie s. Maurya\net al [79] achieved a significant leap forwardin understanding compa ct stellar\nsystems and the modified f(Q) gravity theory. Their investigation advances\nour knowledge of compact stellar systems and supports the evolut ion of the\nmodified f(Q) theory of gravity, opening the way for more breakthroughs in\nthis field. Maurya et al [80] explored the possibility of existing a novel class\nof compact charged spheres based on a charged perfect fluid in th e realm of\nf(Q) theory. Mustafa et al [81] predicted the mass-radius relation a long with\nthe maximum mass limit of several objects for different parameter v alues by\nassuming two different surface densities and discovered that the c ompactness\nrises when density increases. We have also discussed the compact o bjects in\ndifferent modified theories of gravity [82]-[84].",
+      "section": "1 Introduction",
+      "char_count": 1032,
+      "chunk_index": 21,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0022",
+      "source_id": "SmolLM_2024",
+      "text": "ming two different surface densities and discovered that the c ompactness\nrises when density increases. We have also discussed the compact o bjects in\ndifferent modified theories of gravity [82]-[84].\nJasim et al [85] analyzed a singularity-free model for the spherically sym-\nmetric anisotropic strange stars under Einstein general theory o f relativity\nby exploiting the Tolman-Kuchowicz metric. Biswas et al [86] propos ed a\nrelativistic model of a static spherically symmetric anisotropic stran ge star\nwith the help of Tolman-Kuchowicz metric potentials. Shamir and Fayy az\n[87] presented the Einstein-Maxwell equations which are described by the\nspherically symmetric spacetime in the presence of charge by exploit ing the\nTolman-Kuchowicz spacetime. Shamir and Naz [88] explored some rela tivis-\ntic configurations of stellar objects for static spherically symmetr ic struc-\ntures in the context of modified gravity by exploiting the Tolman-Kuc howicz\nspacetime. Raj et [89] studied the geometry of SAX J 1808.4-3658 C S with\ncharged matter configuration in the framework of modified gravity theory us-\ning the metric potentials proposed by Tolman-Kuchowicz.",
+      "section": "1 Introduction",
+      "char_count": 1165,
+      "chunk_index": 22,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0023",
+      "source_id": "SmolLM_2024",
+      "text": "ime. Raj et [89] studied the geometry of SAX J 1808.4-3658 C S with\ncharged matter configuration in the framework of modified gravity theory us-\ning the metric potentials proposed by Tolman-Kuchowicz. Ditta and X ia [90]\nexplored the stellar structures by employing Karmarkar condition T olman-\nKuchowiz metric components with the anisotropic source of the mat ter dis-\ntribution in the background of Rastall teleparallel gravity. Bandyo padhyay\nand Biswas [91] studied the mass-radius relation of the specific CS in t he\nbackground of the late time accelerated Universe and to achieve th e equa-\ntion of state of the core matter under stable equilibrium in modified gr avity\nusing Tolman-Kuchowicz metric potentials.\nSingh et al [92] examine the physical behavior of CSs through karma rkar\ncondition in f(R,T) theory. The use of karmarkar condition to investi-\ngate the viable behavior of strange stars in f(R,T) theory has been studied\n8\n\nin [93]. Biswas et al [94] proposed a realistic model for a static spheric ally\nsymmetric anisotropic weird star using Tolman-Kuchowicz metric pot entials.",
+      "section": "1 Introduction",
+      "char_count": 1096,
+      "chunk_index": 23,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0024",
+      "source_id": "SmolLM_2024",
+      "text": "e stars in f(R,T) theory has been studied\n8\n\nin [93]. Biswas et al [94] proposed a realistic model for a static spheric ally\nsymmetric anisotropic weird star using Tolman-Kuchowicz metric pot entials.\nShamir and Naz [95] utilized the Tolman-Kuchowicz spacetime to invest igate\nconfigurations of static spherically symmetric structures under a ltered the-\nory. In Brans-Dicke theory, Majid and Sharif [96] developed aniso tropic\nmodel for weird star by deriving field equations for the Tolman-Kuch owicz\nansatz. Javed et al [97] examined anisotropic sphere star and der ived equa-\ntionsofmotionforanisotropicmatterdistribution. Mauryaetal[9 8]explored\nanisotropic matter distributions of CSs in the curvature-matter c oupled the-\nory.\nThis paper is structured in following pattern. Section 2derives the equa-\ntions of motion using the Tolman-Kuchowicz solution. This section also\nmanipulates the unknown parameters through matching conditions . In Sec-\ntion3, we evaluate the physical behavior of the CSs. In Section 4stability of\nconsidered CSs is influenced through the sound speed and adiabatic index.\nFinally, we present a summary of our findings and implications in section 5.",
+      "section": "1 Introduction",
+      "char_count": 1180,
+      "chunk_index": 24,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0025",
+      "source_id": "SmolLM_2024",
+      "text": "cal behavior of the CSs. In Section 4stability of\nconsidered CSs is influenced through the sound speed and adiabatic index.\nFinally, we present a summary of our findings and implications in section 5.\n2 Extended Symmetric Teleparallel Theory\nThe corresponding action is expressed as [99]\nS=/integraldisplay/parenleftbigg1\n2f(Q)+Lm/parenrightbigg√−gd4x. (1)\nThe non-metricity and deformation tensor are defined as\nQ ≡ − gϕψ(L̺\nιϕLι\n̺ψ−L̺\nι̺Lι\nϕψ), (2)\nL̺\nιϕ≡ −1\n2g̺ε(∇ϕgιε+∇ιgε̺−∇εgιϕ).\nThe superpotential in terms of non-metricity is given by\nP̺\nϕψ=−1\n2L̺\nϕψ+1\n4(Q̺−¯Q̺)gϕψ−1\n4δ̺\n(ϕQψ). (3)\nThe relation for Qusing superpotential is expressed as\nQ=−Q̺ϕψP̺ϕψ=−1\n4(−Q̺ψιQ̺ψι+2Q̺ψιQι̺ψ−2Qι¯Qι+QιQι).(4)\n9\n\nThe resulting field equations are\n2√−g∇̺(√−gfQP̺\nϕψ)+1\n2gϕψf+fQ(Pϕ̺ǫQψ̺ǫ−2Q̺ǫϕP̺ǫ\nψ) =−Tϕψ,(5)\nwheref≡f(Q) andfQ=∂f\nfQ. The solution to these modified field equations\nmay provide valuable understanding of gravity’s behavior in this fram ework.\nWe analyze the compact stellar structures by studying static sphe rical\nspacetime as\nds2=−dt2eν(r)+dr2eλ(r)+dθ2r2+dφ2r2sin2θ, (6)\nwhereeν(r)andeλ(r)are metric potentials which ensures that the spacetime\nis static.",
+      "section": "1 Introduction",
+      "char_count": 1160,
+      "chunk_index": 25,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0026",
+      "source_id": "SmolLM_2024",
+      "text": "e compact stellar structures by studying static sphe rical\nspacetime as\nds2=−dt2eν(r)+dr2eλ(r)+dθ2r2+dφ2r2sin2θ, (6)\nwhereeν(r)andeλ(r)are metric potentials which ensures that the spacetime\nis static. We consider the anisotropic matter distribution as\nTϕψ=ρuϕuψ+(uϕuψ+gϕψ)Pt+(Pr−Pt)vϕvψ, (7)\nwhereuϕandvψrepresent four-velocity and four-vector of the fluid, respec-\ntively. Using Eq.(6), we have\nQ=−2\nr2eλ(1+rν′), (8)\nwhere prime represents the radial coordinate derivative. The res ulting field\nequations are given as follows\nρ=f\n2−fQ/parenleftbig\nQ+1\nr2+e−λ\nr(ν′+λ′)/parenrightbig\n, (9)\nPr=fQ/parenleftbig\nQ+1\nr2/parenrightbig\n−f\n2, (10)\nPt=fQ/parenleftbiggQ\n2−e−λν′′\n2+(ν′\n4+1\n2r)×(ν′−λ′)/parenrightbigg\n−f\n2,(11)\n0 =cotθ\n2Q′fQQ. (12)\nIn the context of the f(T) theory, the functional form of f(T) is restricted\nby the non-zero off-diagonal metric components of the field equat ions [100],\nwhich arise from a particular gauge choice. This limitation also affects t he\nfunctional form of f(Q) theory, which is the mathematical foundation for\nconstructing models based on f(Q) gravity. In light of the discussion above,\n10\n\nwe only consider fQQ/ne}ationslash= 0 in Eq.",
+      "section": "1 Introduction",
+      "char_count": 1169,
+      "chunk_index": 26,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0027",
+      "source_id": "SmolLM_2024",
+      "text": "e\nfunctional form of f(Q) theory, which is the mathematical foundation for\nconstructing models based on f(Q) gravity. In light of the discussion above,\n10\n\nwe only consider fQQ/ne}ationslash= 0 in Eq. (12) to obtain the solution of f(Q) gravity\nand its corresponding functional form becomes\nfQQ= 0⇒fQ=M1⇒f=M1Q+M2, (13)\nwhereM1andM2are integration constants. Using Eq.(12), we obtain the\nfield equations as\nρ=1\n2r2(2M1+2e−λM1(rλ′−1)−r2M2), (14)\nPr=1\nr2(−2M1+2e−λM1(rν′+1)+r2M2), (15)\nPt=e−λ\n4r(2eλrM2+M1(2+rν′)(ν′−λ′)+2rM1ν′′).(16)\n2.1 Matching Conditions\nThe fundamental boundary metric remains unchanged, whether it is gener-\nated from the internal and external geometry of the star. This a pproach as-\nsures that the metric parts will remain continuous over the bounda ry surface,\nirrespective of the coordinate system. The Jebsen-Birkhoff theo rem states\nthat all spherically symmetric vacuum solutions of field equations hav e to\nbe asymptotically flat and static. The Schwarzschild solution is consid ered\nas the best option for the exterior geometry to investigate the CS s.",
+      "section": "1 Introduction",
+      "char_count": 1080,
+      "chunk_index": 27,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0028",
+      "source_id": "SmolLM_2024",
+      "text": "ymmetric vacuum solutions of field equations hav e to\nbe asymptotically flat and static. The Schwarzschild solution is consid ered\nas the best option for the exterior geometry to investigate the CS s. The\nSchwarzschild solution can be accommodate for selection for the ap propriate\nfeasiblef(Q) gravity model with non-zero density and pressure. Although,\nthis aspect might cause to violate Birkhoff theorem [101] in modified th eo-\nries of gravity. Many researchers have contributed an immense am ount of\nwork on matching criteria. Goswami et al [105] showed that the jun ction\nconditions that arise in the expanded theories of gravity impose som e limita-\ntions on the star objects. For this purpose, many researches [1 06]-[109] have\nconsidered the Schwarzschild solution, giving some intriguing outcom es. We\nconsider exterior region as\nds2=−dt2ℵ+dr2ℵ−1+dθ2r2+dφ2r2sin2θ, (17)\nwhereℵ= 1−2M\nr. The gravitational collapse of massive stars generates\nfascinating objects known as CSs. It is essential to comprehend t heir com-\nposition, structure and behavior, to improve our understanding a bout as-\ntrophysics and basic physics.",
+      "section": "1 Introduction",
+      "char_count": 1129,
+      "chunk_index": 28,
+      "page_numbers": [
+        11
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0029",
+      "source_id": "SmolLM_2024",
+      "text": "sive stars generates\nfascinating objects known as CSs. It is essential to comprehend t heir com-\nposition, structure and behavior, to improve our understanding a bout as-\ntrophysics and basic physics. In order to describe the various asp ects and\n11\n\nfeatures such as density profiles, temperature and pressure, w e consider the\nTolman-Kuchowicz solutions with arbitrary constants ( α,β,B,C ) as\neν=eBr2+2lnC, eλ= 1+αr2+βr4. (18)\nThe unknown constants can be found using the Darmois junction co nditions.\nBy imposing these conditions, researchers can model the behavior of mat-\nter in celestial objects, leading to a deeper understanding of their physical\nproperties. First Darmois junction condition governs the matching of so-\nlutions across the boundary of two spacetimes. This condition ensu res the\ncontinuity of the metric tensor and its first derivative across the b oundary\nbetween two regions of spacetime, where each region can have its o wn metric\ndescribing the curvature of spacetime. This junction condition is us ed to\nconnect two different solutions of field equations, which describe th e gravi-\ntational field of a given distribution of matter and energy.",
+      "section": "1 Introduction",
+      "char_count": 1173,
+      "chunk_index": 29,
+      "page_numbers": [
+        11
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0030",
+      "source_id": "SmolLM_2024",
+      "text": "curvature of spacetime. This junction condition is us ed to\nconnect two different solutions of field equations, which describe th e gravi-\ntational field of a given distribution of matter and energy. This cond ition is\nnecessary when there is a boundary, such as a surface or a hyper surface, be-\ntween two regions of spacetime that have different physical prope rties. This\ninvolves matching the components of the metric tensor and its deriv atives\nat the boundary, making sure that the gravitational field remains s mooth\nand continuous across that boundary. By satisfying this condition , one can\ncreate a consistent and continuous spacetime geometry that smo othly transi-\ntions from one solution to another. This conditions is particularly rele vant in\nscenarios involving compact objects like black holes or stars, where the grav-\nitational field transitions from being described by the exterior solut ion (e.g.,\nSchwarzschild metric) to an interior solution (e.g., a solution describin g the\nmatter distribution in the object). This is crucial for constructing physically\nmeaningful spacetimes in such cases.",
+      "section": "1 Introduction",
+      "char_count": 1115,
+      "chunk_index": 30,
+      "page_numbers": [
+        12
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0031",
+      "source_id": "SmolLM_2024",
+      "text": "g.,\nSchwarzschild metric) to an interior solution (e.g., a solution describin g the\nmatter distribution in the object). This is crucial for constructing physically\nmeaningful spacetimes in such cases. The second fundamental (c ontinuity\nof extrinsic curvature at the hypersurface) gives that radial pr essure is zero\nat the boundary. Hence, Darmois junction conditions are the math emati-\ncal requirements that enable a coherent description of the gravit ational field\nin these situations. The continuations of the first and second fund amental\nforms at the surface boundary ( r=R) gives\nα=1\nR(R−2M)+MR\n2(R−2M)4−1\nR2,\nβ=−M\n2R(R−2M)4\nB=M\nR2(R−2M),\n12\n\nTable 1: Approximated Values of unknown constants.\nStar Models M(km)R(km)α(km−2)β(km−2)B(km−2)C(km−2)\nCen X-3 [110] 1.49±0.089.178±0.130.0222 -0.0002 0.0030 0.7260\nEXO 1785-248 [111] 1.30±0.210.10±0.440.0314 -0.0003 0.0039 0.7284\nLMC X-4 [110] 1.04±0.098.301±0.20.0117 -0.0006 0.0069 0.7302\nC=e/radicalBig\nln(1−2M\nR)−M\nR−2M,\nPr(r=R) = 0.",
+      "section": "1 Introduction",
+      "char_count": 988,
+      "chunk_index": 31,
+      "page_numbers": [
+        12
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0032",
+      "source_id": "SmolLM_2024",
+      "text": "0222 -0.0002 0.0030 0.7260\nEXO 1785-248 [111] 1.30±0.210.10±0.440.0314 -0.0003 0.0039 0.7284\nLMC X-4 [110] 1.04±0.098.301±0.20.0117 -0.0006 0.0069 0.7302\nC=e/radicalBig\nln(1−2M\nR)−M\nR−2M,\nPr(r=R) = 0.\nNow, using Tolman-Kuchowicz spacetime constraints resulting filed e qua-\ntions are\nρ=−1\n2r2/bracketleftbigg\n2αr2+6br4+r2−4/bracketrightbigg\n, (19)\nPr=−1\nr2/bracketleftbigg\n4+4Br2+2αBr4+2αr2+4Bβ+2βr4−r2/bracketrightbigg\n,(20)\nPt=−(1+αr2+βr4)\n4r/bracketleftbigg\n2r(1+αr2+βr4)+(2+2 Br2)\n×(2Br+2αBr3+2Bβr5−2αr)(1+αr2+βr4)−1+4rB/bracketrightbigg\n.(21)\nWe consider three CSs models Cen X-3, EXO 1785-248 and LMC X-4. W e\nused green color for Cen X-3, red color for EXO 1785-248 and blue c olor\nfor LMC X-4 for all graphs respectively. The values of mass, radius and\nconstants for the proposed CSs are given in Table 1. In the analysis of\nstellar objects, it is essential to examine the behavior of metric elem ents\nto ascertain the smoothness and absence of singularities in the spa cetime.\nThe graphical representation depicted in Figure 1serves as a crucial tool\nin this evaluation process. It is clear that both metric components d isplay\nconsistent patternsandshow anincreasing trend.",
+      "section": "1 Introduction",
+      "char_count": 1183,
+      "chunk_index": 32,
+      "page_numbers": [
+        13
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0033",
+      "source_id": "SmolLM_2024",
+      "text": "e.\nThe graphical representation depicted in Figure 1serves as a crucial tool\nin this evaluation process. It is clear that both metric components d isplay\nconsistent patternsandshow anincreasing trend. This behavior is significant\nas it indicates the absence of any abrupt or irregular fluctuations in the\nspacetime metrics associated with the stellar objects under consid eration.\nThus, based on the graphical analysis presented in Figure 1, we can assert\nthat the spacetime appears to be smooth and devoid of singularities , meeting\nthe required criteria for our investigation.\n13\n\n0 2 4 6 81.001.051.101.151.20\nr/ExpeΝ Cen X/MiΝus3\nEXO 1785/MiΝus248\nLMCX/MiΝus4\n0 2 4 6 81.01.11.21.31.4\nr/ExpeΛ Cen X/MiΝus3\nEXO 1785/MiΝus248\nLMCX/MiΝus4\nFigure 1: Graphical evaluation of metric potentials corresponding t o radial\ncoordinate for M1=−0.1 andM2= 10.\n3 Physical Characteristics\nThis section delves into an exploration of the physical characterist ics exhib-\nited by anisotropic CSs, accompanied by graphical visualizations to e xamine\ntheir characteristics. Our findings with observational data has th e poten-\ntial to provide compelling support for the proposed model.",
+      "section": "1 Introduction",
+      "char_count": 1169,
+      "chunk_index": 33,
+      "page_numbers": [
+        13
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0034",
+      "source_id": "SmolLM_2024",
+      "text": "sotropic CSs, accompanied by graphical visualizations to e xamine\ntheir characteristics. Our findings with observational data has th e poten-\ntial to provide compelling support for the proposed model. Our analy sis\nencompasses various realistic aspects of compact objects by gra phical repre-\nsentations.\n3.1 Behavior of Matter Contents\nThe interior of stars is characterized by an exceptionally dense pro file, lead-\ning to the maximum concentration of effective matter contents. In Figures\n2and3, we present the behavior of matter contents and their derivative s\nfor considered CSs. These figures reveal a positive decrease in th e physical\nparameters and vanishing points at the boundary, indicating dense profile of\nstars. The radial derivative of matter contents exhibit a consiste nt pattern,\naﬃrming the existence of dense CSs in the f(Q) framework.\nPressure anisotropy (∆ = Pt−Pr) refers to the phenomenon where pres-\nsure in a system is not uniform in all directions. In other words, the p res-\nsure can vary depending on the direction in which it is measured. Posit ive\nanisotropy implies outward pressure, while negative anisotropy sign ifies in-\nward pressure.",
+      "section": "1 Introduction",
+      "char_count": 1172,
+      "chunk_index": 34,
+      "page_numbers": [
+        14
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0035",
+      "source_id": "SmolLM_2024",
+      "text": "ons. In other words, the p res-\nsure can vary depending on the direction in which it is measured. Posit ive\nanisotropy implies outward pressure, while negative anisotropy sign ifies in-\nward pressure. Positive anisotropy refers to the situation where the tangen-\ntial pressure Ptexceeds the radial pressure Prat a given point inside the\nstar, i.e., Pt> Pr. This difference in pressures generates an outward-directed\nanisotropic force. This anisotropic pressure can significantly influe nce the\nstability and structure of astrophysical objects, particularly in t he modeling\n14\n\n0 2 4 6 85.00105.00155.00205.0025\nrΡ Cen X/MiΝus3\nEXO 1785/MiΝus248\nLMCX/MiΝus4\n0 2 4 6 85.000205.000255.000305.000355.000405.000455.00050\nrPr Cen X/MiΝus3\nEXO 1785/MiΝus248\nLMCX/MiΝus4\n0 2 4 6 84.99995.00005.00015.00025.00035.00045.0005\nrPt Cen X/MiΝus3\nEXO 1785/MiΝus248\nLMCX/MiΝus4\nFigure 2: Graphs of energy density, radial pressure and tangent ial pressure\ncorrespondingtoradialcoordinatefor M1=−0.1andM2= 10aremaximum\nat the center of the stars and monotonically decreasing as the rad ial distance\nincreases, revealing a highly compact profile of the proposed CSs.\nof CSs like neutron stars.",
+      "section": "1 Introduction",
+      "char_count": 1175,
+      "chunk_index": 35,
+      "page_numbers": [
+        14
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0036",
+      "source_id": "SmolLM_2024",
+      "text": "M1=−0.1andM2= 10aremaximum\nat the center of the stars and monotonically decreasing as the rad ial distance\nincreases, revealing a highly compact profile of the proposed CSs.\nof CSs like neutron stars. In the presence of strong gravitationa l forces, par-\nticularly near the core of the star, this outward-directed anisotr opy offers an\nextra counterbalance to gravity. The outward pressure provide d by the pos-\nitive anisotropy allows the star to maintain equilibrium at higher densitie s,\nwhich can potentially lead to a larger maximum mass compared to isotro pic\nstars. This is significant in explaining the existence of very massive ne utron\nstars. Positive anisotropy can also result in more compact stellar co nfigura-\ntions, where the star radius is smaller for a given mass. This compact ness\nmay alter the star surface gravity and its observable properties.\nFigure4represents that this anisotropy illustrates an anti gravitational\nbehavior essential for compact structures.\n3.2 Energy Bounds\nThe energy conditions consist of inequalities that place constraints on the\nstress-energy tensor, governing the interaction between matt er and energy in\ngravitational field.",
+      "section": "1 Introduction",
+      "char_count": 1175,
+      "chunk_index": 36,
+      "page_numbers": [
+        15
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0037",
+      "source_id": "SmolLM_2024",
+      "text": "ctures.\n3.2 Energy Bounds\nThe energy conditions consist of inequalities that place constraints on the\nstress-energy tensor, governing the interaction between matt er and energy in\ngravitational field. These constraints are crucial for assessing t he feasibility\nof CSs, expressed as null (9 ρ+Pr≥0, ρ+Pt≥0), dominant ( ρ±Pr≥\n15\n\n0 2 4 6 8/MiΝus0.00030/MiΝus0.00025/MiΝus0.00020/MiΝus0.00015/MiΝus0.00010/MiΝus0.000050.00000\nrdΡ\ndrCen X/MiΝus3\nEXO 1785/MiΝus248\nLMCX/MiΝus4\n0 2 4 6 8/MiΝus0.00006/MiΝus0.00005/MiΝus0.00004/MiΝus0.00003/MiΝus0.00002/MiΝus0.000010\nrdPr\ndrCen X/MiΝus3\nEXO 1785/MiΝus248\nLMCX/MiΝus4\n0 2 4 6 8/MiΝus0.0001/MiΝus0.00008/MiΝus0.00006/MiΝus0.00004/MiΝus0.000020.0000\nrdPt\ndrCen X/MiΝus3\nEXO 1785/MiΝus248\nLMCX/MiΝus4\nFigure 3: Plots of Gradients of energy density, radial pressure an d tangential\npressure corresponding to radial coordinate for M1=−0.1 andM2= 10 are\nzero at the center and become negative as one moves away from th e core,\nwhich confirms the existence of highly compact configuration in f(Q) theory.",
+      "section": "1 Introduction",
+      "char_count": 1041,
+      "chunk_index": 37,
+      "page_numbers": [
+        15
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0038",
+      "source_id": "SmolLM_2024",
+      "text": "ing to radial coordinate for M1=−0.1 andM2= 10 are\nzero at the center and become negative as one moves away from th e core,\nwhich confirms the existence of highly compact configuration in f(Q) theory.\n0 2 4 6 80.000000.000050.000100.000150.00020\nr/DifferenceDeltaCen X/MiΝus3\nEXO 1785/MiΝus248\nLMCX/MiΝus4\nFigure 4: Behavior of anisotropy corresponding to radial coordina te is pos-\nitively increasing for all CSs, which ensures the existence of repulsiv e force\nthat is necessary for massive geometries.\n16\n\n0 2 4 6 810.00010.00510.01010.015\nrΡ/MiΝusPr\nCen X/MiΝus3\nEXO 1785/MiΝus248\nLMCX/MiΝus4\n0 2 4 6 80.0000.0020.0040.0060.0080.010\nrΡ/PΛusPr\nCen X/MiΝus3\nEXO 1785/MiΝus248\nLMCX/MiΝus4\n0 2 4 6 810.00010.00510.01010.015\nrΡ/MiΝusPt\nCen X/MiΝus3\nEXO 1785/MiΝus248\nLMCX/MiΝus4\n0 2 4 6 80.0000.0020.0040.0060.0080.010\nrΡ/PΛusPt\nCen X/MiΝus3\nEXO 1785/MiΝus248\nLMCX/MiΝus4\n0 2 4 6 80.1000150.1000200.1000250.100030\nrΡ/PΛusPr/PΛus2Pt\nCen X/MiΝus3\nEXO 1785/MiΝus248\nLMCX/MiΝus4\nFigure 5: Plots of energy",
+      "section": "1 Introduction",
+      "char_count": 999,
+      "chunk_index": 38,
+      "page_numbers": [
+        16
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0039",
+      "source_id": "SmolLM_2024",
+      "text": "040.0060.0080.010\nrΡ/PΛusPt\nCen X/MiΝus3\nEXO 1785/MiΝus248\nLMCX/MiΝus4\n0 2 4 6 80.1000150.1000200.1000250.100030\nrΡ/PΛusPr/PΛus2Pt\nCen X/MiΝus3\nEXO 1785/MiΝus248\nLMCX/MiΝus4\nFigure 5: Plots of energy conditions corresponding to radial coord inate for\nM1=−0.1 andM2= 10 are positive which demonstrate that the proposed\nstar candidates are physically viable due to the existence of normal matter\ninside the stars.\n0, ρ±Pt≥0), weak ( ρ+Pr≥0, ρ+Pt≥0, ρ≥0) and strong\nρ+Pr≥0, ρ+Pt≥0, ρ+Pr+ 2Pt≥0 energy conditions. In Figure\n5, it is demonstrated that the considered star candidates maintain p hysical\nviability because they meet all energy constraints in the presence o ff(Q)\nterms, which aﬃrms the presence of ordinary matter inside the sta rs.\n3.3 Analysis of Different Physical Aspects\nThe mass of anisotropic stars is defined as\nM(r) =/integraldisplayr\n0πr2ρdr (22)\n17\n\n0 2 4 6 80.00.20.40.60.81.01.2\nrMCen X/MiΝus3\nEXO 1785/MiΝus248\nLMCX/MiΝus4\nFigure 6: Behavior of mass function corresponding to radial coord inate man-\nifests that the mass increases positively and monotonically as the ra dius\nincreases. Also, M→0 asr→0 which shows that the mass function is\nregular at the center of CSs.",
+      "section": "1 Introduction",
+      "char_count": 1192,
+      "chunk_index": 39,
+      "page_numbers": [
+        17
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0040",
+      "source_id": "SmolLM_2024",
+      "text": "ing to radial coord inate man-\nifests that the mass increases positively and monotonically as the ra dius\nincreases. Also, M→0 asr→0 which shows that the mass function is\nregular at the center of CSs.\nIn Figure 6, the mass function exhibits regularity at the core of stars under\nconsideration showing a monotonic increase with radius. This observ ation\nindicates the absence of singularities or irregularities in the mass dist ribution\nat the center of these celestial bodies. To gain insights into the str uctural\ncomposition of these objects, various physical aspects can be ex plored. One\ncrucial parameter for analyzing CSs is the compactness function, denoted\nas (u=M\nr). Buchdahl [112] established a specific condition for viable CSs,\nrequiring the compactness factor to satisfy u <4\n9. This criterion is essential\nfor understanding the stability of stars.\nAnother important factor is surface redshift, which measures th e alter-\nation in the wavelength of light emitted from the star surface as a re sult of\nintense gravitational effects. This parameter provides valuable ins ight the\ncharacteristics of the stars.",
+      "section": "1 Introduction",
+      "char_count": 1121,
+      "chunk_index": 40,
+      "page_numbers": [
+        18
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0041",
+      "source_id": "SmolLM_2024",
+      "text": "es th e alter-\nation in the wavelength of light emitted from the star surface as a re sult of\nintense gravitational effects. This parameter provides valuable ins ight the\ncharacteristics of the stars. The redshift in terms of compactne ss can be\nformulated as\nZs+1 =/radicalbig\n1−2µ(r) (23)\nFigure7shows that surface redshift satisfied the required limit.\n3.4 State Parameter\nThe equation of state (EoS) parameter plays a crucial role in under standing\nthe physical properties and internal structure of CSs. It provid es a rela-\ntionship between the pressure and the energy density of the matt er inside\nthe star, defined as P=ωρ, whereωis the equation of state parameter.\nThe EoS parameter captures the behavior of nuclear matter, inclu ding in-\nteractions between neutrons, protons and possibly hyperons or other exotic\n18\n\n0 2 4 6 80.000.050.100.15\nrΜ Cen X/MiΝus3\nEXO 1785/MiΝus248\nLMCX/MiΝus4\n0 2 4 6 80.000.050.100.150.200.250.30\nrZCen X/MiΝus3\nEXO 1785/MiΝus248\nLMCX/MiΝus4\nFigure 7: Behavior of compactness and redshift functions corres ponding to\nradial coordinate lie in the specified limits ( u <4/9 andZs<5.211).",
+      "section": "1 Introduction",
+      "char_count": 1124,
+      "chunk_index": 41,
+      "page_numbers": [
+        18
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0042",
+      "source_id": "SmolLM_2024",
+      "text": ".200.250.30\nrZCen X/MiΝus3\nEXO 1785/MiΝus248\nLMCX/MiΝus4\nFigure 7: Behavior of compactness and redshift functions corres ponding to\nradial coordinate lie in the specified limits ( u <4/9 andZs<5.211).\n0 2 4 6 80.050.100.150.200.250.30\nrΩr Cen X/MiΝus3\nEXO 1785/MiΝus248\nLMCX/MiΝus4\n0 2 4 6 80.100.150.200.250.30\nrΩt Cen X/MiΝus3\nEXO 1785/MiΝus248\nLMCX/MiΝus4\nFigure 8: Plot of radial and tangential EoS parameters correspon ding to\nradial coordinate for M1=−0.1 andM2= 10.\nparticles. As the density increases towards the star’s center, diff erent phases\nof matter might emerge and the EoS parameter must reflect these changes.\nThus, the EoS parameter serves as a bridge between microphysica l interac-\ntions inside CSs and their macroscopic observables, providing crucia l insights\ninto the nature of ultra-dense matter and the ultimate fate of mas sive stars.\nFor anisotropic CSs, the radial and transversal forms of the EoS parameters\n(ωr=Pr\nρ,ωt=Pt\nρ) must lie in [0,1] for the effectiveness of considered star\ncandidates.",
+      "section": "1 Introduction",
+      "char_count": 1025,
+      "chunk_index": 42,
+      "page_numbers": [
+        19
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0043",
+      "source_id": "SmolLM_2024",
+      "text": "he ultimate fate of mas sive stars.\nFor anisotropic CSs, the radial and transversal forms of the EoS parameters\n(ωr=Pr\nρ,ωt=Pt\nρ) must lie in [0,1] for the effectiveness of considered star\ncandidates. The corresponding parameters are described as\nωr=−1\nr2/bracketleftbigg\n4+4Br2+2αBr4+2αr2+4Bβ+2βr4−r2/bracketrightbigg\n×/bracketleftbigg1\n2r2{4−2αr2−6br4−r2}/bracketrightbigg−1\n,\nωt=/bracketleftbigg−(1+αr2+βr4)\n4r{2r(1+αr2+βr4)\n19\n\n+ (2+2 Br2)(2Br+2αBr3+2Bβr5−2αr\n1+αr2+βr4)+4rB}/bracketrightbigg\n×/bracketleftbigg1\n2r2{4−2αr2−6br4−r2}/bracketrightbigg−1\n.\nFigure8shows that our proposed stars are viable as the state parameter s\nremain in their specified limits.\n4 Stability Analysis\nStability analysis delves into the repercussions of minor disturbance s on the\nintegrity of stellar objects, investigating whether they would reve rt to their\ninitial state of equilibrium or undergo substantial transformations . It holds\nsignificant importance in gaining insights into the credibility and cohere nce\nof cosmic structures. The examination of conditions ensuring the s tability of\nthese structures against diverse oscillation modes is a key aspect o f stability\nanalysis.",
+      "section": "1 Introduction",
+      "char_count": 1171,
+      "chunk_index": 43,
+      "page_numbers": [
+        19
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0044",
+      "source_id": "SmolLM_2024",
+      "text": "the credibility and cohere nce\nof cosmic structures. The examination of conditions ensuring the s tability of\nthese structures against diverse oscillation modes is a key aspect o f stability\nanalysis. The stability is influenced by both the geometry of these st ruc-\ntures and the characteristics of the matter constituting. Variou s methods\nare employed in this context to analysis the stability of CSs.\n4.1 Tolman-oppenheimer-Volkoff\nThis equation provides insight into how different forces acting on a sy stem\nmaintain its stability. It sheds light on the delicate balance between a s tar’s\ninternal pressure and the gravitational force. This equation play pivotal role\nin gaining insights in internal composition and characteristics of star s. Now,\nby using field equations Eqs.(14)-Eqs.(16), we have TOV equation in t he\ncontext of f(Q) theory as follows\n2∆\nr−ν′(ρ+Pr)\n2−(Pr)′= 0. (24)\nThis equation gives the information on the cosmic balance resulting fr om the\nvarious forces, i.e., anisotropic ( Fa), hydrostatic ( Fh) and gravitational ( Fg).",
+      "section": "1 Introduction",
+      "char_count": 1052,
+      "chunk_index": 44,
+      "page_numbers": [
+        20
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0045",
+      "source_id": "SmolLM_2024",
+      "text": "follows\n2∆\nr−ν′(ρ+Pr)\n2−(Pr)′= 0. (24)\nThis equation gives the information on the cosmic balance resulting fr om the\nvarious forces, i.e., anisotropic ( Fa), hydrostatic ( Fh) and gravitational ( Fg).\nThese forces in this modified framework turns out to be\nFg=−B\n2r/bracketleftbigg\n(4−2αr2−6br4−r2)/bracketrightbigg\n+1\nr2/bracketleftbigg\n(4Br2e−Ar2+2e−Ar2+r2−2)/bracketrightbigg\n,\n20\n\n0 2 4 6 8 10/MiΝus0.00003/MiΝus0.00002/MiΝus0.0000100.000010.00002\nrForcesCenX- 3\n0 2 4 6 8 10/MiΝus0.00006/MiΝus0.00004/MiΝus0.0000200.000020.00004\nrForcesEXO 1785/MiΝus248\n0 2 4 6 8 10/MiΝus0.00004/MiΝus0.0000200.000020.00004\nrForcesLMCX/MiΝus4\nFigure 9: Plot of TOV equation corresponding to radial coordinate f or\nM1=−0.1 andM2= 10.\nFh=/bracketleftbigg\n{−2\nr5(−4−4Br2−2αBr4−2αr2−4Bβ−2βr4+r2)\n+1\nr2(−8Br−8αBr3−8αr−24Bβr5−8βr3+2r)}/bracketrightbigg\n,\nFa=−2\nr/bracketleftbigg(1+αr2+βr4)\n4r{2r(1+αr2+βr4)\n+ (2+2 Br2)(2Br+2αBr3+2Bβr5−2αr\n1+αr2+βr4)+4rB}\n− {1\nr2(−4−4Br2−2αBr4−2αr2−4Bβ−2βr4+r2)}/bracketrightbigg\n.\nFigure9shows that the proposed star candidates are in in equilibrium\ncondition.\n21\n\n4.2 Casuality Condition\nWe examine the stability through casuality condition for the consider ed stars\nmodels.",
+      "section": "1 Introduction",
+      "char_count": 1192,
+      "chunk_index": 45,
+      "page_numbers": [
+        20
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0046",
+      "source_id": "SmolLM_2024",
+      "text": "igg\n.\nFigure9shows that the proposed star candidates are in in equilibrium\ncondition.\n21\n\n4.2 Casuality Condition\nWe examine the stability through casuality condition for the consider ed stars\nmodels. In causality condition, the tangential νst=dPt\ndρand radial νsr=dPr\ndρ\ncomponents should lie in interval [0 ,1] [113]. The components of sound speed\nare given by\nνsr=/bracketleftbigg\n{−2\nr5(−4−4Br2−2αBr4−2αr2−4Bβ−2βr4+r2)\n+1\nr2(−8Br−8αBr3−8αr−24Bβr5−8βr3+2r)}/bracketrightbigg\n×/bracketleftbigg\n{−1\nr3(4−2αr2−βr4−r2)+1\n2r2(−4αr−24βr3−2r)}/bracketrightbigg−1\n,\nνst=/bracketleftbigg(−1+αr3+βr5)\n4r{2r(1+αr2+βr4)\n+ (2+2 Br2)(2Br+2αBr3+2Bβr5−2αr\n1+αr2+βr4)+4rB}/bracketrightbigg\n+/bracketleftbigg\n{(1+αr2+βr4)\n4r}+{2+4B+6αr2+10βr5\n+8B2r2+8αB2r4+8B2βr6−8αBr2\n1+αr2+βr4+(2+2Br2)\n×(2B+6αBr2\n1+αr2+βr4−(2Br+2αBr3+2Bβr5−2αr)(2αr+16βr3)\n(1+αr2+βr4)2)}/bracketrightbigg\n×/bracketleftbigg\n{−1\nr3(4−2αr2−βr4−r2)+1\n2r2(−4αr−24βr3−2r)}/bracketrightbigg−1\nFigure10determines that the considered stars are stable and lie in specified\nlimits. Thus, considered stars are physically stable in f(Q) theory.",
+      "section": "1 Introduction",
+      "char_count": 1086,
+      "chunk_index": 46,
+      "page_numbers": [
+        21
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0047",
+      "source_id": "SmolLM_2024",
+      "text": "−2αr2−βr4−r2)+1\n2r2(−4αr−24βr3−2r)}/bracketrightbigg−1\nFigure10determines that the considered stars are stable and lie in specified\nlimits. Thus, considered stars are physically stable in f(Q) theory.\n4.3 Herrera Cracking Approach\nThe concept of cracking is associated to the tendency of a fluid dist ribution\nto “split”, once it abandons the equilibrium as consequence of pertu rbations.\nThus, one cansay that once thesystem hasabandoned the equilibr ium, there\nis a cracking, whenever its inner part tends to collapse whereas its o uter part\ntends to expand. The cracking takes place at the surface separa ting the two\nregions. When the inner part tends to expand and the outer one te nds to\n22\n\n0 2 4 6 80.300.350.400.45\nrΝsr2Cen X/MiΝus3\nEXO 1785/MiΝus248\nLMCX/MiΝus4\n0 2 4 6 80.200.250.300.35\nrΝst2Cen X/MiΝus3\nEXO 1785/MiΝus248\nLMCX/MiΝus4\nFigure 10: Graphs of radial sound speed component and tangentia l sound\nspeed component corresponding to radial coordinate lie in [0,1] in the pres-\nence of modified terms, which show that spherically symmetric solutio ns are\nin the stable state.\ncollapse we say that there is an overturning.",
+      "section": "1 Introduction",
+      "char_count": 1138,
+      "chunk_index": 47,
+      "page_numbers": [
+        22
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0048",
+      "source_id": "SmolLM_2024",
+      "text": "esponding to radial coordinate lie in [0,1] in the pres-\nence of modified terms, which show that spherically symmetric solutio ns are\nin the stable state.\ncollapse we say that there is an overturning. It is worthwhile to ment ion\nthat the concepts of stability and cracking are different, although they are\noften confused. The term stability refers to the capacity of a give n fluid\ndistribution to return to equilibrium once it has been removed from it. The\nfact that thespeeds of sound arenot superluminal does not assu re in anyway\nthestabilityoftheobject, itonlyensures causality. Thecracking o nlyimplies\nthetendency of thesystem to split immediately after leaving the equ ilibrium.\nWhatever happens next, whether thesystem entersinto adynam icregime, or\nreturns to equilibrium, is independent of the concept of cracking. O f course\nthe occurrence of cracking will affect the future of the fluid config uration in\neither case.\nWe use a Herrera cracking method for the stability of stars [114]. A\ncrucial factor in identifying the stability regions is difference betwee n sound\nspeed in radial and transverse directions.",
+      "section": "1 Introduction",
+      "char_count": 1124,
+      "chunk_index": 48,
+      "page_numbers": [
+        23
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0049",
+      "source_id": "SmolLM_2024",
+      "text": "r case.\nWe use a Herrera cracking method for the stability of stars [114]. A\ncrucial factor in identifying the stability regions is difference betwee n sound\nspeed in radial and transverse directions. The area is considered u nstable\nif the inequality is not satisfied by this difference. In particular for st able\nregions, 0 ≤ |νst−νsr| ≤1. The stars under consideration, satisfy these\nrequirements as shown in Figure 11which implies a stable state.\n4.4 Adiabatic Index\nAdiabatic index is another method which is used for the stability of CSs .\nThe radial and tangential components are given as\nΓr= (Pr+ρ\nPr)νsr,Γt= (Pt+ρ\nPt)νst. (25)\n23\n\n0 2 4 6 80.180.200.220.240.260.28\nr/VertBar1Νsr2/MiΝusΝst2/VertBar1\nCen X/MiΝus3\nEXO 1785/MiΝus248\nLMCX/MiΝus4\nFigure 11: Graphs of Herrera cracking corresponding to radial co ordinate\ndetermine that considered CSs are stable as they lie in the specified lim it.",
+      "section": "1 Introduction",
+      "char_count": 902,
+      "chunk_index": 49,
+      "page_numbers": [
+        23
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0050",
+      "source_id": "SmolLM_2024",
+      "text": "tBar1\nCen X/MiΝus3\nEXO 1785/MiΝus248\nLMCX/MiΝus4\nFigure 11: Graphs of Herrera cracking corresponding to radial co ordinate\ndetermine that considered CSs are stable as they lie in the specified lim it.\nUsing Eqs.(20)-Eqs.(22), we have\nΓr=/bracketleftbigg\n{1\n2r2(4−2αr2−6br4−r2)}+{1\nr2(−4−4Br2\n−2αBr4−2αr2−4Bβ−2βr4+r2)}/bracketrightbigg\n×/bracketleftbigg1\nr2(−4−4Br2−2αBr4−2αr2−4Bβ−2βr4+r2)/bracketrightbigg−1\n×/bracketleftbigg\n{−2\nr5(−4−4Br2−2αBr4−2αr2−4Bβ−2βr4+r2)\n+1\nr2(−8Br−8αBr3−8αr−24Bβr5−8βr3+2r)}/bracketrightbigg\n×/bracketleftbigg\n{−1\nr3(4−2αr2−βr4−r2)+1\n2r2(−4αr−24βr3−2r)}/bracketrightbigg−1\nΓt=/bracketleftbigg\n{1\n2r2(4−2αr2−6br4−r2)}+{−(1+αr2+βr4)\n4r(2r(1+αr2+βr4))\n+ (2+2 Br2)(2Br+2αBr3+2Bβr5−2αr\n1+αr2+βr4)+4rB/bracketrightbigg\n×/bracketleftbigg−(1+αr2+βr4)\n4r{2r(1+αr2+βr4)\n+ (2+2 Br2)(2Br+2αBr3+2Bβr5−2αr\n1+αr2+βr4)+4rB}/bracketrightbigg−1\n×/bracketleftbigg(−1+αr3+βr5)\n4r{2r(1+αr2+βr4)\n24\n\n0 2 4 6 80102030405060\nr/CapGaΜΜar Cen X/Minus3\nEXO 1785/Minus248\nLMC X/Minus4\n0 2 4 6 80102030405060\nr/CapGaΜΜat Cen X/Minus3\nEXO 1785/Minus248\nLMC X/Minus4\nFigure 12: Plot of adiabatic index corresponding to radial coordinat e for\nM1=−0.1 andM2= 10.",
+      "section": "1 Introduction",
+      "char_count": 1157,
+      "chunk_index": 50,
+      "page_numbers": [
+        24
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0051",
+      "source_id": "SmolLM_2024",
+      "text": "1785/Minus248\nLMC X/Minus4\n0 2 4 6 80102030405060\nr/CapGaΜΜat Cen X/Minus3\nEXO 1785/Minus248\nLMC X/Minus4\nFigure 12: Plot of adiabatic index corresponding to radial coordinat e for\nM1=−0.1 andM2= 10.\n+ (2+2 Br2)(2Br+2αBr3+2Bβr5−2αr\n1+αr2+βr4)+4rB}/bracketrightbigg\n+/bracketleftbigg\n{(1+αr2+βr4)\n4r}+{2+4B+6αr2+10βr5\n+8B2r2+8αB2r4+8B2βr6−8αBr2\n1+αr2+βr4+(2+2Br2)\n×(2B+6αBr2\n1+αr2+βr4−(2Br+2αBr3+2Bβr5−2αr)(2αr+16βr3)\n(1+αr2+βr4)2)}/bracketrightbigg\n×/bracketleftbigg\n{−1\nr3(4−2αr2−βr4−r2)+1\n2r2(−4αr−24βr3−2r)}/bracketrightbigg−1\nChandrasekhar determine the condition that system is stable if Γ >4\n3oth-\nerwise unstable [115]. For all considered CSs, our system is stable as shown\nin Figure 12.",
+      "section": "1 Introduction",
+      "char_count": 694,
+      "chunk_index": 51,
+      "page_numbers": [
+        25
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0052",
+      "source_id": "SmolLM_2024",
+      "text": "5 Conclusions\nModified gravity theories such as f(Q) gravity have received considerable\ninterest in recent years as alternate explanations to GR. This theo ry suggests\nalterationstothefundamentalequationsofgravitywiththeaimof addressing\nnumerous unresolved inquiries in the fields of cosmology and astroph ysics. A\ncrucial method for assessing and limiting the validity of this modified gr avity\ntheory is by conducting astrophysical observations. This modified theory\nintroduces extra independent variables that describe deviations f rom GR.\nThis modified proposal aims to enhance our understanding of the pr inciples\nthat regulate the actions of matter and energy in the cosmos, pro viding\n25\n\nopportunities to investigate novel phenomena that may not be acc ounted for\nin GR. The inclusion of correction terms emphasize the significant res ults,\nimposing a large impact on the geometric feasibility. The f(Q) theory is\nused as a mathematical tool to examine complex elements of gravita tional\ndynamics on a large scale.",
+      "section": "5 Conclusions",
+      "char_count": 1022,
+      "chunk_index": 52,
+      "page_numbers": [
+        25
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0053",
+      "source_id": "SmolLM_2024",
+      "text": "the significant res ults,\nimposing a large impact on the geometric feasibility. The f(Q) theory is\nused as a mathematical tool to examine complex elements of gravita tional\ndynamics on a large scale. The motivation behind the investigation of t his\ntheory involves analyzing its theoretical implications, its consistenc y with\nempirical facts and its importance in cosmological contexts.\nIn recent years, the discipline of theoretical physics has been gre atly in-\nterested in studying CSs. These celestial entities provide consider able ob-\nstacles to our understanding of basic physics and offer distinct pos sibilities\nfor studying extreme situations in the theoretical framework. Ou r study is\ncentered around the investigation of anisotropic CSs in f(Q) theory with the\nobjective of exploring the enigmatic aspects of the cosmos. By exa mining\nanisotropic CSs in this theoretical framework, gravitational inter actions un-\nveil on both galactic and cosmic levels. This offers valuable understan ding of\nhow these components impact stellar structures.",
+      "section": "5 Conclusions",
+      "char_count": 1055,
+      "chunk_index": 53,
+      "page_numbers": [
+        26
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0054",
+      "source_id": "SmolLM_2024",
+      "text": "ropic CSs in this theoretical framework, gravitational inter actions un-\nveil on both galactic and cosmic levels. This offers valuable understan ding of\nhow these components impact stellar structures. Studying these objects in\nthis theory allows us to investigate the behavior of gravity under co nditions\nof high curvature and density as gravity in CSs approaches its extr eme lim-\nits. By examining the behavior of these compact celestial objects, we acquire\nsignificant knowledge about the properties of CSs.\nThispaperdelvesintotheexaminationoftheviabilityandstabilityofCS s\nutilizing the Tolman-Kuchowicz solution in the framework of f(Q) theory.\nThe values of unknown constants are given in Table 1. The specific model\nof this modified theory is developed to investigate the behavior of diff erent\nphysical quantities within the inner regions of stars. The key finding s are\nsummarized below.\n•We have found that both metric elements (Figure 1) are consistent and\nfulfill the necessary conditions, i.e., they exhibit minimum value at the\ncenter of stars and then show monotonically increasing behavior.",
+      "section": "5 Conclusions",
+      "char_count": 1107,
+      "chunk_index": 54,
+      "page_numbers": [
+        26
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0055",
+      "source_id": "SmolLM_2024",
+      "text": "found that both metric elements (Figure 1) are consistent and\nfulfill the necessary conditions, i.e., they exhibit minimum value at the\ncenter of stars and then show monotonically increasing behavior.\n•The behavior of fluid parameters (Figure 2) is positive and regular in\nthe interior of CSs and diminish at the boundary. Also, the derivative\noffluidparameters(Figure 3)isnegativewhichpresents adensepicture\nof the CSs.\n•We have found that the anisotropic pressure (Figure 4) is directed\noutward which is necessary for compact stellar configuration\n26\n\n•Allenergyboundsaresatisfiedtoconfirmthepresenceofnormal matter\nin the interior of CSs (Figure 5).\n•Wehavefoundthatthemassfunctionisregularatthecenter ofth estar\nand show monotonically increasing behavior as the radial coordinate\nincreases Figure 6. The compactness and redshift functions satisfy the\nrequired conditions Figure 7.\n•The range of EoS parameters (Figure 8) lies between 0 and 1, which\nshows the viability of the considered model.\n•TheTOVequationshowsthatgravitational,hydrostatic, andaniso tropic\nforces have a null impact for all proposed CSs (Figure ). This sugge sts\nthat the compact stellar models are in an equilibrium state.",
+      "section": "5 Conclusions",
+      "char_count": 1198,
+      "chunk_index": 55,
+      "page_numbers": [
+        26
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0056",
+      "source_id": "SmolLM_2024",
+      "text": "•TheTOVequationshowsthatgravitational,hydrostatic, andaniso tropic\nforces have a null impact for all proposed CSs (Figure ). This sugge sts\nthat the compact stellar models are in an equilibrium state.\n•The stability limits, i.e., νsrandνstlies between 0 and 1 (causality\ncondition), 0 <|ν2\nt−ν2\nr|<1 (Herrera cracking) approach and Γ >4\n(adiabaticindex) aresatisfied, which ensures theexistence ofphy sically\nstable CSs (Figures 10-12).\nWe have conducted an investigation into the viability and stability of CS s\nincorporating f(Q) terms. Our analysis has unveiled a denser profile for CSs,\ndemonstrated through a comprehensive examination of the derive d solutions.\nIn the context of f(R,T2) theory, it has been established that CSs are not\nphysically feasible or stable at their center [ ?]. Our findings indicate that all\nthe considered CSs exhibit both physical feasible as well as stability a t their\ncentral position in f(Q) theory.",
+      "section": "5 Conclusions",
+      "char_count": 938,
+      "chunk_index": 56,
+      "page_numbers": [
+        27
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0057",
+      "source_id": "SmolLM_2024",
+      "text": "not\nphysically feasible or stable at their center [ ?]. Our findings indicate that all\nthe considered CSs exhibit both physical feasible as well as stability a t their\ncentral position in f(Q) theory. Therefore, our derived solutions provide\nstable formations of anisotropic CSs.",
+      "section": "5 Conclusions",
+      "char_count": 279,
+      "chunk_index": 57,
+      "page_numbers": [
+        27
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0058",
+      "source_id": "SmolLM_2024",
+      "text": "References\n[1] P.M. Garnavich, et al., Astrophys. J. 74, 509 (1998).\n[2] A.G. Riess, et al., Astron. J. 116, 1009 (1998).\n[3] A.G. Riess, et al., Astron. J. 607, 665 (2004).\n[4] M. Tegmartk, et al., Phys. Rev. D 69, 103501 (2004).\n[5] D.N. Spergel, et al., Astrophys. J. Suppl. Ser. 148, 175 (2003).\n27\n\n[6] G. Cognola, et al.: Phys. Rev. D 77, 046009 (2008).\n[7] A.D. Felice and S.R. Tsujikawa, Living Rev. Relativ. 13, 161 (2010).\n[8] E.V. Linder, Phys. Rev. D 81, 127301 (2010).\n[9] A. Jawad and A. Iqbal, Int. J. Mod. Phys. D 25, 1650074 (2016).\n[10] A. Jawad, et al., Astrophys. Space Sci. 362, 63(2017).\n[11] A. Jawad and S. Rani, Eur. Phys. J. C 76, 704 (2016).\n[12] Debnath, U., Chattopadhyay, S., Hussain, I., Jamil, M.andMyrz akulov,\nR., Eur. Phys. J. C 72(2024)1-6.\n[13] Sultana, S. and Chattopadhyay, S., Int. J. Geome. Meth. Mod . Phys.,\n21(7)(2024)2450133-6396.\n[14] Saha, S., Chattopadhyay, S. and Gudekli, E., Eur. Phys. J. C\n84(3)(2024)314.\n[15] Chokyi, K.K. and Chattopadhyay, S., International Journal o f Modern\nPhysics D, 33(2)(2024)2450002.\n[16] Saha, S., Chattopadhyay, S. and Gudekli, E., International Jo urnal of\nModern Physics D (2024)2450042.\n[17] M.Z. Gul, M.",
+      "section": "References",
+      "char_count": 1188,
+      "chunk_index": 58,
+      "page_numbers": [
+        27
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0059",
+      "source_id": "SmolLM_2024",
+      "text": "dhyay, S., International Journal o f Modern\nPhysics D, 33(2)(2024)2450002.\n[16] Saha, S., Chattopadhyay, S. and Gudekli, E., International Jo urnal of\nModern Physics D (2024)2450042.\n[17] M.Z. Gul, M. Sharif and I. Kanwal, New Astron. 109, 102204 (2024).\n[18] H.S. Weyl, Preuss. Akad. Wiss. 1, 465 (1918).\n[19] E. Cartan, Ann. Ec. Norm. 40, 325 (1923).\n[20] R. Weitzenbock, Invariantentheorie, noordhoff and groninbgen , (1923).\n[21] J.B. Jimenez, et al., Phys. Rev. D 101, 103507 (2020).\n[22] J. Lu, X. Zhao and G. Chee, Eur. Phys. J. C 79, 530 (2019).\n[23] R. Lazkoz, et al., Phys. Rev. D 100, 104027 (2019).\n[24] R.H. Lin and X.H. Zhai, Phys. Rev. D 103, 124001 (2021).\n[25] F. D Ambrosio, et al., Phys. Rev. D 105, 024042 (2022).\n28\n\n[26] W. Wang, H. Chen and T. Katsuragawa, Phys. Rev. D 105, 024060\n(2022).\n[27] A. Delhom-Latorre, G.J. Olmo and M. Ronco, Phys. Lett. B 780, 294\n(2018).\n[28] K.F. Dialektopoulos, T.S. Koivisto and S. Capozziello, Eur. Phys. J . C\n79, 606 (2019).\n[29] B.J. Barros, et al., Dark Universe 30, 100616 (2020).\n[30] F. Bajardi, D. Vernieri and S. Capozziello, Eur. Phys. J. Plus 135, 912\n(2020).\n[31] F. D Ambrosio, M. Garg and L. Heisenberg, Phys. Lett.",
+      "section": "References",
+      "char_count": 1187,
+      "chunk_index": 59,
+      "page_numbers": [
+        28
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0060",
+      "source_id": "SmolLM_2024",
+      "text": "9] B.J. Barros, et al., Dark Universe 30, 100616 (2020).\n[30] F. Bajardi, D. Vernieri and S. Capozziello, Eur. Phys. J. Plus 135, 912\n(2020).\n[31] F. D Ambrosio, M. Garg and L. Heisenberg, Phys. Lett. B 811, 135970\n(2020).\n[32] I. Ayuso, R. Lazkoz and V. Salzano, Phys. Rev. D 103, 063505 (2021).\n[33] K. Flathmann and M. Hohmann, Phys. Rev. D 103, 044030 (2021).\n[34] N. Frusciante, Phys. Rev. D 103, 044021 (2021).\n[35] W. Khyllep, A. Paliathanasis and J. Dutta, Phys. Rev. D 103, 103521\n(2021).\n[36] S. Capozziello and R. D Agostino, Phys. Lett. B 832, 137229 (2022).\n[37] M. Adak, Turk. J. Phys. 30, 379 (2006).\n[38] J.M. Nester and H.J. Yo, Chin. J. Phys. 37, 113 (1999).\n[39] M. Adak and O, Sert, Turk. J. Phys. 29, 1 (2005).\n[40] M. Adak, M. Kalay and O. Sert, Int. J. Mod. Phys. D 15, 619 (2006).\n[41] R.H. Lin and X.H. Zhai, Phys. Rev. D 103, 124001 (2021).\n[42] S.K. Maurya, et al., Fortschritte der Phys. 70, 2200061 (2022).\n[43] M. Adak, T. Dereli, T.S. Koivisto and C. Pala, Int. J. Geom. Meth.\nMod. Phys. 20, 2350215 (2023).\n[44] W. Baade and F. Zwicky, Phys. Rev. 46, 76 (1934).\n29\n\n[45] M.S. Longair, High Energy Astrophysics (Cambridge Univeristy Press,\nCambridge, 1994).\n[46] K.",
+      "section": "References",
+      "char_count": 1196,
+      "chunk_index": 60,
+      "page_numbers": [
+        29
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0061",
+      "source_id": "SmolLM_2024",
+      "text": "Geom. Meth.\nMod. Phys. 20, 2350215 (2023).\n[44] W. Baade and F. Zwicky, Phys. Rev. 46, 76 (1934).\n29\n\n[45] M.S. Longair, High Energy Astrophysics (Cambridge Univeristy Press,\nCambridge, 1994).\n[46] K. Dev and M. Gleiser, Gen. Relativ. Gravit. 39, 1793 (2002).\n[47] M.K. Mak and T. Harko, Int. J. Mod. Phys. D 13, 149 (2004).\n[48] M. Kalam, et al., Eur. Phys. J. C 72, 2248 (2012).\n[49] F. Rahaman, et al., Eur. Phys. J. C 72, 2071 (2012).\n[50] S.K. Maurya, et al., Phys. Rev. D 100, 044014 (2019).\n[51] K.N. Singh, et al., Chin. Phys. C 44, 105106 (2020).\n[52] P. Bhar, et al., Eur. Phys. J. C. 79, 922 (2019).\n[53] M.K. Jasim, et al., Eur. Phys. J. C. 78, 603 (2018).\n[54] J.H. Jeans, Mon. Not. R. Astron. Sot. 82, 122 (1922).\n[55] J. Binney, Ann. Rev. Astron. Astrophys. 20, 399 (1982).\n[56] G. Lemaitre, Ann. Sot. Sci. Bruxelles A 53, 51 (1933).\n[57] R. Bowers and E. Liang, Astrophys. J. 188, 657 (1974).\n[58] S. Bayin, Phys. Rev. D 26, 1262 (1982).\n[59] L. Herrera and J. Ponce de Leon, J. Math. Phys. 26, 2018 (1985).\n[60] L. Herrera and J. Ponce de Leon, J. Math. Phys. 26, 2847 (1985).\n[61] K. Singh and K. Bhamra, Int. J. Theor. Phys. 29, 1015 (1990).\n[62] M. Gokhroo and A. Mehra, Gen.",
+      "section": "References",
+      "char_count": 1195,
+      "chunk_index": 61,
+      "page_numbers": [
+        29
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0062",
+      "source_id": "SmolLM_2024",
+      "text": "Math. Phys. 26, 2018 (1985).\n[60] L. Herrera and J. Ponce de Leon, J. Math. Phys. 26, 2847 (1985).\n[61] K. Singh and K. Bhamra, Int. J. Theor. Phys. 29, 1015 (1990).\n[62] M. Gokhroo and A. Mehra, Gen. Rel. Grav. 26, 75 (1994).\n[63] H. Bondi, Mon. Not. R. Astron. Sot. 259, 365 (1992).\n[64] L. Herrera and J. Ponce de Leon, J. Math. Phys. 26, 2302 (1985).\n[65] L. Herrera and V. Varela, Phys. Lett. A 189, 11 (1994).\n[66] L. Herrera, G. Ruggeri and L. Witten, Astrophys. J. 234, 1094 (1979).\n30\n\n[67] R. Chan, L. Herrera and N.O. Santos, Class. Quantum Grav. 9, 133\n(1992).\n[68] L. Herrera and N.O. Santos, Phys. Report 286, 153 (1997).\n[69] R. Chan, L. Herrera and N.O. Santos, Mon. Not. R. Astron. So t.265,\n533 (1993).\n[70] L. Herrera, Phys. Rev. D 101, 104024 (2020).\n[71] S.V. Lohakare, S.K. Maurya, K.N. Singh, B. Mishra and A. Errehy my,\nMon. Not. R. Astron. Sot., 526, 3796 (2023).\n[72] S.K. Maurya, K.N. Singh, M. Govender, G. Mustafa and S. Ray, A stro-\nphys. J. Suppl. Ser. 269, 35 (2023).\n[73] S. Kaur, S.K. Maurya and S. Shukla, Phys. Scr., 98, 105304 (2023).\n[74] S.K. Maurya, et al., Eur. Phys. J. C, 83, 18 (2023).\n[75] S.K. Maurya, et al., Phys. Dark Universe, 46, 101619 (2024).",
+      "section": "References",
+      "char_count": 1195,
+      "chunk_index": 62,
+      "page_numbers": [
+        30
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0063",
+      "source_id": "SmolLM_2024",
+      "text": "23).\n[73] S. Kaur, S.K. Maurya and S. Shukla, Phys. Scr., 98, 105304 (2023).\n[74] S.K. Maurya, et al., Eur. Phys. J. C, 83, 18 (2023).\n[75] S.K. Maurya, et al., Phys. Dark Universe, 46, 101619 (2024).\n[76] J. Kumar, et al., Phys. Dark Universe, 46, 101593 (2024).\n[77] A. Errehymy, et al., Phys. Dark Universe, 46, 101622 (2024).\n[78] S. Chaudhary, S.K. Maurya, J. Kumar and S. Ray, Astropart. Phys.,\n162, 103002 (2024).\n[79] S.K. Maurya, et al., Class. Quantum Gravity, 41, 115009 (2024).\n[80] S.K. Maurya, et al., Fortschr. Phys., 72, 2300229 (2024).\n[81] G. Mustafa, A. Ditta, S. Mumtaz, S. S.K. Maurya and D. Sofuog lu,\nChin. J. Phys., 88, 938 (2024).\n[82] Manzoor, R., et al.: Eur. Phys. J. C 79(2019)831\n[83] Jawad, A., et al.: Phys. Dark Universe. 2170 (2018) .\n[84] Nawaz, T., Rani, S., Jawad, A.:Chin. J. Phys. 63(2020)220\n[85] M.K. Jasim, D. Deb, S. Ray. Y.K. Gupta and S.R. Chowdhury, Eur.\nPhys. J. C, 78, 603 (2018).\n31\n\n[86] S. Biswas, D. Shee, S. Ray, F. Rahaman and B.K. Guha, Ann. Phy s.,\n409, 167905 (2019).\n[87] M.F. Shamir and I. Fayyaz, Int. J. Geom. Methods Mod. Phys., 17,\n2050140 (2020).\n[88] M.F. Shamir and T. Naz, Phys. Dark Universe, 27, 100472 (2020).\n[89] P. Rej, P.",
+      "section": "References",
+      "char_count": 1195,
+      "chunk_index": 63,
+      "page_numbers": [
+        31
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0064",
+      "source_id": "SmolLM_2024",
+      "text": ". Phy s.,\n409, 167905 (2019).\n[87] M.F. Shamir and I. Fayyaz, Int. J. Geom. Methods Mod. Phys., 17,\n2050140 (2020).\n[88] M.F. Shamir and T. Naz, Phys. Dark Universe, 27, 100472 (2020).\n[89] P. Rej, P. Bhar and M. Govender, Eur. Phys. J. C, 81, 316 (2021).\n[90] A. Ditta and T. Xia, Chin. J. Phys., 79, 57 (2022).\n[91] M. Bandyopadhyay and R. Biswas, Phys. Lett. A, 518, 129676 (2024).\n[92] V. Singh and C.P. Singh, Int. J. Theor. Phys. 5, 12571273 (2016).\n[93] D. Deb, et al., Mon. Not. R. Astron. Soc. 485, 5652 (2019).\n[94] S. Biswas, et al., Ann. Phys. 409, 167905 (2019).\n[95] M.F. Shamir, and T. Naz, Phys. Dark Universe 27, 100472 (2020).\n[96] A. Majid and M. Sharif, Universe 6, 124 (2020).\n[97] M. Javed, et al., New Astron. 84, 101518 (2021).\n[98] S.K. Maurya, et al., Phys. Rev. D 100, 044014 (2021).\n[99] J.B. Jimenez, L. Heisenberg and T. Koivisto, Phys. Rev. 98, 044048\n(2018).\n[100] R. Ferraro and F. Fiorini, Phys. Rev. D 84, 083518 (2011).\n[101] V. Faraoni, Phys. Rev. D 81, 044002 (2010).\n[102] P. Bhar, Astrophys. Space Sci. 354, 457 (2014).\n[103] G. Abbas, S. Qaisar and M.A. Meraj, Astrophys. Space Sci. 357,\n042076 (2015).\n[104] G. Abbas, A.A. Kanwal and M. Zubair, Astrophys.",
+      "section": "References",
+      "char_count": 1197,
+      "chunk_index": 64,
+      "page_numbers": [
+        32
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0065",
+      "source_id": "SmolLM_2024",
+      "text": "(2010).\n[102] P. Bhar, Astrophys. Space Sci. 354, 457 (2014).\n[103] G. Abbas, S. Qaisar and M.A. Meraj, Astrophys. Space Sci. 357,\n042076 (2015).\n[104] G. Abbas, A.A. Kanwal and M. Zubair, Astrophys. Space Sci. 357, 109\n(2015).\n32\n\n[105] R. Goswami, A.M. Nzioki, S.D. Maharaj and S.G. Ghosh, Phys. Rev .\nD90, 084011 (2014).\n[106] A. Cooney, S.D. Deo and D. Psaltis, Phys. Rev. D 82, 064033 (2010).\n[107] A. Ganguly, R. Gannouji, R. Goswami and S. Ray, Phys. Rev. D 89,\n064019 (2014).\n[108] D. Momeni and R. Myrzakulov, Int. J. Geom. Methods Mod. Ph ys.12,\n1550014 (2015).\n[109] A.V. Astashenok, S. Capozziello and S.D. Odintsov, J. Cosmol. A s-\ntropart. Phys. 12, 040 (2013).\n[110] M.L. Rawls et al. Astrophys. J. 730, 25 (2011).\n[111] F. Ozel, T. Guver and D. Psaltis, Astrophys. J. 693, 1775 (2009).\n[112] H.A. Buchdahl, Phys. Rev. 116, 1027 (1959).\n[113] M.K. Gokhroo and A.L. Mehra, Gen. Relativ. Gravit. 26, 75 (1994).\n[114] L. Herrera, Phys. Lett. A 165, 206 (1992).\n[115] S. Chandrasekhar, Astrophys. J. 14, 417 (1964).",
+      "section": "References",
+      "char_count": 1026,
+      "chunk_index": 65,
+      "page_numbers": [
+        32
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    },
+    {
+      "chunk_id": "SmolLM_2024_chunk_0066",
+      "source_id": "SmolLM_2024",
+      "text": "s. Rev. 116, 1027 (1959).\n[113] M.K. Gokhroo and A.L. Mehra, Gen. Relativ. Gravit. 26, 75 (1994).\n[114] L. Herrera, Phys. Lett. A 165, 206 (1992).\n[115] S. Chandrasekhar, Astrophys. J. 14, 417 (1964).\n33",
+      "section": "References",
+      "char_count": 203,
+      "chunk_index": 66,
+      "page_numbers": [
+        33
+      ],
+      "source_file": "SmolLM_2024_2410_16678.pdf",
+      "total_source_pages": 33
+    }
+  ]
+}

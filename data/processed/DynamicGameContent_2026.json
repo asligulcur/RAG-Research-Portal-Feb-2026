@@ -1,0 +1,1065 @@
+{
+  "source_id": "DynamicGameContent_2026",
+  "metadata": {
+    "title": "High-quality generation of dynamic game content via small language models",
+    "authors": "Research Team",
+    "year": "2026",
+    "venue": "arXiv",
+    "url": "https://arxiv.org/abs/2601.23206",
+    "source_type": "peer-reviewed",
+    "relevance_note": "SLM applications in game content generation - demonstrates practical SLM capabilities (Jan 30, 2026)"
+  },
+  "pdf_metadata": {
+    "title": "High-quality generation of dynamic game content via small language models: A proof of concept",
+    "author": "Morten I. K. Munk; Arturo Valdivia; Paolo Burelli",
+    "total_pages": 14
+  },
+  "statistics": {
+    "total_pages": 14,
+    "total_chunks": 80,
+    "avg_chunk_size": 1030.05,
+    "ingestion_timestamp": "2026-02-02T19:03:59.661527"
+  },
+  "chunks": [
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0000",
+      "source_id": "DynamicGameContent_2026",
+      "text": "Preprint - Under Peer ReviewHigh-quality generation of dynamic game content via small\nlanguage models: A proof of concept\nMorten I. K. Munk\n\nbrAIn lab\nIT University of Copenhagen\nCopenhagen, Denmark\n&\nRaw Power Labs\nCopenhagen, DenmarkArturo Valdivia\n\nData Science Sectiom\nIT University of Copenhagen\nCopenhagen, DenmarkPaolo Burelli\n\nbrAIn lab\nIT University of Copenhagen\nCopenhagen, Denmark",
+      "section": "Header/Title",
+      "char_count": 392,
+      "chunk_index": 0,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0001",
+      "source_id": "DynamicGameContent_2026",
+      "text": "Abstract\nLarge language models (LLMs) offer promise for dynamic game\ncontent generation, but they face critical barriers, including nar-\nrative incoherence and high operational costs. Due to their large\nsize, they are often accessed in the cloud, limiting their applica-\ntion in offline games. Many of these practical issues are solved\nby pivoting to small language models (SLMs), but existing studies\nusing SLMs have resulted in poor output quality. We propose a\nstrategy of achieving high-quality SLM generation through aggres-\nsive fine-tuning on deliberately scoped tasks with narrow context,\nconstrained structure, or both. In short, more difficult tasks require\nnarrower scope and higher specialization to the training corpus.\nTraining data is synthetically generated via a DAG-based approach,\ngrounding models in the specific game world. Such models can\nform the basis for agentic networks designed around the narrato-\nlogical framework at hand, representing a more practical and robust\nsolution than cloud-dependent LLMs. To validate this approach, we\npresent a proof-of-concept focusing on a single specialized SLM\nas the fundamental building block.",
+      "section": "Abstract",
+      "char_count": 1158,
+      "chunk_index": 1,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0002",
+      "source_id": "DynamicGameContent_2026",
+      "text": "senting a more practical and robust\nsolution than cloud-dependent LLMs. To validate this approach, we\npresent a proof-of-concept focusing on a single specialized SLM\nas the fundamental building block. We introduce a minimal RPG\nloop revolving around rhetorical battles of reputations, powered\nby this model. We demonstrate that a simple retry-until-success\nstrategy reaches adequate quality (as defined by an LLM-as-a-judge\nscheme) with predictable latency suitable for real-time generation.\nWhile local quality assessment remains an open question, our re-\nsults demonstrate feasibility for real-time generation under typical\ngame engine constraints.",
+      "section": "Abstract",
+      "char_count": 650,
+      "chunk_index": 2,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0003",
+      "source_id": "DynamicGameContent_2026",
+      "text": "1 Introduction\nArtificial intelligence has long been integral to the video game\nindustry [ 35], with a particular emphasis on adaptive narrative ele-\nments, such as believable NPCs [ 4,17]. Game elements that provide\nclear feedback and consistently respond to player agency correlate\nwith increased engagement [ 13,25]. Recent advances in generative\nAI have opened up new avenues for dynamic and adaptive game\ncontent generation using large language models (LLMs). For in-\nstance, approaches have been explored for NPC dialogue [ 21,22]\nand quest generation [ 1]. In this paper, we explore an alternative\nparadigm for narrative AI in games, which we believe is more suited\nfor the practical reality of integration into video games: An agentic\nsystem of aggressively fine-tuned small language models (SLMs),\neach deliberately constrained to narrow, well-defined generation\ntasks.The paper is organized as follows: Section 2 outlines our pro-\nposed framework and the technical constraints under consideration.\nSection 3 presents DefameLM, our proof-of-concept implementa-\ntion, and details both the game loop design and model training.",
+      "section": "1 Introduction",
+      "char_count": 1133,
+      "chunk_index": 3,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0004",
+      "source_id": "DynamicGameContent_2026",
+      "text": "ur pro-\nposed framework and the technical constraints under consideration.\nSection 3 presents DefameLM, our proof-of-concept implementa-\ntion, and details both the game loop design and model training.\nSection 4 contains a quantitative evaluation of DefameLM’s output\nquality at different levels of quantization, as well as the generation\nefficiency. In Section 5 we discuss limitations and future directions,\nand in Section 6 offer conclusions.\n1.1 Obstacles of LLMs for dynamic game\ncontent\nAlthough holding much promise, LLMs appear to have difficulty\nforming a coherent understanding of complicated worlds, as ex-\nemplified by Tsaiet al.in a recent study, which showed that a\nstraightforward application of the current strongest LLMs is insuffi-\ncient for playing a text-based game,Zork I(1977) [ 28]. Specifically,\nthey tasked ChatGPT-4 with playing the game with access to the\ngame manual as well as few-shot examples, but cited an inability of\nthe LLM to successfully infer and utilize knowledge about the game\nworld and formulate goals.",
+      "section": "1 Introduction",
+      "char_count": 1043,
+      "chunk_index": 4,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0005",
+      "source_id": "DynamicGameContent_2026",
+      "text": "th playing the game with access to the\ngame manual as well as few-shot examples, but cited an inability of\nthe LLM to successfully infer and utilize knowledge about the game\nworld and formulate goals. This suggests that naive applications of\nLLMs to control NPCs in more complicated game situations will\nlikely fail to adhere to the world and maintain logical coherence.\nSince maintaining narrative comprehension is essential for player\nimmersion in story-driven games [ 24], the LLMs’ difficulty in main-\ntaining narrative cohesion underscores a significant challenge to\nLLM integration in narratively-driven games. Müller-Brockhausen\net al.[ 18] found that even superficial \"chatter\" (or \"barks\" in game\ndeveloper terminology) can struggle to stay in context, highlighting\nthe challenge of full dynamic NPC dialogue.\nIndeed, lack of consistency and guard-railing of LLMs is an of-\nten cited shortcoming for AI generated narrative content [ 6,26].\nMaintaining narrative consistency requires LLMs to track exten-\nsive game state and character information, which can be managed\nthrough techniques such as RAG or complex prompting.",
+      "section": "1 Introduction",
+      "char_count": 1129,
+      "chunk_index": 5,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0006",
+      "source_id": "DynamicGameContent_2026",
+      "text": "ve content [ 6,26].\nMaintaining narrative consistency requires LLMs to track exten-\nsive game state and character information, which can be managed\nthrough techniques such as RAG or complex prompting. However,\nincreasing prompt complexity and constraint specificity beyond a\ncertain point has been shown to reduce narrative coherence and\ncreativity [ 2]. This creates tension between the need for consistency\n(requiring more context/constraints) and the need for creative, en-\ngaging narratives.arXiv:2601.23206v1 [cs.AI] 30 Jan 2026\n\nMorten I. K. Munk, Arturo Valdivia, and Paolo Burelli\n1.2 Are agentic LLM frameworks the solution?\nRecent studies have suggested that some of the above challenges\ncan be mitigated by adopting anagenticframework, where com-\nplex tasks decompose into smaller subtasks handled by separate\nLLM calls, reminiscent of AI chaining [ 34] and chain-of-thought\nreasoning [ 32,36]. As an example, suppose an NPC has to perform\na complex task, such as making a decision based on recent events\nand its current psychological state.",
+      "section": "1 Introduction",
+      "char_count": 1052,
+      "chunk_index": 6,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0007",
+      "source_id": "DynamicGameContent_2026",
+      "text": "aining [ 34] and chain-of-thought\nreasoning [ 32,36]. As an example, suppose an NPC has to perform\na complex task, such as making a decision based on recent events\nand its current psychological state. This task can then be broken\ninto several separate tasks, some of which can be carried out ahead\nof time to reduce the final generation time, such as summarizing re-\ncent events and evaluating the NPCs state of mind. Jeonget al.[ 12]\napplied this approach, and while players reported high levels of\nengagement due to the high degree of freedom, the problem of\ncoherence remained, and because the system provided no explicit\ngoals for the LLM, players in turn reported a lack of direction and\nincreased confusion. This points towards a fundamental challenge\nwith narrative content generation, namely that narratives comprise\na wide section of incompatible operations, and as such it is neces-\nsary to break down the generation by first analysing the specific\nuse-case and narrative structure carefully and being very deliberate\nabout what is generated and why, a point stressed by Gerváset\nal.[8]. What they suggest is exactly to separate concerns, e.g.",
+      "section": "1 Introduction",
+      "char_count": 1153,
+      "chunk_index": 7,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0008",
+      "source_id": "DynamicGameContent_2026",
+      "text": "cific\nuse-case and narrative structure carefully and being very deliberate\nabout what is generated and why, a point stressed by Gerváset\nal.[8]. What they suggest is exactly to separate concerns, e.g. by\nhaving separate LLM calls working out the valid plot structures\nfrom those simulating characters’ behaviours. Conversely, handling\ntasks monolithically would require encoding the entire narrative\nframework into the prompt. For instance, the logic for tracking\nand developing narrative tension, managing valid transitions, and\ntriggering character development must be handled while maintain-\ning consistency across all these dimensions. An example of this\ndifficulty is quest generation, which touches all these aspects simul-\ntaneously. Designing such a prompt would be a monumental task,\nand whether current LLMs are able to successfully follow those\ninstructions is an open question. The end result would also rely on\nthe LLM’s reasoning rather than the game developer’s, introducing\nconsiderable risk for less open-ended applications. For these rea-\nsons, approaches that decompose complex tasks into separate calls\nhold the most promise.",
+      "section": "1 Introduction",
+      "char_count": 1145,
+      "chunk_index": 8,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0009",
+      "source_id": "DynamicGameContent_2026",
+      "text": "ather than the game developer’s, introducing\nconsiderable risk for less open-ended applications. For these rea-\nsons, approaches that decompose complex tasks into separate calls\nhold the most promise.\nOne fascinating recent example of story generation using a very\ndeliberate narrative structure in this way is given by Wenet al.[ 33],\nwho constructed coherent branching stories using a directed acyclic\ngraph (DAG) approach as well as a reductionist story framework\nofrisingandfallingstory beats. The authors observed that the\nnarratological beats were recognizable by their users and that the\napplication of these story beats greatly increased the players’ im-\nmersion. One main shortcoming was that the gameplay elements,\nsuch as the perceived difficulty, didn’t synchronize with the gen-\nerated stories’ emotional arc (rise/fall). It is an open question how\nto best integrate the two aspects, generated narrative elements on\none hand and gameplay elements on the other, but one option is\nto design narrative generations in tight coordination with specific\ngameplay elements or game loops.",
+      "section": "1 Introduction",
+      "char_count": 1092,
+      "chunk_index": 9,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0010",
+      "source_id": "DynamicGameContent_2026",
+      "text": "cts, generated narrative elements on\none hand and gameplay elements on the other, but one option is\nto design narrative generations in tight coordination with specific\ngameplay elements or game loops.\nDespite the development of these types of innovative techniques\nfor narrative generation, as well as the increasing capabilities of\nstate-of-the-art LLMs, they are still seeing very limited application\nin commercial video games. Some core problems with LLM inte-\ngration are not solvable in principle, however. Firstly, cloud-basedLLMs introduce the awkward constraint of making single-player\ngames online-only. Furthermore, both self-hosting LLMs and us-\ning the state-of-the-art commercial LLMs introduce monetization\ndilemmas, because either the game studio will have unpredictable\nexpenses or users will have a lack of transparency on the actual\ncost of playing the game. Finally, any cloud-dependent feature is\nvulnerable to eventual server shutdowns, risking parts of the game\nbecoming non-functional in the future.",
+      "section": "1 Introduction",
+      "char_count": 1022,
+      "chunk_index": 10,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0011",
+      "source_id": "DynamicGameContent_2026",
+      "text": "f transparency on the actual\ncost of playing the game. Finally, any cloud-dependent feature is\nvulnerable to eventual server shutdowns, risking parts of the game\nbecoming non-functional in the future.\n2Proposed framework: Agentic system of SLMs\nIn light of the move toward narrowly scoped, agentic LLM frame-\nworks in games, we propose addressing the remaining practical\nbarriers by replacing monolithic LLM calls with an agentic network\nof task-specific fine-tuned SLMs. By ’agentic,’ we refer to a DAG\norganization where each node handles a narrowly defined subtask,\ne.g. generation for a specific purpose, retrieval, or function calls\nsuch as altering game states or directing NPCs. The key principle\nis specialization: Each SLM is aggressively fine-tuned for a sin-\ngle, well-defined task rather than attempting to handle complex,\nmulti-faceted operations. This approach aligns with emerging in-\ndustry interest in SLMs for agentic systems. Outside of gaming,\nthis paradigm has shown promise as a flexible, private, durable,\nsustainable, and economical approach for agentic AI applications,\nas demonstrated in recent NVIDIA research [3].",
+      "section": "1 Introduction",
+      "char_count": 1141,
+      "chunk_index": 11,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0012",
+      "source_id": "DynamicGameContent_2026",
+      "text": "ms. Outside of gaming,\nthis paradigm has shown promise as a flexible, private, durable,\nsustainable, and economical approach for agentic AI applications,\nas demonstrated in recent NVIDIA research [3].\nCrucially, for generation of short, clearly contextualized creative\ncontent, SLMs have been shown to achieve comparable quality\nwith LLMs and human writers [ 16]. While the use of fine-tuned\nSLMs holds significant promise, their application in the context\nof dynamic game content remains largely unexplored. Värtinenet\nal.[29] attempted monolithic quest generation via SLM fine-tuning\non 978 samples, yielding inconsistent results, again highlighting\nthe necessity of agentic frameworks for such complex tasks. In\nour SLM framework, robust guard-railing and adherence to world\nconstraints, tone, and structure are achieved through deliberate\ntraining data curation. For difficult tasks, guidance is necessary\nto achieve quality, creating acreativity-consistency trade-off, espe-\ncially important when models become small enough or tasks touch\nmultiple narratological dimensions. Our approach provides two\ncontrol mechanisms: data variety and degree of overfitting.",
+      "section": "1 Introduction",
+      "char_count": 1165,
+      "chunk_index": 12,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0013",
+      "source_id": "DynamicGameContent_2026",
+      "text": "ade-off, espe-\ncially important when models become small enough or tasks touch\nmultiple narratological dimensions. Our approach provides two\ncontrol mechanisms: data variety and degree of overfitting. Unlike\nLLMs where small prompt changes yield unpredictable results, SLM\nfine-tuning offers more predictable control since these parameters\ndirectly determine how closely the model replicates the training\ndataset’s style and structure. However, this predictability requires\nfine-grained control over dataset generation.\nComplex tasks such as dialogue can potentially touch on many\ndisparate facets of gameplay, such as the general world state, the cur-\nrent goals of the NPC, the player’s active and completed quests, and\nthe current activity the player is engaged in, but dynamic content\ngeneration does not always require handling this full complexity.\nGiven that the pervasive challenge with dynamically generated\ncontent is coherence, much of the complexity arises from needing\nto distinguish the context of the generation.",
+      "section": "1 Introduction",
+      "char_count": 1027,
+      "chunk_index": 13,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0014",
+      "source_id": "DynamicGameContent_2026",
+      "text": "dling this full complexity.\nGiven that the pervasive challenge with dynamically generated\ncontent is coherence, much of the complexity arises from needing\nto distinguish the context of the generation. In practice, therefore,\nwe can distinguish between two types of generation contexts, each\npotentially calling for a different approach:\n\nHigh-quality generation of dynamic game content via small language models: A proof of concept\n(1)Open-ended contexts, such as generic NPC dialogue,\nwhere a complex task may have to be decomposed into\nsmaller subtasks, each handled by a specialized model.\n(2)Game-loop-anchored contexts, where the generation is\nconfined to an explicitly defined game situation or loop and\na single more narrowly scoped model may be sufficient.\nBoth approaches align with our proposed framework of special-\nized SLMs composed into agentic networks. The former requires\nmultiple coordinated models but potentially enables more general-\npurpose generation. The latter is automatically contextualized and\nmore readily measurable, and thus the framework can be stress-\ntested by focusing on such tasks.",
+      "section": "1 Introduction",
+      "char_count": 1118,
+      "chunk_index": 14,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0015",
+      "source_id": "DynamicGameContent_2026",
+      "text": "ut potentially enables more general-\npurpose generation. The latter is automatically contextualized and\nmore readily measurable, and thus the framework can be stress-\ntested by focusing on such tasks. In particular, by targeting scenar-\nios where the generative task is challenging (requiring wit, synthe-\nsis, contextual awareness) but the scope remains narrow enough for\naggressive fine-tuning to reliably produce quality outputs, we can\ninvestigate if the most fundamentally difficult tasks are feasible in\nthis framework. If such challenging tasks can furthermore be solved\nby a single fine-tuned SLM, this represents the most fundamental\ndemonstration of our framework. Establishing this viability also\noffers immediate practical value by giving designers a methodology\nfor incorporating dynamic content: either by identifying suitable\nexisting game loops or designing them from scratch, and then using\nan SLM to interpret and contextualize the related events within the\ngame world’s narrative framework.",
+      "section": "1 Introduction",
+      "char_count": 1009,
+      "chunk_index": 15,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0016",
+      "source_id": "DynamicGameContent_2026",
+      "text": "either by identifying suitable\nexisting game loops or designing them from scratch, and then using\nan SLM to interpret and contextualize the related events within the\ngame world’s narrative framework. Anchoring generation within a\nloop additionally addresses a key challenge observed in prior work\n(e.g., Wenet al.[ 33]), where narrative generation and gameplay\nprogression were not synchronized. A loop-centric approach, when\napplicable, ensures that generated content and gameplay logic re-\nmain tightly coupled. For the remainder of this paper, we turn our\nattention to demonstrating this proof of concept.\n2.1 Minimal proof of concept\nWe consider an RPG interaction loop centered around areputational\nconflictbetween two characters. We presentDefameLM, the single\nfine-tuned SLM servicing the entire game loop by generating textual\noutputs of rhetorical blows between the characters, specifically in\nthe form of propaganda fitting for posters in a medieval market\nplace. By showing that one self-contained SLM can service an entire\ngameplay loop, we highlight the approach’s immediate viability and\nhow complex agentic systems can be built from simple, independent\ncomponents.",
+      "section": "1 Introduction",
+      "char_count": 1179,
+      "chunk_index": 16,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0017",
+      "source_id": "DynamicGameContent_2026",
+      "text": "owing that one self-contained SLM can service an entire\ngameplay loop, we highlight the approach’s immediate viability and\nhow complex agentic systems can be built from simple, independent\ncomponents.\nWe evaluate the model at three quantization levels (16-, 8-, and 4-\nbit), measuring both generation quality and time-to-success under a\nretry-until-success strategy, where success is defined by the verdict\nof a suite of LLM-as-judge calls. When generation failures occur,\nour evidence suggests they are predominantly recoverable rather\nthan deterministic. By introducing stochasticity ( 𝑇= 0.75), in a\nsmall number of retries the model is able to explore variations until\nan acceptable output is found. As demonstrated in Section 4, this\napproach yields predictable success rates and latency suitable for\nreal-time generation in the majority of cases, even for the most\nheavily quantized version.2.2 Technical constraints for real-time\ngeneration\nWe restrict our consideration to applications where content genera-\ntion can be masked by pre-scripted sequences such as brief dialogue\nor cutscenes, establishing practical constraints for evaluating De-\nfameLM.",
+      "section": "1 Introduction",
+      "char_count": 1159,
+      "chunk_index": 17,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0018",
+      "source_id": "DynamicGameContent_2026",
+      "text": "our consideration to applications where content genera-\ntion can be masked by pre-scripted sequences such as brief dialogue\nor cutscenes, establishing practical constraints for evaluating De-\nfameLM. For such use cases, we define a generation to be viable\nif it completes within a time no more than approximately5sec-\nonds. Within this window, memory constraints become manageable\nsince models can be loaded during these frozen states and unloaded\nafterward. The exact memory requirements vary significantly by\nimplementation and represent a moving target throughout game\ndevelopment. Consumer GPUs typically offer around 8GB of VRAM,\nbut resource-intensive games with demanding graphics and com-\nplex engines leave limited headroom. Models exceeding 2-3 GB\ntherefore become increasingly difficult to accommodate, though\nthe acceptable threshold depends heavily on the specific game’s\narchitecture and optimization priorities. For evaluating our proof-\nof-concept, we target sub-2GB models as a practical benchmark,\nwhile acknowledging that even smaller footprints may be necessary\nfor particularly resource-constrained scenarios.",
+      "section": "1 Introduction",
+      "char_count": 1130,
+      "chunk_index": 18,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0019",
+      "source_id": "DynamicGameContent_2026",
+      "text": "evaluating our proof-\nof-concept, we target sub-2GB models as a practical benchmark,\nwhile acknowledging that even smaller footprints may be necessary\nfor particularly resource-constrained scenarios. These constraints\nestablish the performance constraint within which we evaluate our\nimplementation in Section 4.\n3 DefameLM\nWe now turn to the implementation of DefameLM. In this section we\nwill introduce the game loop it services, the training data generation\nprocess, and the model training itself.\n3.1 Game core loop: The reputational conflict\nThe game loop illustrated in Fig. 1 is designed for a hypothetical\nRPG focused on building power and reputation, either militarily\nby raising an army, or maybe through influence, espionage and\ndiplomacy. Reputation may be earned organically through player\nactions or deliberately shaped by crafting written content, such as\nbooks, letters, or smear campaigns. In this paper, we deal with the\nlatter option. Thus, the game loop consists of the player gathering\ninformation, rumors, lies and the like, maybe through infiltration,\nbribery, burglary, blackmail or simply by being at the right place\nat the right time.",
+      "section": "1 Introduction",
+      "char_count": 1160,
+      "chunk_index": 19,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0020",
+      "source_id": "DynamicGameContent_2026",
+      "text": "the game loop consists of the player gathering\ninformation, rumors, lies and the like, maybe through infiltration,\nbribery, burglary, blackmail or simply by being at the right place\nat the right time. This information is then taken to a scribe of\ndubious moral quality, who writes a poster to be hung around\ntown. Mechanically, one or more numerical reputation scores are\nupdated deterministically (without AI), reflecting factors such as\nthe effectiveness of the player’s strategic choices for the intended\naudience. This can affect the game world in various ways, such as\nwhich factions side with or oppose the target, or whether war is\ntriggered or avoided.\nThe fine-tuned SLM generates these scribe outputs. The in-\nput/output structure is shown in Fig. 2. Asenderwrites a smear\ncampaign about atarget, where either may be the player or an NPC.\nThe attack is based on unlockableintelligenceand stylistic elements.\nThe text becomes in-game assets: posters and extractable elements\nlike invented nicknames that NPCs reference dynamically.",
+      "section": "1 Introduction",
+      "char_count": 1040,
+      "chunk_index": 20,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0021",
+      "source_id": "DynamicGameContent_2026",
+      "text": "an NPC.\nThe attack is based on unlockableintelligenceand stylistic elements.\nThe text becomes in-game assets: posters and extractable elements\nlike invented nicknames that NPCs reference dynamically.\nThe model receives character metadata (e.g., faction allegiance,\nphysical appearance, general backstory, and personality) along\nwith the intelligence, which consists of three parts: one or two\ncompromising pieces of information, the target audience of the\n\nMorten I. K. Munk, Arturo Valdivia, and Paolo Burelli\nFigure 1: Game loop centered on reputational conflict where\nparticipants pursue goals (e.g., inciting a riot) blocked by\ninsufficient relative reputation. Players collect intel, initiate\nsmear campaigns, and manage reputation to outmaneuver\nopponents, who can retaliate with their own smear cam-\npaigns. The loop continues until one side achieves its goal or\nis defeated, ending the conflict.\nsmear, and a rhetorical “angle” (e.g., a humorous slant such as bad\nfashion sense or illiteracy). If the player is the sender or target, the\ninput may include gameplay-derived details, such as recent defeats.",
+      "section": "1 Introduction",
+      "char_count": 1112,
+      "chunk_index": 21,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0022",
+      "source_id": "DynamicGameContent_2026",
+      "text": "nd a rhetorical “angle” (e.g., a humorous slant such as bad\nfashion sense or illiteracy). If the player is the sender or target, the\ninput may include gameplay-derived details, such as recent defeats.\nThe model is trained to aggrandize the sender and belittle the target,\nwith rhetorical choices tuned to appeal to the selected audience.\nDefameLM is trained on samples generated by ChatGPT-4o, and\nwe study it at three levels of quantization (16-, 8-, and 4-bit). The\nparametrized prompt constrains the outputs to have a length of no\nmore than 500 characters, and the fine-tuning of DefameLM effec-\ntively captures this constraint for all quantization levels. The length\nlimit makes it a fairly significant challenge to give due weight to all\nthe parts of the input. Figure 2 contains both a sample input, edited\nand shortened for brevity, as well as excerpts of the corresponding\ngenerated outputs by the ChatGPT-4o, the full precision DefameLM\nand the heavily quantized 4-bit version, for the full texts see App. A.",
+      "section": "1 Introduction",
+      "char_count": 1017,
+      "chunk_index": 22,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0023",
+      "source_id": "DynamicGameContent_2026",
+      "text": "shortened for brevity, as well as excerpts of the corresponding\ngenerated outputs by the ChatGPT-4o, the full precision DefameLM\nand the heavily quantized 4-bit version, for the full texts see App. A.\nAlthough the quality of the 16-bit version is usually high, the 4-\nbit model occasionally exhibits a sizeable drop in quality, usually\nby making an illogical connection between various facts and the\n\"angle\" of the smear campaign or by failing to incorporate all in-\ntelligence items, the latter being the most common failure mode.\nThe example in the figure is deliberately chosen as one where the\nquality of all models is good.3.2 Generating the training data: DAG approach\nTo achieve fine-grained control over dataset generation, we need\nsufficient variability for the model to generalize while maintain-\ning focus on game-specific elements for quality generation. We\ndesigned a DAG-based iterative process that provides this control.\nIn essence, we use a larger teacher LLM to generate text samples for\nfine-tuning, where each piece follows a structured multi-step gen-\neration scheme.",
+      "section": "1 Introduction",
+      "char_count": 1088,
+      "chunk_index": 23,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0024",
+      "source_id": "DynamicGameContent_2026",
+      "text": "ed iterative process that provides this control.\nIn essence, we use a larger teacher LLM to generate text samples for\nfine-tuning, where each piece follows a structured multi-step gen-\neration scheme. Once the input format and parametrized prompt Π\nare fixed, our DAG approach enables systematic control over vari-\nation at each generation node while ensuring adherence to game\nlore.\nWe first decompose the inputs 𝜔into a list®𝑧containing details\nsuch as the origin country, personality, factional allegiance, and\noccupation of the sender and target. This information is assumed\nto be read from the game when later generating during runtime. To\navoid redundancy in the collection of inputs, we employ an iterative\nprocess, whose logic follows a DAG. The process is exemplified in\nFig. 3. Each component of ®𝑧is either selected from an appropriate\npredefined list (choice nodes) or generated using any elements up\nuntil the given point in the DAG execution (generation nodes). The\nlists may be nested, such that origin country may affect which\nsocial classes a character can belong to, for example. Choices at any\ngiven point in the DAG flow may affect which lists are available\ndownstream.",
+      "section": "1 Introduction",
+      "char_count": 1189,
+      "chunk_index": 24,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0025",
+      "source_id": "DynamicGameContent_2026",
+      "text": "be nested, such that origin country may affect which\nsocial classes a character can belong to, for example. Choices at any\ngiven point in the DAG flow may affect which lists are available\ndownstream. Variation is guaranteed by selecting different com-\nbinations of all the lists and stitching together the final input 𝜔\nusing ChatGPT-4o-mini to write description and other free-form\ntexts specific to all the collections of choices and generations. The\napproach is a powerful way of achieving a large quantity of text\nsamples grounded in the game lore at hand.\nThe final input 𝜔is used to populate a prompt template Π. The\nresulting prompt Π(𝜔) is sent to the larger teacher model, ChatGPT-\n4o [19,20], to generate the final training output ΩLLM(Π(𝜔) . This\npipeline, akin to self-instruction [ 31], was used to generate 1800\ndistinct input-output pairs.\n3.3 Training DefameLM model\nThe model is obtained through task-specific supervised fine-tuning\nof a small base model, Llama 3.2-1B [ 9], using the synthetically gen-\nerated data. Specifically, we employ low-rank adaptation (LoRA) [ 10]\nof the base model, using a prompt-loss weight [11] of5 %.",
+      "section": "1 Introduction",
+      "char_count": 1148,
+      "chunk_index": 25,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0026",
+      "source_id": "DynamicGameContent_2026",
+      "text": "g\nof a small base model, Llama 3.2-1B [ 9], using the synthetically gen-\nerated data. Specifically, we employ low-rank adaptation (LoRA) [ 10]\nof the base model, using a prompt-loss weight [11] of5 %.\nFrom the 1800 generated pairs, we randomly selected 1440 in-\nputs for fine-tuning and reserved the remaining 360 for evaluation.\nLet𝐼trainand𝐼evaldenote the training and evaluation index sets\nrespectively. The training process is outlined in Fig. 4. The base\nLlama model is trained on the pairs {𝜔𝑖,ΩLLM(Π(𝜔𝑖))}𝑖∈𝐼train. As\nsuch, during generation the resulting fine-tuned model takes only\n𝜔as input, while the structure of the original prompt template has\nbeen learned during training.\nThe fine-tuning was performed using the Hugging Face SFT-\nTrainer library [ 30], with a learning rate of2 ·10−5, with a LoRA\n𝛼=128and rank 𝑟=256. Since size and speed is paramount for\nour application, the resulting model is produced and compared at\nthree different levels of quantization: 4-, 8- and 16 bit. With the\nbase model in question, the corresponding memory footprints are:\n16-bit (2.48 GB), 8-bit (1.32 GB), and 4-bit (808 MB).",
+      "section": "1 Introduction",
+      "char_count": 1124,
+      "chunk_index": 26,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0027",
+      "source_id": "DynamicGameContent_2026",
+      "text": "compared at\nthree different levels of quantization: 4-, 8- and 16 bit. With the\nbase model in question, the corresponding memory footprints are:\n16-bit (2.48 GB), 8-bit (1.32 GB), and 4-bit (808 MB). The 16-bit\nmodel exceeds our 2GB guideline from Section 2.2, while the 8-bit\n\nHigh-quality generation of dynamic game content via small language models: A proof of concept\nParametrized \nprompt\n+\nChatGPT-4oDefameLM\nFull precisionDefameLM\n4-bit precisionSender Target Intelligence & style\nFigure 2: Input/output structure for DefameLM with example outputs from ChatGPT-4o (training data gold standard), DefameLM\n16-bit, and DefameLM 4-bit. The model takes as input basic information about the sender and target (either NPC or player), plus\ncontextual information: 1) intelligence about the target, 2) the target audience, and 3) the rhetorical angle of the smear campaign.\nInputs shown are shortened, full outputs appear in Appendix A. DefameLM was trained without instruction prompting to\nassociate output structure with raw JSON inputs containing sender, target, intelligence, and style data.",
+      "section": "1 Introduction",
+      "char_count": 1092,
+      "chunk_index": 27,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0028",
+      "source_id": "DynamicGameContent_2026",
+      "text": "tened, full outputs appear in Appendix A. DefameLM was trained without instruction prompting to\nassociate output structure with raw JSON inputs containing sender, target, intelligence, and style data.\nand particularly the 4-bit models fall within the target range for\npractical deployment alongside demanding game systems.\n4 Quantitative assessment of model quality\nThe quality of DefameLM outputs varies considerably across in-\nput prompts, especially for the smaller models. Common failure\nmodes include failing to capture all provided intelligence, poorly\nimplementing the rhetorical angle, or making illogical connections\nwhen attempting to synthesize disparate details. When a non-zero\ntemperature is applied, quality fluctuates across generations, and\noften a successful output can be generated even when the zero-\ntemperature output failed. Besides the above-mentioned types of\nfailure, the most common case of inadequacy are cliches or simplyoutputs failing to be funny or feel like they connect with the target.",
+      "section": "1 Introduction",
+      "char_count": 1020,
+      "chunk_index": 28,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0029",
+      "source_id": "DynamicGameContent_2026",
+      "text": "temperature output failed. Besides the above-mentioned types of\nfailure, the most common case of inadequacy are cliches or simplyoutputs failing to be funny or feel like they connect with the target.\nWe would like to diagnose the root cause of failures, investigating\nwhether they are always recoverable through stochastic variation\nor whether failing outputs correspond to inputs in \"dead zones\"\nof the input space, where the model does not know what to do\nand struggles consistently regardless of temperature. Ultimately we\nwould like to investigate whether the necessary output quality can\nin principlebe reached in reasonable time, as defined in Section 2.2,\nacross prompts.\n4.1 LLM-as-a-judge experiment\nTo assess this, we utilize a type of LLM-as-a-judge procedure [ 15,\n37]. Each output is judged against a suite 𝑆𝐽of criteria. We found\n\nMorten I. K.",
+      "section": "1 Introduction",
+      "char_count": 857,
+      "chunk_index": 29,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0030",
+      "source_id": "DynamicGameContent_2026",
+      "text": "2.2,\nacross prompts.\n4.1 LLM-as-a-judge experiment\nTo assess this, we utilize a type of LLM-as-a-judge procedure [ 15,\n37]. Each output is judged against a suite 𝑆𝐽of criteria. We found\n\nMorten I. K. Munk, Arturo Valdivia, and Paolo Burelli\nChat GPT-4o\nParametrized \npromptFinished\nOutput \nFigure 3: Example of the DAG-based data generation using\nchoice nodes (predefined lists) and generation nodes (LLM-\ngenerated content): A finished LLM input is stitched together\nfrom various parts that are either chosen from conditional\nlists, dependent on earlier choices, or generated by an LLM.\nIn our example, all conditional lists were generated ahead\nof time using ChatGPT-4o, and generations during the DAG\nexecution were also carried out using ChatGPT-4o. The final\ncollected input 𝜔populates a parametrized prompt Π(𝜔) ,\nwhich is sent to a final ChatGPT-4o call, thus producing the\nfinal LLM outputΩ LLM(𝜔).\nthat simple pass/fail questions provided the most meaningful mea-\nsure for each criterion 𝑚∈𝑆𝐽, since the goal is not to compare\nthe quality of different outputs but instead to simply rely on the\nmodel’s underlying heuristic definition of good enough on each\ncriteria.",
+      "section": "1 Introduction",
+      "char_count": 1175,
+      "chunk_index": 30,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0031",
+      "source_id": "DynamicGameContent_2026",
+      "text": "re for each criterion 𝑚∈𝑆𝐽, since the goal is not to compare\nthe quality of different outputs but instead to simply rely on the\nmodel’s underlying heuristic definition of good enough on each\ncriteria. Thus a score 𝑗𝑚(𝜔)∈{ 0,1}is generated, corresponding to\nfail/pass, respectively. Here and in the following, the judge score\ndependency of the input 𝜔through the populated prompt template\nand the output SLM output, is suppressed, to be precise we take\n𝑗𝑚(𝜔)=𝑗𝑚(ΩSLM(𝜔),Π(𝜔)).\nThe overall verdict of the LLM-as-a-judge is given by\n𝐽(𝜔)=min\n𝑚∈𝑆 𝐽𝑗𝑚(𝜔).(1)\nIn other words, an output is graded as pass only if it passes all tests.\nThe tests used are\n(1)Overall assessment: Does the output follow from the\ninstructions in the promptΠ(𝜔)?\n(2)Angle implementation: Does the text successfully convey\nthe intended thematic or humorous angle?\n(3)Intelligence implementation: Are all pieces of intelli-\ngence incorporated in a coherent and meaningful way?\n(4)Alignment: Does the text adhere to the given constra",
+      "section": "1 Introduction",
+      "char_count": 1000,
+      "chunk_index": 31,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0032",
+      "source_id": "DynamicGameContent_2026",
+      "text": "nded thematic or humorous angle?\n(3)Intelligence implementation: Are all pieces of intelli-\ngence incorporated in a coherent and meaningful way?\n(4)Alignment: Does the text adhere to the given constraints,\nremain within the medieval world, and avoid factual hallu-\ncinations or inappropriate language?\n(5)Writing quality: Is the text well-written and stylistically\nconsistent with a medieval RPG setting?(6)Audience targeting: Does the text effectively tailor its con-\ntent and tone to the intended audience group (e.g., peasants,\nnobles, guards)?\n(7)Rhetorical targeting: Is the outputted smear campaign\nsuccessfully directed at the intended target?\nThese criteria exhibit intentional overlap to guard against false\npositives, with the overall verdict requiring all tests to pass. Out\nof these, criteria 1-4 are the hardest to satisfy, since they contain\nthe most creatively challenging and widely scoped tasks. We used\nChatGPT-4o for judging these, and found that switching to a smaller\nmodel led to overlooking some borderline cases.",
+      "section": "1 Introduction",
+      "char_count": 1036,
+      "chunk_index": 32,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0033",
+      "source_id": "DynamicGameContent_2026",
+      "text": "since they contain\nthe most creatively challenging and widely scoped tasks. We used\nChatGPT-4o for judging these, and found that switching to a smaller\nmodel led to overlooking some borderline cases. On the other hand,\nusing ChatGPT-4o for these metrics gave us a strict measure, con-\nfirmed by manual inspection the failed outputs of especially the\nmore heavily quantized models showed. For the final three tests,\nwe used ChatGPT-4o-mini, and didn’t observe a noticeable change\nin leniency between the two models. These three tests very rarely\nfail. Fig. 5 shows the overall performance of the different models\nunder these criteria, as well as the overall verdict, averaged over\nall 360 test samples. These outputs were generated using a temper-\nature of𝑇= 0.75, using a top- 𝑝strategy of 𝑝= 0.9. The overall\nsuccess rate of the LLM is a near-perfect98 %. Using the standard\nerror to estimate the accuracy of the success probabilities, the 8-bit\nmodel achieved94 .2 %±1.2 %versus92 .5 %±1.4 %16-bit. While\nthe 8-bit model’s average score is slightly higher, the confidence\nintervals overlap, and McNemar’s test yields 𝜒2=0.69,𝑝=0.41.",
+      "section": "1 Introduction",
+      "char_count": 1134,
+      "chunk_index": 33,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0034",
+      "source_id": "DynamicGameContent_2026",
+      "text": "s, the 8-bit\nmodel achieved94 .2 %±1.2 %versus92 .5 %±1.4 %16-bit. While\nthe 8-bit model’s average score is slightly higher, the confidence\nintervals overlap, and McNemar’s test yields 𝜒2=0.69,𝑝=0.41.\nWe conclude that the models are statistically indistinguishable, val-\nidating the 8-bit model as a drop-in replacement. The 4-bit model\nshows a clear degradation of quality, with a success probability\nof78%±2.2 %. Although the 4-bit model statistically needs more\nattempts to succeed, these numbers suggest that the 4-bit model\nwill have a speed advantage over the 16-bit model if it is just18 %\nquicker per generation. A more careful analysis is needed to as-\nsess this, however, since the number of expected attempts needed\nfluctuates highly over the test corpus. In particular, it is nota pri-\noriapparent that the proportional increase in expected attempts\nbetween say the 16-bit and 4-bit model for the difficult inputs is\nconsistent for all prompts, and one particular worry could be that\nthe 4-bit model exhibits catastrophic failure for prompts that were\notherwise manageable for the 16-bit model.",
+      "section": "1 Introduction",
+      "char_count": 1106,
+      "chunk_index": 34,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0035",
+      "source_id": "DynamicGameContent_2026",
+      "text": "he difficult inputs is\nconsistent for all prompts, and one particular worry could be that\nthe 4-bit model exhibits catastrophic failure for prompts that were\notherwise manageable for the 16-bit model. Such a situation could\nrender the more aggressively quantized models unpractical in ac-\ntual game applications since fringe samples would be unfixable. We\nnow turn to a quantitative investigation of these concerns.\n4.2 Estimating input-dependent success\nprobability\nWe want to assess whether the models are always capable of gen-\nerating appropriate output over a range of different inputs in an\nappropriate time on consumer hardware. To do this, we take50ran-\ndom inputs, and for each of the3levels of quantization we generate\n100outputs using the same generation parameters as above. All\noutputs are scored by the LLM-as-a-judge procedure. For a given\ninput𝜔𝑖and model𝑀, we can estimate a success probability 𝑝𝑀\n𝑖.\nWith this, consider the Bernoulli process of generating until suc-\ncess is achieved. The expected ”waiting time” 𝑊𝑀\n𝑖, i.e.",
+      "section": "1 Introduction",
+      "char_count": 1041,
+      "chunk_index": 35,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0036",
+      "source_id": "DynamicGameContent_2026",
+      "text": ". For a given\ninput𝜔𝑖and model𝑀, we can estimate a success probability 𝑝𝑀\n𝑖.\nWith this, consider the Bernoulli process of generating until suc-\ncess is achieved. The expected ”waiting time” 𝑊𝑀\n𝑖, i.e. the average\nnumber of attempts before success, is given by [5]\n\nHigh-quality generation of dynamic game content via small language models: A proof of concept\nFigure 4: Training data generation and fine-tuning pipeline. 𝑎)Varied inputs{®𝑧𝑖}𝑖are generated following the structure of\nFig. 3, mapped to string inputs 𝜔𝑖populating the parametrized prompt Π. LLM generation produces outputs ΩLLM(Π(𝜔)) .80 %of\nthe inputs form the training dataset 𝐼train, the remainder forms the validation set 𝐼eval.𝑏)Base model Llama 3.2-1B is fine-tuned\non training data, yielding 16-bit (training precision), 8-bit, and 4-bit quantized versions generating outputsΩ SLM(𝜔𝑖).\n𝑊𝑀\n𝑖=1/𝑝𝑀\n𝑖.(2)\nWe use a generation temperature of 𝑇=0.75, chosen as a deliber-\nate compromise. When deterministic generation ( 𝑇=0) produces\nan output that fails the judging criteria, introducing stochasticity\nallows the model to explore variations, some of which may suc-\nceed.",
+      "section": "1 Introduction",
+      "char_count": 1135,
+      "chunk_index": 36,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0037",
+      "source_id": "DynamicGameContent_2026",
+      "text": "ate compromise. When deterministic generation ( 𝑇=0) produces\nan output that fails the judging criteria, introducing stochasticity\nallows the model to explore variations, some of which may suc-\nceed. However, a temperature that is too low provides insufficient\nvariation to escape failures, while too high a temperature degrades\noverall quality. Preliminary inspection suggested that 𝑇= 0.75\noffered a reasonable balance between exploring creative variations\nand maintaining narrative coherence. A thorough optimization of\nthis hyperparameter is beyond the scope of this study.\nTable 1: Median generation timing breakdown on consumer\nhardware.\nComponent(median)4-bit 8-bit 16-bit\nModel loading ( ¯𝑡prep) 1145 ms 1397 ms 1782 ms\nSingle-attempt total ( ¯𝑡eval) 1968 ms 2554 ms 4710 ms\nPer-token generation 3.6 ms 5.1 ms 16 ms\nTable 2: Expected time-to-success distribution (seconds).\nModel Min P25 Med P75 P95 Max\n4-bit 1.8 s 1.9 s 2.1 s 2.2 s 3.4 s 5.1 s\n8-bit 2.4 s 2.4 s 2.5 s 2.7 s 3.9 s 6.1 s\n16-bit 4.6 s 4.6 s 4.8 s 5.5 s 7.5 s 15 s\nFigure 6.a shows the empirical cumulative distribution function\n(ECDF) of expected attempts to success across all 50 prompts.",
+      "section": "1 Introduction",
+      "char_count": 1163,
+      "chunk_index": 37,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0038",
+      "source_id": "DynamicGameContent_2026",
+      "text": "s 2.4 s 2.5 s 2.7 s 3.9 s 6.1 s\n16-bit 4.6 s 4.6 s 4.8 s 5.5 s 7.5 s 15 s\nFigure 6.a shows the empirical cumulative distribution function\n(ECDF) of expected attempts to success across all 50 prompts. Again,\nthe 16-bit and 8-bit models exhibit nearly identical distributions,\nwith over 80% of prompts achieving success within 2 attempts on\naverage. The 4-bit model’s ECDF curve falls below the other two,\nindicating a clear drop in performance across all inputs. It requires\napproximately 2–3 attempts for most prompts, consistent with its\noverall assessmentangle\nimplementationintelligence\nimplementationalignmentoverall\njudge verdict\nLLM-as-judge scores (GPT-4o): Average over 360 outputsMean score (0-1)\n0.60.81.016-bit model 8-bit model 4-bit model LLM (GPT-4o)Figure 5: Mean LLM-as-judge scores per metric for DefameLM\nat different quantization levels (16-, 8-, and 4-bit) compared\nto the ChatGPT-4o baseline (gold standard training data), av-\neraged over 360 test samples. Three metrics (writing quality,\naudience targeting, andrhetorical targeting) are omitted as\nall models achieved perfect scores.",
+      "section": "1 Introduction",
+      "char_count": 1105,
+      "chunk_index": 38,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0039",
+      "source_id": "DynamicGameContent_2026",
+      "text": "aseline (gold standard training data), av-\neraged over 360 test samples. Three metrics (writing quality,\naudience targeting, andrhetorical targeting) are omitted as\nall models achieved perfect scores. Theoverall judge verdict\n(rightmost) represents the minimum across all metrics, re-\nquiring all individual tests to pass. Error bars show standard\nerror (𝜎/√\n𝑁). Despite the 16-bit model scoring 2 percentage\npoints lower than the 8-bit model on overall verdict, over-\nlapping confidence intervals show that this difference is not\nstatistically significant.\nreduced estimated overall pass rate calculated above (78 %for the\n4-bit compared to approximately93 %for the 16-bit).\nTo compute the expected time to success, we measured genera-\ntion times on an average gaming PC by current standards (AMD\nRyzen 9 7950X CPU, NVIDIA RTX 3070 8GB VRAM) across all\n360 test prompts. The models were converted to .gguf format and\ndeployed using a custom SDK built with Llama.cpp [ 7] designed\n\nMorten I. K. Munk, Arturo Valdivia, and Paolo Burelli\nfor integration directly into Unreal 5 and Unity. All layers of the\nmodel’s were offloaded to the GPU.",
+      "section": "1 Introduction",
+      "char_count": 1138,
+      "chunk_index": 39,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0040",
+      "source_id": "DynamicGameContent_2026",
+      "text": "tom SDK built with Llama.cpp [ 7] designed\n\nMorten I. K. Munk, Arturo Valdivia, and Paolo Burelli\nfor integration directly into Unreal 5 and Unity. All layers of the\nmodel’s were offloaded to the GPU. The timing consists of two com-\nponents: preparation time 𝑡prep, including model loading and KV\ncache computation, and per-token evaluation time 𝑡eval. Expected\ntime-to-success is then defined as\n𝑡𝑀\nexp,𝑖=¯𝑡𝑀\nprep+𝑊𝑀\n𝑖·¯𝑡𝑀\neval,(3)\nwhere ¯𝑡𝑀\nprepand¯𝑡𝑀\nevaldenote the median preparation and per-token\nevaluation times for model 𝑀, respectively. For the outputs, the\nbiggest difference in mean output lengths is6 .1 %between the 16-bit\nmodel and 4-bit model, with 159 and 150 tokens, respectively. The\ncoefficients of variation (ratio of standard deviation to mean) are\n7.7 %and9.9 %respectively, so the 4-bit model shows slightly higher\nvariability. While the shorter 4-bit outputs provide a minor speed\nadvantage, this is negligible compared to the dramatic difference in\nper-token generation speed shown in Table 1:3 .6ms for the 4-bit\nmodel versus16ms for the 16-bit, a speedup of 4.5 times.\nFigure 6b reveals how this speedup translates to practical perfor-\nmance.",
+      "section": "1 Introduction",
+      "char_count": 1169,
+      "chunk_index": 40,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0041",
+      "source_id": "DynamicGameContent_2026",
+      "text": "e in\nper-token generation speed shown in Table 1:3 .6ms for the 4-bit\nmodel versus16ms for the 16-bit, a speedup of 4.5 times.\nFigure 6b reveals how this speedup translates to practical perfor-\nmance. Despite requiring more attempts, the 4-bit model achieves\nthe fastest time-to-success for the vast majority of prompts, with\nthe 8-bit model following closely behind. The percentiles are listed\nin Table 2: The 4-bit model has a median of2 .1seconds with95 %\nof prompts completing within3 .4seconds, while the 8-bit model\nachieves a median of2 .5seconds with95 %completing within3 .9\nseconds. In contrast, the 16-bit model exhibits significantly slower\npractical performance with a median of4 .8seconds. More criti-\ncally, the 16-bit model struggles with difficult prompts, with5 %\nexceeding7.5seconds and a maximum observed time of15seconds,\nthus approaching impracticality for real-time generation depending\non how generation latency is masked in gameplay.",
+      "section": "1 Introduction",
+      "char_count": 958,
+      "chunk_index": 41,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0042",
+      "source_id": "DynamicGameContent_2026",
+      "text": "ficult prompts, with5 %\nexceeding7.5seconds and a maximum observed time of15seconds,\nthus approaching impracticality for real-time generation depending\non how generation latency is masked in gameplay. These results\ndemonstrate that aggressive quantization not only maintains ac-\nceptable quality but provides superior practical efficiency for real-\ntime generation scenarios, where inference speed compensates for\nincreased retry requirements.\nAll quantization levels show strong rank correlation in overall\nprompt difficulty; for all pairings, we observed Spearman’s 𝜌>0.82\n(𝑝<10−13). Spearman’s correlation measures agreement in how\nmodels rank-order prompts by difficulty, not absolute score agree-\nment. This indicates that quantized models largely preserve the\nsame ranking of prompt difficulty as their full-precision counter-\nparts. The 8-bit model shows near-perfect agreement with 16-bit\n(𝜌=0.93), while 4-bit quantization shows slightly more deviation\n(𝜌= 0.83). However, a critical question remains: Do these mod-\nels struggle with the same prompts even among the most difficult\ninputs, or does quantization introduce different failure modes on\nthe hardest cases?",
+      "section": "1 Introduction",
+      "char_count": 1174,
+      "chunk_index": 42,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0043",
+      "source_id": "DynamicGameContent_2026",
+      "text": "owever, a critical question remains: Do these mod-\nels struggle with the same prompts even among the most difficult\ninputs, or does quantization introduce different failure modes on\nthe hardest cases? To investigate this, we first pooled success rates\nacross all models and prompts to determine a difficulty threshold,\nchoosing the 40th percentile, which gives a success probability\nthreshold of80 %. We then identified prompts where the mean suc-\ncess rate across models fell below this threshold, yielding 21 out of\nthe total 50 prompts. On these prompts, the 16-bit and 8-bit models\nmaintain very strong agreement ( 𝜌=0.84,𝑝<0.001), indicating\nthey struggle with the same difficult inputs. In contrast, the 4-bit\nmodel shows only weak correlation with both 16-bit ( 𝜌= 0.40,\n𝑝=0.074) and 8-bit (𝜌=0.30,𝑝=0.19).\nCumulative fraction of prompts Cumulative fraction of promptsAverage no. attempts to success\nExpected time to success (seconds)Generation speed: ECDF of time-to-successGeneration quality: ECDF of attempts-to-success\n0.8\n0.6\n0.4\n0.2\n2 4 6 8 10 12 141 2 3 4 5 61\n0.8\n0.6\n0.4\n0.2\n0Figure 6: Distribution of generation efficiency across quanti-\nzation levels.",
+      "section": "1 Introduction",
+      "char_count": 1169,
+      "chunk_index": 43,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0044",
+      "source_id": "DynamicGameContent_2026",
+      "text": "me-to-successGeneration quality: ECDF of attempts-to-success\n0.8\n0.6\n0.4\n0.2\n2 4 6 8 10 12 141 2 3 4 5 61\n0.8\n0.6\n0.4\n0.2\n0Figure 6: Distribution of generation efficiency across quanti-\nzation levels. (a) ECDF of the average number of generation\nattempts to success (i.e., the overall judge verdict, defined in\nEq.(1), is𝐽(𝜔)= 1) across 50 prompts with 100 samples each\n(𝑇=0.75). The 16-bit and 8-bit models show nearly identical\ndistributions, with most prompts requiring fewer than 2 at-\ntempts on average. The 4-bit model requires more attempts\non average across all prompts. (b) ECDF of expected time-to-\nsuccess, defined in Eq. 3. Despite requiring more attempts,\nthe 4-bit model achieves fastest generation for most prompts\ndue to superior inference speed, with 8-bit close behind. The\n16-bit model exhibits the slowest practical performance.",
+      "section": "1 Introduction",
+      "char_count": 848,
+      "chunk_index": 44,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0045",
+      "source_id": "DynamicGameContent_2026",
+      "text": "odel exhibits the slowest practical performance.",
+      "section": "1 Introduction",
+      "char_count": 48,
+      "chunk_index": 45,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0046",
+      "source_id": "DynamicGameContent_2026",
+      "text": "5 Discussion and future work\nWe have demonstrated that a single fine-tuned SLM can service a\nchallenging game loop under practical constraints. We now address\nkey limitations that must be resolved for practical deployment,\nfollowed by broader implications for future work.\n5.1 Limitations and ongoing Work\nRuntime quality assessment.In this work, we assessed quality\nfluctuations and their input-dependency using an LLM-as-a-judge\nframework to establish that adequate quality is achievable with\nbounded retry requirements. Although this showed the theoretical\nviability of the SLM in game, actual application at runtime deploy-\nment in games hinges on replacing the cloud-based LLM-as-a-judge\nwith a sufficiently powerful local quality assessment technique. Ex-\ntending our results to include this would enable fully autonomous\n\nHigh-quality generation of dynamic game content via small language models: A proof of concept\ngeneration on consumer hardware without external dependencies,\nand achieving this is the subject of ongoing research.",
+      "section": "5 Discussion and future work",
+      "char_count": 1040,
+      "chunk_index": 46,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0047",
+      "source_id": "DynamicGameContent_2026",
+      "text": "y generation of dynamic game content via small language models: A proof of concept\ngeneration on consumer hardware without external dependencies,\nand achieving this is the subject of ongoing research. Possible di-\nrections include ensemble classifiers or lightweight discriminators\ntrained to detect generation failures, though such approaches face\nchallenges with data imbalance (high pass rates yield few failure\nexamples for training).\nEvaluation methodology.While using ChatGPT-4o for both train-\ning and judging can introduce self-consistency bias, this arguably\nmakes benchmarks harder for the SLM to pass. Our approach relies\non specific pass/fail criteria, phrased objectively, rather than open-\nended quality scores, focusing evaluation on adherence to concrete\ninstructions. This mitigates variance from qualitative assessments.\nIn the multi-generation experiment, the three \"easy\" criteria\n(writing quality, audience targeting, rhetorical targeting) rarely\nfailed, with rates below2 %,2 %, and4 %respectively, even for the\nmost challenging prompts and smallest model (4-bit). Correlation\nanalysis reveals moderate overlap between the four hardest criteria\n(𝜌∈[ 0.26,0.64]).",
+      "section": "5 Discussion and future work",
+      "char_count": 1184,
+      "chunk_index": 47,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0048",
+      "source_id": "DynamicGameContent_2026",
+      "text": "es below2 %,2 %, and4 %respectively, even for the\nmost challenging prompts and smallest model (4-bit). Correlation\nanalysis reveals moderate overlap between the four hardest criteria\n(𝜌∈[ 0.26,0.64]). This intentional overlap safeguards against false\npositives while maintaining a conservative overall measure. How-\never, all quantitative results hinge on agreement with these specific\njudge criteria, which may not capture every nuance. Manual inspec-\ntion reveals subtleties not fully reflected in the pass/fail verdicts. For\ninstance, in the example in Fig. 2 both intelligence items are incorpo-\nrated by all models (passing the judge), yet the ChatGPT-4o output\ncleverly references the \"heated argument\" that caused the diplo-\nmatic failure by comparing it to a \"tavern brawl,\" while DefameLM\noutputs mention \"failed diplomatic missions\" without relating it\nto the responsible character flaw.",
+      "section": "5 Discussion and future work",
+      "char_count": 897,
+      "chunk_index": 48,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0049",
+      "source_id": "DynamicGameContent_2026",
+      "text": "d argument\" that caused the diplo-\nmatic failure by comparing it to a \"tavern brawl,\" while DefameLM\noutputs mention \"failed diplomatic missions\" without relating it\nto the responsible character flaw. Similarly, during systematic in-\nspection of outputs across all quantization levels, we subjectively\nperceived 16-bit outputs as slightly more \"refined,\" though this\ndistinction was not captured quantitatively, since the 8-bit and 16-\nbit models remained statistically indistinguishable in judge scores.\nThese observations cement the necessity of human-in-the-loop for\nfinal creative assessment, a requirement well-established in prior\nwork [ 27]. For example, while our metrics validate the 8-bit model\nas an efficient replacement, a game developer might still prefer\nthe 16-bit version based on this subtle, perceived improvement in\nqualitative \"feel\".\nOutput structure and consistency.Central to our proposed frame-\nwork for SLM use in video games is that the models should have a\nstructured input-output format, which serves as a key control for\nthe creativity-consistency trade-off.",
+      "section": "5 Discussion and future work",
+      "char_count": 1088,
+      "chunk_index": 49,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0050",
+      "source_id": "DynamicGameContent_2026",
+      "text": ".Central to our proposed frame-\nwork for SLM use in video games is that the models should have a\nstructured input-output format, which serves as a key control for\nthe creativity-consistency trade-off. DefameLM employs a highly\nstructured format, first addressing the target using the chosen intel\nand style, then appealing to the audience, and finally contrasting\nwith the sender. Initial attempts with less structured outputs re-\nsulted in excessively long generations of over 300 words. Imposing\nthe current structure reduced the length to 100-200 words while\nmaintaining quality, at the cost of a more repetitive form. The\nstructured format ensures player-unlockable elements (intelligence,\nangle, target audience) are clearly telegraphed in the output, which\nis critical since their absence would undermine the gameplay re-\nward of discovery. The purpose of DefameLM was to establish a\nproof of concept with a single model servicing an entire game loop\nin a way that involves humor and wit.",
+      "section": "5 Discussion and future work",
+      "char_count": 994,
+      "chunk_index": 50,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0051",
+      "source_id": "DynamicGameContent_2026",
+      "text": "would undermine the gameplay re-\nward of discovery. The purpose of DefameLM was to establish a\nproof of concept with a single model servicing an entire game loop\nin a way that involves humor and wit. The need to constrain De-\nfameLM’s output format reflects a broader principle for SLMs tosucceed in game contexts: challenging generation tasks require\ncarefully defined constraints on form, tone, and contextual scope.\n5.2 Broader Implications and Future Directions\nAgentic networks of SLMs.This study demonstrates that a sin-\ngle, self-contained SLM can service an entire gameplay loop, es-\ntablishing that individual components of our envisioned agentic\nframework can function reliably under game constraints. Having\nvalidated this foundational building block, the framework is viable\nin principle. What remains for future research is investigating the\ndegree to which complex narrative order and emergent stories arise\nfrom the dynamic interplay of such models, and the extent to which\ngame designers can deliberately steer this emergent process.",
+      "section": "5 Discussion and future work",
+      "char_count": 1049,
+      "chunk_index": 51,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0052",
+      "source_id": "DynamicGameContent_2026",
+      "text": "g the\ndegree to which complex narrative order and emergent stories arise\nfrom the dynamic interplay of such models, and the extent to which\ngame designers can deliberately steer this emergent process.\nJust as training data was generated bottom-up using hierarchies\nof interdependent information, final model outputs could be as-\nsembled similarly, with parallel models handling different subtasks,\nsome generating content, others retrieving game data or using\nheuristic graphs as in Legashev et al. [ 14] to reflect character mo-\ntivations. This modular approach offers advantages in iterative\nrefinement and artistic control. Whichever technique is used, the\nend goal would be to improve flexibility and quality. As an ex-\nample for reputational conflicts, this approach could potentially\ntake DefameLM from just creating letters and posters to include\nother settings, such as speeches, songs or poems. Moving towards\nseveral models may add significant overhead, and specific care\nmust be taken to still have the full end-to-end generation time stay\nwithin the realistic time limits.",
+      "section": "5 Discussion and future work",
+      "char_count": 1084,
+      "chunk_index": 52,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0053",
+      "source_id": "DynamicGameContent_2026",
+      "text": "es, songs or poems. Moving towards\nseveral models may add significant overhead, and specific care\nmust be taken to still have the full end-to-end generation time stay\nwithin the realistic time limits. Pairing this with runtime quality\nassessment could challenge this constraint, requiring alternative\nstrategies such as pre-generating content during loading screens\nor substituting some SLMs handling simpler tasks with DAG-path-\ndependent sampling from pre-generated lists (which is fast and\ndoesn’t require judging), mirroring our input generation approach.\nWhile we have validated game-loop-centric SLM generation, we\nhave argued that open-ended contexts, especially those touching\nmultiple narratological dimensions (i.e. quest- or dialogue gener-\nation), will require decomposition into specialized models. Even\nbefore establishing whether this can be done within reasonable\ntime constraints, it is an open question to what degree it can be\ndone at all, and what narrative generality such an agentic ensemble\nof SLMs can possibly handle.",
+      "section": "5 Discussion and future work",
+      "char_count": 1042,
+      "chunk_index": 53,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0054",
+      "source_id": "DynamicGameContent_2026",
+      "text": "er this can be done within reasonable\ntime constraints, it is an open question to what degree it can be\ndone at all, and what narrative generality such an agentic ensemble\nof SLMs can possibly handle.\nWorld-grounded data generation.Beyond learning rate adjust-\nments, the DAG-based data generation approach provides direct\ncontrol over the creativity-consistency trade-off. The number of\nchoice nodes determines how atomically game entities are defined,\nwhile list size and diversity at each node control the breadth of\ntraining variation. Generation nodes inject LLM creativity late in\nthe DAG flow. Once choice nodes ensure the desired uniqueness\nacross samples, these nodes produce detailed narratives and contex-\ntual elements that further differentiate each training example. How\nwe configure these controls depends on the application’s stability\nrequirements. When world features are stable (fixed factions, king-\ndoms), including exact in-game options in training aids the model\nwhen those instances are pulled from the game engine at runtime.",
+      "section": "5 Discussion and future work",
+      "char_count": 1050,
+      "chunk_index": 54,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0055",
+      "source_id": "DynamicGameContent_2026",
+      "text": "y\nrequirements. When world features are stable (fixed factions, king-\ndoms), including exact in-game options in training aids the model\nwhen those instances are pulled from the game engine at runtime.\nWe observed that DefameLM’s outputs degrade when given many\nout-of-vocabulary inputs (invented faction names, anachronistic\nterms), suggesting the model learns domain-appropriate patterns\n\nMorten I. K. Munk, Arturo Valdivia, and Paolo Burelli\nbeyond formatting. For applications with a more mutable game\nlore, a strategy might be to use larger lists in the list nodes of the\ndata-generation DAG, possibly including synonyms or variations\nfor the same concept to maximize generalization and prevent over-\nfitting. But this performance dependence on world-lore adherence\nraises open questions: to what extent can aggressive fine-tuning\non highly constrained, world-grounded data teach models implicit\nworld knowledge?",
+      "section": "5 Discussion and future work",
+      "char_count": 916,
+      "chunk_index": 55,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0056",
+      "source_id": "DynamicGameContent_2026",
+      "text": "t this performance dependence on world-lore adherence\nraises open questions: to what extent can aggressive fine-tuning\non highly constrained, world-grounded data teach models implicit\nworld knowledge? For instance, can a model learn to spontaneously\nmake references to significant entities, highly present in the train-\ning corpus, or demonstrate understanding of factional hierarchies?\nConversely, how constrained can the training corpus be before risk-\ning overfitting to such a degree that the model breaks on possible\nvariations? Future work might explore knowledge graph integra-\ntion or grammar-based constraints to enhance world grounding\nwhile maintaining robustness.\nPractical and ethical considerations.The offline, self-hosted na-\nture of fine-tuned SLMs addresses several practical barriers to LLM\nadoption in games. They eliminate cloud dependency, remove un-\npredictable operational costs, and ensure long-term durability by\ndecoupling content generation from external services. Fine-tuned\nmodels also offer more direct artistic control than black-box APIs,\nwith developers acting as directors who shape behaviour through\ncurated training data and generation context.",
+      "section": "5 Discussion and future work",
+      "char_count": 1181,
+      "chunk_index": 56,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0057",
+      "source_id": "DynamicGameContent_2026",
+      "text": "l services. Fine-tuned\nmodels also offer more direct artistic control than black-box APIs,\nwith developers acting as directors who shape behaviour through\ncurated training data and generation context. For an agentic system,\nthe creative considerations cover how the game developer chooses\nto break down the narrative task at hand, which ideally is based on\na (perhaps intuited) narratological model. However, this approach\nalso raises important ethical and legal considerations. Training data\ncuration must address artist rights and fair compensation, partic-\nularly as licensing frameworks for AI-generated content remain\nunderdeveloped. This study used Llama 3.2-1B as the base model for\nLoRA fine-tuning. Testing whether current state-of-the-art open-\ndata models, such as Apertus [ 23], are sufficient to train the entire\npipeline end-to-end would create an exciting case for establishing\nthe necessary legal groundwork to ensure artists’ rights are not\nbeing violated, and perhaps establishing a more clear-cut case for\nthe copyrightability of aspects of dynamic game content genera-\ntion.",
+      "section": "5 Discussion and future work",
+      "char_count": 1094,
+      "chunk_index": 57,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0058",
+      "source_id": "DynamicGameContent_2026",
+      "text": "he necessary legal groundwork to ensure artists’ rights are not\nbeing violated, and perhaps establishing a more clear-cut case for\nthe copyrightability of aspects of dynamic game content genera-\ntion. Guard railing against inappropriate content (slurs, harmful\nstereotypes) has been achieved for DefameLM at all levels of quan-\ntization through the combined processes of data generation and\ntraining, and across extensive testing, no inappropriate outputs\nwere observed. However, regulatory and ethical considerations may\nrequire runtime safety monitoring even when statistical evidence\nsuggests violations are extremely unlikely. Such monitoring adds\nlatency overhead that must fit within the time constraint. Future\nwork on runtime quality assessment should therefore stress-test\nboth generation quality and content safety checks within realistic\ntime budgets before practical viability can be fully demonstrated.\nLastly, the broader gaming community has expressed skepticism\ntoward generative AI, highlighting concerns about artistic authen-\nticity and labor displacement.",
+      "section": "5 Discussion and future work",
+      "char_count": 1075,
+      "chunk_index": 58,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0059",
+      "source_id": "DynamicGameContent_2026",
+      "text": "cal viability can be fully demonstrated.\nLastly, the broader gaming community has expressed skepticism\ntoward generative AI, highlighting concerns about artistic authen-\nticity and labor displacement. The path we suggest is admittedly\ntechnical, potentially impractical for developers or writers without\nspecialized training. However, if training and deployment were suf-\nficiently automated through accessible tools, then making it work\nwell within a game to create lasting experiences would require pre-\ncisely writers and game developers, not data scientists. Successfullyintegrating SLMs into games will require not only technical valida-\ntion but also thoughtful engagement with gaming and development\ncommunities, along with transparent communication about the\nrole and limitations of generated content.",
+      "section": "5 Discussion and future work",
+      "char_count": 809,
+      "chunk_index": 59,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0060",
+      "source_id": "DynamicGameContent_2026",
+      "text": "content.",
+      "section": "5 Discussion and future work",
+      "char_count": 8,
+      "chunk_index": 60,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0061",
+      "source_id": "DynamicGameContent_2026",
+      "text": "6 Conclusion\nIn this study we present aggressively fine-tuned SLMs as an alter-\nnative approach to LLMs for dynamic game content generation.\nTo reach consistent quality, they should have a narrowly scoped\nuse case, and the vision for the research is to replace a collection\nof prompts and one flexible LLM with an agentic network of such\nfine-tuned SLMs that can alter the game state. As a proof of concept,\nwe presented DefameLM, a single fine-tuned SLM that generates\nrhetorical attacks between the player and NPCs. This task involves\nsorting through information for relevant details, fitting them into a\nfixed format and synthesizing them into a humoristic smear cam-\npaign. We benchmarked the model at three quantization levels\n(16-, 8-, and 4-bit) using an LLM-as-a-judge suite. The 16- and 8-bit\nmodels performed identically ( 𝑝=0.41), achieving success rates\naround93 %. The 4-bit model performed significantly worse at78 %.\nPer-prompt success rate (for fixed temperature) varied significantly\nacross the prompts for all models, ranging from approximately0 .2\nto1.",
+      "section": "6 Conclusion",
+      "char_count": 1071,
+      "chunk_index": 61,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0062",
+      "source_id": "DynamicGameContent_2026",
+      "text": "d93 %. The 4-bit model performed significantly worse at78 %.\nPer-prompt success rate (for fixed temperature) varied significantly\nacross the prompts for all models, ranging from approximately0 .2\nto1. However, Spearman’s correlation ( 𝜌>0.82for all pairs) shows\nthat difficulty rankings remain largely preserved across quantiza-\ntion levels, with one notable exception: The 4-bit model developed\ndistinct failure modes on the hardest prompts ( 𝜌<0.40vs. 8- and\n16-bit), while 8- and 16-bit rankings remained strongly correlated.\nBy benchmarking the models on consumer hardware, we saw that a\nretry-until-success strategy led to a median expected total time (in-\ncluding retries) of less than 5 seconds, with a significant reduction\nin time for the successive stages of quantization. For the median\nexpected time, the generation time is roughly cut in half going\nfrom 16- to 8-bit while another20 %time reduction is observed\ngoing from 8-bit to 4-bit, roughly consistent across percentiles.",
+      "section": "6 Conclusion",
+      "char_count": 989,
+      "chunk_index": 62,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0063",
+      "source_id": "DynamicGameContent_2026",
+      "text": "e median\nexpected time, the generation time is roughly cut in half going\nfrom 16- to 8-bit while another20 %time reduction is observed\ngoing from 8-bit to 4-bit, roughly consistent across percentiles.\nWe conclude that the entire game loop is serviceable by a single\nmodel using a retry-until-success strategy with a fixed temperature,\nproving that dynamic game content can in theory be achieved by\nseparating generations into distinct game loops with individual\nmodels. The remaining item to be proven before this can be turned\ninto a practical reality is to devise a local method for replacing the\nLLM-as-a-judge, which is the subject of our continued research.\nOur vision is to extend this approach to open-ended generation\ncontexts, and we believe complex agentic networks of SLMs can\nprovide a foundation for dynamic game content generation.\nAcknowledgements\nThis work was supported by the Innovation Fund Denmark, grant\nnumber 4298-00007B.\nThe authors thank Mike Iorizzo for developing the SDK used for\nmodel deployment and for conducting the benchmarking experi-\nments that measured DefameLM’s generation times on consumer\nhardware.",
+      "section": "6 Conclusion",
+      "char_count": 1138,
+      "chunk_index": 63,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0064",
+      "source_id": "DynamicGameContent_2026",
+      "text": "0007B.\nThe authors thank Mike Iorizzo for developing the SDK used for\nmodel deployment and for conducting the benchmarking experi-\nments that measured DefameLM’s generation times on consumer\nhardware.\n\nHigh-quality generation of dynamic game content via small language models: A proof of concept\nA Complete text sample\nHere is the complete text sample shown in redacted form in Fig. 2.\nA.1 Input Data\nInput Data\n|Sender|:\n{'name':'John Kantakouzenos',\n'p r o f e s s i o n':'knight',\n'p e r s o n a l i t y _ t r a i t': ['Trustworthy','O b j e c t i v e','P e s s i m i s t i c'] ,\n'f a c t i o n':'Order o f th e Golden C h a l i c e',\n'd e s c r i p t i o n':'John Kantakouzenos i s a seaso ned k n i g h t known f o r h i s unwavering\nl o y a l t y t o t h e Order o f t h e Golden C h a l i c e . His r e p u t a t i o n f o r t r u s t w o r t h i n e s s\nand o b j e c t i v i t y p r e c e d e s him , making him a r e s p e c t e d f i g u r e among h i s p e e r s .",
+      "section": "6 Conclusion",
+      "char_count": 976,
+      "chunk_index": 64,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0065",
+      "source_id": "DynamicGameContent_2026",
+      "text": "e Golden C h a l i c e . His r e p u t a t i o n f o r t r u s t w o r t h i n e s s\nand o b j e c t i v i t y p r e c e d e s him , making him a r e s p e c t e d f i g u r e among h i s p e e r s .\nHowever , h i s tendency towards pessimism o f t e n c a s t s a shadow over h i s o t h e r w i s e\nn o b l e demeanor .',\n'c a t c h p h r a s e s': {'p u b l i c':'For honor and th e Golden C h a l i c e !',\n'p r i v a t e':'Hope i s but a f l e e t i n g shadow .'} }\n|Target|:\n{'name':'F r e y d i s E i r i k s d o t t i r',\n'p r o f e s s i o n':'n o b i l i t y',\n'p e r s o n a l i t y _ t r a i t': ['Open−minded','Competitive','Obnoxious'] ,\n'f a c t i o n': \" The Raven's C o u n c i l \" ,\n'd e s c r i p t i o n': \" F r e y d i s E i r i k s d o t t i r i s a noblewoman o f t he Raven's Council , known\nf o r her a d v e n t u r o u s s p i r i t and s t r a t e g i c mind . She i s both admired and f e a r e d\nf o r her c o m p e t i t i v e n a t u r e and her tendency t o speak her mind , o f t e n t o th e\nd i s c o m f o r t o f o t h e r s .",
+      "section": "6 Conclusion",
+      "char_count": 1065,
+      "chunk_index": 65,
+      "page_numbers": [
+        11
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0066",
+      "source_id": "DynamicGameContent_2026",
+      "text": "s t r a t e g i c mind . She i s both admired and f e a r e d\nf o r her c o m p e t i t i v e n a t u r e and her tendency t o speak her mind , o f t e n t o th e\nd i s c o m f o r t o f o t h e r s . \" ,\n'c a t c h p h r a s e s': {'p u b l i c':'The winds o f change f a v o r th e b o l d .','p r i v a t e':'I f\nonly t h e s e f o o l s c o u l d s e e beyond t h e i r noses .'} }\n|Intelligence|:\n’|failure|’:\n\" F r e y d i s E i r i k s d o t t i r once a t t e m p t e d t o l e a d a d i p l o m a t i c m i s s i o n t o s e c u r e an\na l l i a n c e with a n e i g h b o r i n g f a c t i o n , but her c o m p e t i t i v e n a t u r e l e d t o a h e a t e d\nargument t h a t r e s u l t e d i n t h e mission's f a i l u r e . \" ,\n’|addiction|’:\n'F r e y d i s has d e v e l o p e d an a d d i c t i o n t o th e t h r i l l o f high−s t a k e s p o l i t i c a l\nmaneuvering , o f t e n s e e k i n g out s i t u a t i o n s t h a t a l l o w her t o e x e r c i s e her\ns t r a t e g i c mind , r e g a r d l e s s o f th e p o t e n t i a l consequences .'\n|Target Audience|:\ns o l d i e r s\n|Angle|:\nbad f a m i l y l i n e a g e\n\nMorten I. K.",
+      "section": "6 Conclusion",
+      "char_count": 1161,
+      "chunk_index": 66,
+      "page_numbers": [
+        11
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0067",
+      "source_id": "DynamicGameContent_2026",
+      "text": "t o e x e r c i s e her\ns t r a t e g i c mind , r e g a r d l e s s o f th e p o t e n t i a l consequences .'\n|Target Audience|:\ns o l d i e r s\n|Angle|:\nbad f a m i l y l i n e a g e\n\nMorten I. K. Munk, Arturo Valdivia, and Paolo Burelli\nA.2 Model Outputs\n\"Gold\" LLM Output (GPT-4)\nFreydís the Foolhardy\nThe Noblewoman with a Raven’s Nest for a Brain\nFreydís the Foolhardy, descendant of a long line of blundering nobles, once tried her hand at diplomacy only to turn it into a tavern\nbrawl of words. Her addiction to high-stakes folly has left her with more enemies than allies. Soldiers, do you trust your fate to one\nwho can’t even secure an alliance without a tantrum? While she plays her games, your lives hang in the balance. Choose wisely\nwhom you follow.\nJohn Kantakouzenos stands for honor and stability, unlike Freydís’s reckless lineage.\nJohn Kantakouzenos\n“For honor and the Golden Chalice!”\nFine-tuned Model (16-bit GGUF)\nFreydís the Foolhardy\nA noblewoman with a lineage of blunders.\nBehold Freydís the Foolhardy, whose family tree is as crooked as her failed diplomatic missions!",
+      "section": "6 Conclusion",
+      "char_count": 1097,
+      "chunk_index": 67,
+      "page_numbers": [
+        11
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0068",
+      "source_id": "DynamicGameContent_2026",
+      "text": "Chalice!”\nFine-tuned Model (16-bit GGUF)\nFreydís the Foolhardy\nA noblewoman with a lineage of blunders.\nBehold Freydís the Foolhardy, whose family tree is as crooked as her failed diplomatic missions! Her ancestors were known more\nfor their blunders than their brilliance, and it seems the Raven’s Council has inherited their folly. Soldiers, do you wish to follow a\nleader who stumbles through politics like a blindfolded jester? While Freydís chases the thrill of high-stakes gambles, our own John\nKantakouzenos stands as a paragon of honor and wisdom, guiding us with steadfast courage.\nJohn Kantakouzenos: A knight of true lineage, not a lineage of blunders!\nJohn Kantakouzenos\n“For honor and the Golden Chalice!”\nQuantized Model (8-bit GGUF)\nFreydís the Foolhardy\nA noblewoman with a lineage of blunders.\nBehold Freydís the Foolhardy, whose family tree is as crooked as her failed diplomatic missions! Her ancestors were known more\nfor their blunders than their brilliance, and it seems the Raven’s Council has inherited their folly. Soldiers, do you wish to follow a\nleader who stumbles through politics like a blindfolded jester?",
+      "section": "6 Conclusion",
+      "char_count": 1136,
+      "chunk_index": 68,
+      "page_numbers": [
+        12
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0069",
+      "source_id": "DynamicGameContent_2026",
+      "text": "for their blunders than their brilliance, and it seems the Raven’s Council has inherited their folly. Soldiers, do you wish to follow a\nleader who stumbles through politics like a blindfolded jester? While she chases the thrill of turmoil, you stand guard against chaos.\nStand with John Kantakouzenos, whose honor and loyalty are as steadfast as the Golden Chalice.\nJohn Kantakouzenos: A knight of true lineage, not a blundering noble!\nJohn Kantakouzenos\n“For honor and the Golden Chalice!”\n\nHigh-quality generation of dynamic game content via small language models: A proof of concept\nQuantized Model (4-bit GGUF)\nFreydís the Fumbling\nThe Noblewoman Who Can’t Navigate Her Own Kin\nBehold Freydís the Fumbling, whose family tree is as twisted as her political maneuvers! Her noble blood has brewed with folly,\nleading to a diplomatic disaster and an addiction to the thrill of chaos. Soldiers, do you trust your fate to one who can’t even steer\nher own kin straight? Stand with John Kantakouzenos, whose loyalty to the Order of the Golden Chalice is as steadfast as your\ncourage on the battlefield.\nJohn Kantakouzenos: A knight of true lineage, unlike Freydís’s tangled roots.",
+      "section": "6 Conclusion",
+      "char_count": 1176,
+      "chunk_index": 69,
+      "page_numbers": [
+        12
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0070",
+      "source_id": "DynamicGameContent_2026",
+      "text": "h John Kantakouzenos, whose loyalty to the Order of the Golden Chalice is as steadfast as your\ncourage on the battlefield.\nJohn Kantakouzenos: A knight of true lineage, unlike Freydís’s tangled roots.\nJohn Kantakouzenos\n“For honor and the Golden Chalice!”",
+      "section": "6 Conclusion",
+      "char_count": 255,
+      "chunk_index": 70,
+      "page_numbers": [
+        13
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0071",
+      "source_id": "DynamicGameContent_2026",
+      "text": "References\n[1] Suzan Al-Nassar, Anthonie Schaap, Michael Van Der Zwart, Mike Preuss, and Marcello A Gómez-Maureira. 2023. Questville: Procedural quest generation using nlp models. In\nProceedings of the 18th International Conference on the Foundations of Digital Games. 1–4. doi:10.1145/3582437.3587188\n[2] Anirudh Atmakuru, Jatin Nainani, Rohith Siddhartha Reddy Bheemreddy, Anirudh Lakkaraju, Zonghai Yao, Hamed Zamani, and Haw-Shiuan Chang. 2024. Cs4: Measuring the\ncreativity of large language models automatically by controlling the number of story-writing constraints.arXiv preprint arXiv:2410.04197(2024). doi:10.48550/arXiv.2410.04197\n[3] Peter Belcak, Greg Heinrich, Shizhe Diao, Yonggan Fu, Xin Dong, Saurav Muralidharan, Yingyan Celine Lin, and Pavlo Molchanov. 2025. Small Language Models Are the\nFuture of Agentic AI. (2025). doi:10.48550/arXiv.2506.02153\n[4] S. Cass. 2002. Mind games - computer game AI.IEEE Spectrum39, 12 (2002), 40–44. doi:10.1109/MSPEC.2002.1088444\n[5] William Feller. 1968.An Introduction to Probability Theory and Its Applications(3 ed.). Vol. 1. John Wiley & Sons, New York.",
+      "section": "References",
+      "char_count": 1111,
+      "chunk_index": 71,
+      "page_numbers": [
+        13
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0072",
+      "source_id": "DynamicGameContent_2026",
+      "text": "me AI.IEEE Spectrum39, 12 (2002), 40–44. doi:10.1109/MSPEC.2002.1088444\n[5] William Feller. 1968.An Introduction to Probability Theory and Its Applications(3 ed.). Vol. 1. John Wiley & Sons, New York.\n[6] Roberto Gallotta, Graham Todd, Marvin Zammit, Sam Earle, Antonios Liapis, Julian Togelius, and Georgios N. Yannakakis. 2024. Large Language Models and Games: A Survey\nand Roadmap.IEEE Transactions on Games(2024), 1–18. doi:10.1109/TG.2024.3461510\n[7] Georgi Gerganov. 2023.llama.cpp.  Accessed: 2025.\n[8]P. Gervás, E. Concepción, C. León, G. Méndez, and P. Delatorre. 2019. The Long Path to Narrative Generation.IBM Journal of Research and Development63, 1 (Jan. 2019),\n8:1–8:10. doi:10.1147/JRD.2019.2896157\n[9] Aaron Grattafiori, Abhimanyu Dubey, Abhinav Jauhri, et al .2024. The Llama 3 Herd of Models.arXiv preprint(2024). arXiv:2407.21783 [cs.LG] doi:10.48550/arXiv.2407.21783\n[10] Edward J. Hu, Yelong Shen, Phillip Wallis, Zeyuan Allen-Zhu, Yuanzhi Li, Shean Wang, Lu Wang, and Weizhu Chen. 2022. LoRA: Low-Rank Adaptation of Large Language\nModels. InInternational Conference on Learning Representations. \n[11] Mathew Huerta-Enochian and Seung Yong Ko. 2024.",
+      "section": "References",
+      "char_count": 1170,
+      "chunk_index": 72,
+      "page_numbers": [
+        13
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0073",
+      "source_id": "DynamicGameContent_2026",
+      "text": "Wang, Lu Wang, and Weizhu Chen. 2022. LoRA: Low-Rank Adaptation of Large Language\nModels. InInternational Conference on Learning Representations. \n[11] Mathew Huerta-Enochian and Seung Yong Ko. 2024. Instruction Fine-Tuning: Does Prompt Loss Matter?arXiv preprint(2024). doi:10.48550/arXiv.2401.13586\n[12] Jin Jeong and Tak Yeon Lee. 2025. LIGS: Developing an LLM-infused Game System for Emergent Narrative. 1–12. doi:10.1145/3706599.3720212\n[13] Christoph Klimmt, Tilo Hartmann, and Andreas Frey. 2007. Effectance and control as determinants of video game enjoyment.Cyberpsychology & behavior10, 6 (2007), 845–848.\ndoi:10.1089/cpb.2007.9942\n[14] Leonid Legashev, Alexander Shukhman, Vadim Badikov, and Vladislav Kurynov. 2025. Using Large Language Models for Goal-Oriented Dialogue Systems.Applied Sciences15,\n9 (2025), 4687. doi:10.3390/app15094687\n[15] Dawei Li, Bohan Jiang, Liangjie Huang, Alimohammad Beigi, Chengshuai Zhao, Zhen Tan, Amrita Bhattacharjee, Yuxuan Jiang, Canyu Chen, Tianhao Wu, et al .2025. From\nGeneration to Judgment: Opportunities and Challenges of LLM-as-a-Judge. InProceedings of EMNLP 2025. 2757–2791.",
+      "section": "References",
+      "char_count": 1130,
+      "chunk_index": 73,
+      "page_numbers": [
+        13
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0074",
+      "source_id": "DynamicGameContent_2026",
+      "text": "Zhen Tan, Amrita Bhattacharjee, Yuxuan Jiang, Canyu Chen, Tianhao Wu, et al .2025. From\nGeneration to Judgment: Opportunities and Challenges of LLM-as-a-Judge. InProceedings of EMNLP 2025. 2757–2791. doi:10.18653/v1/2025.emnlp-main.138\n[16] Guillermo Marco, Luz Rello, and Julio Gonzalo. 2025. Small Language Models Can Outperform Humans in Short Creative Writing: A Study Comparing SLMs with Humans and\nLLMs. (2025). doi:10.48550/arXiv.2409.11547\n[17] Kathryn Merrick. 2007. Modeling motivation for adaptive nonplayer characters in dynamic computer game worlds.ACM Computers in Entertainment5, 4 (2007). doi:10.1145/\n1324198.1324203\n[18] Matthias Müller-Brockhausen, Giulio Barbero, and Mike Preuss. 2023. Chatter Generation through Language Models. In2023 IEEE Conference on Games (CoG)(2023-08). 1–6.\ndoi:10.1109/CoG57401.2023.10333244\n[19] OpenAI. 2024. GPT-4 Technical Report.arXiv preprint(2024). doi:10.48550/arXiv.2303.08774\n[20] OpenAI. 2024. GPT-4o System Card.arXiv preprint(2024). doi:10.48550/arXiv.2410.21276\n[21] Joon Sung Park, Joseph O’Brien, Carrie Jun Cai, Meredith Ringel Morris, Percy Liang, and Michael S Bernstein. 2023.",
+      "section": "References",
+      "char_count": 1143,
+      "chunk_index": 74,
+      "page_numbers": [
+        13
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0075",
+      "source_id": "DynamicGameContent_2026",
+      "text": "I. 2024. GPT-4o System Card.arXiv preprint(2024). doi:10.48550/arXiv.2410.21276\n[21] Joon Sung Park, Joseph O’Brien, Carrie Jun Cai, Meredith Ringel Morris, Percy Liang, and Michael S Bernstein. 2023. Generative agents: Interactive simulacra of human\nbehavior. InProceedings of the 36th annual acm symposium on user interface software and technology. 1–22. doi:10.1145/3586183.3606763\n[22] Rasmus Ploug, Emil Rimer, Anthon Kristian Skov Petersen, and Marco Scirea. 2025. Open-Ended NPC Dialogue Favors Casual Players: A Pilot Comparison of Three LLM-Driven\nDialogue Systems. In2025 IEEE Conference on Games (CoG). IEEE, 1–4. doi:10.1109/CoG64752.2025.11114150\n[23] Project Apertus. 2025. Apertus: Democratizing Open and Compliant LLMs for Global Language Environments.arXiv preprint(2025). doi:10.48550/arXiv.2509.14233\n[24] Hua Qin, Pei-Luen Rau, and Gavriel Salvendy. 2009. Measuring Player Immersion in the Computer Game Narrative.Int. J. Hum. Comput. Interaction25 (Feb. 2009), 107–133.\ndoi:10.1080/10447310802546732\n[25] Henrik Schoenau-Fog. 2011. The player engagement process–an exploration of continuation desire in digital games. InProceedings of DiGRA 2011 Conference: Think Design\nPlay.",
+      "section": "References",
+      "char_count": 1197,
+      "chunk_index": 75,
+      "page_numbers": [
+        13
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0076",
+      "source_id": "DynamicGameContent_2026",
+      "text": ".1080/10447310802546732\n[25] Henrik Schoenau-Fog. 2011. The player engagement process–an exploration of continuation desire in digital games. InProceedings of DiGRA 2011 Conference: Think Design\nPlay. Digital Games Research Association. doi:10.26503/dl.v2011i1.540\n[26] Penny Sweetser. 2024. Large language models and video games: A preliminary scoping review. InProceedings of the 6th ACM Conference on Conversational User Interfaces. 1–8.\ndoi:10.1145/3640794.3665582\n[27] Annalisa Szymanski, Noah Ziems, Heather A. Eicher-Miller, Toby Jia-Jun Li, Meng Jiang, and Ronald A. Metoyer. 2025. Limitations of the LLM-as-a-Judge Approach for\nEvaluating LLM Outputs in Expert Knowledge Tasks. InProceedings of IUI 2025. 952–966. doi:10.1145/3708359.3712091\n[28] Chen Feng Tsai, Xiaochen Zhou, Sierra S Liu, Jing Li, Mo Yu, and Hongyuan Mei. 2023. Can large language models play text games well? Current state-of-the-art and open\nquestions.arXiv preprint arXiv:2304.02868(2023). doi:10.48550/arXiv.2304.02868\n[29] Susanna Värtinen, Perttu Hämäläinen, and Christian Guckelsberger. 2024. Generating Role-Playing Game Quests With GPT Language Models.IEEE Transactions on Games16,\n1 (March 2024), 127–139.",
+      "section": "References",
+      "char_count": 1194,
+      "chunk_index": 76,
+      "page_numbers": [
+        13
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0077",
+      "source_id": "DynamicGameContent_2026",
+      "text": "4.02868\n[29] Susanna Värtinen, Perttu Hämäläinen, and Christian Guckelsberger. 2024. Generating Role-Playing Game Quests With GPT Language Models.IEEE Transactions on Games16,\n1 (March 2024), 127–139. doi:10.1109/TG.2022.3228480\n[30] Leandro von Werra, Younes Belkada, Lewis Tunstall, Edward Beeching, Tristan Thrush, Nathan Lambert, and Shengyi Huang. 2020.TRL: Transformer Reinforcement Learning.\n\n[31] Yizhong Wang, Yeganeh Kordi, Swaroop Mishra, Alisa Liu, Noah A. Smith, Daniel Khashabi, and Hannaneh Hajishirzi. 2023. Self-Instruct: Aligning Language Models with\nSelf-Generated Instructions. InProceedings of ACL 2023. 13484–13508. doi:10.18653/v1/2023.acl-long.754\n[32] Jason Wei, Xuezhi Wang, Dale Schuurmans, Maarten Bosma, Brian Ichter, Fei Xia, Ed H. Chi, Quoc V. Le, and Denny Zhou. 2022. Chain-of-Thought Prompting Elicits\nReasoning in Large Language Models. InAdvances in Neural Information Processing Systems, Vol. 35. 24824–24837. \n9d5609613524ecf4f15af0f7b31abca4-Abstract-Conference.html\n\nMorten I. K. Munk, Arturo Valdivia, and Paolo Burelli\n[33] Yunge Wen, Chenliang Huang, Hangyu Zhou, Zhuo Zeng, Chun Ming Louis Po, Julian Togelius, Timothy Merino, and Sam Earle. 2025.",
+      "section": "References",
+      "char_count": 1191,
+      "chunk_index": 77,
+      "page_numbers": [
+        13
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0078",
+      "source_id": "DynamicGameContent_2026",
+      "text": "onference.html\n\nMorten I. K. Munk, Arturo Valdivia, and Paolo Burelli\n[33] Yunge Wen, Chenliang Huang, Hangyu Zhou, Zhuo Zeng, Chun Ming Louis Po, Julian Togelius, Timothy Merino, and Sam Earle. 2025. All Stories Are One Story: Emotional\nArc Guided Procedural Game Level Generation. (2025). doi:10.48550/arXiv.2508.02132\n[34] Tongshuang Wu, Michael Terry, and Carrie Jun Cai. 2022. AI chains: Transparent and controllable human-AI interaction by chaining large language model prompts. In\nProceedings of the 2022 CHI conference on human factors in computing systems. 1–22. doi:10.1145/3491102.3517582\n[35] Georgios N. Yannakakis and Julian Togelius. 2025.Artificial Intelligence and Games. Springer Nature. \n[36] Zhuosheng Zhang, Aston Zhang, Mu Li, and Alex Smola. 2023. Automatic Chain of Thought Prompting in Large Language Models. InThe Eleventh International Conference on\nLearning Representations. \n[37] Lianmin Zheng, Wei-Lin Chiang, Ying Sheng, Siyuan Zhuang, Zhanghao Wu, Yonghao Zhuang, Zi Lin, Zhuohan Li, Dacheng Li, Eric Xing, Hao Zhang, Joseph E. Gonzalez,\nand Ion Stoica. 2023.",
+      "section": "References",
+      "char_count": 1091,
+      "chunk_index": 78,
+      "page_numbers": [
+        13
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "DynamicGameContent_2026_chunk_0079",
+      "source_id": "DynamicGameContent_2026",
+      "text": "sentations. \n[37] Lianmin Zheng, Wei-Lin Chiang, Ying Sheng, Siyuan Zhuang, Zhanghao Wu, Yonghao Zhuang, Zi Lin, Zhuohan Li, Dacheng Li, Eric Xing, Hao Zhang, Joseph E. Gonzalez,\nand Ion Stoica. 2023. Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena.Advances in Neural Information Processing Systems36 (2023), 46595–46623. https:\n//proceedings.neurips.cc/paper_files/paper/2023/hash/91f18a1287b398d378ef22505bf41832-Abstract-Datasets_and_Benchmarks.html",
+      "section": "References",
+      "char_count": 459,
+      "chunk_index": 79,
+      "page_numbers": [
+        14
+      ],
+      "source_file": "DynamicGameContent_2026_2601_23206.pdf",
+      "total_source_pages": 14
+    }
+  ]
+}

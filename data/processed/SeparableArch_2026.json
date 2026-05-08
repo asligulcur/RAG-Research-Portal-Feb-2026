@@ -1,0 +1,792 @@
+{
+  "source_id": "SeparableArch_2026",
+  "metadata": {
+    "title": "A Separable Architecture for Continuous Token Representation in Language Models",
+    "authors": "Research Team",
+    "year": "2026",
+    "venue": "arXiv",
+    "url": "https://arxiv.org/abs/2601.22040",
+    "source_type": "peer-reviewed",
+    "relevance_note": "Novel architecture for efficient token representation (Jan 29, 2026)"
+  },
+  "pdf_metadata": {
+    "title": "A Separable Architecture for Continuous Token Representation in Language Models",
+    "author": "Reza T. Batley; Sourav Saha",
+    "total_pages": 14
+  },
+  "statistics": {
+    "total_pages": 14,
+    "total_chunks": 59,
+    "avg_chunk_size": 1006.0,
+    "ingestion_timestamp": "2026-02-02T19:04:00.413708"
+  },
+  "chunks": [
+    {
+      "chunk_id": "SeparableArch_2026_chunk_0000",
+      "source_id": "SeparableArch_2026",
+      "text": "A Separable Architecture for Continuous Token Representation\nin Language Models\nReza T. Batley1Sourav Saha1",
+      "section": "Header/Title",
+      "char_count": 107,
+      "chunk_index": 0,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "SeparableArchitecture_2026_2601_22040.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "SeparableArch_2026_chunk_0001",
+      "source_id": "SeparableArch_2026",
+      "text": "Abstract\nTransformer scaling law analyses typically treat\nparameters as interchangeable; an abstraction that\naccurately predicts loss-compute relationships.\nYet, in sub-billion-parameter small language mod-\nels (SLMs), embedding matrices dominate the\nparameter budget. This work argues that this\nallocation is as suboptimal as it is counterintu-\nitive. Leviathan is an architecture with a continu-\nous embedding generator to replace the discrete\nlookup tables of canonical models. Evaluating\non the Pile dataset under isoparametric settings,\nLeviathan consistently outperforms a standard,\nLLaMA-style architecture. By means of an empir-\nical power-law fit, Leviathan exhibits a markedly\nsuperior effective parameter capacity. Across the\nregime studied, Leviathan behaves as a dense\nmodel with1.47to2.11×more parameters.",
+      "section": "Abstract",
+      "char_count": 819,
+      "chunk_index": 1,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "SeparableArchitecture_2026_2601_22040.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "SeparableArch_2026_chunk_0002",
+      "source_id": "SeparableArch_2026",
+      "text": "1. Introduction\nThe Transformer (Vaswani et al., 2017) has become the foun-\ndation of modern AI, powering breakthroughs in language\n(Brown et al., 2020; OpenAI, 2024), vision (Dosovitskiy\net al., 2021; Carion et al., 2020) and multimodal learning\n(Alayrac et al., 2022; Reed et al., 2022). Since its intro-\nduction in 2017, countless architectural improvements have\nbeen attempted. With the desire for longer and longer con-\ntext windows N, theO(N2)Attention mechanism has been\nplaced squarely in the crosshairs (Beltagy et al., 2020; Dao\net al., 2022; Zaheer et al., 2021; Child et al., 2019; Xiong\net al., 2021; Tay et al., 2021; Choromanski et al., 2022).\nThere have even been attempts to entirely replace the Atten-\ntion mechanism with multilayer perceptrons (MLPs), albeit\nprimarily for vision tasks (Tolstikhin et al., 2021; Liu et al.,\n2021).\n1Kevin T. Crofton Department of Aerospace and Ocean Engi-\nneering, Virginia Polytechnic Institute and State University, Blacks-\nburg, United States. Correspondence to: Reza Batley <rezabat-\n Sourav \nPreprint. January 30, 2026.By contrast, the static embedding matrix has received com-\nparatively less scrutiny.",
+      "section": "1. Introduction",
+      "char_count": 1160,
+      "chunk_index": 2,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "SeparableArchitecture_2026_2601_22040.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "SeparableArch_2026_chunk_0003",
+      "source_id": "SeparableArch_2026",
+      "text": "iversity, Blacks-\nburg, United States. Correspondence to: Reza Batley <rezabat-\n Sourav \nPreprint. January 30, 2026.By contrast, the static embedding matrix has received com-\nparatively less scrutiny. In Large Language Models (LLMs)\nwith standard vocabularies these parameters are often negli-\ngible. However, this assumption becomes increasingly frag-\nile in emerging regimes; in Small Language Models (SLMs),\nparticularly when paired with high-cardinality tokenizers,\nand omni-modal World Models tokenizing heterogeneous\ninputs ranging from visual patches to proprioceptive states.\nTo this end, this work introducesLeviathan, a Transformer\nincorporating a Separable Neural Architecture (SNA), as\nintroduced in (Batley et al., 2025), that replaces the discrete,\nhigh-cardinality lookup table with a continuous token gen-\nerator. In this embedding layer, Leviathan parameterizes\nthe embedding space as a smooth surface, mapping tokens\nto a low-dimensional coordinate grid that is subsequently\nprojected into the hidden space via a separable, continu-\nous generator module.",
+      "section": "1. Introduction",
+      "char_count": 1072,
+      "chunk_index": 3,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "SeparableArchitecture_2026_2601_22040.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "SeparableArch_2026_chunk_0004",
+      "source_id": "SeparableArch_2026",
+      "text": "erizes\nthe embedding space as a smooth surface, mapping tokens\nto a low-dimensional coordinate grid that is subsequently\nprojected into the hidden space via a separable, continu-\nous generator module. This approach allows the model to\ncapture high-rank semantic interactions with O(3√\nV·D)\nparameter scaling, breaking the linear dependency between\nvocabulary size and model capacity.\nIn controlled experiments on the Pile dataset (Gao et al.,\n2020), Leviathan produces a consistent downwards shift on\nthe parameter-loss frontier across the 60-420M parameter\nregime. Whilst the generator incurs a moderate through-\nput overhead ( 23−51% , decreasing with scale) the gains\nin sample efficiency outweigh this overhead. In particu-\nlar, Leviathan exhibits an effective capacity 1.5to2.1×\nits actual parameter count. Notably, at the 421M scale,\nLeviathan achieves the validation loss of a ≈725M pa-\nrameter dense model. Furthermore, within the investigated\ndomain, Leviathan exhibits a consistently steeper scaling\nbehavior both in parameters and samples when reasoning\nlayers are held fixed.",
+      "section": "1. Introduction",
+      "char_count": 1087,
+      "chunk_index": 4,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "SeparableArchitecture_2026_2601_22040.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "SeparableArch_2026_chunk_0005",
+      "source_id": "SeparableArch_2026",
+      "text": "5M pa-\nrameter dense model. Furthermore, within the investigated\ndomain, Leviathan exhibits a consistently steeper scaling\nbehavior both in parameters and samples when reasoning\nlayers are held fixed. Leviathan often continues to grow its\nadvantage as training progresses.",
+      "section": "1. Introduction",
+      "char_count": 272,
+      "chunk_index": 5,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "SeparableArchitecture_2026_2601_22040.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "SeparableArch_2026_chunk_0006",
+      "source_id": "SeparableArch_2026",
+      "text": "2. Background\nParametric Efficiency of ScalingThe foundations of\nmodern neural scaling laws (Kaplan et al., 2020; Hoffmann\net al., 2022) rest on the assumption of parametric inter-\nchangeability: that a parameter added to depth is a param-\neter added to width at efficient frontiers,ceteris paribus.\n1arXiv:2601.22040v1 [cs.CL] 29 Jan 2026\n\nA Separable Architecture for Continuous Token Representation in Language Models\nThis abstraction, however, breaks down at the boundaries\nof small scale and large vocabularies. In the regime of\nSmall Language Models (SLMs, sub 10B parameters), the\nvocabulary embedding matrix E∈RV×Ddisproportion-\nately consumes the parameter budget. Even a small tok-\nenizer such as GPT-2’s has a vocabulary exceeding 50,000.\nFor a small model with hidden dimension D= 1024 this\nembedding matrix alone demands 50M parameters. In a\n100M parameter model this “lookup table” taxes half of the\nmodel’s capacity. The output head, typically the same size,\nwould tax the remaining half of the 100M-model’s capacity,\nleaving no room for reasoning through Transformer depth.",
+      "section": "2. Background",
+      "char_count": 1089,
+      "chunk_index": 6,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "SeparableArchitecture_2026_2601_22040.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "SeparableArch_2026_chunk_0007",
+      "source_id": "SeparableArch_2026",
+      "text": "table” taxes half of the\nmodel’s capacity. The output head, typically the same size,\nwould tax the remaining half of the 100M-model’s capacity,\nleaving no room for reasoning through Transformer depth.\nWeight TyingThe standard approach to addressing this\n“vocabulary tax” is to share weights between the input em-\nbedding and pre-softmax output layer, a process known as\ntying (Press & Wolf, 2017; Inan et al., 2017). Whilst this\nrecovers half the parameter budget, enabling the construc-\ntion of a deeper model with the same memory footprint,\nit imposes a both philosophically inobvious and rigid con-\nstraint. In particular, that the geometry of the recognition\nspace (input) is identical to the geometry of the predic-\ntive space (output). These roles are, however, functionally\nasymmetrical. Empirical work has demonstrated that input\nrepresentations can often be hierarchically compressed with-\nout degrading performance, whilst the output head benefits\nfrom substantially higher expressive capacity (Baevski &\nAuli, 2019).",
+      "section": "2. Background",
+      "char_count": 1027,
+      "chunk_index": 7,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "SeparableArchitecture_2026_2601_22040.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "SeparableArch_2026_chunk_0008",
+      "source_id": "SeparableArch_2026",
+      "text": "that input\nrepresentations can often be hierarchically compressed with-\nout degrading performance, whilst the output head benefits\nfrom substantially higher expressive capacity (Baevski &\nAuli, 2019). This suggests that the input lookup table acts\nas a low-capacity retrieval mechanism, whilst the output\nhead serves as a high-rank projection onto the probability\nmanifold (Yang et al., 2018).\nFactorizationAnother approach is via factorization of\nthe input embedding matrix. Most notable here is AL-\nBERT (Lan et al., 2020), which decomposes the matrix\ninto two low-rank matrices of shape V× E andE ×D ,\nE ≪D . This reduces the parameter count from O(V·D)\ntoO(V· E+E ·D) , but imposes a strictly linear bottleneck\nbetween token identity and representation. Also note that\nthis count remains linear in V. This forces token relation-\nships to occupy a low-rank linear subspace which may limit\nthe model’s ability to represent high-order semantic inter-\nactions. Whilst Leviathan similarly imposes a form of rank\nbottleneck, it learns a continuous, nonlinear generator func-\ntion. Furthermore, unlike factorization-based approaches,\nLeviathan removes linear dependence onVentirely.",
+      "section": "2. Background",
+      "char_count": 1179,
+      "chunk_index": 8,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "SeparableArchitecture_2026_2601_22040.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "SeparableArch_2026_chunk_0009",
+      "source_id": "SeparableArch_2026",
+      "text": "imilarly imposes a form of rank\nbottleneck, it learns a continuous, nonlinear generator func-\ntion. Furthermore, unlike factorization-based approaches,\nLeviathan removes linear dependence onVentirely.\nContinuous Token RepresentationsThe transition from\ndiscrete lookup tables to continuous generators is, in part,\nmotivated by the success of implicit neural representations\n(INRs) in computer vision and signal processing (Sitzmann\net al., 2020; Mildenhall et al., 2020). In language modeling\nitself, attempts at using character-wise convolutions (Kim\net al., 2015) or hashing mechanisms (Svenstrup et al., 2017)retained discrete sub-structures.\nHowever, the emergence of Separable Neural Architectures\n(SNAs) in (Batley et al., 2025; Park et al., 2025) provides a\nsmooth primitive for efficiently modeling high-dimensional\ndata under rank constraints. This structure has further been\ndemonstrated as a separable network head driven by a con-\ntinuous latent space (Batley & Saha, 2026). Leviathan,\nnamed for the Hobbesian ideal of imposing order upon a\nstate of nature, adopts this functional approach to language.",
+      "section": "2. Background",
+      "char_count": 1114,
+      "chunk_index": 9,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "SeparableArchitecture_2026_2601_22040.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "SeparableArch_2026_chunk_0010",
+      "source_id": "SeparableArch_2026",
+      "text": "etwork head driven by a con-\ntinuous latent space (Batley & Saha, 2026). Leviathan,\nnamed for the Hobbesian ideal of imposing order upon a\nstate of nature, adopts this functional approach to language.\nV ocabulary is parameterized as coordinates within a continu-\nous representation space, moving away from the assumption\nof token independence that lookup tables, even factorized\nones, carry. This inductive bias allows the model toin-\nterpolaterepresentations, potentially offering a principled\nway forward towards handling unseen tokens, or expanding\nvocabularies without the need for re-training.\nToken, ID Spline BasisOuter Product\nEncode\nEncode\nEncodeDenseLayer NormDenseTo Transformer\nFigure 1.The generator module, replacing the standard dense input\nembedding matrix.\n3. Architecture\n3.1. A Continuous Token Generator\nLeviathan’s core innovation is its replacement of the discrete\nembedding matrix E∈RV×Dwith a separable generator\nfunction G:{0, . . . , V−1} →RD.",
+      "section": "2. Background",
+      "char_count": 969,
+      "chunk_index": 10,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "SeparableArchitecture_2026_2601_22040.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "SeparableArch_2026_chunk_0011",
+      "source_id": "SeparableArch_2026",
+      "text": "rix.\n3. Architecture\n3.1. A Continuous Token Generator\nLeviathan’s core innovation is its replacement of the discrete\nembedding matrix E∈RV×Dwith a separable generator\nfunction G:{0, . . . , V−1} →RD. The representation\nlearning process is composed of three distinct stages: la-\ntent compositional indexing, B-spline basis expansion and\n2\n\nA Separable Architecture for Continuous Token Representation in Language Models\ntensor-product aggregation.\nLatent compositional indexingThis stage factorizes the\nvocabulary Vinto a latent coordinate grid of kdimen-\nsions. One defines a base b=l\nk√\nVm\n. Each token of\nindex iis then deterministically mapped to a coordinate\n(i1, . . . , i k)using a base- bdecomposition. Each element\nof this coordinate indexes into kshared latent codebooks\nC1, . . . , C k∈Rb×dseedthat are learned. The resulting vec-\ntors are summed to produce a seedz∈Rdseed, so that,\nz(i) =kX\nr=1Cr[ir] =kX\nr=1Cr\u0014\u0016i\nbk−r\u0017\nmodb\u0015\n.(1)\nThis induces the parameter compression of the indexing\nstage from O(V) toO\u0010\nkk√\nV\u0011\n. The produced seed z(i) is\nprojected into a latent space via a dense layer then to the\nunit hypersphere by means of a layer normalization LN(·) .",
+      "section": "2. Background",
+      "char_count": 1172,
+      "chunk_index": 11,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "SeparableArchitecture_2026_2601_22040.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "SeparableArch_2026_chunk_0012",
+      "source_id": "SeparableArch_2026",
+      "text": "mpression of the indexing\nstage from O(V) toO\u0010\nkk√\nV\u0011\n. The produced seed z(i) is\nprojected into a latent space via a dense layer then to the\nunit hypersphere by means of a layer normalization LN(·) .\nFinally, a sigmoid activation maps everything to the unit\nhypercube. This latent coordinate is˜z∈[0,1]dseed.\nB-spline basis expansionThis stage constitutes the main\nphilosophical departure from other approaches to token em-\nbedding; ˜z(i)is treated as input to a function approximator\nrather than a static vector. In particular, this function ap-\nproximator seeks to learn a smooth surface Min the latent\nspace. Following the KHRONOS architecture (Batley &\nSaha, 2025; Sarker et al., 2026), each dimension rof the\nlatent space is modeled by a (univariate) B-spline basis\nexpansionϕ r(xr).\nTensor product aggregationA rank-1 separable com-\nponent, amode, is constructed by a tensor productQdseed\nr=1ϕr(xr). This produces smooth and global, i.e. full-\ndimensional, structure but lacks expressivity.",
+      "section": "2. Background",
+      "char_count": 997,
+      "chunk_index": 12,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "SeparableArchitecture_2026_2601_22040.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "SeparableArch_2026_chunk_0013",
+      "source_id": "SeparableArch_2026",
+      "text": "product aggregationA rank-1 separable com-\nponent, amode, is constructed by a tensor productQdseed\nr=1ϕr(xr). This produces smooth and global, i.e. full-\ndimensional, structure but lacks expressivity. With Msuch\nmodes, the model’s ansatz for this surface takes the form\nM(x)≈MX\nj=1dseedY\nr=1ϕr,j(xr).(2)\nIt is noteworthy that this structure is a universal approxi-\nmator under standard conditions (formal proof via Stone-\nWeierstrass is provided in Appendix A). A final dense layer\nprojects the aggregated modes with a residual connection\nfrom the initial seed projection to ensure stable gradient\nflow\nei=W out M1(˜zi)\n...\nMM(˜zi)!\n+W res˜zi.(3)\nThus each token igenerates an embedding ei. In contrast\nto discrete embedding tables in which parameters are iso-lated to specific indices; here the weights Woutare token-\nagnostic, a property of the surface. This encourages the\nmodel to encode structure and similarity within the surface.\n3.2. Full Model Architecture\nThe embeddings produced by the generator eiare fed into\na decoder-only Transformer backbone.",
+      "section": "2. Background",
+      "char_count": 1058,
+      "chunk_index": 13,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "SeparableArchitecture_2026_2601_22040.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "SeparableArch_2026_chunk_0014",
+      "source_id": "SeparableArch_2026",
+      "text": "is encourages the\nmodel to encode structure and similarity within the surface.\n3.2. Full Model Architecture\nThe embeddings produced by the generator eiare fed into\na decoder-only Transformer backbone. To isolate the effi-\ncacy of this generator from other confounding architectural\nvariables, adopted is a modern “LLaMA”-style specification\n(Touvron et al., 2023) henceforth referred to as theDense\ncontrol.\nTransformer Backbone SpecificationIn the experiments\nthat follow, the network depth Lis the control enabling\nisoparametricity,ceteris paribus. Fixed component blocks\nemploy a pre-layer normalization, known for enhanc-\ning training stability at increased depths (Xiong et al.,\n2020). For positional injection, Rotary Position Embed-\ndings (RoPE) (Su et al., 2023), the contemporary choice,\nare applied to the query and key matrices at each attention\nlayer. The attended outputs are again layer-normalized be-\nfore projection and extraction in a high-dimensional feature\nspace, contemporarily 4×D , the hidden dimension.",
+      "section": "2. Background",
+      "char_count": 1026,
+      "chunk_index": 14,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "SeparableArchitecture_2026_2601_22040.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "SeparableArch_2026_chunk_0015",
+      "source_id": "SeparableArch_2026",
+      "text": "key matrices at each attention\nlayer. The attended outputs are again layer-normalized be-\nfore projection and extraction in a high-dimensional feature\nspace, contemporarily 4×D , the hidden dimension. This\nstage utilizes a dense feed-forward network with SwiGLU\n(Swish-gated Linear Unit) activation functions (Shazeer,\nAttention\nLayer NormNext Token\nLayer NormLayer NormDense\nDense\nGenerator\nToken\nFigure 2.Leviathan architecture, highlighting the replacement of\nthe input embedding matrix with a generator module.\n3\n\nA Separable Architecture for Continuous Token Representation in Language Models\n2020).\nThe final hidden states hLare layer normalized and pro-\njected out to the vocabulary size Vvia a final dense clas-\nsification head Wclass∈RD×V. Leviathan decouples to-\nken embedding and classification akin to untied-weight net-\nworks. However, the implications of this design choice are\ncompared both with tied and untied networks in Section\n4.",
+      "section": "2. Background",
+      "char_count": 949,
+      "chunk_index": 15,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "SeparableArchitecture_2026_2601_22040.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "SeparableArch_2026_chunk_0016",
+      "source_id": "SeparableArch_2026",
+      "text": "Leviathan decouples to-\nken embedding and classification akin to untied-weight net-\nworks. However, the implications of this design choice are\ncompared both with tied and untied networks in Section\n4. All models are trained using the standard next-token,\ncross-entropy loss objective.",
+      "section": "2. Background",
+      "char_count": 284,
+      "chunk_index": 16,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "SeparableArchitecture_2026_2601_22040.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "SeparableArch_2026_chunk_0017",
+      "source_id": "SeparableArch_2026",
+      "text": "4. Experiments\nLeviathan effectively decouples the number of input embed-\nding parameters from vocabulary size. This architectural\nshift, compared to untied weights, recovers capacity to be\nreinvested into the “brain” of the model. For the sake of\nclean experimentation prioritizingceteris paribus, in head\nto head comparisons between Dense and Leviathan models,\nthe hidden dimension Dis held fixed. Isoparametricity is\nthus restored by increasing Leviathan depthL. To this end,\nthe following evaluation framework is designed to disentan-\ngle the benefits of the generator from the benefits of depth.\nIn particular, the two regimes of focus are\n•Iso-body:Both Dense and Leviathan configurations\nshare an identical Transformerbrain(depth, width and\nnumber of heads). This regime isolates the represen-\ntational capacity of Leviathan’s generator input with\nuntied output head against a standard tied embedding\ntable.\n•Isoparameter:the parameter savings afforded by\nLeviathan’s generator (relative to the input embedding\nin an untied model) are reinvested into its brain in a\ndepth dividend.\nAll experiments use the o200k base tokenizer.",
+      "section": "4. Experiments",
+      "char_count": 1134,
+      "chunk_index": 17,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "SeparableArchitecture_2026_2601_22040.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "SeparableArch_2026_chunk_0018",
+      "source_id": "SeparableArch_2026",
+      "text": "arameter savings afforded by\nLeviathan’s generator (relative to the input embedding\nin an untied model) are reinvested into its brain in a\ndepth dividend.\nAll experiments use the o200k base tokenizer. This vo-\ncabulary is larger-than-typical for an SLM, but reflects con-\ntemporary practice in World Models and multilingual sys-\ntems. Large vocabularies also implicitly widen the effective\ncontext window by reducing sequence length. This choice\nis intentional: in this regime thevocabulary taxbecomes\na practical bottleneck Leviathan is explicitly designed to\naddress.\nALBERT-style factorized embeddings were also considered\nas a potential baseline. However, e.g. in the upcoming\nLeviathan-60M model the generator contains only ≈2.5M\nparameters. Given the large vocabulary size, matching this\nwith ALBERT would require a bottleneck of around 12, an\nunrealistically constrained regime. To this end, it is apparent\nthat the tied-weight, iso-body experiment serves as a more\nconservative baseline.4.1.",
+      "section": "4. Experiments",
+      "char_count": 999,
+      "chunk_index": 18,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "SeparableArchitecture_2026_2601_22040.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "SeparableArch_2026_chunk_0019",
+      "source_id": "SeparableArch_2026",
+      "text": "ALBERT would require a bottleneck of around 12, an\nunrealistically constrained regime. To this end, it is apparent\nthat the tied-weight, iso-body experiment serves as a more\nconservative baseline.4.1. The Representational Prior: Iso-Body Analysis\nIn this regime, the Transformer brain is identical for both\nmodels, asking:what is the effect of replacing a tied dense\nembedding with a generator-based input head?\nWhilst the Leviathan generator introduces a marginal param-\neter overhead, the observed gains significantly exceed what\nwould be predicted by canonical scaling laws (Kaplan et al.,\n2020; Hoffmann et al., 2022) for such a small increase in\nthe number of parameters, N. As shown in the left panel of\nFigure 3, Leviathan is Pareto dominant at the data-efficient\nfrontier, all models having been trained on approximately\n20×Ntokens.\nThe right panel of Figure 3 illustrates the magnitude of this\neffect; it is substantial. Leviathan achieves between a 6.7%\nand18.1% reduction in validation perplexity, the measure\nof a model’s effective uncertainty over the next token, across\nscales.",
+      "section": "4. Experiments",
+      "char_count": 1091,
+      "chunk_index": 19,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "SeparableArchitecture_2026_2601_22040.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "SeparableArch_2026_chunk_0020",
+      "source_id": "SeparableArch_2026",
+      "text": "ude of this\neffect; it is substantial. Leviathan achieves between a 6.7%\nand18.1% reduction in validation perplexity, the measure\nof a model’s effective uncertainty over the next token, across\nscales.\nHolding the Transformer architecture and training proto-\ncol fixed isolates the structural contribution of the input\nrepresentation itself. That this representation’s expressive\npower grows as its overhead diminishes supports the hypoth-\nesis that the generator facilitates more effective parameter\nsharing across the vocabulary than tied dense embeddings.\n4.2. The Depth Dividend: Isoparametric Analysis\nIn the previous analysis, depth was strictly controlled. In\npractice, however, architectures are typically rather con-\nstrained by parameter budgets. Since, compared to an un-\ntied baseline, Leviathan saves parameters on embeddings,\none mayreinvestthose into depth. At the 109M scale, for\nexample, compared to the shallow 6-layer Dense baseline,\nthis surplus is transformative: Leviathan’s isoparametric\nspecification is an ultra-deep, 52-layer network.\nTo interpret the following results, the Dense-equivalentef-\nfective sizeof a model is defined.",
+      "section": "4. Experiments",
+      "char_count": 1154,
+      "chunk_index": 20,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "SeparableArchitecture_2026_2601_22040.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "SeparableArch_2026_chunk_0021",
+      "source_id": "SeparableArch_2026",
+      "text": "is surplus is transformative: Leviathan’s isoparametric\nspecification is an ultra-deep, 52-layer network.\nTo interpret the following results, the Dense-equivalentef-\nfective sizeof a model is defined. As described in Section\n5, the untied Dense baseline is treated as a reference family\n50 100 200 400\nParameters, M33.54Validation Loss\nDense\nLeviathan\n60 140 270 410\nModel Scale, M0510152025Perplexity Reduction6.7%15.1%18.1%17.3%\nFigure 3. (Left)The parameter-loss Pareto frontier under iso-\nbody control.(Right)Percentage reduction in validation perplexity\nachieved by Leviathan relative to the tied Dense baseline.\n4\n\nA Separable Architecture for Continuous Token Representation in Language Models\n109M 173M 238M 421M0M50M100M150M200M250M300M350M400MTotal Parameters\n8.7x\n4.9x\n4.0x\n2.3x\nDense\nLeviathanDense\nLeviathanDense\nLeviathanDense\nLeviathanReasoning Layers\nOutput Parameters\nInput Parameters\nFigure 4.Parameter allocation across components for untied Dense\nand Leviathan models under fixed parameter budgets. Leviathan\nreallocates input parameters from embeddings into deeper reason-\ning layers.\nto which an empirical scaling law is fitted.",
+      "section": "4. Experiments",
+      "char_count": 1150,
+      "chunk_index": 21,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "SeparableArchitecture_2026_2601_22040.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "SeparableArch_2026_chunk_0022",
+      "source_id": "SeparableArch_2026",
+      "text": "for untied Dense\nand Leviathan models under fixed parameter budgets. Leviathan\nreallocates input parameters from embeddings into deeper reason-\ning layers.\nto which an empirical scaling law is fitted. This provides\na mapping between parameter count and validation loss\nfor the baseline architecture L(N) . For a Leviathan model\nachieving a validation loss L∗, its “effective size” is defined\nas the inversion of this law Neq(L∗). This construction\nuses the Dense scaling curve as a calibrated “ruler” for ex-\npression performance differences in “units” of parameter\nbudget. Under this interpretation, Neqquantifiesipso facto\nhow much larger a Dense model would need to be in order\nto match Leviathan’s performance.\nFigure 5 visualizes the consequence of this structural shift\nover a range of model scales from 109-421M. As shown in\nthe right panel, Leviathan outperforms its parameter count\nacross the board. This effect peaks at the 109M scale, with\nthe model achieving a validation loss equivalent to a dense\nmodel of 230M parameters, an effective size multiplier of\n2.11.",
+      "section": "4. Experiments",
+      "char_count": 1074,
+      "chunk_index": 22,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "SeparableArchitecture_2026_2601_22040.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "SeparableArch_2026_chunk_0023",
+      "source_id": "SeparableArch_2026",
+      "text": "parameter count\nacross the board. This effect peaks at the 109M scale, with\nthe model achieving a validation loss equivalent to a dense\nmodel of 230M parameters, an effective size multiplier of\n2.11. Even at the 421M scale, where the relative embedding\ntax is lower, Leviathan maintains a substantial 1.72× effec-\ntive size advantage - corresponding to a 724M parameter\ndense model. This empirically reinforces the concept of a\n“depth dividend”; the reinvested parameters contribute more\nto reducing loss.\n4.3. Second Descent: the Overtraining Payoff\nContemporary training regimes for Small Language Models\nhave shifted away from compute-optimal (Hoffmann et al.,\n2022) towards “overtraining” (Grattafiori et al., 2024). A\ncritical question is, therefore, how Leviathan performs in\n100 200 400\nParameters, M2.833.2Validation Loss\n Dense\nLeviathan\n100 200 400 800\nActual Parameters, M100200400800Effective Size, M\nLeviathan\n2.11x1.47x1.69x1.72xFigure 5.(Left) The parameter-loss Pareto frontier under isopara-\nmetric control. (Right) Effective Dense-equivalent size inferred\nfrom a fitted Dense parameter scaling law.\nthis long-horizon regime.",
+      "section": "4. Experiments",
+      "char_count": 1142,
+      "chunk_index": 23,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "SeparableArchitecture_2026_2601_22040.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "SeparableArch_2026_chunk_0024",
+      "source_id": "SeparableArch_2026",
+      "text": "xFigure 5.(Left) The parameter-loss Pareto frontier under isopara-\nmetric control. (Right) Effective Dense-equivalent size inferred\nfrom a fitted Dense parameter scaling law.\nthis long-horizon regime.\nFigure 6 plots the relative perplexity decrease in Leviathan,\ncompared to its concomitant dense baseline, over the course\nof training. It is notable that this advantage increases, ap-\nproximately monotonically, with tokens seen. Furthermore,\nthis advantage does not plateau at the compute-optimal fron-\ntier rather continuing to increase. This effect is most no-\ntable in the iso-body control setting (left). This is most\npronounced in the 60M-class, where Leviathan’s advantage\ncontinues to grow even into the 100×N -tokens-seen regime.\nIn Leviathan-138M, similar continuous growth is seen even\nat40×N tokens seen. It is worth noting that this reduction\nis not greatly spread across scales: even Leviathan-410M\nachieves a near-20% reduction in perplexity, despite gains at\nlarger scales typically being substantially harder to obtain.\nIn the isoparametric control setting (right) where Leviathan\n“reinvests” parameters into depth, the divergence is more\nspread across model classes.",
+      "section": "4. Experiments",
+      "char_count": 1184,
+      "chunk_index": 24,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "SeparableArchitecture_2026_2601_22040.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "SeparableArch_2026_chunk_0025",
+      "source_id": "SeparableArch_2026",
+      "text": "ales typically being substantially harder to obtain.\nIn the isoparametric control setting (right) where Leviathan\n“reinvests” parameters into depth, the divergence is more\nspread across model classes. Smaller models exhibit larger\nrelative gains whilst larger models maintain a consistent,\nbut decreasing, advantage. Despite this, Leviathan-190M’s\nreduction in perplexity continues to grow well into the “over-\ntraining” regime, up to60×Ntokens seen.\n2.5 5.0 7.5\nTokens Seen, B−100102030Perplexity Reduction, %60M\n138M\n270M\n410M\n2.5 5.0 7.5\nTokens Seen, B−1001020\n109M\n173M\n238M\n421M\nFigure 6.Perplexity reduction (%) of Leviathan models relative to\ntheir paired Dense baselines as a function of tokens seen. (Left) iso-\nbody runs with matched Transformer backbones. (Right) isopara-\nmetric runs: matched parameter budgets. Vertical dashed lines\nmark20×Ntokens seen.\n5\n\nA Separable Architecture for Continuous Token Representation in Language Models\nTable 1.Experimental setup for the iso-body runs.",
+      "section": "4. Experiments",
+      "char_count": 999,
+      "chunk_index": 25,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "SeparableArchitecture_2026_2601_22040.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "SeparableArch_2026_chunk_0026",
+      "source_id": "SeparableArch_2026",
+      "text": "tched parameter budgets. Vertical dashed lines\nmark20×Ntokens seen.\n5\n\nA Separable Architecture for Continuous Token Representation in Language Models\nTable 1.Experimental setup for the iso-body runs.\nMODELPARAMETERSSETUP\nD L H\nDENSE57,600,512 256 6 4\nLEVIATHAN60,185,912 256 6 4\nDENSE138,287,416 512 8 8\nLEVIATHAN138,897,208 512 8 8\nDENSE267,210,240 768 12 12\nLEVIATHAN270,057,784 768 12 12\nDENSE406,611,968 1024 12 16\nLEVIATHAN409,590,584 1024 12 16\nTable 2.Experimental setup for the isoparameter runs.\nMODELPARAMETERSSETUP\nD L H\nDENSE109,097,144 256 6 4\nLEVIATHAN108,514,616 256 52 4\nDENSE172,988,856 384 8 6\nLEVIATHAN171,728,440 384 39 6\nDENSE238,973,624 512 8 8\nLEVIATHAN239,658,808 512 32 8\nDENSE421,299,384 768 12 12\nLEVIATHAN421,151,032 768 28 12\n4.4. Model Configurations\nThe evaluation focuses on the Small Language Model (SLM)\nregime, spanning from 60-420M parameters. In this window\nembedding matrices greatly tax model capacity from 20−\n50% in tied models to potentially well over 90% in untied\nmodels.\nAll models employ a decoder-only Transformer backbone\nwith identical architectural components discussed in Sec-\ntion 3.2 (pre-layer normalization, RoPE, SwiGLU feed-\nforward layers).",
+      "section": "4. Experiments",
+      "char_count": 1199,
+      "chunk_index": 26,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "SeparableArchitecture_2026_2601_22040.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "SeparableArch_2026_chunk_0027",
+      "source_id": "SeparableArch_2026",
+      "text": "in untied\nmodels.\nAll models employ a decoder-only Transformer backbone\nwith identical architectural components discussed in Sec-\ntion 3.2 (pre-layer normalization, RoPE, SwiGLU feed-\nforward layers). Each configuration pairs up a Dense and\nLeviathan model with width Dand number of Attention\nheads Hmatched. Depth Lis either held fixed (iso-body\nwith Dense weights tied) or increased in Leviathan (isopara-\nmetricwith Dense weights untied) until isoparametricity is\nnearest restored. Aside from Lin the isoparametric case\nand Leviathan’s generator module replacing the input em-\nbedding matrix, all else both architectural and in matters of\ntraining is held equal.\nTables 1 and 2 summarize all eight model configurations:\nthe four iso-body and four isoparametric, respectively.\n4.5. Training Protocol\nOptimizationModels were implemented in JAX/Flax\n(Frostig et al., 2018) and trained from scratch using AdamW(Loshchilov & Hutter, 2019) with gradient clipping. Every\nmodel is trained with a sequence length of 512 and a batch\nsize of 512.",
+      "section": "4. Experiments",
+      "char_count": 1038,
+      "chunk_index": 27,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "SeparableArchitecture_2026_2601_22040.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "SeparableArch_2026_chunk_0028",
+      "source_id": "SeparableArch_2026",
+      "text": "in JAX/Flax\n(Frostig et al., 2018) and trained from scratch using AdamW(Loshchilov & Hutter, 2019) with gradient clipping. Every\nmodel is trained with a sequence length of 512 and a batch\nsize of 512.\nDataModels were trained on the Pile (Uncopyrighted)\n(Gao et al., 2020) using a streaming dataloader with shuffle\nbuffer of 10,000 sequences to randomize the data distri-\nbution. Input text was tokenized using the o200k base\ntokenizer in tiktoken (OpenAI, 2023), used in GPT-4o and\n4o-mini models. This tokenizer is of cardinality 200,018\nbut is padded to V= 200,376 , a perfect cube, 593. This\nmotivates k= 3 , also a balanced choice. Each token iis\nthus mapped to a three-dimensional coordinate (i1, i2, i3)\nvia base-59 decomposition. This reduces the vocabulary\nfootprint on indexing parameters from 200,376 to 177, a\ngreater than1,100×compression.\nCrucially, for every matched Dense-Leviathan pair, token\nstreams were identical. Each model was trained on the same\nsequence, in the same order, at every optimization step.\nGenerator HyperparametersThe SNA-based genera-\ntor uses a fixed set of hyperparameters across all runs.",
+      "section": "4. Experiments",
+      "char_count": 1128,
+      "chunk_index": 28,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "SeparableArchitecture_2026_2601_22040.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "SeparableArch_2026_chunk_0029",
+      "source_id": "SeparableArch_2026",
+      "text": "cal. Each model was trained on the same\nsequence, in the same order, at every optimization step.\nGenerator HyperparametersThe SNA-based genera-\ntor uses a fixed set of hyperparameters across all runs. In\nparticular, the generator takes a seed dimensionality of\ndseed= 128 . This 128-dimensional space is target of basis\nexpansion. Each univariate B-spline basis is defined over\na grid of 32 knots, aggregated over M= 8 independent\nrank-1 modes to form the embeddinge i.\nReported validation losses are computed as the mean over\nthe last 10% of training steps to reduce batch noise. All\nDense-Leviathan paired models are evaluated at identical\ntoken counts.\n5. Scaling Exponents and Efficiency Frontiers\nIn order to investigate potential structural advantages of\nLeviathan, its performance is mapped onto the empirical\npower-law fits of the dense baselines. Models are evaluated\nat their 20×N -token convergence frontiers. Power laws of\nthe form L(N) =AN−α+bfor parameter efficiency and\nL(D) =BD−β+bare fit to the four dense models of either\nregime. The irreducible loss term bis taken as 1.69.",
+      "section": "4. Experiments",
+      "char_count": 1092,
+      "chunk_index": 29,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "SeparableArchitecture_2026_2601_22040.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "SeparableArch_2026_chunk_0030",
+      "source_id": "SeparableArch_2026",
+      "text": "token convergence frontiers. Power laws of\nthe form L(N) =AN−α+bfor parameter efficiency and\nL(D) =BD−β+bare fit to the four dense models of either\nregime. The irreducible loss term bis taken as 1.69. This\nis all standard practice as of (Hoffmann et al., 2022), but it\nis notable that different tokenizers and datasets were used.\nBe that as it may, 1.69 serves as a conservative and widely\nused reference value that anchors the analysis to established\nscaling practice. Critically, the following conclusions are\nrobust to reasonable variation in b. Finally, it is worth noting\nthat these fits are only reliably descriptive within the narrow\nSLM regime studied.\n6\n\nA Separable Architecture for Continuous Token Representation in Language Models\n5.1. The Iso-body Regime\nParameter EfficiencyAcross the entire evaluated scale,\nLeviathan lies strictly below the dense frontier. This sug-\ngests the improvement is not confined to a single operating\npoint and is, rather, systematic. As illustrated in the left\npanel of Figure 7, Leviathan’s parameter-scaling exponent\nof 0.47 is steeper than the tied-embedding baseline’s 0.38.",
+      "section": "4. Experiments",
+      "char_count": 1122,
+      "chunk_index": 30,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "SeparableArchitecture_2026_2601_22040.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "SeparableArch_2026_chunk_0031",
+      "source_id": "SeparableArch_2026",
+      "text": "to a single operating\npoint and is, rather, systematic. As illustrated in the left\npanel of Figure 7, Leviathan’s parameter-scaling exponent\nof 0.47 is steeper than the tied-embedding baseline’s 0.38.\nThis would suggest that when Transformer backbone is held\nfixed, Leviathan’s advantage widens with parameter count.\nHowever, further testing at larger model sizes that span mul-\ntiple orders of magnitude is required to validate this result.\nSample EfficiencySimilarly, as seen in the right panel\nof Figure 7, Leviathan demonstrates an increase in data-\nscaling exponent from 0.39 in the dense baselines to 0.47.\nThis indicates that Leviathan extracts more benefit per every\nadditional token seen, even at a fixed architectural capacity.\nConcretely, the recovered power laws are\nLDense (N) = 2000N−0.38+ 1.69,(4)\nLLeviathan (N) = 9800N−0.47+ 1.69,(5)\nLDense (D) = 180D−0.39+ 1.69,(6)\nLLeviathan (D) = 450D−0.47+ 1.69.(7)\n5.2. The Isoparametric Regime\nParameter EfficiencyUnder isoparametric control, as\ncan be observed in 8, both models continue to demonstrate\nthe expected power-law behavior.",
+      "section": "4. Experiments",
+      "char_count": 1093,
+      "chunk_index": 31,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "SeparableArchitecture_2026_2601_22040.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "SeparableArch_2026_chunk_0032",
+      "source_id": "SeparableArch_2026",
+      "text": "n (D) = 450D−0.47+ 1.69.(7)\n5.2. The Isoparametric Regime\nParameter EfficiencyUnder isoparametric control, as\ncan be observed in 8, both models continue to demonstrate\nthe expected power-law behavior. In this regime, as can be\nseen in the left panel of Figure 8 the parameter-scaling expo-\nnents are similar (0.26 Leviathan vs 0.29 dense) suggesting\nthat both architectures scale comparably with respect to\nparameter count. It is notable, however, that Leviathan’s\ncomponent is somewhat smaller. In the tested domain,\nLeviathan’s substantially smaller prefactor (166 compared\nto 360 for the dense baselines) allows it to remain Pareto\ndominant. Whether this advantage is maintained for larger\n50 100 200 400\nParameters, M2.53.03.54.0Validation Loss\nDense,α= 0.38\nLeviathan,α= 0.47\n2 4 6810\nTokens Seen, B\nDense,β= 0.39\nLeviathan,β= 0.47\nFigure 7.Scaling law fits for the Dense and Leviathan models\nunder iso-body control. (Left) The parameter-efficient frontier:\nvalidation loss as a function of total model parameters. (Right) The\ndata-efficient frontier: validation loss as a function of tokens seen.",
+      "section": "4. Experiments",
+      "char_count": 1102,
+      "chunk_index": 32,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "SeparableArchitecture_2026_2601_22040.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "SeparableArch_2026_chunk_0033",
+      "source_id": "SeparableArch_2026",
+      "text": "r iso-body control. (Left) The parameter-efficient frontier:\nvalidation loss as a function of total model parameters. (Right) The\ndata-efficient frontier: validation loss as a function of tokens seen.\n100 200 400\nParameters, M2.83.03.23.4Validation Loss\nDense,α= 0.29\nLeviathan,α= 0.26\n2 4 6 810\nTokens Seen, B\nDense,β= 0.29\nLeviathan,β= 0.26Figure 8.Scaling law fits for the Dense and Leviathan models\nunder isoparametric control. (Left) The parameter-efficient frontier:\nvalidation loss as a function of total model parameters. (Right) The\ndata-efficient frontier: validation loss as a function of tokens seen.\nmodels, or whether there is a crossover requires further\nvalidation work.\nSample EfficiencyA near-identical pattern is observed\nin the data-efficient front, the right panel of Figure 8. The\nrecovered data-scaling exponents in this regime are 0.26 for\nLeviathan, 0.29 for the dense baselines. A smaller Leviathan\nprefactor again explains the Pareto dominance observed\nover this domain. This suggests the principal benefit in this\nregime derives from a superior prefactor rather than altered\nscaling exponents.",
+      "section": "4. Experiments",
+      "char_count": 1121,
+      "chunk_index": 33,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "SeparableArchitecture_2026_2601_22040.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "SeparableArch_2026_chunk_0034",
+      "source_id": "SeparableArch_2026",
+      "text": "han\nprefactor again explains the Pareto dominance observed\nover this domain. This suggests the principal benefit in this\nregime derives from a superior prefactor rather than altered\nscaling exponents.\nExplicitly, the recovered power laws are\nLDense (N) = 360N−0.29+ 1.69,(8)\nLLeviathan (N) = 166N−0.26+ 1.69,(9)\nLDense (D) = 52D−0.29+ 1.69,(10)\nLLeviathan (D) = 31D−0.26+ 1.69.(11)",
+      "section": "4. Experiments",
+      "char_count": 381,
+      "chunk_index": 34,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "SeparableArchitecture_2026_2601_22040.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "SeparableArch_2026_chunk_0035",
+      "source_id": "SeparableArch_2026",
+      "text": "6. Discussion\nImplications for Long-Context ModelingThe pursuit\nof long-context capabilities has predominantly focused on\nways of reducing the quadratic cost of the Attention mecha-\nnism. One may identify a secondary avenue,the trade-off\nbetween sequence length and vocabulary density. Typically,\nwisely managing a parameter budget necessitates a “small”\nvocabulary, forcing the tokenizer to decompose semantic\nunits into multiple sub-tokens. This inflates the sequence\nlength Nseqand exacerbates the O(N2\nseq)Attention cost.\nBy, in effect, decoupling vocabulary cardinality from para-\nmetric cost, Leviathan takes a stride towards resolving this\nproblem. It enables the use of high-density tokenizers, per-\nhaps far beyond typical, without the usual “vocabulary tax”.\nSimply, Leviathan provides a mitigation to quadratic Atten-\ntion scaling by enabling shorter sequences carrying no less\ninformation, for a negligible increase in parameters.\n7\n\nA Separable Architecture for Continuous Token Representation in Language Models\nImplications for World ModelsThis architectural shift is\nparticularly potent in the rising area of omni-modal “World\nModels”.",
+      "section": "6. Discussion",
+      "char_count": 1151,
+      "chunk_index": 35,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "SeparableArchitecture_2026_2601_22040.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "SeparableArch_2026_chunk_0036",
+      "source_id": "SeparableArch_2026",
+      "text": "arable Architecture for Continuous Token Representation in Language Models\nImplications for World ModelsThis architectural shift is\nparticularly potent in the rising area of omni-modal “World\nModels”. Such models might ingest continuous, high-\nentropy signals such as video patches, audio waveforms\n(Borsos et al., 2023) or even scalar streams (Reed et al.,\n2022). Current approaches force these signals into discrete,\nfinite lookup tables resulting in quantization noise and large\nvocabularies (LeCun & Courant, 2022). Whilst Leviathan\nrelies on a tokenizer to map signals to discrete indices the\ngenerator treats these indices as points on a smooth surface,\n“coordinate quantization”. This allows the tokenization layer\nto be purely geometric, mapping similar signals to adjacent\ncoordinates with the generator handling interpolation. This\nis a mitigation of the lookup nature of standard quantization,\noffering an approximation to continuous signals whilst also\nscaling favorably with vocabulary size.\nArbitrary Tokenizer TopologyLeviathan assigns each\ntoken a coordinate via a deterministic modular-arithmetic\nmapping of its index.",
+      "section": "6. Discussion",
+      "char_count": 1135,
+      "chunk_index": 36,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "SeparableArchitecture_2026_2601_22040.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "SeparableArch_2026_chunk_0037",
+      "source_id": "SeparableArch_2026",
+      "text": "ontinuous signals whilst also\nscaling favorably with vocabulary size.\nArbitrary Tokenizer TopologyLeviathan assigns each\ntoken a coordinate via a deterministic modular-arithmetic\nmapping of its index. Tokens that are adjacent in coordinate\nspace thus need not be linguistically related. Therefore, the\ngenerator is forced to “undo” this local-but-not-semantic\nstructure. That Leviathan remains robust to this choice and\nachieves a gain across all scales tested suggests the generator\nmanages exactly that. Nonetheless, an exploration of alter-\nnative coordinate constructions such data-driven tokenizers\nor learned coordinate embeddings represents a promising\ndirection for future work.\nComputational Trade-offsLeviathan introduces addi-\ntional computational overhead relative to standard embed-\nding lookup. In the iso-body regime, a training through-\nput reduction of 51% at 60M parameters, decreasing to\n23% at 410M is observed. As shown in Figure 7, how-\never, Leviathan achieves equivalent loss having seen roughly\n1.7× fewer tokens at the 400M scale. Since this gain in sam-\nple efficiency is greater than the overhead ( 1.3× at 23%),\nLeviathan is faster to train to a given loss.",
+      "section": "6. Discussion",
+      "char_count": 1186,
+      "chunk_index": 37,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "SeparableArchitecture_2026_2601_22040.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "SeparableArch_2026_chunk_0038",
+      "source_id": "SeparableArch_2026",
+      "text": "uivalent loss having seen roughly\n1.7× fewer tokens at the 400M scale. Since this gain in sam-\nple efficiency is greater than the overhead ( 1.3× at 23%),\nLeviathan is faster to train to a given loss.\nFurthermore, this slowdown is not primarily through an\nincrease in FLOPs, rather due to implementation-level ef-\nfects. The current generator module relies on scatter-heavy\noperations that are not as well-optimized on modern accel-\nerators as dense matrix operations. This cost is potentially\na systems issue rather than an inherent architectural limita-\ntion, allowing for speedups from a more optimized, perhaps\nkernel-level, implementation.\nIn the isoparametric regime, models are intentionally made\ndeeper to preserve parity. The resulting throughput reduc-\ntion (48%-71%, but decreasing with scale) is largely at-\ntributable to increased depth - inherently serial - than to\nLeviathan itself. This decision is experimental control de-\nsigned to isolate architectural effects, not a deployment\nrecommendation. In practice, parameters would be bet-ter reallocated in a combination of width and depth.",
+      "section": "6. Discussion",
+      "char_count": 1103,
+      "chunk_index": 38,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "SeparableArchitecture_2026_2601_22040.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "SeparableArch_2026_chunk_0039",
+      "source_id": "SeparableArch_2026",
+      "text": "decision is experimental control de-\nsigned to isolate architectural effects, not a deployment\nrecommendation. In practice, parameters would be bet-ter reallocated in a combination of width and depth. In\nfact, Leviathan’s parameter-light generator module would\nbe more amenable to a width increase. Further investigation\nin this regard is warranted.",
+      "section": "6. Discussion",
+      "char_count": 349,
+      "chunk_index": 39,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "SeparableArchitecture_2026_2601_22040.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "SeparableArch_2026_chunk_0040",
+      "source_id": "SeparableArch_2026",
+      "text": "7. Conclusion\nThis work introduced Leviathan, a Transformer-based ar-\nchitecture adopting a Separable Neural Architecture (SNA)-\nbased “generator” module for coordinate quantization of\ntext. Empirical analysis of Leviathan compared to dense\nbaseline established two key findings. Firstly, Transformer\nhyperparameters (hidden dimension, layer count, number\nof Attention heads) are held fixed, and the dense baseline is\ntaken with tied embeddings. Under this control, Leviathan\nisPareto dominant; for a given parameter count Leviathan\nachieves a better loss over the tested domain. This result\nvalidated that the generator offers superior representational\ncapacity than a tied input embeddingceteris paribus.\nSecondly, in replacing the standard discrete embedding ma-\ntrix of a Dense baseline with generator, Leviathan demon-\nstrated that Small Language Models (SLMs) can reclaim\nup to 50% of their parameter budget. Under strict isopara-\nmetric control, Leviathan enables a “depth dividend” to be\nreinvested into its reasoning layers. Across the four model\nsizes tested, this manifested from 2.3−8.7× more depth for\nthe same number of parameters.",
+      "section": "7. Conclusion",
+      "char_count": 1145,
+      "chunk_index": 40,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "SeparableArchitecture_2026_2601_22040.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "SeparableArch_2026_chunk_0041",
+      "source_id": "SeparableArch_2026",
+      "text": "ontrol, Leviathan enables a “depth dividend” to be\nreinvested into its reasoning layers. Across the four model\nsizes tested, this manifested from 2.3−8.7× more depth for\nthe same number of parameters. The benefit of this paramet-\nric reallocation was borne out in the results, with Leviathan\nachieving validation losses that an empirically fitted scal-\ning law predicts models 1.47−2.11× larger would achieve.\nThis suggests that prevailing scaling laws for SLMs are ar-\ntificially constrained by the inefficient parameterization of\nthe input layer.\nFinally, note that the continuous nature of the generator\nsuggests a theoretical pathway towards dynamic vocabulary\nadaptation. This would, in principle, be a generative surface\nonto which unseen tokens could be interpolated solely via\ntokenizer updates. This offers a potential avenue for fu-\nture research into open-vocabulary models that “understand”\nnew tokens without full retraining. Immediate future work\nwill focus on optimizing the generator to reduce training\noverhead, as well as extension to multi-modal data, VLMs\nand World Models.",
+      "section": "7. Conclusion",
+      "char_count": 1093,
+      "chunk_index": 41,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "SeparableArchitecture_2026_2601_22040.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "SeparableArch_2026_chunk_0042",
+      "source_id": "SeparableArch_2026",
+      "text": "derstand”\nnew tokens without full retraining. Immediate future work\nwill focus on optimizing the generator to reduce training\noverhead, as well as extension to multi-modal data, VLMs\nand World Models.\nAcknowledgements\nThe authors are grateful to Apurba Sarker for generously\ncontributing his time and compute resources to run experi-\nments for this project.\n8\n\nA Separable Architecture for Continuous Token Representation in Language Models\nImpact Statement\nThis paper presents work whose goal is to advance the field\nof Machine Learning. There are many potential societal\nconsequences of our work, none which we feel must be\nspecifically highlighted here.",
+      "section": "7. Conclusion",
+      "char_count": 656,
+      "chunk_index": 42,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "SeparableArchitecture_2026_2601_22040.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "SeparableArch_2026_chunk_0043",
+      "source_id": "SeparableArch_2026",
+      "text": "References\nAlayrac, J.-B., Donahue, J., Luc, P., Miech, A., Barr,\nI., Hasson, Y ., Lenc, K., Mensch, A., Millican, K.,\nReynolds, M., Ring, R., Rutherford, E., Cabi, S., Han,\nT., Gong, Z., Samangooei, S., Monteiro, M., Menick,\nJ., Borgeaud, S., Brock, A., Nematzadeh, A., Shar-\nifzadeh, S., Binkowski, M., Barreira, R., Vinyals, O.,\nZisserman, A., and Simonyan, K. Flamingo: a vi-\nsual language model for few-shot learning, 2022. URL\n\nBaevski, A. and Auli, M. Adaptive input representations\nfor neural language modeling, 2019. URL https://\narxiv.org/abs/1809.10853.\nBatley, R. T. and Saha, S. Khronos: a kernel-based neural\narchitecture for rapid, resource-efficient scientific com-\nputation, 2025. URL \n2505.13315.\nBatley, R. T. and Saha, S.A Unified Generative-\nPredictive Framework for Deterministic Inverse De-\nsign. AIAA SciTech Forum, 2026. doi: 10.2514/6.\n2026-0365. URL \nabs/10.2514/6.2026-0365.\nBatley, R. T., Saha, S., Park, C., and Liu, W. K. An ex-\nplainable artificial intelligence framework enabled by a\nseparable neural architecture.Computational Mechanics,\n2025. doi: 10.1007/s00466-025-02719-w. URL https:\n//doi.org/10.1007/s00466-025-02719-w.\nBeltagy, I., Peters, M.",
+      "section": "References",
+      "char_count": 1183,
+      "chunk_index": 43,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "SeparableArchitecture_2026_2601_22040.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "SeparableArch_2026_chunk_0044",
+      "source_id": "SeparableArch_2026",
+      "text": "telligence framework enabled by a\nseparable neural architecture.Computational Mechanics,\n2025. doi: 10.1007/s00466-025-02719-w. URL https:\n//doi.org/10.1007/s00466-025-02719-w.\nBeltagy, I., Peters, M. E., and Cohan, A. Longformer:\nThe long-document transformer, 2020. URL https:\n//arxiv.org/abs/2004.05150.\nBorsos, Z., Marinier, R., Vincent, D., Kharitonov, E.,\nPietquin, O., Sharifi, M., Roblek, D., Teboul, O., Grang-\nier, D., Tagliasacchi, M., and Zeghidour, N. Audiolm: a\nlanguage modeling approach to audio generation, 2023.\nURL\nBrown, T. B., Mann, B., Ryder, N., Subbiah, M., Kaplan,\nJ., Dhariwal, P., Neelakantan, A., Shyam, P., Sastry, G.,\nAskell, A., Agarwal, S., Herbert-V oss, A., Krueger, G.,\nHenighan, T., Child, R., Ramesh, A., Ziegler, D. M., Wu,\nJ., Winter, C., Hesse, C., Chen, M., Sigler, E., Litwin, M.,\nGray, S., Chess, B., Clark, J., Berner, C., McCandlish,\nS., Radford, A., Sutskever, I., and Amodei, D. Languagemodels are few-shot learners, 2020. URL https://\narxiv.org/abs/2005.14165.\nCarion, N., Massa, F., Synnaeve, G., Usunier, N., Kir-\nillov, A., and Zagoruyko, S. End-to-end object detec-\ntion with transformers, 2020. URL \norg/abs/2005.12872.",
+      "section": "References",
+      "char_count": 1172,
+      "chunk_index": 44,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "SeparableArchitecture_2026_2601_22040.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "SeparableArch_2026_chunk_0045",
+      "source_id": "SeparableArch_2026",
+      "text": "L https://\narxiv.org/abs/2005.14165.\nCarion, N., Massa, F., Synnaeve, G., Usunier, N., Kir-\nillov, A., and Zagoruyko, S. End-to-end object detec-\ntion with transformers, 2020. URL \norg/abs/2005.12872.\nChild, R., Gray, S., Radford, A., and Sutskever, I. Generat-\ning long sequences with sparse transformers, 2019. URL\n\nChoromanski, K., Likhosherstov, V ., Dohan, D., Song, X.,\nGane, A., Sarlos, T., Hawkins, P., Davis, J., Mohiuddin,\nA., Kaiser, L., Belanger, D., Colwell, L., and Weller,\nA. Rethinking attention with performers, 2022. URL\n\nDao, T., Fu, D. Y ., Ermon, S., Rudra, A., and R ´e, C. Flashat-\ntention: Fast and memory-efficient exact attention with io-\nawareness, 2022. URL \n2205.14135.\nDosovitskiy, A., Beyer, L., Kolesnikov, A., Weissenborn,\nD., Zhai, X., Unterthiner, T., Dehghani, M., Minderer,\nM., Heigold, G., Gelly, S., Uszkoreit, J., and Houlsby,\nN. An image is worth 16x16 words: Transformers\nfor image recognition at scale, 2021. URL https:\n//arxiv.org/abs/2010.11929.\nFrostig, R., Johnson, M., and Leary, C. Compiling ma-\nchine learning programs via high-level tracing. 2018.\nURL\n2018/146.pdf.",
+      "section": "References",
+      "char_count": 1116,
+      "chunk_index": 45,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "SeparableArchitecture_2026_2601_22040.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "SeparableArch_2026_chunk_0046",
+      "source_id": "SeparableArch_2026",
+      "text": "r image recognition at scale, 2021. URL https:\n//arxiv.org/abs/2010.11929.\nFrostig, R., Johnson, M., and Leary, C. Compiling ma-\nchine learning programs via high-level tracing. 2018.\nURL\n2018/146.pdf.\nGao, L., Biderman, S., Black, S., Golding, L., Hoppe, T.,\nFoster, C., Phang, J., He, H., Thite, A., Nabeshima, N.,\nPresser, S., and Leahy, C. The pile: An 800gb dataset of\ndiverse text for language modeling, 2020. URL https:\n//arxiv.org/abs/2101.00027.\nGrattafiori, A., Dubey, A., Jauhri, A., and et al. The llama 3\nherd of models, 2024. URL \nabs/2407.21783.\nHoffmann, J., Borgeaud, S., Mensch, A., Buchatskaya, E.,\nCai, T., Rutherford, E., de Las Casas, D., Hendricks,\nL. A., Welbl, J., Clark, A., Hennigan, T., Noland, E.,\nMillican, K., van den Driessche, G., Damoc, B., Guy,\nA., Osindero, S., Simonyan, K., Elsen, E., Rae, J. W.,\nVinyals, O., and Sifre, L. Training compute-optimal large\nlanguage models, 2022. URL \nabs/2203.15556.\nInan, H., Khosravi, K., and Socher, R. Tying word vectors\nand word classifiers: A loss framework for language mod-\neling. InInternational Conference on Learning Represen-\ntations, 2017. URL \nforum?id=r1aPbsFle.",
+      "section": "References",
+      "char_count": 1146,
+      "chunk_index": 46,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "SeparableArchitecture_2026_2601_22040.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "SeparableArch_2026_chunk_0047",
+      "source_id": "SeparableArch_2026",
+      "text": "Khosravi, K., and Socher, R. Tying word vectors\nand word classifiers: A loss framework for language mod-\neling. InInternational Conference on Learning Represen-\ntations, 2017. URL \nforum?id=r1aPbsFle.\n9\n\nA Separable Architecture for Continuous Token Representation in Language Models\nKaplan, J., McCandlish, S., Henighan, T., Brown, T. B.,\nChess, B., Child, R., Gray, S., Radford, A., Wu, J.,\nand Amodei, D. Scaling laws for neural language mod-\nels, 2020. URL \n08361.\nKim, Y ., Jernite, Y ., Sontag, D., and Rush, A. M. Character-\naware neural language models, 2015. URL https://\narxiv.org/abs/1508.06615.\nLan, Z., Chen, M., Goodman, S., Gimpel, K., Sharma, P.,\nand Soricut, R. Albert: A lite bert for self-supervised\nlearning of language representations, 2020. URL https:\n//arxiv.org/abs/1909.11942.\nLeCun, Y . and Courant. A path towards au-\ntonomous machine intelligence version 0.9.2, 2022-06-\n27, 2022. URL \norg/CorpusID:251881108.\nLiu, H., Dai, Z., So, D. R., and Le, Q. V . Pay attention\nto mlps, 2021. URL \n2105.08050.\nLoshchilov, I. and Hutter, F. Decoupled weight decay reg-\nularization. InInternational Conference on Learning\nRepresentations, 2019. URL \nnet/forum?id=Bkg6RiCqY7.",
+      "section": "References",
+      "char_count": 1190,
+      "chunk_index": 47,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "SeparableArchitecture_2026_2601_22040.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "SeparableArch_2026_chunk_0048",
+      "source_id": "SeparableArch_2026",
+      "text": "ntion\nto mlps, 2021. URL \n2105.08050.\nLoshchilov, I. and Hutter, F. Decoupled weight decay reg-\nularization. InInternational Conference on Learning\nRepresentations, 2019. URL \nnet/forum?id=Bkg6RiCqY7.\nMildenhall, B., Srinivasan, P. P., Tancik, M., Barron, J. T.,\nRamamoorthi, R., and Ng, R. Nerf: Representing scenes\nas neural radiance fields for view synthesis, 2020. URL\n\nOpenAI. tiktoken: A fast bpe tokenizer for openai mod-\nels. ,\n2023.\nOpenAI. Gpt-4 technical report, 2024. URL https://\narxiv.org/abs/2303.08774.\nPark, C., Saha, S., Guo, J., Zhang, H., Xie, X., Bessa, M. A.,\nQian, D., Chen, W., Wanger, G. J., Cao, J., Hughes, T.\nJ. R., and Liu, W. K. Unifying machine learning and\ninterpolation theory via interpolating neural networks.\nNature Communications, 16(1):8753, 2025. ISSN 2041-\n1723. doi: 10.1038/s41467-025-63790-8.\nPress, O. and Wolf, L. Using the output embedding to im-\nprove language models, 2017. URL \norg/abs/1608.05859.\nReed, S., Zolna, K., Parisotto, E., Colmenarejo, S. G.,\nNovikov, A., Barth-Maron, G., Gimenez, M., Sulsky,\nY ., Kay, J., Springenberg, J.",
+      "section": "References",
+      "char_count": 1084,
+      "chunk_index": 48,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "SeparableArchitecture_2026_2601_22040.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "SeparableArch_2026_chunk_0049",
+      "source_id": "SeparableArch_2026",
+      "text": "g to im-\nprove language models, 2017. URL \norg/abs/1608.05859.\nReed, S., Zolna, K., Parisotto, E., Colmenarejo, S. G.,\nNovikov, A., Barth-Maron, G., Gimenez, M., Sulsky,\nY ., Kay, J., Springenberg, J. T., Eccles, T., Bruce, J.,\nRazavi, A., Edwards, A., Heess, N., Chen, Y ., Hadsell,\nR., Vinyals, O., Bordbar, M., and de Freitas, N. A gener-\nalist agent, 2022. URL \n2205.06175.Sarker, A., Batley, R. T., Sarojini, D., and Saha,\nS.A Kernel-based Resource-efficient Neural Sur-\nrogate for Multi-fidelity Prediction of Aerodynamic\nField. AIAA SciTech Forum, 2026. doi: 10.2514/6.\n2026-0043. URL \nabs/10.2514/6.2026-0043.\nShazeer, N. Glu variants improve transformer, 2020. URL\n\nSitzmann, V ., Martel, J. N. P., Bergman, A. W., Lindell,\nD. B., and Wetzstein, G. Implicit neural representations\nwith periodic activation functions, 2020. URL https:\n//arxiv.org/abs/2006.09661.\nSu, J., Lu, Y ., Pan, S., Murtadha, A., Wen, B., and Liu,\nY . Roformer: Enhanced transformer with rotary position\nembedding, 2023. URL \n2104.09864.\nSvenstrup, D., Hansen, J. M., and Winther, O. Hash em-\nbeddings for efficient word representations, 2017.",
+      "section": "References",
+      "char_count": 1124,
+      "chunk_index": 49,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "SeparableArchitecture_2026_2601_22040.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "SeparableArch_2026_chunk_0050",
+      "source_id": "SeparableArch_2026",
+      "text": "Liu,\nY . Roformer: Enhanced transformer with rotary position\nembedding, 2023. URL \n2104.09864.\nSvenstrup, D., Hansen, J. M., and Winther, O. Hash em-\nbeddings for efficient word representations, 2017. URL\n\nTay, Y ., Bahri, D., Metzler, D., Juan, D.-C., Zhao, Z., and\nZheng, C. Synthesizer: Rethinking self-attention in trans-\nformer models, 2021. URL \nabs/2005.00743.\nTolstikhin, I., Houlsby, N., Kolesnikov, A., Beyer, L., Zhai,\nX., Unterthiner, T., Yung, J., Steiner, A., Keysers, D.,\nUszkoreit, J., Lucic, M., and Dosovitskiy, A. Mlp-mixer:\nAn all-mlp architecture for vision, 2021. URL https:\n//arxiv.org/abs/2105.01601.\nTouvron, H., Lavril, T., Izacard, G., Martinet, X., Lachaux,\nM.-A., Lacroix, T., Rozi `ere, B., Goyal, N., Hambro,\nE., Azhar, F., Rodriguez, A., Joulin, A., Grave, E., and\nLample, G. Llama: Open and efficient foundation lan-\nguage models, 2023. URL \nabs/2302.13971.\nVaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones,\nL., Gomez, A. N., Kaiser, L. u., and Polosukhin, I. At-\ntention is all you need. In Guyon, I., Luxburg, U. V .,\nBengio, S., Wallach, H., Fergus, R., Vishwanathan, S.,\nand Garnett, R.",
+      "section": "References",
+      "char_count": 1133,
+      "chunk_index": 50,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "SeparableArchitecture_2026_2601_22040.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "SeparableArch_2026_chunk_0051",
+      "source_id": "SeparableArch_2026",
+      "text": "oreit, J., Jones,\nL., Gomez, A. N., Kaiser, L. u., and Polosukhin, I. At-\ntention is all you need. In Guyon, I., Luxburg, U. V .,\nBengio, S., Wallach, H., Fergus, R., Vishwanathan, S.,\nand Garnett, R. (eds.),Advances in Neural Information\nProcessing Systems, volume 30. Curran Associates, Inc.,\n2017.\nXiong, R., Yang, Y ., He, D., Zheng, K., Zheng, S., Xing, C.,\nZhang, H., Lan, Y ., Wang, L., and Liu, T.-Y . On layer\nnormalization in the transformer architecture, 2020. URL\n\nXiong, Y ., Zeng, Z., Chakraborty, R., Tan, M., Fung, G.,\nLi, Y ., and Singh, V . Nystr ¨omformer: A nystr ¨om-based\nalgorithm for approximating self-attention, 2021. URL\n\n10\n\nA Separable Architecture for Continuous Token Representation in Language Models\nYang, Z., Dai, Z., Salakhutdinov, R., and Cohen, W. W.\nBreaking the softmax bottleneck: A high-rank rnn lan-\nguage model, 2018. URL \nabs/1711.03953.\nZaheer, M., Guruganesh, G., Dubey, A., Ainslie, J., Alberti,\nC., Ontanon, S., Pham, P., Ravula, A., Wang, Q., Yang,\nL., and Ahmed, A. Big bird: Transformers for longer\nsequences, 2021. URL \n2007.14062.\n11\n\nA Separable Architecture for Continuous Token Representation in Language Models\nA.",
+      "section": "References",
+      "char_count": 1170,
+      "chunk_index": 51,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "SeparableArchitecture_2026_2601_22040.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "SeparableArch_2026_chunk_0052",
+      "source_id": "SeparableArch_2026",
+      "text": "Ravula, A., Wang, Q., Yang,\nL., and Ahmed, A. Big bird: Transformers for longer\nsequences, 2021. URL \n2007.14062.\n11\n\nA Separable Architecture for Continuous Token Representation in Language Models\nA. Universal Approximation of the Leviathan Generator\nThis appendix formalizes the claim made in Section 3.1 that the generator is a universal approximator over continuous\nfunctions.\nTheorem A.1(Universal Approximation of CP-Separable Neural Architectures).Let Ω = [0,1]d. The class of separable\nfunctionsAis dense inC(Ω)with respect to the uniform norm∥ · ∥ ∞.\nProof.For each coordinatei∈ {1, . . . , d}, let\n˜U(i)= span{ϕ(i)\nα(x) :α∈ {1, . . . , r}, x∈[0,1]}(12)\nbe a function space dense on C([0,1]) . Let U(i)= alg( ˜U(i))be the univariate algebra generated by ˜U(i), with 1∈U(i).\nFurther, define the set\nA=\n\nrX\nj=1dY\ni=1a(i)\nj(xi) :a(i)\nj∈U(i), r∈N\n\n.(13)\nThis is the separable model with rankrandk=d. Pick arbitraryf, g∈ Asuch that\nf(x) =rX\nj=1dY\ni=1α(i)\nj(xi), g(x) =sX\nk=1dY\ni=1β(i)\nk(xi),(14)\nwithα(i)\nj, β(i)\nk∈U(i).",
+      "section": "References",
+      "char_count": 1030,
+      "chunk_index": 52,
+      "page_numbers": [
+        11
+      ],
+      "source_file": "SeparableArchitecture_2026_2601_22040.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "SeparableArch_2026_chunk_0053",
+      "source_id": "SeparableArch_2026",
+      "text": "j(xi) :a(i)\nj∈U(i), r∈N\n\n.(13)\nThis is the separable model with rankrandk=d. Pick arbitraryf, g∈ Asuch that\nf(x) =rX\nj=1dY\ni=1α(i)\nj(xi), g(x) =sX\nk=1dY\ni=1β(i)\nk(xi),(14)\nwithα(i)\nj, β(i)\nk∈U(i). Then,\nf(x) +g(x) =rX\nj=1dY\ni=1α(i)\nj(xi) +sX\nk=1dY\ni=1β(i)\nk(xi),(15)\n=r+sX\nl=1dY\ni=1γ(i)\nl(xi)whereγ(i)\nl∈U(i).(16)\nTherefore f+g∈ A , confirming closure under addition. Take an arbitrary element f∈ A as before, and multiply by an\narbitrary scalarλ∈Rso\nλf(x) =rX\nj=1λdY\ni=1α(i)\nj(xi) =rX\nj=1dY\ni=1˜α(i)\nj(xi),(17)\nwith ˜α(1)\nj=λα(1)\nj, all else unchanged. Since U(i)is a vector space, λα(1)\nj∈U(i), thus λf∈ A andAis closed under\nscalar multiplication. It has been shown thatAis closed under addition and scalar multiplication, and is therefore a vector\nspace. Pickf, g∈ Aas before. Then, their product is\n(fg)(x) =\nrX\nj=1dY\ni=1α(i)\nj(xi)\n sX\nk=1dY\ni=1β(i)\nk(xi)!\n,(18)\n=rX\nj=1sX\nk=1dY\ni=1γ(i)\njk(xi), γ(i)\njk=α(i)\nj(xi)β(i)\nk(xi).(19)\nRecall U(i)= alg( ˜U(i))is an unital algebra and so it follows by definition that γ(i)\njk∈U(i). Therefore, (fg)(x)∈ A , andA\nis an algebra: closed under multiplication. Since1∈U(i), it follows thatAis a unital algebra.",
+      "section": "References",
+      "char_count": 1159,
+      "chunk_index": 53,
+      "page_numbers": [
+        12
+      ],
+      "source_file": "SeparableArchitecture_2026_2601_22040.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "SeparableArch_2026_chunk_0054",
+      "source_id": "SeparableArch_2026",
+      "text": "˜U(i))is an unital algebra and so it follows by definition that γ(i)\njk∈U(i). Therefore, (fg)(x)∈ A , andA\nis an algebra: closed under multiplication. Since1∈U(i), it follows thatAis a unital algebra.\nTake two distinct points x, y∈[0,1]d,x= (x 1, . . . , x d), y= (y 1, . . . , y d),withxi̸=yifor at least one i= 1, . . . , d .\nNow, because U(i)is dense on C([0,1]),∃u∈U(i)withu(xi)̸=u(y i)for any xi̸=yi. Then the separable function\nf(z) =u(z i)∈ Aand satisfiesf(x)̸=f(y). Therefore,Aseparates points.\n12\n\nA Separable Architecture for Continuous Token Representation in Language Models\nAny unital subalgebra on C([0,1]d)that separates points is itself dense on C([0,1]d), given that [0,1]dis a compact\nHausdorff space. This follows from Stone-Weierstrass. Indeed, Ais dense on C([0,1]d); for a given f∗∈C([0,1]d)and\nanyε >0, density yieldsf∈ Asuch that\n∥f∗−f∥∞< ε.(20)\nBy definition ofA,fis afinitesum of products. Therefore, there existsrand functions{ϕ(i)\nj}such that\nsup\nx∈[0,1]d\f\f\f\f\f\ff∗(x)−rX\nj=1dY\ni=1ϕ(i)\nj(xi)\f\f\f\f\f\f< ε,(21)\nwhich is the desired universal approximation statement.\nB. Implementation Details\nAll models were trained on a single NVIDIA H200 GPU with 141GB VRAM in JAX/Flax.",
+      "section": "References",
+      "char_count": 1194,
+      "chunk_index": 54,
+      "page_numbers": [
+        12
+      ],
+      "source_file": "SeparableArchitecture_2026_2601_22040.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "SeparableArch_2026_chunk_0055",
+      "source_id": "SeparableArch_2026",
+      "text": "−rX\nj=1dY\ni=1ϕ(i)\nj(xi)\f\f\f\f\f\f< ε,(21)\nwhich is the desired universal approximation statement.\nB. Implementation Details\nAll models were trained on a single NVIDIA H200 GPU with 141GB VRAM in JAX/Flax.\nGenerator ConfigurationThe Leviathan generator utilizes a seed dimension dseed= 128 . The B-spline basis expansion\nemploys a grid of κ= 32 knots with quadratic B-splines. The aggregation layer sums over M= 8 rank-1 separable modes.\nThe coordinate mapping uses a baseb=⌈V1/3⌉= 59.\nOptimizationThe AdamW optimizer is utilized with β1= 0.9, β 2= 0.999, ϵ= 1×10−8, and no weight decay. The\nlearning rate follows a cosine decay schedule with a linear warmup of 1000 steps starting from a minimum learning rate of\n1×10−5. Peak learning rates were set to 3×10−4for all besides the 109M-class and 421M-class models for which they\nwere 6×10−4and2×10−4, respectively. In the iso-body regime, the 60-, 138-, 270- and 410-M models were trained for 75,\n170, 330 and 500 thousand steps, respectively. In the isoparametric regime, the 109-, 173-, 238- and 421-M models were\ntrained for 135, 210, 294 and 515 thousand steps, respectively.",
+      "section": "References",
+      "char_count": 1123,
+      "chunk_index": 55,
+      "page_numbers": [
+        13
+      ],
+      "source_file": "SeparableArchitecture_2026_2601_22040.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "SeparableArch_2026_chunk_0056",
+      "source_id": "SeparableArch_2026",
+      "text": "e trained for 75,\n170, 330 and 500 thousand steps, respectively. In the isoparametric regime, the 109-, 173-, 238- and 421-M models were\ntrained for 135, 210, 294 and 515 thousand steps, respectively.\nBatching and Gradient AccumulationTo manage memory constraints while maintaining a large effective batch size,\ngradient accumulation was employed across 16 physical steps. The physical batch was 32 sequences per step, with a\nsequence length of 512 tokens. Thus the number of tokens per physical step was 16,384; this is the resolution of the training\nlogs. The logical batch size was 512 sequences (physical batch accumulated over 16 steps). Therefore, every gradient update\ntook5122= 262,144tokens.\nC. Learning Curves\nThe complete optimization trajectories for all model configurations are presented here. Figure 9 displays the validation loss\nprofiles for the iso-body regime, whilst Figure 10 illustrates the isoparametric comparisons. In both settings, Leviathan\ngenerally outperforms the dense baselines, with the performance gap often widening as training progresses.",
+      "section": "References",
+      "char_count": 1074,
+      "chunk_index": 56,
+      "page_numbers": [
+        13
+      ],
+      "source_file": "SeparableArchitecture_2026_2601_22040.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "SeparableArch_2026_chunk_0057",
+      "source_id": "SeparableArch_2026",
+      "text": "gime, whilst Figure 10 illustrates the isoparametric comparisons. In both settings, Leviathan\ngenerally outperforms the dense baselines, with the performance gap often widening as training progresses.\n13\n\nA Separable Architecture for Continuous Token Representation in Language Models\n0 2 4\nTokens Seen, B456Validation Loss60M Scale\nDense\nLeviathan\n0 2 4\nTokens Seen, B345Validation Loss138M Scale\n0 2 4\nTokens Seen, B345Validation Loss270M Scale\n0.0 2.5 5.0 7.5\nTokens Seen, B345Validation Loss410M Scale\nFigure 9.Theiso-bodylearning curves; tracking validation loss as the models see more tokens.\n0 2 4 6\nTokens Seen, B345Validation Loss109M Scale\nDense\nLeviathan\n0 1 2 3\nTokens Seen, B345Validation Loss173M Scale\n0 2 4\nTokens Seen, B345Validation Loss238M Scale\n0.0 2.5 5.0 7.5\nTokens Seen, B345Validation Loss421M Scale\nFigure 10.Theiso-parametriclearning curves; tracking validation loss as the models see more tokens.\n14",
+      "section": "References",
+      "char_count": 927,
+      "chunk_index": 57,
+      "page_numbers": [
+        13
+      ],
+      "source_file": "SeparableArchitecture_2026_2601_22040.pdf",
+      "total_source_pages": 14
+    },
+    {
+      "chunk_id": "SeparableArch_2026_chunk_0058",
+      "source_id": "SeparableArch_2026",
+      "text": "alidation Loss421M Scale\nFigure 10.Theiso-parametriclearning curves; tracking validation loss as the models see more tokens.\n14",
+      "section": "References",
+      "char_count": 127,
+      "chunk_index": 58,
+      "page_numbers": [
+        14
+      ],
+      "source_file": "SeparableArchitecture_2026_2601_22040.pdf",
+      "total_source_pages": 14
+    }
+  ]
+}

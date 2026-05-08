@@ -1,0 +1,80 @@
+Claim,Evidence Snippet,Citation,Confidence,Notes
+", ..., 𝑤𝑡−1) (5)
+Language modeling serves as a prevalent pretraining objective for most LLMs. In addition to language modeling,
+there are other pretra...",", ..., 𝑤𝑡−1) (5)
+Language modeling serves as a prevalent pretraining objective for most LLMs. In addition to language modeling,
+there are other pretraining tasks within the realm of language modeling. For instance, some models [68; 37] use text
+withcertainportionsrandomlyreplaced,andthenemployautore...","DataQuality_2024, DataQuality_2024_chunk_0050",High,Relevance: 0.70
+"ormation processing
+systems , 33:1877–1901.
+Yew Ken Chia, Pengfei Hong, Lidong Bing, and Sou-
+janya Poria. 2023. Instructeval: Towards holistic
+evalua...","ormation processing
+systems , 33:1877–1901.
+Yew Ken Chia, Pengfei Hong, Lidong Bing, and Sou-
+janya Poria. 2023. Instructeval: Towards holistic
+evaluation of instruction-tuned large language mod-
+els.
+Aakanksha Chowdhery, Sharan Narang, Jacob Devlin,
+Maarten Bosma, Gaurav Mishra, Adam Roberts,
+Paul ...","DistillSLM_2023, DistillSLM_2023_chunk_0050",High,Relevance: 0.70
+"nsic acti-
+vation sparsity within large language models.
+Vedant Subramani, Marios Savvides, Li Ping, and Sha-
+ran Narang. 2022. Adapt: Parameter adapt...","nsic acti-
+vation sparsity within large language models.
+Vedant Subramani, Marios Savvides, Li Ping, and Sha-
+ran Narang. 2022. Adapt: Parameter adaptive token-
+wise inference for vision transformers. In Proceed-
+ings of the 55th Annual IEEE/ACM International
+Symposium on Microarchitecture .Mingjie ...","DistillSLM_2023, DistillSLM_2023_chunk_0059",High,Relevance: 0.70
+"7 Conclusions
+We propose Farseer , a refined scaling law and methodology for Large Language Models. By
+accurately modeling the loss surface L(N, D )th...","7 Conclusions
+We propose Farseer , a refined scaling law and methodology for Large Language Models. By
+accurately modeling the loss surface L(N, D )through a novel fitting approach, Farseer provides
+significantly better empirical fit and superior extrapolation capabilities compared to prior scaling
+...","Farseer_2025, Farseer_2025_chunk_0047",High,Relevance: 0.70
+"MiniCPM: Unveiling the Potential of Small Language Models
+with Scalable Training Strategies
+Shengding Hu1, Yuge T u2, Xu Han1∗, Chaoqun He1, Ganqu Cui...","MiniCPM: Unveiling the Potential of Small Language Models
+with Scalable Training Strategies
+Shengding Hu1, Yuge T u2, Xu Han1∗, Chaoqun He1, Ganqu Cui1, Xiang Long2,
+Zhi Zheng2, Yewei Fang2, Yuxiang Huang1, Weilin Zhao1, Xinrong Zhang1,
+Zheng Leng Thai1,Kaihuo Zhang2, Chongyi Wang2, Yuan Yao1,
+Cheny...","MiniCPM_2024, MiniCPM_2024_chunk_0000",High,Relevance: 0.70
+"2 Related Work
+Small Language Models. “Small Language Models” (SLMs) is an evolving concept that has
+undergone significant transformations over time. ...","2 Related Work
+Small Language Models. “Small Language Models” (SLMs) is an evolving concept that has
+undergone significant transformations over time. Presently, SLMs are generally construed as
+models that are smaller in scale compared to the well-known LLMs, typically not exceeding
+7 billion paramet...","MiniCPM_2024, MiniCPM_2024_chunk_0009",High,Relevance: 0.70
+"ute-optimal large language models. arXiv preprint
+arXiv:2203.15556 , 2022.
+[HSK+24] Cheng-Ping Hsieh, Simeng Sun, Samuel Kriman, Shantanu Acharya, Dim...","ute-optimal large language models. arXiv preprint
+arXiv:2203.15556 , 2022.
+[HSK+24] Cheng-Ping Hsieh, Simeng Sun, Samuel Kriman, Shantanu Acharya, Dima Rekesh, Fei Jia,
+Yang Zhang, and Boris Ginsburg. Ruler: What’s the real context size of your long-context
+language models?, 2024.
+[JBA+23] Mojan Jav...","Phi3_2024, Phi3_2024_chunk_0048",High,Relevance: 0.70
+"MODELS(LLMS)
+We used large language models (LLMs) only for minor text polishing, such as grammar and phras-
+ing. All ideas, experiments, analyses, and...","MODELS(LLMS)
+We used large language models (LLMs) only for minor text polishing, such as grammar and phras-
+ing. All ideas, experiments, analyses, and discussions were conducted solely by the authors. The
+LLM did not contribute to the design and interpretation of our research.","SLMasJudge_2026, SLMasJudge_2026_chunk_0039",High,Relevance: 0.70
+"TinyStories : How Small Can Language Models Be and Still Speak
+Coherent English?
+Ronen Eldan∗and Yuanzhi Li†
+Microsoft Research
+April 2023","TinyStories : How Small Can Language Models Be and Still Speak
+Coherent English?
+Ronen Eldan∗and Yuanzhi Li†
+Microsoft Research
+April 2023","TinyLlama_2023, TinyLlama_2023_chunk_0000",High,Relevance: 0.70
+"s ( with only one transformer block ), yet still produce
+fluent and consistent stories with several paragraphs that are diverse and have almost perfec...","s ( with only one transformer block ), yet still produce
+fluent and consistent stories with several paragraphs that are diverse and have almost perfect grammar, and
+demonstrate reasoning capabilities.
+We also introduce a new paradigm for the evaluation of language models: We suggest a framework whic...","TinyLlama_2023, TinyLlama_2023_chunk_0002",High,Relevance: 0.70

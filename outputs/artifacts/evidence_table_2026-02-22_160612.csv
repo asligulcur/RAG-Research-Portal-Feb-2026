@@ -1,0 +1,52 @@
+Claim,Evidence Snippet,Citation,Confidence,Notes
+"is adaptively updated based on feedback from the Verify-Only.In contrast, the speedup of Verify- Only is limited when used alone, with at most 7%...","which
+is adaptively updated based on feedback from the
+target model.
+Verify-Only.In contrast, the speedup of Verify-
+Only is limited when used alone, with at most
+7% improvement over Vanilla on MMLU. This
+is because Vanilla achieves a high acceptance rate
+with its carefully chosen candidate length, ...","AdaptiveSpec_2025, AdaptiveSpec_2025_chunk_0036",High,Relevance: 0.70
+edictors. The sparsity pattern of Phi-2 is dif- ferent than other models. As you can see in figure 9c the sparsity of the middle layers is less than...,"edictors. The sparsity pattern of Phi-2 is dif-
+ferent than other models. As you can see in figure
+9c the sparsity of the middle layers is less than other
+layers for a random sample of the C4 dataset. As a
+general rule of thumb, we trained larger predictors
+for the less sparse layers. If layers are ...","DistillSLM_2023, DistillSLM_2023_chunk_0083",High,Relevance: 0.70
+"MMLU, and 8.7, 8.9 on MT-bench). To enhance multilingual, multimodal, and long-context capabilities, we introduce three models in the phi-3.5 series:...","MMLU, and 8.7, 8.9 on MT-bench). To enhance multilingual, multimodal, and long-context
+capabilities, we introduce three models in the phi-3.5 series: phi-3.5-mini ,phi-3.5-MoE , and phi-
+3.5-Vision . The phi-3.5-MoE , a 16 x 3.8B MoE model with 6.6 billion active parameters, achieves
+superior perfor...","Phi3_2024, Phi3_2024_chunk_0001",High,Relevance: 0.70
+"models, and in particular we did no optimization to the pipeline for the phi-3 models.4The number of k–shot examples is listed per-benchmark. An...","models, and in particular we did no optimization to the pipeline for the phi-3
+models.4The number of k–shot examples is listed per-benchmark. An example of a 2-shot prompt is
+described in Appendix A.
+4For example, we found that using ## before the Question can lead to a noticeable improvement to phi...","Phi3_2024, Phi3_2024_chunk_0014",High,Relevance: 0.70
+"e context length limit from 4K to 128K without compromising performance on Figure 4 compares the performance of phi-3-mini ,phi-3.5-mini , and...","e context length limit from 4K to 128K without compromising performance on
+4K-context tasks.
+Figure 4 compares the performance of phi-3-mini ,phi-3.5-mini , and phi-3.5-MoE on MMLU
+multilingual tasks. phi-3.5-mini demonstrates significant improvement over phi-3-mini in languages
+6
+
+Model Ctx Size Py...","Phi3_2024, Phi3_2024_chunk_0017",High,Relevance: 0.70
+"on of phi-3-mini ,phi-3.5-mini andphi-3.5-MoE on MMLU-Multilingual tasks We evaluate the phi-3.5-mini andphi-3.5-MoE models on two long-context...","on of phi-3-mini ,phi-3.5-mini andphi-3.5-MoE on MMLU-Multilingual tasks
+We evaluate the phi-3.5-mini andphi-3.5-MoE models on two long-context understanding tasks:
+RULER [HSK+24] and RepoQA [LTD+24]. As shown in Tables 1 and 2, both phi-3.5-MoE andphi-
+3.5-mini outperform other open-source models w...","Phi3_2024, Phi3_2024_chunk_0018",High,Relevance: 0.70
+"of the phi-3.5-mini andphi-3.5-MoE models compared with recent SoTA pretrained language models, such as GPT-4o-mini, Gemini-1.5 Flash, and open-source...","of the phi-3.5-mini andphi-3.5-MoE models
+compared with recent SoTA pretrained language models, such as GPT-4o-mini, Gemini-1.5 Flash, and
+open-source models like Llama-3.1-8B and the Mistral models. The results show that phi-3.5-mini
+achieves performance comparable to much larger models like Mistra...","Phi3_2024, Phi3_2024_chunk_0019",High,Relevance: 0.70
+"In Table 7, we present the evaluation outcomes of Phi-3.5-Vision on three MM RAI benchmarks: one internal and two public benchmarks (specifically,...","ferent prompts.
+In Table 7, we present the evaluation outcomes of Phi-3.5-Vision on three MM RAI benchmarks:
+one internal and two public benchmarks (specifically, RTVLM [LLY+24] and VLGuard [ZBY+24]). We
+juxtapose these results with those of other open-source models such as Llava-1.5 [LLLL23], Llava...","Phi3_2024, Phi3_2024_chunk_0037",High,Relevance: 0.70
+"mary of performance metrics, comparing the average LLM approach against the average of traditional baselines. Table 11: Summary of Key Performance...","mary of performance metrics, comparing the average LLM
+approach against the average of traditional baselines.
+Table 11: Summary of Key Performance Metrics.
+Metric LLM Average Best LLM Traditional Avg. Improvement
+Speedup6.81x 43.25x 6.45x +5.6%
+Efficiency0.85 0.92 0.81 +4.9%
+Analysis Quality*0.82 0....","SLMCompiler_2025, SLMCompiler_2025_chunk_0018",High,Relevance: 0.70
+"our new CodeExercises dataset. For the 1.3B models, phi-1 andphi-1-base are checkpoints after training on 51B tokens (770 GPU hours) and The Stack+...","our new CodeExercises dataset. For the 1.3B models, phi-1 andphi-1-base are checkpoints
+after training on 51B tokens (770 GPU hours) and The Stack+ model was trained for 76B tokens and 1090 GPU
+hours. We highlight that even without any finetuning, our phi-1-base model trained on CodeTextbook dataset...","TextbooksAllYouNeed_2023, TextbooksAllYouNeed_2023_chunk_0010",High,Relevance: 0.70

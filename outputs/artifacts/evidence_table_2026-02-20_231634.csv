@@ -1,0 +1,34 @@
+Claim,Evidence Snippet,Citation,Confidence,Notes
+"7 Conclusions
+We propose Farseer , a refined scaling law and methodology for Large Language Models. By
+accurately modeling the loss surface L(N, D )th...","7 Conclusions
+We propose Farseer , a refined scaling law and methodology for Large Language Models. By
+accurately modeling the loss surface L(N, D )through a novel fitting approach, Farseer provides
+significantly better empirical fit and superior extrapolation capabilities compared to prior scaling
+...","Farseer_2025, Farseer_2025_chunk_0047",High,Relevance: 0.70
+"Abstract
+In this work, we develop and release Llama 2, a collection of pretrained and fine-tuned
+large language models (LLMs) ranging in scale from 7 ...","Abstract
+In this work, we develop and release Llama 2, a collection of pretrained and fine-tuned
+large language models (LLMs) ranging in scale from 7 billion to 70 billion parameters.
+Our fine-tuned LLMs, called Llama 2-Chat , are optimized for dialogue use cases. Our
+models outperform open-source c...","Llama2_2023, Llama2_2023_chunk_0002",High,Relevance: 0.70
+"hat of models like Yarn-Mistral-7B-128K (Peng
+et al., 2023) and ChatGLM3-6B-128K (Du et al., 2021). (4) The MiniCPM-MoE, with 4B
+activated parameters,...","hat of models like Yarn-Mistral-7B-128K (Peng
+et al., 2023) and ChatGLM3-6B-128K (Du et al., 2021). (4) The MiniCPM-MoE, with 4B
+activated parameters, is on par with Llama2-34B (Touvron et al., 2023).
+In summary, MiniCPM propounds a new stage in the development of small language
+models, exemplifying...","MiniCPM_2024, MiniCPM_2024_chunk_0008",High,Relevance: 0.70
+"The Tenth AAAI Symposium on Educational Advances in Artificial Intelligence,
+EAAI 2020, New York, NY, USA, February 7-12, 2020 , pp. 7432–7439. AAAI P...","The Tenth AAAI Symposium on Educational Advances in Artificial Intelligence,
+EAAI 2020, New York, NY, USA, February 7-12, 2020 , pp. 7432–7439. AAAI Press, 2020. doi:
+10.1609/aaai.v34i05.6239. URL  .
+Sid Black, Stella Biderman, Eric Hallahan, Quentin Anthony, Leo Gao, Laurence Golding, Horace He,
+Co...","SLMEval_2023, SLMEval_2023_chunk_0093",High,Relevance: 0.70
+"MODELS(LLMS)
+We used large language models (LLMs) only for minor text polishing, such as grammar and phras-
+ing. All ideas, experiments, analyses, and...","MODELS(LLMS)
+We used large language models (LLMs) only for minor text polishing, such as grammar and phras-
+ing. All ideas, experiments, analyses, and discussions were conducted solely by the authors. The
+LLM did not contribute to the design and interpretation of our research.","SLMasJudge_2026, SLMasJudge_2026_chunk_0039",High,Relevance: 0.70

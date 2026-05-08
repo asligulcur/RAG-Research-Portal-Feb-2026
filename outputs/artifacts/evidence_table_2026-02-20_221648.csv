@@ -1,0 +1,69 @@
+Claim,Evidence Snippet,Citation,Confidence,Notes
+"TinyStories : How Small Can Language Models Be and Still Speak
+Coherent English?
+Ronen Eldan∗and Yuanzhi Li†
+Microsoft Research
+April 2023","TinyStories : How Small Can Language Models Be and Still Speak
+Coherent English?
+Ronen Eldan∗and Yuanzhi Li†
+Microsoft Research
+April 2023","TinyLlama_2023, TinyLlama_2023_chunk_0000",Medium,Relevance: 0.70
+"MODELS(LLMS)
+We used large language models (LLMs) only for minor text polishing, such as grammar and phras-
+ing. All ideas, experiments, analyses, and...","MODELS(LLMS)
+We used large language models (LLMs) only for minor text polishing, such as grammar and phras-
+ing. All ideas, experiments, analyses, and discussions were conducted solely by the authors. The
+LLM did not contribute to the design and interpretation of our research.","SLMasJudge_2026, SLMasJudge_2026_chunk_0039",Medium,Relevance: 0.66
+"2 Related Work
+Small Language Models. “Small Language Models” (SLMs) is an evolving concept that has
+undergone significant transformations over time. ...","2 Related Work
+Small Language Models. “Small Language Models” (SLMs) is an evolving concept that has
+undergone significant transformations over time. Presently, SLMs are generally construed as
+models that are smaller in scale compared to the well-known LLMs, typically not exceeding
+7 billion paramet...","MiniCPM_2024, MiniCPM_2024_chunk_0009",Medium,Relevance: 0.64
+"MiniCPM: Unveiling the Potential of Small Language Models
+with Scalable Training Strategies
+Shengding Hu1, Yuge T u2, Xu Han1∗, Chaoqun He1, Ganqu Cui...","MiniCPM: Unveiling the Potential of Small Language Models
+with Scalable Training Strategies
+Shengding Hu1, Yuge T u2, Xu Han1∗, Chaoqun He1, Ganqu Cui1, Xiang Long2,
+Zhi Zheng2, Yewei Fang2, Yuxiang Huang1, Weilin Zhao1, Xinrong Zhang1,
+Zheng Leng Thai1,Kaihuo Zhang2, Chongyi Wang2, Yuan Yao1,
+Cheny...","MiniCPM_2024, MiniCPM_2024_chunk_0000",Medium,Relevance: 0.63
+"s ( with only one transformer block ), yet still produce
+fluent and consistent stories with several paragraphs that are diverse and have almost perfec...","s ( with only one transformer block ), yet still produce
+fluent and consistent stories with several paragraphs that are diverse and have almost perfect grammar, and
+demonstrate reasoning capabilities.
+We also introduce a new paradigm for the evaluation of language models: We suggest a framework whic...","TinyLlama_2023, TinyLlama_2023_chunk_0002",Medium,Relevance: 0.62
+"Sutton, S. Gehrmann et al., “Palm:
+Scaling language modeling with pathways,” arXiv preprint arXiv:2204.02311 , 2022.
+[37] A. Zeng, X. Liu, Z. Du, Z. W...","Sutton, S. Gehrmann et al., “Palm:
+Scaling language modeling with pathways,” arXiv preprint arXiv:2204.02311 , 2022.
+[37] A. Zeng, X. Liu, Z. Du, Z. Wang, H. Lai, M. Ding, Z. Yang, Y. Xu, W. Zheng, X. Xia et al., “Glm-130b: An open bilingual pre-trained
+model,”arXiv preprint arXiv:2210.02414 , 2022....","DataQuality_2024, DataQuality_2024_chunk_0115",Medium,Relevance: 0.61
+"ute-optimal large language models. arXiv preprint
+arXiv:2203.15556 , 2022.
+[HSK+24] Cheng-Ping Hsieh, Simeng Sun, Samuel Kriman, Shantanu Acharya, Dim...","ute-optimal large language models. arXiv preprint
+arXiv:2203.15556 , 2022.
+[HSK+24] Cheng-Ping Hsieh, Simeng Sun, Samuel Kriman, Shantanu Acharya, Dima Rekesh, Fei Jia,
+Yang Zhang, and Boris Ginsburg. Ruler: What’s the real context size of your long-context
+language models?, 2024.
+[JBA+23] Mojan Jav...","Phi3_2024, Phi3_2024_chunk_0048",Medium,Relevance: 0.61
+"1]. These abilities suggest that language models are not only learning the surface patterns of language,
+but also acquiring some degree of semantic an...","1]. These abilities suggest that language models are not only learning the surface patterns of language,
+but also acquiring some degree of semantic and logical understanding of the world and the text. However, it is not
+clear at what scale these abilities emerge, and how they depend on the model arc...","TinyLlama_2023, TinyLlama_2023_chunk_0006",Medium,Relevance: 0.61
+". Plappert, F. Chantzis, E. Barnes,
+A.Herbert-Voss,W.H.Guss,A.Nichol,A.Paino,
+N. Tezak, J. Tang, I. Babuschkin, S. Balaji,
+S. Jain, W. Saunders, C. He...",". Plappert, F. Chantzis, E. Barnes,
+A.Herbert-Voss,W.H.Guss,A.Nichol,A.Paino,
+N. Tezak, J. Tang, I. Babuschkin, S. Balaji,
+S. Jain, W. Saunders, C. Hesse, A. N. Carr,
+J. Leike, J. Achiam, V. Misra, E. Morikawa,
+A.Radford,M.Knight,M.Brundage,M.Murati,
+K. Mayer, P. Welinder, B. McGrew, D. Amodei,
+S. M...","Gemma2_2024, Gemma2_2024_chunk_0061",Medium,Relevance: 0.61
+"igurations adopted for recent state-of-the-art large language models (e.g., Qwen[ 46,45], Llama
+[39,40,16]), indicating that Farseer offers more accur...","igurations adopted for recent state-of-the-art large language models (e.g., Qwen[ 46,45], Llama
+[39,40,16]), indicating that Farseer offers more accurate and relevant guidance for optimizing
+resource allocation in current and future large-scale model training.","Farseer_2025, Farseer_2025_chunk_0043",Medium,Relevance: 0.60

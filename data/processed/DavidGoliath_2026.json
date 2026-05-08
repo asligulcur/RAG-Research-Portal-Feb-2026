@@ -1,0 +1,1507 @@
+{
+  "source_id": "DavidGoliath_2026",
+  "metadata": {
+    "title": "Can David Beat Goliath? On Multi-Hop Reasoning with Resource-Constrained Agents",
+    "authors": "Research Team",
+    "year": "2026",
+    "venue": "arXiv",
+    "url": "https://arxiv.org/abs/2601.21699",
+    "source_type": "peer-reviewed",
+    "relevance_note": "Multi-hop reasoning in resource-constrained SLMs - addresses reasoning gap (Jan 29, 2026)"
+  },
+  "pdf_metadata": {
+    "title": "Can David Beat Goliath? On Multi-Hop Reasoning with Resource-Constrained Agents",
+    "author": "Hojae Han; Heeyun Jung; Jongyoon Kim; Seung-won Hwang",
+    "total_pages": 30
+  },
+  "statistics": {
+    "total_pages": 30,
+    "total_chunks": 114,
+    "avg_chunk_size": 1034.6666666666667,
+    "ingestion_timestamp": "2026-02-02T19:04:00.756192"
+  },
+  "chunks": [
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0000",
+      "source_id": "DavidGoliath_2026",
+      "text": "Can David Beat Goliath?\nOn Multi-Hop Reasoning with Resource-Constrained Agents\nHojae Han1Heeyun Jung2Jongyoon Kim3Seung-won Hwang3 *",
+      "section": "Header/Title",
+      "char_count": 133,
+      "chunk_index": 0,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0001",
+      "source_id": "DavidGoliath_2026",
+      "text": "Abstract\nWhile reinforcement learning (RL) has empow-\nered multi-turn reasoning agents with retrieval\nand tools, existing successes largely depend on\nextensive on-policy rollouts inhigh-cost, high-\naccuracyregimes. Under realistic resource con-\nstraints that cannot support large models or dense\nexplorations, however, small language model\nagents fall into alow-cost, low-accuracyregime,\nwhere limited rollout budgets lead to sparse ex-\nploration, sparse credit assignment, and unstable\ntraining. In this work, we challenge this trade-off\nand show that small language models can achieve\nstrong multi-hop reasoning under resource con-\nstraints. We introduce DAVID-GRPO, a budget-\nefficient RL framework that (i) stabilizes early\nlearning with minimal supervision, (ii) assigns re-\ntrieval credit based on evidence recall, and (iii) im-\nproves exploration by resampling truncated near-\nmiss trajectories. Evaluated on agents up to 1.5B\nparameters trained on only four RTX 3090 GPUs,\nDAVID-GRPO consistently outperforms prior RL\nmethods designed for large-scale settings on six\nmulti-hop QA benchmarks.",
+      "section": "Abstract",
+      "char_count": 1099,
+      "chunk_index": 1,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0002",
+      "source_id": "DavidGoliath_2026",
+      "text": "es. Evaluated on agents up to 1.5B\nparameters trained on only four RTX 3090 GPUs,\nDAVID-GRPO consistently outperforms prior RL\nmethods designed for large-scale settings on six\nmulti-hop QA benchmarks. These results show\nthat with the right inductive biases, small agents\ncan achievelow training cost with high accuracy.1",
+      "section": "Abstract",
+      "char_count": 320,
+      "chunk_index": 2,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0003",
+      "source_id": "DavidGoliath_2026",
+      "text": "1. Introduction\nRecently, reinforcement learning (RL) has empowered small\nlanguage models as agents to interleave reasoning with\nretrieval and tool use, yielding strong performance on\nlong-horizon tasks, such as multi-hop question answering\n(Jin et al., 2025a; Ji et al., 2025b; Zhang et al., 2025; Ji\nPreprint. Under review.1Electronics and Telecommunications\nResearch Institute (ETRI)2The University of Hong Kong (HKU)\n3Seoul National University (SNU). Correspondence to: Seung-won\n\nProceedings of the 43rdInternational Conference on Machine\nLearning, Seoul, South Korea. PMLR 306, 2026. Copyright 2026\nby the author(s).\n1\nHigh-costHigh-accuracy\nLow-costLow-accuracyLow-costHigh-accuracyFigure 1.Average exact match (EM) across four multi-hop QA\nbenchmarks versus rollouts per batch (log scale) using Qwen2.5-\n1.5B. Shading indicates rollout intensity. The dashed line illustrates\nthe scaling trend for Tree-GRPO. In the low-cost regime, DAVID-\nGRPO outperforms StepSearch, Search-R1-v0.3, and Tree-GRPO,\nachieving parity with Tree-GRPO’s high-cost performance while\nusing only 4.7% of its budget.\net al., 2025a; Chen et al., 2025).",
+      "section": "1. Introduction",
+      "char_count": 1134,
+      "chunk_index": 3,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0004",
+      "source_id": "DavidGoliath_2026",
+      "text": "gime, DAVID-\nGRPO outperforms StepSearch, Search-R1-v0.3, and Tree-GRPO,\nachieving parity with Tree-GRPO’s high-cost performance while\nusing only 4.7% of its budget.\net al., 2025a; Chen et al., 2025). However, these gains\nhave largely been demonstrated only in ahigh-cost, high-\naccuracyregime (upper-left quadrant in Figure 1), relying\non extensive on-policy rollouts and large batch sizes. Such\nresource-intensive settings are often accessible only to well-\nresourced organizations (Kudiabor, 2024; Besiroglu et al.,\n2024) and do not generalize to the low compute budgets of\ncommodity hardware.\nWe aim to unlock small language-model agents for robust\nmulti-hop reasoning, under constraints with limited batch\nsizes and rollout counts (upper-right quadrant in the figure).\nUnder these budgets, conventional RL typically falls into\nthelow-cost, low-accuracytrap due to three compounded\nbottlenecks: (1)Cold-Start: Without high-quality initial\npolicies, agents fail to formulate effective search intents. (2)\nSparse Rewards: Binary success signals at the end of a\nmulti-hop trajectory fail to evaluate intermediate retrieval\nactions.",
+      "section": "1. Introduction",
+      "char_count": 1132,
+      "chunk_index": 4,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0005",
+      "source_id": "DavidGoliath_2026",
+      "text": "ty initial\npolicies, agents fail to formulate effective search intents. (2)\nSparse Rewards: Binary success signals at the end of a\nmulti-hop trajectory fail to evaluate intermediate retrieval\nactions. (3)Limited Exploration: Budget constraints hin-\nder sufficient exploration to discover valid reasoning paths.\n1arXiv:2601.21699v1 [cs.CL] 29 Jan 2026\n\nOn Multi-Hop Reasoning with Resource-Constrained Agents\nPrior approaches fail to address these hurdles simultane-\nously without relying on large-scale supervision (Zhang\net al., 2025) or massive batch processing (Ji et al., 2025a;\nZheng et al., 2025; Jin, 2025).\nOur key insight is to reinterpret these RL failures through the\nlens ofzero-shot retrieval(Thakur et al., 2021) in informa-\ntion retrieval (IR), where a system must search for relevant\ndocuments without prior interaction logs or dense feedback.\nIn this cold-start setting, the system receives only sparse and\ndelayed signals about what is correct. The IR community ad-\ndresses these challenges with three simple principles.",
+      "section": "1. Introduction",
+      "char_count": 1038,
+      "chunk_index": 5,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0006",
+      "source_id": "DavidGoliath_2026",
+      "text": "gs or dense feedback.\nIn this cold-start setting, the system receives only sparse and\ndelayed signals about what is correct. The IR community ad-\ndresses these challenges with three simple principles. First,\nitwarm-startslearning by providing pseudo-positives from\nretrievers to guide early search, known as pseudo-retrieval\nfeedback (Rocchio Jr, 1971; Croft et al., 2001). Second, it\nprovidesrelevant judgments(V oorhees et al., 2005) from\nreviewers as dense retrievals. Third, ititeratively expands\nthe search space by expanding similar documents to what\nhas been retrieved, known as adaptive retrieval (Jiang et al.,\n2023; Asai et al., 2024).\nGuided by this analogy, we introduce DAVID-GRPO, a\nbudget-efficient RL framework for multi-hop reasoning in\nsmall agents. DAVID-GRPO effectively bridges the gap\nthrough three synergistic components: (1) It provides the\nnecessary priors via a lightweightfew-shot warm-start\n(§3.2). (2) It offers precise relevance feedback bygrounded\nretrieval rewards(§3.3). (3) It enables targeted trajectory\nrefinement bygrounded expansion(§3.4).",
+      "section": "1. Introduction",
+      "char_count": 1077,
+      "chunk_index": 6,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0007",
+      "source_id": "DavidGoliath_2026",
+      "text": "iors via a lightweightfew-shot warm-start\n(§3.2). (2) It offers precise relevance feedback bygrounded\nretrieval rewards(§3.3). (3) It enables targeted trajectory\nrefinement bygrounded expansion(§3.4).\nEmpirically, across agents up to 1.5B parameters trained on\nonly four RTX 3090 GPUs, experimental results in Section 4\nshow that DAVID-GRPO consistently outperforms prior RL\nmethods designed for large-scale settings on six multi-hop\nQA benchmarks. Our analysis in Section 5 demonstrates that\nwhile existing approaches are often limited to single-hop or\nskipping retrieval and rely heavily on parametric knowledge,\nDAVID-GRPO enables small language models to master\nmulti-hop retrieval actions. This overturns the conventional\nwisdom that multi-hop reasoning is incompatible with small\nlanguage models under resource constraints.",
+      "section": "1. Introduction",
+      "char_count": 829,
+      "chunk_index": 7,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0008",
+      "source_id": "DavidGoliath_2026",
+      "text": "s under resource constraints.",
+      "section": "1. Introduction",
+      "char_count": 29,
+      "chunk_index": 8,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0009",
+      "source_id": "DavidGoliath_2026",
+      "text": "2. Related Work\nIn this section, we first overview the problem space then\nvisit each of the three key challenges in Table 1.\nMulti-Hop Reasoning and QA.Multi-hop reasoning en-\ntails iteratively retrieving and integrating information (Asai\net al., 2020; Yao et al., 2023), a process fundamental to multi-\nhop question answering (QA) where evidence chains are\nscattered across a large corpus (Yang et al., 2018; Ho et al.,\n2020; Trivedi et al., 2022; Press et al., 2023). In this frame-\nwork, retrieval serves dual roles:bridge retrievalfor interme-\ndiate context andanswer retrievalfor final evidence (XiongTable 1.Comparison of DAVID-GRPO with RL-based multi-hop\nreasoning methods. A triangle ( △) denotes suboptimal support:\nAutoCoArequires extensive supervised initialization;Search-R1-\nv0.3ignores bridge retrieval;StepSearchenforces global recall of\nthe entire document set at every turn, hindering turn-specific spe-\ncialization; andTree-GRPOperforms tree expansion but remains\nagnostic to intermediate retrieval success.",
+      "section": "2. Related Work",
+      "char_count": 1026,
+      "chunk_index": 9,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0010",
+      "source_id": "DavidGoliath_2026",
+      "text": "chenforces global recall of\nthe entire document set at every turn, hindering turn-specific spe-\ncialization; andTree-GRPOperforms tree expansion but remains\nagnostic to intermediate retrieval success.\nMethod Cold-StartSparse\nRewardsLimited\nExploration\nSearch-R1 (Jin et al., 2025a)✗ ✗ ✗\nMMOA-RAG (Chen et al., 2025)✗ ✗ ✗\nAutoCoA (Zhang et al., 2025)△✗ ✗\nTree-GRPO (Ji et al., 2025a)✗ ✗△\nSearch-R1-v0.3 (Jin, 2025)✗△✗\nStepSearch (Zheng et al., 2025)✗△✗\nDAVID-GRPO (this work)✓ ✓ ✓\net al., 2019; Fang et al., 2020; Xiong et al., 2021). We de-\nfine the successful accumulation of this complete evidence\nchain asgrounding, ensuring the agent possesses all neces-\nsary supporting facts in context before generating the final\nprediction.\nCold-Start.Due to a large search space, to prevent early\npolicy collapse, agents requirewarm-startingwith high-\nquality priors. Prior works like AutoCoA (Zhang et al.,\n2025) address this by supervising the agent with trajecto-\nries generated by superior models. However, this approach\nrequires annotated multi-step trajectories.",
+      "section": "2. Related Work",
+      "char_count": 1060,
+      "chunk_index": 10,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0011",
+      "source_id": "DavidGoliath_2026",
+      "text": "Prior works like AutoCoA (Zhang et al.,\n2025) address this by supervising the agent with trajecto-\nries generated by superior models. However, this approach\nrequires annotated multi-step trajectories.\nSparse Rewards.While early RL-based agents relied on\nsparse outcome-level rewards (Jin et al., 2025a; Zhang et al.,\n2025; Chen et al., 2025), recent methods provide denser\nrewards to retrieval. StepSearch (Zheng et al., 2025) intro-\nduces step-wise rewards but using lexical similarity to the\nground-truth set, and Jin (2025) studies credit assignment to\neach retrieved document.. However, both risk rewarding tex-\ntually similar distractors or neglecting bridging documents,\nhighlighting the needs for rewards beyond lexical overlap\nor individual document evaluation.\nLimited Exploration.Orthogonal to reward signals, a\npractical bottleneck remains the rollout efficiency in multi-\nhop reasoning, where reward-bearing trajectories are rare\nin the vast search space. Tree-GRPO (Ji et al., 2025a) at-\ntempts to improve sample efficiency by randomly expanding\na reasoning tree and propagating outcome rewards to inter-\nmediate steps.",
+      "section": "2. Related Work",
+      "char_count": 1132,
+      "chunk_index": 11,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0012",
+      "source_id": "DavidGoliath_2026",
+      "text": "are rare\nin the vast search space. Tree-GRPO (Ji et al., 2025a) at-\ntempts to improve sample efficiency by randomly expanding\na reasoning tree and propagating outcome rewards to inter-\nmediate steps. However, this approach lacks the discrim-\ninative capability of adaptive retrieval (Jiang et al., 2023;\nAsai et al., 2024), where the system determines when to\ntrigger additional retrievals. Consequently, training on these\nungrounded paths promotes hallucinations or retrieval-free\nshortcuts.\n2\n\nOn Multi-Hop Reasoning with Resource-Constrained Agents\nOur Distinction.As summarized in Table 1, DAVID-\nGRPO overcomes all challenges as follows. First, analogous\ntopseudo relevance feedbackthat seeds search with pseudo-\npositives with high rewards from retrievers, we tackle the\ncold-start problem via afew-shot warm-start, combining\noff-policy and on-policy RL to anchor the agent in high-\nreward regions with minimal annotations. Second, inspired\nbyrelevance judgmentsin IR, we implementgrounded re-\ntrieval rewardsnot to solely rely on parametric reward.",
+      "section": "2. Related Work",
+      "char_count": 1055,
+      "chunk_index": 12,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0013",
+      "source_id": "DavidGoliath_2026",
+      "text": "y RL to anchor the agent in high-\nreward regions with minimal annotations. Second, inspired\nbyrelevance judgmentsin IR, we implementgrounded re-\ntrieval rewardsnot to solely rely on parametric reward. Fi-\nnally, similar toadaptive retrieval, we expand search space\nwith informed exploration, orgrounded expansioncontin-\nuing trajectories based on intermediate retrieval success.",
+      "section": "2. Related Work",
+      "char_count": 378,
+      "chunk_index": 13,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0014",
+      "source_id": "DavidGoliath_2026",
+      "text": "3. Method\nWe first formalize the task as a Markov decision process\nin Section 3.1. We then present how we overcome each\nchallenge: warm-start by seeding the policy with expert\npriors (§3.2), dense reward on reasoning process through\nevidence recall (§3.3) and adaptive expansion of verified\npaths (§3.4). Figure 2 overviews DAVID-GRPO with these\nthree components.\n3.1. Problem Formulation\nMulti-Hop Reasoning.We study multi-hop reasoning as\nan episodic decision process. Each training instance pro-\nvides an input question x, a gold answer a⋆, and a set\nof ground truth evidence documents D⋆(e.g., supporting\nWikipedia pages or files, depending on the task).2An agent\ninteracts with a retrieval environment by alternately generat-\ning intermediate reasoning text and issuing search queries.\nA trajectory terminates when the agent emits a final answer\nor exceeds a budget (maximum tokens and tool calls).\nFormulation as an MDP.Let a policy πθbe a language\nmodel agent parametrized by θ. We conceptualize the rea-\nsoning process of πθas a Markov decision process (MDP)\n⟨S, A, P, R⟩ ,3where SandAare sets of states and ac-\ntions, respectively. Let a⊕b signify the concatenation\nof strings aandb.",
+      "section": "3. Method",
+      "char_count": 1192,
+      "chunk_index": 14,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0015",
+      "source_id": "DavidGoliath_2026",
+      "text": "ceptualize the rea-\nsoning process of πθas a Markov decision process (MDP)\n⟨S, A, P, R⟩ ,3where SandAare sets of states and ac-\ntions, respectively. Let a⊕b signify the concatenation\nof strings aandb. The state transition is formulated as\nst+1=st⊕at⊕D t, where atfort < T is an intermedi-\nate query for retrieval, Dtis the set of retrieved documents\nqueried by at,4andaTis the predicted answer at the termi-\n2Access to D∗is standard in popular training sets like Hot-\npotQA (Yang et al., 2018) and MuSiQue (Trivedi et al., 2022).\nIt is also a natural byproduct in data synthesis pipelines (Alberti\net al., 2019; Lewis et al., 2021), where queries are generated from\npre-selected contexts.\n3In this setting, the discount factor is set to 1, as the tasks are\nepisodic and we are primarily concerned with the final correctness\nof the terminal state.\n4Dtis converted into the textual sequence of documents when\nconcatenated.nal step T.5The environment dynamics are deterministic,\nwhere the next state is formed by concatenating the chosen\naction to the current sequence, i.e., P(st+1|st, at) = 1 .",
+      "section": "3. Method",
+      "char_count": 1093,
+      "chunk_index": 15,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0016",
+      "source_id": "DavidGoliath_2026",
+      "text": "ocuments when\nconcatenated.nal step T.5The environment dynamics are deterministic,\nwhere the next state is formed by concatenating the chosen\naction to the current sequence, i.e., P(st+1|st, at) = 1 . For\neach rollout during on-policy RL and inference time, πθ\nproduces a trajectory τ=s 0⊕ ··· ⊕s Tgiven by a user\nquestion xand the task prompt s0, i.e., τ∼π θ(x). During\ntraining, given a training instance (x, a∗, D∗)∈X train , a\nreward R(τ;a∗, D∗)is calculated by the reward function R\nwhere a∗andD∗are respectively the gold answer and the\nset of ground truth documents to be retrieved.\nSubsequently, the policy parameters θare updated using RL\nobjective functions such as group relative policy optimiza-\ntion (GRPO; Shao et al., 2024). Specifically, for each query\nx, GRPO samples a group of Gtrajectories {τ1, . . . , τ G}\nfrom the old policy πθold, and computes the advantage ˆAi\nby standardizing rewardsR(τ i)across the group.\nTo simplify notation, we define the probability ratio as\nρi(θ) =πθ(τi)\nπθold(τi).",
+      "section": "3. Method",
+      "char_count": 1014,
+      "chunk_index": 16,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0017",
+      "source_id": "DavidGoliath_2026",
+      "text": ". . . , τ G}\nfrom the old policy πθold, and computes the advantage ˆAi\nby standardizing rewardsR(τ i)across the group.\nTo simplify notation, we define the probability ratio as\nρi(θ) =πθ(τi)\nπθold(τi). We also define the clipped surrogate func-\ntionfclip(ρ, A) = min(ρA,clip(ρ,1−ϵ,1 +ϵ)A) with a\nclipping parameter ϵ, and denote the KL divergence term\nbetween the current policy and the reference model πrefas\nDKL. The GRPO objective is formulated as:\nLGRPO (θ) =E\u00141\nGGX\ni=1fclip(ρi(θ),ˆAi)\u0015\n−βD KL.(1)\n3.2.Few-Shot Warm-Start via Mixed Off-/On-Policy RL\nSmall language agents frequently encounter acold-start\nproblem where the initial policy πθoperates within an ill-\nconditioned action space. In our preliminary experiments\n(seeCold-startin Figure 5), applying standard GRPO di-\nrectly under low compute budgets resulted in policy collapse,\nas the agent failed to obtain any non-zero rewards.\nFew-shot Trajectory Annotations.Unlike standard\nwarm-up strategies (Zhang et al., 2025) that demand thou-\nsands of annotated trajectories, we stabilize early training\nwith negligible annotation overhead by utilizing only a few-\nshot set of expert demonstrations.",
+      "section": "3. Method",
+      "char_count": 1156,
+      "chunk_index": 17,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0018",
+      "source_id": "DavidGoliath_2026",
+      "text": "gies (Zhang et al., 2025) that demand thou-\nsands of annotated trajectories, we stabilize early training\nwith negligible annotation overhead by utilizing only a few-\nshot set of expert demonstrations. Formally, we define a\nfew-shot warm-start dataset Xwarm ={(x j, τ∗\nj)|τ∗\nj∼\nπ∗(xj), xj∈Xtrain}k\nj=1, consisting of kdistinct examples\n(see Appendix G) where τ∗is a trajectory generated by\nan expert teacher policy π∗(e.g., a larger model or human\nannotator). Crucially, we maintain k≪ |X train|, reduc-\ning the annotation overhead by >99.9% (see Appendix D)\ncompared to large-scale supervised fine-tuning.\nMixed Off-/On-Policy RL.As illustrated in Figure 2a, we\npropose a hybrid objective that integrates off-policy expert\ntrajectories directly into the on-policy GRPO framework.\n5DT=∅as no retrieval is conducted in stepT.\n3\n\nOn Multi-Hop Reasoning with Resource-Constrained Agents\n𝑟!=𝐷∗∩⋃#$%&'%𝐷#𝐷∗=23≅0.67𝑥\n𝜏%𝑠%𝑠(𝜏)︙\t\t\t𝜋*︙\n𝑟)=𝜆𝑟!+1−𝜆𝑟+︙𝐷%=𝑑,,𝑑-,𝑑.𝐷∗=𝑑,,𝑑/,𝑑0𝐷(=𝑑1,𝑑/,𝑑2Ground-truth docs\nRetrieved docsGrounded retrieval reward⋃#$%&'%𝐷#=𝑑,,𝑑/,𝑑1,…\n(b)Grounded retrieval reward.",
+      "section": "3. Method",
+      "char_count": 1079,
+      "chunk_index": 18,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0019",
+      "source_id": "DavidGoliath_2026",
+      "text": "nts\n𝑟!=𝐷∗∩⋃#$%&'%𝐷#𝐷∗=23≅0.67𝑥\n𝜏%𝑠%𝑠(𝜏)︙\t\t\t𝜋*︙\n𝑟)=𝜆𝑟!+1−𝜆𝑟+︙𝐷%=𝑑,,𝑑-,𝑑.𝐷∗=𝑑,,𝑑/,𝑑0𝐷(=𝑑1,𝑑/,𝑑2Ground-truth docs\nRetrieved docsGrounded retrieval reward⋃#$%&'%𝐷#=𝑑,,𝑑/,𝑑1,…\n(b)Grounded retrieval reward.\nGRPO𝑥\n𝜏!𝜏\"𝜏#∗\t\t\t𝜋%𝜋∗︙\n𝑟!𝑟\"𝑟#∗Off-policy trajectoryOn-policy trajectories𝐴!𝐴\"𝐴#∗︙︙Few-shot warm-start𝑘≪|𝑋!\"#$%|𝑋&'()=\t𝑥*,𝜏∗\t\t𝜏∗∼𝜋∗𝑥**+#, (a)Few-shot warm-start.\n𝜏!𝑠\"!𝜏#︙\t\t\t𝜋$︙𝑥\nGRPO𝑟#𝑟!𝑟#%𝐴#𝐴#%︙︙𝜏#%︙︙𝑟#=1?No𝑚=argmin&𝑟&𝑀=argmax&𝑟&\n︙︙︙︙︙︙︙0.80.1bestworst𝑟#%>𝑟#?Yes𝑡%=min𝑡𝑅𝜏#,(\"=𝑟#𝜏#%∼𝜋$𝑥|𝜏#,(\"!new best1.0Replace 𝜏!\tto 𝜏#%Grounded expansion (c)Grounded expansion.\nFigure 2.Overview of DAVID-GRPO.\nInstead of relying solely on trajectories sampled from the\ncurrent policy, we construct a mixed group from both πθand\nπ∗for updates. For a given input xwhere (x, τ∗)∈X warm ,\nwe form a group of size Gcomprising one off-policy expert\ntrajectory τ∗andG−1 on-policy trajectories {τ2, . . . , τ G}\nsampled fromπ θold.\nTo consider the distributional shift, we define the off-policy\nimportance sampling weight as ρ∗(θ). The expert trajectory\nτ∗is assigned a specific advantage ˆA(τ∗)to encourage\nimitation. Applying the same clipped surrogate function\nfclipand KL penalty DKLas in Eq.",
+      "section": "3. Method",
+      "char_count": 1173,
+      "chunk_index": 19,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0020",
+      "source_id": "DavidGoliath_2026",
+      "text": "mportance sampling weight as ρ∗(θ). The expert trajectory\nτ∗is assigned a specific advantage ˆA(τ∗)to encourage\nimitation. Applying the same clipped surrogate function\nfclipand KL penalty DKLas in Eq. 1, the mixed objective\nis:\nLMixed (θ) =1\nG\u0012\nfclip(ρ∗(θ),ˆA(τ∗))\n+GX\ni=2fclip(ρi(θ),ˆA(τi))\u0013\n−βD KL.\n(2)\nThis mixed off-/on-policy approach offers two distinct ad-\nvantages over standard methods. First, the off-policy com-\nponent τ∗provides direct supervision, ensuring the agent re-\nceives valid gradient signals even when its own exploration\nfails. Second, the concurrent on-policy rollouts prevent the\ncollapse associated with pure behavior cloning; if πθgen-\nerates a novel trajectory τithat achieves high reward, the\nrelative advantage mechanism preserves the agent’s ability\nto reinforce its own successful reasoning paths rather than\nblindly memorizing τ∗. Empirically, we find that this hy-\nbrid strategy significantly outperforms both standard SFT\nonXwarm and pure off-policy RL (see Figure 5), effec-tively bridging the gap between supervised initialization\nand autonomous exploration.\n3.3.",
+      "section": "3. Method",
+      "char_count": 1100,
+      "chunk_index": 20,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0021",
+      "source_id": "DavidGoliath_2026",
+      "text": "rid strategy significantly outperforms both standard SFT\nonXwarm and pure off-policy RL (see Figure 5), effec-tively bridging the gap between supervised initialization\nand autonomous exploration.\n3.3. Grounded Retrieval Reward\nDespite the stability from mixed initialization, relying solely\non outcome rewards still leaves small agents prone to hallu-\ncinating answers from parametric knowledge by bypassing\nretrieval. To enforce faithful multi-hop reasoning, providing\na dense reward signal is essential. However, assigning credit\nto individual retrieval steps is non-trivial because the ground\ntruth evidence D∗is typically provided as an unordered set,\nlacking explicit alignment to specific reasoning steps.\nTo address this, we introduce agrounded retrieval reward\n(rg). As illustrated in Figure 2b, rgevaluates the retrieved\nevidence holistically against D∗, in place of step-level align-\nment. We leverage the ground truth set D∗(defined in §3.1),\nwhich encompasses all necessary evidence including inter-\nmediate bridge documents. Instead of evaluating individual\nsteps, we aggregate the retrieved information across the\nentire trajectory.",
+      "section": "3. Method",
+      "char_count": 1146,
+      "chunk_index": 21,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0022",
+      "source_id": "DavidGoliath_2026",
+      "text": "§3.1),\nwhich encompasses all necessary evidence including inter-\nmediate bridge documents. Instead of evaluating individual\nsteps, we aggregate the retrieved information across the\nentire trajectory. We define thecumulative retrieved set\nDunion as the union of documents from all intermediate\nsteps (t < T):\nDunion =T−1[\nt=1Dt.(3)\nThe grounded retrieval reward rgmeasures the recall of\nground truth evidence within this cumulative set:\nrg(τ) =|Dunion∩D∗|\n|D∗|.(4)\n4\n\nOn Multi-Hop Reasoning with Resource-Constrained Agents\nThis formulation offers two key advantages over standard\nheuristic approaches. First, it ensures precision via exact set\nmembership in D∗to avoid the noise inherent in lexical sim-\nilarity metrics (Zheng et al., 2025). Second, by evaluating\nthe cumulative union, it ensures comprehensive coverage\nof the evidence, overcoming the limitations of methods that\nreward only restricted subsets (Jin, 2025).\nFinally, we combine rgwith the outcome reward ro(which\nevaluates the terminal answer aTagainst a∗). The total\nreward is a weighted sum:\nR(τ) =λr g(τ) + (1−λ)r o(τ, a∗)(5)\nwhereλis a balancing hyperparameter.\n3.4.",
+      "section": "3. Method",
+      "char_count": 1136,
+      "chunk_index": 22,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0023",
+      "source_id": "DavidGoliath_2026",
+      "text": "combine rgwith the outcome reward ro(which\nevaluates the terminal answer aTagainst a∗). The total\nreward is a weighted sum:\nR(τ) =λr g(τ) + (1−λ)r o(τ, a∗)(5)\nwhereλis a balancing hyperparameter.\n3.4. Grounded Expansion\nWhen the rollout budget is limited, sampled groups often\ncontain exclusively suboptimal trajectories ( R(τ)<1 for\nallτ∼π θ), which undermines the relative advantage esti-\nmation in GRPO. Even after our proposed warm-start, this\nscenario persists in up to 30% of batch examples (see Ap-\npendix A). To address this, we proposegrounded expansion,\na dynamic resampling strategy that leverages partial suc-\ncesses to discover higher-reward trajectories.\nAs illustrated in Figure 2c, within a sampled group of G\ntrajectories, we identify the best trajectory τMand the worst\ntrajectory τmbased on their total rewards. If even the best\ntrajectory τMis suboptimal (i.e., R(τM)<1 ), we hypothe-\nsize that the remaining necessary information is not recalled,\nknown asbounded recall(Covington et al., 2016) in IR.",
+      "section": "3. Method",
+      "char_count": 1021,
+      "chunk_index": 23,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0024",
+      "source_id": "DavidGoliath_2026",
+      "text": "rewards. If even the best\ntrajectory τMis suboptimal (i.e., R(τM)<1 ), we hypothe-\nsize that the remaining necessary information is not recalled,\nknown asbounded recall(Covington et al., 2016) in IR. To\nrescue suchnear-missinstances, we locate the last step t′\nwhere valid evidence was retrieved:\nt′= min{t|R(τ M,≤t) =R(τ M)}(6)\nwhere τM,≤t is a truncated trajectory of τMfrom step 1 to t.\nWe then truncate τMat step t′, preserving the grounded\nhistory up to the successful retrieval, and resample the\nsubsequent reasoning process to generate a new candidate\nτ′\nM∼πθ(x|τM,≤t′).\nIf this expanded trajectory improves upon the original best\n(i.e., R(τ′\nM)> R(τ M)), we replace the worst trajectory\nτmin the group with τ′\nM. This mechanism substitutes un-\npromising paths with refined versions of the most promising\ntrajectory, effectively enriching the batch with high-reward\nexamples without requiring additional full rollouts.",
+      "section": "3. Method",
+      "char_count": 925,
+      "chunk_index": 24,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0025",
+      "source_id": "DavidGoliath_2026",
+      "text": "st promising\ntrajectory, effectively enriching the batch with high-reward\nexamples without requiring additional full rollouts.",
+      "section": "3. Method",
+      "char_count": 126,
+      "chunk_index": 25,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0026",
+      "source_id": "DavidGoliath_2026",
+      "text": "4. Experiments\n4.1. Experimental Setup\nBenchmarks and Metrics.We evaluate agents on six\nmulti-hop QA benchmarks:HotpotQA(Yang et al., 2018)\ncoversbridgeandcomparisontypes (1–2 hops). For morecomplex settings, we use2WikiMultiHopQA(Ho et al.,\n2020) andMuSiQue(Trivedi et al., 2022), where the latter\nprovide complex reasoning up to 4 hops. Handcrafted bench-\nmarksBamboogle(Press et al., 2023) andBamTwoogle\n(Aksitov et al., 2024) consist of 2-hops and 2–4 hops, where\nthe latter ensures strictly ensures that all questions require at\nleast two reasoning steps. Finally, to minimize data contam-\nination, we include the multi-hop task inAntiLeakBench\n(Wu et al., 2025) (2024 subset, 2–3 hops) to evaluate on\npost-cutoff instances (see Appendices B and C). For metrics,\nwe use standardExact Match (EM)andF1scores.\nBaselines. Tree-GRPO(Ji et al., 2025a) serves as a pri-\nmary baseline, as it uniquely reports 1.5B model perfor-\nmance under massive training budgets.",
+      "section": "4. Experiments",
+      "char_count": 962,
+      "chunk_index": 26,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0027",
+      "source_id": "DavidGoliath_2026",
+      "text": "rics,\nwe use standardExact Match (EM)andF1scores.\nBaselines. Tree-GRPO(Ji et al., 2025a) serves as a pri-\nmary baseline, as it uniquely reports 1.5B model perfor-\nmance under massive training budgets. To evaluate retrieval-\ncentric reward mechanisms, we includeSearch-R1-v0.3\n(Jin, 2025), which incorporates a specificretrieval reward,\nandStepSearch(Zheng et al., 2025), which utilizes step-\nwise lexical similarity rewards for retrieval verification. In\nSection 5.4, we also compare againstAutoCoA(Zhang\net al., 2025) to benchmark Full SFT warm-starts using ex-\ntensive trajectory annotations.\nSmall Language Agents.To investigate retrieval-based\nmulti-turn reasoning in resource-constrained settings, we se-\nlect models with fewer than 1.5B parameters:Qwen2.5\n(0.5B, 1.5B) (Qwen et al., 2025) andLlama-3.2-1B\n(Grattafiori et al., 2024). We utilize the base versions for\nQwen and the instruct version for Llama-3.2, as the latter’s\nbase model demonstrated insufficient capability. Also, for\nTree-GRPO, we employ the instruct versions of Qwen, as\nwe observed degeneration with the base versions.",
+      "section": "4. Experiments",
+      "char_count": 1095,
+      "chunk_index": 27,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0028",
+      "source_id": "DavidGoliath_2026",
+      "text": "ersion for Llama-3.2, as the latter’s\nbase model demonstrated insufficient capability. Also, for\nTree-GRPO, we employ the instruct versions of Qwen, as\nwe observed degeneration with the base versions.\nTraining Budget.We train our agents using GRPO un-\nder a constrained resource setting, which we define as the\nLow Training Budget. All experiments are conducted on\n4×NVIDIA RTX 3090 GPUs (24GB VRAM) with a global\nbatch size of 24 and up to 6 rollouts6per example, resulting\nin 144 total rollouts per optimization step. This setup stands\nin stark contrast to theHigh Training Budgetof the original\nTree-GRPO baseline, which employs 8 ×H20 GPUs (96GB\nVRAM) with 3,072 rollouts per step ( 512×6 ). Quantita-\ntively, our rollouts per step constitutes merely4.7%of the\nbaseline budget, demonstrating the feasibility of effective\nreasoning alignment on consumer-grade hardware.\nOther implementation details are described in Appendix D.\n4.2. Experimental Results\nEfficiency against High-Budget Baselines.Table 2 sum-\nmarizes the performance of our agents across six multi-hop\n6For DAVID-GRPO, we use the base rollout of 5, considering\nthat grounded expansion adds 1.1 rollouts per example in average.",
+      "section": "4. Experiments",
+      "char_count": 1194,
+      "chunk_index": 28,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0029",
+      "source_id": "DavidGoliath_2026",
+      "text": "nes.Table 2 sum-\nmarizes the performance of our agents across six multi-hop\n6For DAVID-GRPO, we use the base rollout of 5, considering\nthat grounded expansion adds 1.1 rollouts per example in average.\n5\n\nOn Multi-Hop Reasoning with Resource-Constrained Agents\nTable 2.Overall performance comparison (EM and F1 scores) on six multi-hop QA benchmarks. The best results areboldedand the\nsecond best results are underlined . Scores marked inredindicate instances where methods under LOWTRAININGBUDGEToutperform\nthe best HIGHTRAININGBUDGETbaseline. Results marked with†are reported from (Ji et al., 2025a). Rows for DAVID-GRPO are\nhighlighted with brown. The gray shaded columns denote Antileak-m, a contamination-free benchmark.\nMethodHotpotQA 2wiki Musique Bamboogle Bamtwoogle Antileak-m Avg.\nEM F1 EM F1 EM F1 EM F1 EM F1 EM F1 EM F1Qwen2.5-1.5BNOTRAINING\nDirect Inference†5.9 - 4.3 - 2.6 - 8.0 - - - - - - -\nHIGHTRAININGBUDGET: up to batch size 512×6 rollout per instance= 3,072\nSearch-o1†11.6 - 12.2",
+      "section": "4. Experiments",
+      "char_count": 1000,
+      "chunk_index": 29,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0030",
+      "source_id": "DavidGoliath_2026",
+      "text": "F1 EM F1 EM F1 EM F1 EM F1 EM F1Qwen2.5-1.5BNOTRAINING\nDirect Inference†5.9 - 4.3 - 2.6 - 8.0 - - - - - - -\nHIGHTRAININGBUDGET: up to batch size 512×6 rollout per instance= 3,072\nSearch-o1†11.6 - 12.2 - 3.1 - 13.0 - - - - - - -\nGRPO†14.6 - 24.4 - 2.2 - 4.0 - - - - - - -\nTree-GRPO†29.5 - 26.8 - 6.6 - 13.6 - - - - - - -\nLOWTRAININGBUDGET: up to batch size 24×6 rollout per instance= 144\nTree-GRPO 12.9 18.6 20.5 23.3 2.1 7.2 12.0 15.5 5.0 8.2 11.7 15.7 10.7 14.8\nStepSearch 11.9 18.1 13.5 18.1 2.2 6.9 3.2 8.7 4.0 6.0 12.1 17.3 7.8 12.5\nSearch-R1-v0.3w/ retrieval reward19.0 26.5 21.3 26.4 3.6 9.2 8.0 14.3 3.0 5.5 16.7 22.2 11.9 17.4\nDAVID-GRPO 24.8 33.8 27.2 32.3 7.1 12.6 14.4 24.2 22.0 25.4 36.3 41.1 22.0 28.2\nTree-GRPO 12.4 18.420.5 23.41.6 7.1 4.0 8.99.0 11.9 16.0 20.7 10.6 15.1\nStepSearch 16.0 24.5 11.7 16.2 2.7 9.74.0 11.0 3.0 5.7 22.4 31.4 10.0 16.4\nSearch-R1-v0.3w/ retrieval reward8.5 12.4 13.5 16.2 0.7 3.7 0.8 1.6 2.0 4.7 13.0 15.3 6.4 9.0Llama-3.2-1BDAVID-GRPO 17.7 25.2 16.1 21.4 3.",
+      "section": "4. Experiments",
+      "char_count": 1000,
+      "chunk_index": 30,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0031",
+      "source_id": "DavidGoliath_2026",
+      "text": ".0 24.5 11.7 16.2 2.7 9.74.0 11.0 3.0 5.7 22.4 31.4 10.0 16.4\nSearch-R1-v0.3w/ retrieval reward8.5 12.4 13.5 16.2 0.7 3.7 0.8 1.6 2.0 4.7 13.0 15.3 6.4 9.0Llama-3.2-1BDAVID-GRPO 17.7 25.2 16.1 21.4 3.2 8.5 8.0 14.5 3.0 6.6 23.3 31.7 11.9 18.0\nTree-GRPO 9.2 12.8 20.9 22.80.7 3.8 3.2 5.2 4.0 5.5 10.3 12.7 8.1 10.5\nStepSearch 2.1 4.5 4.3 7.3 0.2 1.8 1.6 2.1 0.0 0.6 0.2 0.8 1.4 2.9\nSearch-R1-v0.3w/ retrieval reward0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0Qwen2.5-0.5BDAVID-GRPO 10.8 16.0 17.4 20.8 2.0 5.3 4.8 8.1 6.0 7.0 10.6 14.4 8.6 11.9\nTable 3.Hit rates (%; ↑) on the retrieved documents across steps\n(Dunion in Eq. (3)). Hit rates measure Any and All coverage of\ngold answer/bridge documents in D∗byDunion . Search-R1-v0.3\nis trained along with its retrieval reward. Base model is Qwen2.5-\n1.5B.\nHotpotQA Musique\nMethod Bridge-doc Answer-doc Bridge-doc Answer-doc\nAny All Any All Any All Any All\nTree-GRPO 0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0\nStepSearch 50.6 48.1 38.0 26.6 28.1 18.4 11.9 9.5\nSearch-R1-v0.3 26.3 25.1 19.8 14.0 17.2 10.4 6.4 5.0\nDAVID-GRPO 59.1 58.0 51.1 42.4 48.5 27.5 18.5 15.8\nQA benchmarks.",
+      "section": "4. Experiments",
+      "char_count": 1126,
+      "chunk_index": 31,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0032",
+      "source_id": "DavidGoliath_2026",
+      "text": "0.0 0.0 0.0 0.0 0.0 0.0 0.0 0.0\nStepSearch 50.6 48.1 38.0 26.6 28.1 18.4 11.9 9.5\nSearch-R1-v0.3 26.3 25.1 19.8 14.0 17.2 10.4 6.4 5.0\nDAVID-GRPO 59.1 58.0 51.1 42.4 48.5 27.5 18.5 15.8\nQA benchmarks. Remarkably, DAVID-GRPO demonstrates\nthat efficient exploration can compensate for massive re-\nductions in computational resources. Despite utilizing only\n4.7%of the training rollout budget compared to the HIGH\nTRAININGBUDGETvariant of Tree-GRPO, our method sur-\npasses its performance on2WikiMultiHopQA,MuSiQue,\nandBambooglein terms of EM scores (highlighted in red).\nThis result highlights the high sample efficiency of DAVID-\nGRPO, demonstrating its ability to learn effective reasoning\npolicies even with minimal rollout budgets.\nComparison within Low-Budget Constraints.Under\nthe constrained LOWTRAININGBUDGETsetting, DAVID-\nGRPO generally outperforms competing baselines. Notably,on AntiLeakBench-Multi-hop at the 1.5B scale, DAVID-\nGRPO surpasses second-best Search-R1-v0.3 by 19.6 pp\nin EM and 18.9 pp in F1. Furthermore, retrieval-aware\nbaselines lack robustness as model size decreases.",
+      "section": "4. Experiments",
+      "char_count": 1096,
+      "chunk_index": 32,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0033",
+      "source_id": "DavidGoliath_2026",
+      "text": "kBench-Multi-hop at the 1.5B scale, DAVID-\nGRPO surpasses second-best Search-R1-v0.3 by 19.6 pp\nin EM and 18.9 pp in F1. Furthermore, retrieval-aware\nbaselines lack robustness as model size decreases. While\nSearch-R1-v0.3 and Search-R1 both collapse at the 0.5B\nscale, DAVID-GRPO maintains stable and high perfor-\nmance across all model sizes, underscoring its effectiveness\nfor resource-constrained small language agents.",
+      "section": "4. Experiments",
+      "char_count": 422,
+      "chunk_index": 33,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0034",
+      "source_id": "DavidGoliath_2026",
+      "text": "5. Analysis\n5.1. Multi-Hop Retrieval Capabilities\nRetrieval Grounding Performance.Following the task\ndefinition in Section 2, successful multi-hop reasoning de-\npends on capturing both bridge and answer documents\nwithin D∗. Table 3 evaluates the coverage of D∗byDunion\n(Eq. (3)), i.e., the cumulative set of documents retrieved\nthroughout a reasoning trajectory. The results demonstrate\nthat DAVID-GRPO consistently achieves the highest hit\nrates across all metrics. Specifically, it significantly out-\nperforms baselines in bothAnyandAllcoverage for both\nbridge and answer documents, showcasing a superior ability\nto ground its reasoning process in relevant evidence. While\nStepSearch and Search-R1-v0.3 show competitive results as\nthe next best models, Tree-GRPO yields zero hits across all\nbenchmarks, as it fails to initiate any search actions (refer\n6\n\nOn Multi-Hop Reasoning with Resource-Constrained Agents\nComparison Bridge01020304050Exact Match (EM) %47.3\n19.242.4\n18.539.8\n16.138.1\n14.228.9\n7.644.2\n5.0\n0.0 0.0David-GRPO\n w/o grounded expansion\n w/o grounded retrieval reward\nSearch-R1-v0.3\nStepSearch\nTree-GRPO\nGRPO\n(a)EM by user question types.",
+      "section": "5. Analysis",
+      "char_count": 1156,
+      "chunk_index": 34,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0035",
+      "source_id": "DavidGoliath_2026",
+      "text": "M) %47.3\n19.242.4\n18.539.8\n16.138.1\n14.228.9\n7.644.2\n5.0\n0.0 0.0David-GRPO\n w/o grounded expansion\n w/o grounded retrieval reward\nSearch-R1-v0.3\nStepSearch\nTree-GRPO\nGRPO\n(a)EM by user question types.\nComparison Bridge0123Average #Retrieval Actions2.53.1\n2.32.6\n2.32.5\n0.5 0.51.1 1.1\n0.0 0.0 0.0 0.0\n(b)Average number of retrieval actions by user question types.\nFigure 3.EM and average number of unique retrieval actions on\nHotpotQA by user question types with Qwen2.5-1.5B. Search-R1-\nv0.3 is trained along with its retrieval reward.\nto Figures 3b and 4b).\nReasoning Types in HotpotQA.We analyze HotpotQA\nperformance across two reasoning types:comparison(com-\nparing mentioned entities) andbridge(identifying miss-\ning intermediate entities). As shown in Figure 3a, DAVID-\nGRPO leads in both categories. Notably, Tree-GRPO per-\nforms well oncomparisontasks but drops to the second-\nlowest onbridgetasks. This gap suggests a failure to locate\nhidden entities without retrieval. Figure 3b highlights the\nunderlying behavior. DAVID-GRPO and its ablations con-\nsistently perform 2–3 retrieval steps for multi-hop reasoning.",
+      "section": "5. Analysis",
+      "char_count": 1121,
+      "chunk_index": 35,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0036",
+      "source_id": "DavidGoliath_2026",
+      "text": "ts a failure to locate\nhidden entities without retrieval. Figure 3b highlights the\nunderlying behavior. DAVID-GRPO and its ablations con-\nsistently perform 2–3 retrieval steps for multi-hop reasoning.\nIn contrast, StepSearch averages only 1.1 actions, indicating\na limitation to single-hop retrieval. Other baselines fail to\nperform minimal retrieval. Specifically, Tree-GRPO records\nzero actions and relies solely on parametric knowledge (see",
+      "section": "5. Analysis",
+      "char_count": 443,
+      "chunk_index": 36,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0037",
+      "source_id": "DavidGoliath_2026",
+      "text": "Appendix F.2).\nReasoning Hops in MuSiQue.We stratify MuSiQue per-\nformance by reasoning hops. As shown in Figure 4a, DAVID-\nGRPO consistently ranks first or second across all depths.\nWhile Search-R1-v0.3 scores slightly higher on 3- and 4-hop\nsubsets, Figure 4b reveals a critical behavioral difference.\nSearch-R1-v0.3 averages only a single retrieval action even\nfor complex queries (see Appendix F.4). This suggests its\nsuccess relies on parametric memorization or shortcuts. In\n2-hop 3-hop 4-hop024681012Exact Match (EM) %11.0\n3.2\n2.59.7\n1.6 1.57.3\n2.0\n0.73.54.03.5\n2.5 2.5\n0.73.0\n1.4\n0.50.0 0.0 0.0David-GRPO\n w/o grounded expansion\n w/o grounded retrieval reward\nSearch-R1-v0.3\nStepSearch\nTree-GRPO\nGRPO(a)EM by reasoning hops.\n2-hop 3-hop 4-hop01234Average #Retrieval Actions3.13.53.7\n2.73.13.4\n2.62.93.1\n0.6 0.6 0.61.1 1.11.0\n0.0 0.0 0.0 0.0 0.0 0.0\n(b)Average number of retrieval actions by reasoning hops.\nFigure 4.EM and average number of unique retrieval actions on\nMuSiQue by reasoning hops with Qwen2.5-1.5B. Dashed lines\nindicate the minimum number of retrieval actions required for\neach hop subset. Search-R1-v0.3 is trained along with its retrieval\nreward.",
+      "section": "Appendix F.2).",
+      "char_count": 1172,
+      "chunk_index": 37,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0038",
+      "source_id": "DavidGoliath_2026",
+      "text": "s on\nMuSiQue by reasoning hops with Qwen2.5-1.5B. Dashed lines\nindicate the minimum number of retrieval actions required for\neach hop subset. Search-R1-v0.3 is trained along with its retrieval\nreward.\ncontrast, DAVID-GRPO faithfully executes the necessary\nretrieval sequences to derive answers.\n5.2. Ablation Study\nImpact of Warmup Strategy.Figure 5 compares the per-\nformance of different initialization methods. Our mixed\nstrategy, which incorporates both off-policy trajectories\n(Xwarm in §3.2) and on-policy generations, achieves the\nhighest performance. An interesting observation is that\nwhen utilizing Xwarm only, standard SFT performs compa-\nrably to or even better than off-policy RL. However, the true\npotential of reinforcement learning is unlocked only when\non-policy exploration is introduced; by combining on-policy\nrollouts with off-policy data, our method significantly sur-\npasses the SFT baseline, demonstrating the necessity of our\nmixed-trajectory approach.\nEffectiveness of Grounding Modules.We dissect the\nimpact of our grounding components in Table 4. The full\nDAVID-GRPO system achieves the best performance across\nall six benchmarks.",
+      "section": "Appendix F.2).",
+      "char_count": 1158,
+      "chunk_index": 38,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0039",
+      "source_id": "DavidGoliath_2026",
+      "text": "rajectory approach.\nEffectiveness of Grounding Modules.We dissect the\nimpact of our grounding components in Table 4. The full\nDAVID-GRPO system achieves the best performance across\nall six benchmarks. Removing thegrounded expansionmod-\nule results in a performance drop, while further excluding\nthegrounded retrieval rewardleads to the lowest results.\n7\n\nOn Multi-Hop Reasoning with Resource-Constrained Agents\nHotpotQA 2wiki Musique Bamboogle Bamtwoogle Antileak-m010203040Exact Match (EM) %\n0.0 0.0 0.0 0.0 0.0 0.015.518.1\n3.110.4\n7.026.8\n16.918.1\n3.48.0\n3.019.824.827.1\n7.114.422.036.3Cold-start\nSFTOff-policy GRPO\nOff- & On-policy GRPO\nFigure 5.Analysis on Warmup Strategies. Performance comparison\nof different warmup methods appliedbeforethe GRPO phase with\ngrounded retrieval rewardon Qwen2.5-1.5B.\nTable 4.Ablation on Grounding Components. Performance of\nDAVID-GRPO and its ablations on Qwen2.5-1.5B across multi-\nhop QA benchmarks.",
+      "section": "Appendix F.2).",
+      "char_count": 940,
+      "chunk_index": 39,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0040",
+      "source_id": "DavidGoliath_2026",
+      "text": "forethe GRPO phase with\ngrounded retrieval rewardon Qwen2.5-1.5B.\nTable 4.Ablation on Grounding Components. Performance of\nDAVID-GRPO and its ablations on Qwen2.5-1.5B across multi-\nhop QA benchmarks.\nMethodHotpotQA 2wiki Musique Bamboogle Bamtwoogle Antileak-m\nEM F1 EM F1 EM F1 EM F1 EM F1 EM F1\nDAVID-GRPO 24.8 33.8 27.2 32.3 7.1 12.6 14.4 24.2 22.0 25.4 36.3 41.1\nw/o expansion 23.3 31.9 24.4 30.0 5.8 11.3 14.4 20.9 19.0 23.8 33.2 38.2\nw/o retrieval reward 20.8 28.9 22.0 27.0 4.5 10.1 10.4 19.9 10.0 12.7 31.4 36.0\nThis degradation confirms that both the expansion mecha-\nnism and retrieval-aware reward are essential for guiding\nthe agent toward effective reasoning paths.\n5.3. Retrieval Reward Comparison\nTo validate the efficacy of our proposedgrounded retrieval\nreward, we conducted a comparative analysis against re-\ntrieval reward formulations from prior works. We applied\nGRPO to our few-shot warm-start checkpoint, employing\nthree distinct retrieval reward signals while keeping other\nsettings constant. As shown in Table 5, DAVID-GRPO\n(Grounded) consistently achieves the superior performance\nacross most benchmarks.",
+      "section": "Appendix F.2).",
+      "char_count": 1131,
+      "chunk_index": 40,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0041",
+      "source_id": "DavidGoliath_2026",
+      "text": "ploying\nthree distinct retrieval reward signals while keeping other\nsettings constant. As shown in Table 5, DAVID-GRPO\n(Grounded) consistently achieves the superior performance\nacross most benchmarks. This is followed by Search-R1-\nv0.3, which provides sparse rewards based solely on the pres-\nence of the answer document, whereas StepSearch, which\nutilizes step-wise lexical similarity, exhibits the lowest per-\nformance. Notably, on AntiLeakBench-Multihop—a bench-\nmark designed to minimize data contamination risks—our\nmethod significantly outperforms Search-R1-v0.3, show-\ning improvements of 4.4 pp in EM and 5.4 pp in F1. This\ndemonstrates that our grounded reward signal to both an-\nswer and bridge documents offers more robust guidance for\nmulti-hop reasoning compared to answer-document-only or\nlexical-based rewards.\n5.4. Warm-Start with Extensive Annotations\nWe evaluate the scalability of DAVID-GRPO by employing\nFull SFT as the warm-start strategy, assuming extensive tra-\njectory annotations are available. Table 6 demonstrates that\nour method remains highly effective even in this annotation-\nrich setting.",
+      "section": "Appendix F.2).",
+      "char_count": 1121,
+      "chunk_index": 41,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0042",
+      "source_id": "DavidGoliath_2026",
+      "text": "ing\nFull SFT as the warm-start strategy, assuming extensive tra-\njectory annotations are available. Table 6 demonstrates that\nour method remains highly effective even in this annotation-\nrich setting. Building upon the Full SFT warm-start, apply-\ning GRPO (both AutoCoA and DAVID-GRPO) yields sig-Table 5.Comparison of Retrieval Rewards. Multi-hop QA results\ntrained on Qwen2.5-1.5B.\nRetrieval RewardHotpotQA 2wiki Musique Bamboogle Bamtwoogle Antileak-m\nEM F1 EM F1 EM F1 EM F1 EM F1 EM F1\nStepSearch 20.4 29.0 19.8 24.8 3.6 8.2 9.6 18.2 9.0 12.0 19.1 23.1\nSearch-R1-v0.3 22.7 31.0 23.3 28.0 6.6 11.413.6 22.8 19.023.4 28.8 32.8\nDAVID-GRPO (Ground) 23.3 31.9 24.4 30.0 5.8 11.3 14.4 20.9 19.0 23.8 33.2 38.2\nTable 6.Comparison with Full SFT Warm-Start. Results across\nmulti-hop QA benchmarks including EM and F1 scores. Results\nmarked with†are reported from (Ji et al., 2025a). Scores marked\ninredindicate instances where methods under LOWTRAINING\nBUDGEToutperform the best HIGHTRAININGBUDGETbaseline.\nBase model is Qwen2.5-1.5B.",
+      "section": "Appendix F.2).",
+      "char_count": 1030,
+      "chunk_index": 42,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0043",
+      "source_id": "DavidGoliath_2026",
+      "text": "arked with†are reported from (Ji et al., 2025a). Scores marked\ninredindicate instances where methods under LOWTRAINING\nBUDGEToutperform the best HIGHTRAININGBUDGETbaseline.\nBase model is Qwen2.5-1.5B.\nMethodHotpotQA 2wiki Musique Bamboogle Bamtwoogle Antileak-m\nEM F1 EM F1 EM F1 EM F1 EM F1 EM F1\nHIGHTRAININGBUDGET\nTree-GRPO†29.5 - 26.8 - 6.6 - 13.6 - - - - -\nLOWTRAININGBUDGET\nFull SFT 23.8 32.4 20.6 26.6 7.1 12.9 22.4 32.4 20.0 21.7 37.1 46.1\n+ GRPO (AutoCoA) 32.1 42.6 27.2 34.5 11.2 17.6 32.8 40.523.0 29.4 45.9 52.1\n+ DAVID-GRPO 32.6 42.7 28.1 36.2 12.2 19.0 33.6 39.4 32.0 37.8 46.2 53.6\nnificant performance gains over the Full SFT baseline. Both\nAutoCoA and DAVID-GRPO surpass the high-budget Tree-\nGRPO baseline across all reported benchmarks (highlighted\nin red), confirming the importance of the initial search space\nin RL. Moreover, DAVID-GRPO consistently outperforms\nAutoCoA across most benchmarks.",
+      "section": "Appendix F.2).",
+      "char_count": 915,
+      "chunk_index": 43,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0044",
+      "source_id": "DavidGoliath_2026",
+      "text": "baseline across all reported benchmarks (highlighted\nin red), confirming the importance of the initial search space\nin RL. Moreover, DAVID-GRPO consistently outperforms\nAutoCoA across most benchmarks. This advantage is partic-\nularly pronounced on BamTwoogle, where DAVID-GRPO\nachieves a substantial margin, surpassing AutoCoA by 9.0\npp in EM and8.4pp in F1.",
+      "section": "Appendix F.2).",
+      "char_count": 358,
+      "chunk_index": 44,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0045",
+      "source_id": "DavidGoliath_2026",
+      "text": "6. Conclusion\nIn this work, we presented DAVID-GRPO, a framework\nthat empowers small language model agents to perform\nmulti-hop reasoning under low compute constraints. To over-\ncome the bottlenecks of training in low-resource regimes,\nwe introduced a few-shot warm-start to seed the policy, fol-\nlowed by grounded retrieval rewards and grounded expan-\nsion to enforce precise evidence accumulation and efficient\nexploration. Empirical results across six benchmarks con-\nfirm that DAVID-GRPO consistently outperforms baselines,\nachieving superior accuracy with significantly fewer rollouts.\nThese findings challenge the assumption that multi-hop rea-\nsoning is exclusive to resource-richGoliaths, demonstrating\nthat small language model agents can achieve this capability\nvia efficient RL strategies.\nImpact Statement\nThis work aims to democratize the development of intel-\nligent agents by enabling robust multi-hop reasoning on\ncommodity hardware. By reducing the reliance on high\n8\n\nOn Multi-Hop Reasoning with Resource-Constrained Agents\ncomputational resources, our approach lowers the barrier\nto entry for researchers in low-resource settings and pro-\nmotes energy-efficient AI training.",
+      "section": "6. Conclusion",
+      "char_count": 1193,
+      "chunk_index": 45,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0046",
+      "source_id": "DavidGoliath_2026",
+      "text": "i-Hop Reasoning with Resource-Constrained Agents\ncomputational resources, our approach lowers the barrier\nto entry for researchers in low-resource settings and pro-\nmotes energy-efficient AI training. Furthermore, our focus\non grounded reasoning helps mitigate hallucinations, con-\ntributing to more trustworthy and verifiable AI systems.\nHowever, the broader accessibility of capable reasoning sys-\ntems could potentially be exploited for malicious purposes.\nWe believe the societal impact will depend on responsible\ndeployment and continued attention to AI safety protocols.",
+      "section": "6. Conclusion",
+      "char_count": 576,
+      "chunk_index": 46,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0047",
+      "source_id": "DavidGoliath_2026",
+      "text": "References\nAksitov, R., Miryoosefi, S., Li, Z., Li, D., Babayan, S.,\nKopparapu, K., Fisher, Z., Guo, R., Prakash, S., Srini-\nvasan, P., Zaheer, M., Yu, F., and Kumar, S. ReST\nmeets react: Self-improvement for multi-step reason-\ning LLM agent. InICLR 2024 Workshop on Large\nLanguage Model (LLM) Agents, 2024. URL https:\n//openreview.net/forum?id=7xknRLr7QE.\nAlberti, C., Andor, D., Pitler, E., Devlin, J., and Collins,\nM. Synthetic QA corpora generation with roundtrip con-\nsistency. InProceedings of the 57th Annual Meeting of\nthe Association for Computational Linguistics, pp. 6168–\n6173, Florence, Italy, July 2019. Association for Compu-\ntational Linguistics. doi: 10.18653/v1/P19-1620. URL\n\nAsai, A., Hashimoto, K., Hajishirzi, H., Socher, R.,\nand Xiong, C. Learning to retrieve reasoning paths\nover wikipedia graph for question answering. InIn-\nternational Conference on Learning Representations,\n2020. URL \nid=SJgVHkrYDH.\nAsai, A., Wu, Z., Wang, Y ., Sil, A., and Hajishirzi, H. Self-\nRAG: Learning to retrieve, generate, and critique through\nself-reflection. InThe Twelfth International Conference\non Learning Representations, 2024. URL https://\nopenreview.net/forum?id=hSyW5go0v8.",
+      "section": "References",
+      "char_count": 1188,
+      "chunk_index": 47,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0048",
+      "source_id": "DavidGoliath_2026",
+      "text": "f-\nRAG: Learning to retrieve, generate, and critique through\nself-reflection. InThe Twelfth International Conference\non Learning Representations, 2024. URL https://\nopenreview.net/forum?id=hSyW5go0v8.\nBesiroglu, T., Bergerson, S. A., Michael, A., Heim, L., Luo,\nX., and Thompson, N. The compute divide in machine\nlearning: A threat to academic contribution and scrutiny?\narXiv preprint arXiv:2401.02452, 2024.\nChen, Y ., Yan, L., Sun, W., Ma, X., Zhang, Y ., Wang, S.,\nYin, D., Yang, Y ., and Mao, J. Improving retrieval-\naugmented generation through multi-agent reinforcement\nlearning. InThe Thirty-ninth Annual Conference on Neu-\nral Information Processing Systems, 2025. URL https:\n//openreview.net/forum?id=9Ia0KiVAut.\nCovington, P., Adams, J., and Sargin, E. Deep neural net-\nworks for youtube recommendations. InProceedings ofthe 10th ACM Conference on Recommender Systems, Rec-\nSys ’16, pp. 191–198, New York, NY , USA, 2016. Asso-\nciation for Computing Machinery. ISBN 9781450340359.\ndoi: 10.1145/2959100.2959190. URL \norg/10.1145/2959100.2959190.\nCroft, W. B., Cronen-Townsend, S., and Lavrenko, V . Rele-\nvance feedback and personalization: A language model-\ning perspective.",
+      "section": "References",
+      "char_count": 1185,
+      "chunk_index": 48,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0049",
+      "source_id": "DavidGoliath_2026",
+      "text": "40359.\ndoi: 10.1145/2959100.2959190. URL \norg/10.1145/2959100.2959190.\nCroft, W. B., Cronen-Townsend, S., and Lavrenko, V . Rele-\nvance feedback and personalization: A language model-\ning perspective. InDELOS, 2001.\nFang, Y ., Sun, S., Gan, Z., Pillai, R., Wang, S., and Liu,\nJ. Hierarchical graph network for multi-hop ques-\ntion answering. InProceedings of the 2020 Confer-\nence on Empirical Methods in Natural Language Pro-\ncessing (EMNLP), pp. 8823–8838, Online, November\n2020. Association for Computational Linguistics. doi:\n10.18653/v1/2020.emnlp-main.710. URL https://\naclanthology.org/2020.emnlp-main.710.\nGrattafiori, A., Dubey, A., Jauhri, A., Pandey, A., Kadian,\nA., Al-Dahle, A., Letman, A., Mathur, A., Schelten, A.,\nVaughan, A., et al. The llama 3 herd of models.arXiv\npreprint arXiv:2407.21783, 2024.\nGuo, D., Yang, D., Zhang, H., Song, J., Wang, P., Zhu,\nQ., Xu, R., Zhang, R., Ma, S., Bi, X., et al. Deepseek-\nr1 incentivizes reasoning in llms through reinforcement\nlearning.Nature, 645(8081):633–638, 2025.\nHo, X., Duong Nguyen, A.-K., Sugawara, S., and Aizawa,\nA. Constructing a multi-hop QA dataset for compre-\nhensive evaluation of reasoning steps.",
+      "section": "References",
+      "char_count": 1169,
+      "chunk_index": 49,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0050",
+      "source_id": "DavidGoliath_2026",
+      "text": "reinforcement\nlearning.Nature, 645(8081):633–638, 2025.\nHo, X., Duong Nguyen, A.-K., Sugawara, S., and Aizawa,\nA. Constructing a multi-hop QA dataset for compre-\nhensive evaluation of reasoning steps. InProceedings\nof the 28th International Conference on Computational\nLinguistics, pp. 6609–6625, Barcelona, Spain (Online),\nDecember 2020. International Committee on Computa-\ntional Linguistics. doi: 10.18653/v1/2020.coling-main.\n580. URL \ncoling-main.580.\nJi, Y ., Ma, Z., Wang, Y ., Chen, G., Chu, X., and Wu, L.\nTree search for llm agent reinforcement learning.arXiv\npreprint arXiv:2509.21240, 2025a.\nJi, Y ., Meng, R., Li, Z., and He, D. Curriculum guided\nreinforcement learning for efficient multi hop retrieval\naugmented generation.arXiv preprint arXiv:2505.17391,\n2025b.\nJiang, Z., Xu, F., Gao, L., Sun, Z., Liu, Q., Dwivedi-Yu, J.,\nYang, Y ., Callan, J., and Neubig, G. Active retrieval aug-\nmented generation. In Bouamor, H., Pino, J., and Bali, K.\n(eds.),Proceedings of the 2023 Conference on Empirical\nMethods in Natural Language Processing, pp. 7969–7992,\nSingapore, December 2023. Association for Computa-\ntional Linguistics. doi: 10.18653/v1/2023.emnlp-main.\n495. URL \nemnlp-main.495/.",
+      "section": "References",
+      "char_count": 1199,
+      "chunk_index": 50,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0051",
+      "source_id": "DavidGoliath_2026",
+      "text": "on Empirical\nMethods in Natural Language Processing, pp. 7969–7992,\nSingapore, December 2023. Association for Computa-\ntional Linguistics. doi: 10.18653/v1/2023.emnlp-main.\n495. URL \nemnlp-main.495/.\n9\n\nOn Multi-Hop Reasoning with Resource-Constrained Agents\nJin, B. An empirical study on reinforcement learning\nfor reasoning-search interleaved LLM agents. InThe\nFirst Structured Knowledge for Large Language Mod-\nels Workshop, 2025. URL \nnet/forum?id=IQNZIBspz5.\nJin, B., Zeng, H., Yue, Z., Yoon, J., Arik, S. O., Wang, D.,\nZamani, H., and Han, J. Search-r1: Training LLMs to\nreason and leverage search engines with reinforcement\nlearning. InSecond Conference on Language Modeling,\n2025a. URL \nid=Rwhi91ideu.\nJin, J., Zhu, Y ., Dou, Z., Dong, G., Yang, X., Zhang,\nC., Zhao, T., Yang, Z., and Wen, J.-R. Flashrag: A\nmodular toolkit for efficient retrieval-augmented gen-\neration research. InCompanion Proceedings of the\nACM on Web Conference 2025, WWW ’25, pp. 737–740,\nNew York, NY , USA, 2025b. Association for Com-\nputing Machinery. ISBN 9798400713316. doi: 10.\n1145/3701716.3715313. URL \n10.1145/3701716.3715313.\nJohnson, J., Douze, M., and J ´egou, H.",
+      "section": "References",
+      "char_count": 1156,
+      "chunk_index": 51,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0052",
+      "source_id": "DavidGoliath_2026",
+      "text": "pp. 737–740,\nNew York, NY , USA, 2025b. Association for Com-\nputing Machinery. ISBN 9798400713316. doi: 10.\n1145/3701716.3715313. URL \n10.1145/3701716.3715313.\nJohnson, J., Douze, M., and J ´egou, H. Billion-scale similar-\nity search with GPUs.IEEE Transactions on Big Data, 7\n(3):535–547, 2019.\nKudiabor, H. Academics lack access to powerful chips\nneeded for ai research, 2024.\nLewis, P., Wu, Y ., Liu, L., Minervini, P., K ¨uttler, H., Pik-\ntus, A., Stenetorp, P., and Riedel, S. PAQ: 65 mil-\nlion probably-asked questions and what you can do\nwith them.Transactions of the Association for Com-\nputational Linguistics, 9:1098–1115, 2021. doi: 10.\n1162/tacl a00415. URL \norg/2021.tacl-1.65.\nPress, O., Zhang, M., Min, S., Schmidt, L., Smith, N. A.,\nand Lewis, M. Measuring and narrowing the composition-\nality gap in language models. InThe 2023 Conference\non Empirical Methods in Natural Language Processing,\n2023. URL \nid=feiAVaSXdb.",
+      "section": "References",
+      "char_count": 934,
+      "chunk_index": 52,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0053",
+      "source_id": "DavidGoliath_2026",
+      "text": "Smith, N. A.,\nand Lewis, M. Measuring and narrowing the composition-\nality gap in language models. InThe 2023 Conference\non Empirical Methods in Natural Language Processing,\n2023. URL \nid=feiAVaSXdb.\nQwen, :, Yang, A., Yang, B., Zhang, B., Hui, B., Zheng, B.,\nYu, B., Li, C., Liu, D., Huang, F., Wei, H., Lin, H., Yang,\nJ., Tu, J., Zhang, J., Yang, J., Yang, J., Zhou, J., Lin, J.,\nDang, K., Lu, K., Bao, K., Yang, K., Yu, L., Li, M., Xue,\nM., Zhang, P., Zhu, Q., Men, R., Lin, R., Li, T., Tang,\nT., Xia, T., Ren, X., Ren, X., Fan, Y ., Su, Y ., Zhang, Y .,\nWan, Y ., Liu, Y ., Cui, Z., Zhang, Z., and Qiu, Z. Qwen2.5\ntechnical report, 2025. URL \nabs/2412.15115.\nRocchio Jr, J. J. Relevance feedback in information retrieval.\nThe SMART retrieval system: experiments in automatic\ndocument processing, 1971.Shao, Z., Wang, P., Zhu, Q., Xu, R., Song, J., Bi, X., Zhang,\nH., Zhang, M., Li, Y ., Wu, Y ., et al. Deepseekmath: Push-\ning the limits of mathematical reasoning in open language\nmodels.arXiv preprint arXiv:2402.03300, 2024.\nThakur, N., Reimers, N., R ¨uckl´e, A., Srivastava, A., and\nGurevych, I. Beir: A heterogeneous benchmark for\nzero-shot evaluation of information retrieval models.",
+      "section": "References",
+      "char_count": 1193,
+      "chunk_index": 53,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0054",
+      "source_id": "DavidGoliath_2026",
+      "text": "rXiv preprint arXiv:2402.03300, 2024.\nThakur, N., Reimers, N., R ¨uckl´e, A., Srivastava, A., and\nGurevych, I. Beir: A heterogeneous benchmark for\nzero-shot evaluation of information retrieval models. In\nNeurIPS Datasets and Benchmarks, 2021.\nTrivedi, H., Balasubramanian, N., Khot, T., and Sabharwal,\nA. MuSiQue: Multihop questions via single-hop ques-\ntion composition.Transactions of the Association for\nComputational Linguistics, 10:539–554, 2022. doi: 10.\n1162/tacl a00475. URL \norg/2022.tacl-1.31.\nV oorhees, E. M., Harman, D. K., et al.TREC: Experiment\nand evaluation in information retrieval, volume 63. MIT\npress Cambridge, 2005.\nWang, L., Yang, N., Huang, X., Jiao, B., Yang, L., Jiang, D.,\nMajumder, R., and Wei, F. Text embeddings by weakly-\nsupervised contrastive pre-training.arXiv preprint\narXiv:2212.03533, 2022.\nWu, X., Pan, L., Xie, Y ., Zhou, R., Zhao, S., Ma, Y ., Du,\nM., Mao, R., Luu, A. T., and Wang, W. Y . AntiLeak-\nBench: Preventing data contamination by automatically\nconstructing benchmarks with updated real-world knowl-\nedge. In Che, W., Nabende, J., Shutova, E., and Pilehvar,\nM. T.",
+      "section": "References",
+      "char_count": 1113,
+      "chunk_index": 54,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0055",
+      "source_id": "DavidGoliath_2026",
+      "text": "and Wang, W. Y . AntiLeak-\nBench: Preventing data contamination by automatically\nconstructing benchmarks with updated real-world knowl-\nedge. In Che, W., Nabende, J., Shutova, E., and Pilehvar,\nM. T. (eds.),Proceedings of the 63rd Annual Meeting\nof the Association for Computational Linguistics (Vol-\nume 1: Long Papers), pp. 18403–18419, Vienna, Aus-\ntria, July 2025. Association for Computational Linguis-\ntics. ISBN 979-8-89176-251-0. doi: 10.18653/v1/2025.\nacl-long.901. URL \n2025.acl-long.901/.\nXiong, W., Yu, M., Guo, X., Wang, H., Chang, S., Camp-\nbell, M., and Wang, W. Y . Simple yet effective bridge\nreasoning for open-domain multi-hop question answer-\ning. InProceedings of the 2nd Workshop on Machine\nReading for Question Answering, pp. 48–52, Hong Kong,\nChina, November 2019. Association for Computational\nLinguistics. doi: 10.18653/v1/D19-5806. URL https:\n//aclanthology.org/D19-5806.\nXiong, W., Li, X., Iyer, S., Du, J., Lewis, P., Wang, W. Y .,\nMehdad, Y ., Yih, S., Riedel, S., Kiela, D., and Oguz,\nB. Answering complex open-domain questions with\nmulti-hop dense retrieval. InInternational Conference\non Learning Representations, 2021.",
+      "section": "References",
+      "char_count": 1152,
+      "chunk_index": 55,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0056",
+      "source_id": "DavidGoliath_2026",
+      "text": "W. Y .,\nMehdad, Y ., Yih, S., Riedel, S., Kiela, D., and Oguz,\nB. Answering complex open-domain questions with\nmulti-hop dense retrieval. InInternational Conference\non Learning Representations, 2021. URL https://\nopenreview.net/forum?id=EMHoBG0avc1.\nYang, Z., Qi, P., Zhang, S., Bengio, Y ., Cohen, W., Salakhut-\ndinov, R., and Manning, C. D. Hotpotqa: A dataset for\n10\n\nOn Multi-Hop Reasoning with Resource-Constrained Agents\ndiverse, explainable multi-hop question answering. In\nProceedings of the 2018 conference on empirical methods\nin natural language processing, pp. 2369–2380, 2018.\nYao, S., Zhao, J., Yu, D., Du, N., Shafran, I., Narasimhan,\nK. R., and Cao, Y . React: Synergizing reasoning\nand acting in language models. InThe Eleventh In-\nternational Conference on Learning Representations,\n2023. URL \nid=WE_vluYUL-X.\nZhang, Y ., Yang, Y ., Shu, J., Wen, X., and Sang, J. Agent\nmodels: Internalizing chain-of-action generation into rea-\nsoning models.arXiv preprint arXiv:2503.06580, 2025.\nZheng, X., An, K., Wang, Z., Wang, Y ., and Wu, Y .\nStepSearch: Igniting LLMs search ability via step-wise\nproximal policy optimization.",
+      "section": "References",
+      "char_count": 1136,
+      "chunk_index": 56,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0057",
+      "source_id": "DavidGoliath_2026",
+      "text": "into rea-\nsoning models.arXiv preprint arXiv:2503.06580, 2025.\nZheng, X., An, K., Wang, Z., Wang, Y ., and Wu, Y .\nStepSearch: Igniting LLMs search ability via step-wise\nproximal policy optimization. In Christodoulopou-\nlos, C., Chakraborty, T., Rose, C., and Peng, V .\n(eds.),Proceedings of the 2025 Conference on Em-\npirical Methods in Natural Language Processing, pp.\n21816–21841, Suzhou, China, November 2025. As-\nsociation for Computational Linguistics. ISBN 979-\n8-89176-332-6. doi: 10.18653/v1/2025.emnlp-main.\n1106. URL \nemnlp-main.1106/.\n11\n\nOn Multi-Hop Reasoning with Resource-Constrained Agents\nA. Further Analysis: Dynamics of Grounded Expansion\n0 20 40 60 80 100 120 140 160 180 200\nTraining Step051015202530Grounded Expansion Ratio (%)Raw\n3-Step Moving Average\nFigure 6.Grounded expansion ratio (%) over training steps based on Qwen2.5-1.5B with 4 NVIDIA RTX 3090 GPUs. The light gray line\nindicates the raw values, while the thick brown line denotes the 3-step moving average.\nWe investigate the temporal behavior of the grounded expansion mechanism during training, as illustrated in Figure 6.",
+      "section": "References",
+      "char_count": 1110,
+      "chunk_index": 57,
+      "page_numbers": [
+        11
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0058",
+      "source_id": "DavidGoliath_2026",
+      "text": "ates the raw values, while the thick brown line denotes the 3-step moving average.\nWe investigate the temporal behavior of the grounded expansion mechanism during training, as illustrated in Figure 6. The\nexpansion ratio is notably higher in the early stages ( ≈25% ), indicating that the module actively injects correct reasoning\npaths to mitigate reward sparsity when the initial policy is weak. As training progresses and the agent learns to generate\nhigh-reward trajectories autonomously, the frequency of expansion naturally declines. This trend confirms that grounded\nexpansion acts as an adaptive scaffold: it provides critical guidance when the agent struggles and gradually recedes as the\nagent’s intrinsic reasoning capabilities mature.\nB. Benchmark Statistics\nTable 7.Statistics of the multi-hop QA evaluation benchmarks.\nName Size Comment\nHotpotQA (Yang et al., 2018) 7,405\nUsed in Search-R1, Tree-GRPO, etc.2WikiMultiHopQA (Ho et al., 2020) 12,576\nMuSiQue (Trivedi et al., 2022) 2,417\nBamboogle (Press et al., 2023) 125\nBamTwoogle (Aksitov et al., 2024) 100 Advanced version of Bamboogle\nAntiLeakBench (multi-hop; Wu et al., 2025) 455 2024 subset\nC.",
+      "section": "References",
+      "char_count": 1162,
+      "chunk_index": 58,
+      "page_numbers": [
+        12
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0059",
+      "source_id": "DavidGoliath_2026",
+      "text": "uSiQue (Trivedi et al., 2022) 2,417\nBamboogle (Press et al., 2023) 125\nBamTwoogle (Aksitov et al., 2024) 100 Advanced version of Bamboogle\nAntiLeakBench (multi-hop; Wu et al., 2025) 455 2024 subset\nC. Knowledge Cutoff Dates\nTable 8.Knowledge cutoff dates for the small language agents evaluated in this work. All models pre-date the data collection period of\nAntiLeakBench (2024).\nModel Family Specific Model Knowledge Cutoff\nQwen2.5Qwen2.5-1.5B\nDec 2023† Qwen2.5-1.5B-Instruct\nQwen2.5-0.5B\nQwen2.5-0.5B-Instruct\nLlama 3.2 Llama-3.2-1B-Instruct Dec 2023‡\n†\n‡\nTo verify the validity of our evaluation onAntiLeakBench(Wu et al., 2025), we report the official knowledge cutoff dates\nfor the small language agents used in our experiments. As shown in Table 8, all selected models have a knowledge cutoff of\n12\n\nOn Multi-Hop Reasoning with Resource-Constrained Agents\nDecember 2023. Since the multi-hop tasks in AntiLeakBench are constructed from data generated in 2024 (Table 7), this\ntemporal gap guarantees that the test samples are unseen during the models’ pre-training phase, thereby preventing data\ncontamination.\nD. Implementation Details\nD.1.",
+      "section": "References",
+      "char_count": 1146,
+      "chunk_index": 59,
+      "page_numbers": [
+        12
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0060",
+      "source_id": "DavidGoliath_2026",
+      "text": "generated in 2024 (Table 7), this\ntemporal gap guarantees that the test samples are unseen during the models’ pre-training phase, thereby preventing data\ncontamination.\nD. Implementation Details\nD.1. Training and Evaluation Setup\nTable 9.Hyperparameters for Training and Evaluation.\nParameter Warmup (Mixed GRPO) Main GRPO Evaluation\nDataset Size 4 (few-shot) 5,276 -\nBatch Size 4 24 128\nRollouts 5 5–10 (avg. 6.1) 1\nGroup Size (G) 5 5 -\nMax Search 5 5 -\nLearning Rate1×10−51×10−6-\nKL Loss Coefficient (β)1×10−31×10−3-\nClipping Parameter (ϵ) 0.2 0.2 -\nTraining Steps 50 215 -\nMax Prompt Len. 1,024 1,024 2,048\nMax Response Len. 8,192 8,192 12,288\nTemperature 0.6 0.6 0.6\nTop-p1.0 1.0 1.0\nTop-k-1 -1 -1\nAs described in Section 4.1, both training and evaluation were performed on a system equipped with four NVIDIA RTX\n3090 GPUs (24GB VRAM each).\nTraining.For the training phase, we use a subset of 5,276 examples from the HotpotQA (Yang et al., 2018) training set\nXtrain , provided by Zhang et al. (2025). The retrieval infrastructure utilizes E5-base-v2 (Wang et al., 2022) as the dense\nencoder and FAISS (Johnson et al., 2019) for efficient indexing and similarity search.",
+      "section": "References",
+      "char_count": 1173,
+      "chunk_index": 60,
+      "page_numbers": [
+        13
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0061",
+      "source_id": "DavidGoliath_2026",
+      "text": "rovided by Zhang et al. (2025). The retrieval infrastructure utilizes E5-base-v2 (Wang et al., 2022) as the dense\nencoder and FAISS (Johnson et al., 2019) for efficient indexing and similarity search.\nEvaluation.Our evaluation pipeline is built upon the FlashRAG (Jin et al., 2025b) framework, maintaining consistency\nwith the architectures used in Search-R1(-v0.3) (Jin et al., 2025a; Jin, 2025) and Tree-GRPO (Ji et al., 2025a). The retrieval\nand corpus configuration is divided into two settings to ensure temporal alignment with the datasets:\nPipelineA FlashRAG-based retrieval-augmented generation pipeline.\nRetriever The Search-R1 retriever, employing the same E5-base-v2 and FAISS setup as described in the\ntraining phase.\nCorpus (default) For the majority of tasks, we use the wiki-18.jsonl corpus, following the standard setup in\nmulti-hop reasoning evaluations.\nCorpus (2024) To accommodate the 2024 subset of AntiLeakBench, we constructed a dedicated index using the\nWikipedia 2024 dump. This ensures that the retriever accesses information contemporary to the\nevaluation queries, while keeping the retriever model identical to the default setting.\nD.2.",
+      "section": "References",
+      "char_count": 1164,
+      "chunk_index": 61,
+      "page_numbers": [
+        13
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0062",
+      "source_id": "DavidGoliath_2026",
+      "text": "dex using the\nWikipedia 2024 dump. This ensures that the retriever accesses information contemporary to the\nevaluation queries, while keeping the retriever model identical to the default setting.\nD.2. Few-Shot Warm-Start\nTo stabilize the initial policy, we employed the annotated trajectories of the HotpotQA training set by AutoCoA (Zhang\net al., 2025) where the teacher policy τ∗is DeepSeek-R1-Distill-Qwen-32B (Guo et al., 2025). We randomly selected k=4\ntrajectories returning correct answers as few-shot examples Xwarm . The selected examples are shown in Appendix G. For\nefficiency, we skip grounded expansion in this phase. Regarding mixed off-/on-policy RL, we simply set the importance\nsampling ratioρ∗(θ)=1.\n13\n\nOn Multi-Hop Reasoning with Resource-Constrained Agents\nD.3. Grounded Retrieval Reward\nForλwhich balances the grounded retrieval reward rgand the outcome reward ro, we set λ=0.5 to assign equal weight to\nboth reward components.\nD.4. Grounded Expansion\nTo efficiently generate the refined trajectory τ′\nM, we employ a rejection resampling strategy.",
+      "section": "References",
+      "char_count": 1069,
+      "chunk_index": 62,
+      "page_numbers": [
+        13
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0063",
+      "source_id": "DavidGoliath_2026",
+      "text": "utcome reward ro, we set λ=0.5 to assign equal weight to\nboth reward components.\nD.4. Grounded Expansion\nTo efficiently generate the refined trajectory τ′\nM, we employ a rejection resampling strategy. Given the truncated history\nτM,≤t′(where t′is the last step with valid retrieval), we sample lindependent candidate completions {˜τ(1), . . . ,˜τ(l)}from\nthe policy πθusing temperature sampling. We then evaluate the total reward for each completion and select the one with the\nhighest score as the final expanded trajectoryτ′\nM:\nτ′\nM= arg max\n˜τ∈{˜τ(1),...,˜τ(l)}R(˜τ).(7)\nIn our experiments, we set the number of expansion samplesl=5.\n14\n\nOn Multi-Hop Reasoning with Resource-Constrained Agents\nE. Prompt\nDAVID-GRPO\n[Prompt]\nYou are an intelligent reasoning assistant with access to a web search tool to help\nyou obtain accurate information. When answering the user's questions, please\nadhere to the following guidelines:\n1.Uncertainty Handling:\n- Encourage the use of web search to solve the problems mentioned during\nreasoning.\n- If you are uncertain or do not have sufficient knowledge about a specific\ndetail, youmustperform a web search.",
+      "section": "References",
+      "char_count": 1144,
+      "chunk_index": 63,
+      "page_numbers": [
+        14
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0064",
+      "source_id": "DavidGoliath_2026",
+      "text": "ng:\n- Encourage the use of web search to solve the problems mentioned during\nreasoning.\n- If you are uncertain or do not have sufficient knowledge about a specific\ndetail, youmustperform a web search.\n- To perform a web search the formatmustbe in the format mentioned in point 2\nWeb Search Format\n- You can perform multiple web searches to ensure that the answer is correct.\n- The web search should be initiated only within your internal reasoning (the ’’\nthinking’’ phase), and it should not appear in your final answer to the user.\n2.Web Search Format:\n- When calling the web search tool, use the following exact format:\n<begin search>your query here</end search>\n- After you perform a web search, you will receive results enclosed in:\n<search result>...</search result>\n- You can then use this information to further refine your reasoning and answer.\n3.Process:\n- If you encounter any uncertainty or unknown knowledge, embed a web search query\nwithin your internal thoughts (surrounded by<think></think>tags) using the\nspecified format.\n- Incorporate the search results into your reasoning before finalizing your\nanswer.\n- You should provide your final answer in the format\\boxed{YOUR_ANSWER}.",
+      "section": "References",
+      "char_count": 1196,
+      "chunk_index": 64,
+      "page_numbers": [
+        15
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0065",
+      "source_id": "DavidGoliath_2026",
+      "text": "k></think>tags) using the\nspecified format.\n- Incorporate the search results into your reasoning before finalizing your\nanswer.\n- You should provide your final answer in the format\\boxed{YOUR_ANSWER}.\nNow, please answer the user's question below:\n{question}\n15\n\nOn Multi-Hop Reasoning with Resource-Constrained Agents\nF. Case Study\nF.1. DAVID-GRPO\nDAVID-GRPO (Correct)\nLevel:HardSource:HotpotQAReasoning Type:Comparison\n[Question]\nAre the Laleli Mosque and Esma Sultan Mansion located in the same neighborhood?\n[Gold Answer]\nNo\n[Titles of Ground Truth Evidence Documents (D∗)]\nLaleli Mosque, Esma Sultan Mansion\n[Response]\n<think>\nOkay, I need to determine if the Laleli Mosque and Esma Sultan Mansion are located\nin the same neighborhood. Let me start by recalling what I know about these two\nlandmarks.\nFirst, I remember that I learned in history class that the Laleli Mosque is an\nimportant Islamic structure in Istanbul. I'll try to remember if it's part of a\nlarger complex or if it's located in a specific neighborhood. I'll search for ’’\nLaleli Mosque location Istanbul’’ to get the basic information.",
+      "section": "References",
+      "char_count": 1108,
+      "chunk_index": 65,
+      "page_numbers": [
+        15
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0066",
+      "source_id": "DavidGoliath_2026",
+      "text": "ure in Istanbul. I'll try to remember if it's part of a\nlarger complex or if it's located in a specific neighborhood. I'll search for ’’\nLaleli Mosque location Istanbul’’ to get the basic information.\n<begin search>Laleli Mosque location Istanbul</end search>\n<search result>result 1: ’’Laleli Mosque’’\nLaleli Mosque The Laleli Mosque () is an 18th-century Ottoman imperial mosque\nlocated in Laleli, Fatih, Istanbul, Turkey. The Laleli Mosque was built by Sultan\nMustafa III from 1760-1763, designed in the baroque style by Ottoman imperial\narchitect Mehmet Tahir A ˘ga. The complex was destroyed by a fire in 1783 shortly\nafter its completion and was immediately rebuilt. A fire in 1911 destroyed the\nmadrasah, and subsequent road construction work destroyed many other auxiliary\nstructures to the mosque. The mosque was built on a high terrace over a complex\nof vaulted shops, whose rents were intended to financially support the\nresult 2: ’’Tekeli Mehmet Pasha Mosque’’\nTekeli Mehmet Pasha Mosque The Tekeli Mehmet Pas ¸a Mosque () is a mosque in the city\nof Antalya, Turkey. Mosque takes its name from Lala Mehmed Pasa.",
+      "section": "References",
+      "char_count": 1123,
+      "chunk_index": 66,
+      "page_numbers": [
+        16
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0067",
+      "source_id": "DavidGoliath_2026",
+      "text": "port the\nresult 2: ’’Tekeli Mehmet Pasha Mosque’’\nTekeli Mehmet Pasha Mosque The Tekeli Mehmet Pas ¸a Mosque () is a mosque in the city\nof Antalya, Turkey. Mosque takes its name from Lala Mehmed Pasa. Built in the 18\nth century in the Kalekapisi district, the mosque is one of the most important\nOttoman mosques in the city. The main dome, which rises on a high rim, is\nsupported by three semi domes, one each in the east, west, and south directions,\nas well as three domes on the northern side. There are tiled panels decorated\nwith Koranic verses in taliq script on the pointed arch-formed lunettes of the\nresult 3: ’’Tekeli Mehmet Pasha Mosque’’\nwindows on the northern fac ¸ade of the mosque and inside it. Tekeli Mehmet Pasha\nMosque The Tekeli Mehmet Pas ¸a Mosque () is a mosque in the city of Antalya,\nTurkey. Mosque takes its name from Lala Mehmed Pasa. Built in the 18th century in\n16\n\nOn Multi-Hop Reasoning with Resource-Constrained Agents\nthe Kalekapisi district, the mosque is one of the most important Ottoman mosques\nin the city.",
+      "section": "References",
+      "char_count": 1044,
+      "chunk_index": 67,
+      "page_numbers": [
+        16
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0068",
+      "source_id": "DavidGoliath_2026",
+      "text": "Lala Mehmed Pasa. Built in the 18th century in\n16\n\nOn Multi-Hop Reasoning with Resource-Constrained Agents\nthe Kalekapisi district, the mosque is one of the most important Ottoman mosques\nin the city. The main dome, which rises on a high rim, is supported by three\nsemi domes, one each in the east, west, and south directions, as well as three\ndomes on the northern side. There are tiled panels decorated with Koranic\n</search result>\nAlright, the first result clearly mentions that the Laleli Mosque is located in\nLaleli, Fatih, Istanbul, Turkey. Now, I need to find out about the Esma Sultan\nMansion to see if they are in the same neighborhood.\nI'll search for ’’Esma Sultan Mansion location Istanbul’’ to get that information.\n<begin search>Esma Sultan Mansion location Istanbul</end search>\n<search result>result 1: ’’Esma Sultan Mansion’’\nEsma Sultan Mansion The Esma Sultan Mansion (), a historical yalı () located at\nBosphorus in Ortak ¨oy neighborhood of Istanbul, Turkey and named after its\noriginal owner Esma Sultan, is used today as a cultural center after being\nredeveloped.",
+      "section": "References",
+      "char_count": 1087,
+      "chunk_index": 68,
+      "page_numbers": [
+        16
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0069",
+      "source_id": "DavidGoliath_2026",
+      "text": "(), a historical yalı () located at\nBosphorus in Ortak ¨oy neighborhood of Istanbul, Turkey and named after its\noriginal owner Esma Sultan, is used today as a cultural center after being\nredeveloped. The three-storey brick building was designed by the renowned\narchitect Sarkis Balyan and finished in 1875 next to Ortak ¨oy Mosque. It was\npresented to Esma Sultan, the daughter of Ottoman Sultan Abdulaziz, as a wedding\ngift. The mansion remained in the possession of the Ottoman dynasty until 1915.\nThe building was subsequently used first as a tobacco warehouse and then as\nresult 2: ’’Esma Sultan Mansion’’\nguests in the ground floor and 600 guests in the first floor. The venue also hosts\nconcerts of the Istanbul International Jazz Festival and the Istanbul\nInternational Music Festival. Esma Sultan Mansion The Esma Sultan Mansion (), a\nhistorical yalı () located at Bosphorus in Ortak ¨oy neighborhood of Istanbul,\nTurkey and named after its original owner Esma Sultan, is used today as a\ncultural center after being redeveloped. The three-storey brick building was\ndesigned by the renowned architect Sarkis Balyan and finished in 1875 next to\nOrtak¨oy Mosque.",
+      "section": "References",
+      "char_count": 1167,
+      "chunk_index": 69,
+      "page_numbers": [
+        17
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0070",
+      "source_id": "DavidGoliath_2026",
+      "text": "a Sultan, is used today as a\ncultural center after being redeveloped. The three-storey brick building was\ndesigned by the renowned architect Sarkis Balyan and finished in 1875 next to\nOrtak¨oy Mosque. It was presented to Esma Sultan, the daughter of Ottoman Sultan\nAbdulaziz,\nresult 3: ’’Esma Sultan Mansion’’\na coal depot from 1920 until 1975, when it was destroyed by a fire. The ruin,\nconsisting only of the outer walls of the building, was purchased in the early\n1990s by The Marmara hotel chain. Following a renovation with additions designed\nby architects Haluk Sezgin and Philippe Robert, the mansion was opened in 2001 as\na multipurpose event venue. Within the brick exterior, which was left as the\noriginal, a steel and glass structure is incorporated. According to the GAD\nArchitecture group, a redesign by the architect G ¨okhan Avcıo ˘glu was completed in\n2005. The building includes a bar, a</search result>\nFrom the first result, the Esma Sultan Mansion is located at Ortak ¨oy neighborhood of\nIstanbul. Now, I need to check if Laleli is part of the same neighborhood. I'll\nsearch for ’’Laleli neighborhood Istanbul’’ to confirm its location.",
+      "section": "References",
+      "char_count": 1156,
+      "chunk_index": 70,
+      "page_numbers": [
+        17
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0071",
+      "source_id": "DavidGoliath_2026",
+      "text": "tan Mansion is located at Ortak ¨oy neighborhood of\nIstanbul. Now, I need to check if Laleli is part of the same neighborhood. I'll\nsearch for ’’Laleli neighborhood Istanbul’’ to confirm its location.\n<begin search>Laleli neighborhood Istanbul</end search>\n<search result>result 1: ’’Laleli Mosque’’\nLaleli Mosque The Laleli Mosque () is an 18th-century Ottoman imperial mosque\nlocated in Laleli, Fatih, Istanbul, Turkey. The Laleli Mosque was built by Sultan\nMustafa III from 1760-1763, designed in the baroque style by Ottoman imperial\narchitect Mehmet Tahir A ˘ga. The complex was destroyed by a fire in 1783 shortly\nafter its completion and was immediately rebuilt. A fire in 1911 destroyed the\nmadrasah, and subsequent road construction work destroyed many other auxiliary\nstructures to the mosque. The mosque was built on a high terrace over a complex\nof vaulted shops, whose rents were intended to financially support the\n17\n\nOn Multi-Hop Reasoning with Resource-Constrained Agents\nresult 2: Etiler\nEtiler Etiler is a neighbourhood on the European side of Istanbul, Turkey, in the\ndistrict of Bes ¸iktas ¸, close to the business quarters of Levent and Maslak.",
+      "section": "References",
+      "char_count": 1166,
+      "chunk_index": 71,
+      "page_numbers": [
+        17
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0072",
+      "source_id": "DavidGoliath_2026",
+      "text": "rce-Constrained Agents\nresult 2: Etiler\nEtiler Etiler is a neighbourhood on the European side of Istanbul, Turkey, in the\ndistrict of Bes ¸iktas ¸, close to the business quarters of Levent and Maslak. Etiler\nis famous for its upmarket caf ´es, pubs, night clubs, restaurants, gyms,\ncoiffeurs, fashion shops and shopping malls, such as Akmerkez. It is a favourite\narea among Istanbul's elite. The quarter also has many villas and private\nresidences. The name ’’’’Etiler’’’’ is an older name in Turkish for the ’’’’\nHittites’’’’, as it was fashionable in the early years of the Turkish Republic to\ngive the names of ancient Anatolian civilizations to the new districts\nresult 3: ’’S ¸is ¸li’’\nS ¸is ¸li S ¸is ¸li () is one of 39 districts of Istanbul, Turkey. Located on the European\nside of the city, it is bordered by Bes ¸iktas ¸ to the east, Sarıyer to the north,\nEy¨up and Ka ˘gıthane to the west, and Beyo ˘glu to the south. In 2009, S ¸is ¸li had a\npopulation of 316,058. Until the 1800s, S ¸is ¸li was open countryside, used for\nhunting and agriculture and leisure.",
+      "section": "References",
+      "char_count": 1071,
+      "chunk_index": 72,
+      "page_numbers": [
+        18
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0073",
+      "source_id": "DavidGoliath_2026",
+      "text": "and Ka ˘gıthane to the west, and Beyo ˘glu to the south. In 2009, S ¸is ¸li had a\npopulation of 316,058. Until the 1800s, S ¸is ¸li was open countryside, used for\nhunting and agriculture and leisure. It was developed as a middle class\nresidential district during the last years of the Ottoman Empire and the early\nyears of the Turkish Republic (the late 19th-early 20th centuries). French\nculture was an important influence</search result>\nThe first result clearly states that the Laleli Mosque is located in Laleli, Fatih,\nIstanbul, Turkey. It's located in the Fatih district, specifically in the Laleli\nneighborhood. Therefore, Laleli is part of the Fatih neighborhood, not Ortak ¨oy.\nSince the Esma Sultan Mansion is in Ortak ¨oy, and the Laleli Mosque is in Laleli,\nthey are indeed located in different neighborhoods.\n</think>\nThe Laleli Mosque is in the Fatih neighborhood, and the Esma Sultan Mansion is in\nthe Ortak ¨oy neighborhood. Thus, they are not located in the same neighborhood.\n\\boxed{No}\nF.2.",
+      "section": "References",
+      "char_count": 1009,
+      "chunk_index": 73,
+      "page_numbers": [
+        18
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0074",
+      "source_id": "DavidGoliath_2026",
+      "text": "ighborhoods.\n</think>\nThe Laleli Mosque is in the Fatih neighborhood, and the Esma Sultan Mansion is in\nthe Ortak ¨oy neighborhood. Thus, they are not located in the same neighborhood.\n\\boxed{No}\nF.2. Tree-GRPO\nTree-GRPO (Incorrect)\nLevel:HardSource:HotpotQAReasoning Type:Comparison\n[Question]\nAre the Laleli Mosque and Esma Sultan Mansion located in the same neighborhood?\n[Gold Answer]\nNo\n[Titles of Ground Truth Evidence Documents (D∗)]\nLaleli Mosque, Esma Sultan Mansion\n[Response]\n18\n\nOn Multi-Hop Reasoning with Resource-Constrained Agents\n<think>\nThe Laleli Mosque is located in Istanbul, Turkey, which is the capital city of the\ncountry.\nEsma Sultan Mansion is located in East Fourth district, Beyoglu neighborhood,\nIstanbul, Turkey.\nBoth are located in Istanbul, Turkey.\n</think>\n<answer>Yes</answer>\nF.3. StepSearch\nStepSearch (Incorrect)\nLevel:HardSource:HotpotQAReasoning Type:Comparison\n[Question]\nAre the Laleli Mosque and Esma Sultan Mansion located in the same neighborhood?\n[Gold Answer]\nNo\n[Titles of Ground Truth Evidence Documents (D∗)]\nLaleli Mosque, Esma Sultan Mansion\n[Response]\n<answer>no. <\n<warning> My previous action is invalid.",
+      "section": "References",
+      "char_count": 1158,
+      "chunk_index": 74,
+      "page_numbers": [
+        18
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0075",
+      "source_id": "DavidGoliath_2026",
+      "text": "located in the same neighborhood?\n[Gold Answer]\nNo\n[Titles of Ground Truth Evidence Documents (D∗)]\nLaleli Mosque, Esma Sultan Mansion\n[Response]\n<answer>no. <\n<warning> My previous action is invalid. If I want to search, I should put the query\nbetween<search>and</search>. If I want to give the final answer, I should put\nthe answer between<answer>and</answer>. Let me try again. </warning>\n<search>Are the Laleli Mosque and Esma Sultan Mansion located in the same\nneighborhood</search>\n<information>Doc 1<## Title: ’’Esma Sultan Mansion’’ ##> Esma Sultan Mansion The\nEsma Sultan Mansion (), a historical yalı () located at Bosphorus in Ortak ¨oy\nneighborhood of Istanbul, Turkey and named after its original owner Esma Sultan,\nis used today as a cultural center after being redeveloped. The three-storey\nbrick building was designed by the renowned architect Sarkis Balyan and finished\nin 1875 next to Ortak ¨oy Mosque. It was presented to Esma Sultan, the daughter of\nOttoman Sultan Abdulaziz, as a wedding gift. The mansion remained in the\npossession of the Ottoman dynasty until 1915.",
+      "section": "References",
+      "char_count": 1088,
+      "chunk_index": 75,
+      "page_numbers": [
+        16
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0076",
+      "source_id": "DavidGoliath_2026",
+      "text": "n 1875 next to Ortak ¨oy Mosque. It was presented to Esma Sultan, the daughter of\nOttoman Sultan Abdulaziz, as a wedding gift. The mansion remained in the\npossession of the Ottoman dynasty until 1915. The building was subsequently used\nfirst as a tobacco warehouse and then as\nDoc 2<## Title: ’’Esma Sultan Mansion’’ ##> guests in the ground floor and 600\nguests in the first floor. The venue also hosts concerts of the Istanbul\nInternational Jazz Festival and the Istanbul International Music Festival. Esma\nSultan Mansion The Esma Sultan Mansion (), a historical yalı () located at\nBosphorus in Ortak ¨oy neighborhood of Istanbul, Turkey and named after its\noriginal owner Esma Sultan, is used today as a cultural center after being\n19\n\nOn Multi-Hop Reasoning with Resource-Constrained Agents\nredeveloped. The three-storey brick building was designed by the renowned\narchitect Sarkis Balyan and finished in 1875 next to Ortak ¨oy Mosque. It was\npresented to Esma Sultan, the daughter of Ottoman Sultan Abdulaziz,\nDoc 3<## Title: ’’Laleli Mosque’’ ##> Laleli Mosque The Laleli Mosque () is an 18th-\ncentury Ottoman imperial mosque located in Laleli, Fatih, Istanbul, Turkey.",
+      "section": "References",
+      "char_count": 1175,
+      "chunk_index": 76,
+      "page_numbers": [
+        19
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0077",
+      "source_id": "DavidGoliath_2026",
+      "text": "e daughter of Ottoman Sultan Abdulaziz,\nDoc 3<## Title: ’’Laleli Mosque’’ ##> Laleli Mosque The Laleli Mosque () is an 18th-\ncentury Ottoman imperial mosque located in Laleli, Fatih, Istanbul, Turkey. The\nLaleli Mosque was built by Sultan Mustafa III from 1760-1763, designed in the\nbaroque style by Ottoman imperial architect Mehmet Tahir A ˘ga. The complex was\ndestroyed by a fire in 1783 shortly after its completion and was immediately\nrebuilt. A fire in 1911 destroyed the madrasah, and subsequent road construction\nwork destroyed many other auxiliary structures to the mosque. The mosque was\nbuilt on a high terrace over a complex of vaulted shops, whose rents were\nintended to financially support the</information>\n<answer>no. <\n<warning> My previous action is invalid. If I want to search, I should put the query\nbetween<search>and</search>. If I want to give the final answer, I should put\nthe answer between<answer>and</answer>. Let me try again.",
+      "section": "References",
+      "char_count": 956,
+      "chunk_index": 77,
+      "page_numbers": [
+        20
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0078",
+      "source_id": "DavidGoliath_2026",
+      "text": "s action is invalid. If I want to search, I should put the query\nbetween<search>and</search>. If I want to give the final answer, I should put\nthe answer between<answer>and</answer>. Let me try again. </warning>\n<search>Are the Laleli Mosque and Esma Sultan Mansion located in the same\nneighborhood</search>\n<information>Doc 1<## Title: ’’Esma Sultan Mansion’’ ##> Esma Sultan Mansion The\nEsma Sultan Mansion (), a historical yalı () located at Bosphorus in Ortak ¨oy\nneighborhood of Istanbul, Turkey and named after its original owner Esma Sultan,\nis used today as a cultural center after being redeveloped. The three-storey\nbrick building was designed by the renowned architect Sarkis Balyan and finished\nin 1875 next to Ortak ¨oy Mosque. It was presented to Esma Sultan, the daughter of\nOttoman Sultan Abdulaziz, as a wedding gift. The mansion remained in the\npossession of the Ottoman dynasty until 1915. The building was subsequently used\nfirst as a tobacco warehouse and then as\nDoc 2<## Title: ’’Esma Sultan Mansion’’ ##> guests in the ground floor and 600\nguests in the first floor.",
+      "section": "References",
+      "char_count": 1090,
+      "chunk_index": 78,
+      "page_numbers": [
+        19
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0079",
+      "source_id": "DavidGoliath_2026",
+      "text": "ynasty until 1915. The building was subsequently used\nfirst as a tobacco warehouse and then as\nDoc 2<## Title: ’’Esma Sultan Mansion’’ ##> guests in the ground floor and 600\nguests in the first floor. The venue also hosts concerts of the Istanbul\nInternational Jazz Festival and the Istanbul International Music Festival. Esma\nSultan Mansion The Esma Sultan Mansion (), a historical yalı () located at\nBosphorus in Ortak ¨oy neighborhood of Istanbul, Turkey and named after its\noriginal owner Esma Sultan, is used today as a cultural center after being\nredeveloped. The three-storey brick building was designed by the renowned\narchitect Sarkis Balyan and finished in 1875 next to Ortak ¨oy Mosque. It was\npresented to Esma Sultan, the daughter of Ottoman Sultan Abdulaziz,\nDoc 3<## Title: ’’Laleli Mosque’’ ##> Laleli Mosque The Laleli Mosque () is an 18th-\ncentury Ottoman imperial mosque located in Laleli, Fatih, Istanbul, Turkey. The\nLaleli Mosque was built by Sultan Mustafa III from 1760-1763, designed in the\nbaroque style by Ottoman imperial architect Mehmet Tahir A ˘ga. The complex was\ndestroyed by a fire in 1783 shortly after its completion and was immediately\nrebuilt.",
+      "section": "References",
+      "char_count": 1181,
+      "chunk_index": 79,
+      "page_numbers": [
+        19
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0080",
+      "source_id": "DavidGoliath_2026",
+      "text": "II from 1760-1763, designed in the\nbaroque style by Ottoman imperial architect Mehmet Tahir A ˘ga. The complex was\ndestroyed by a fire in 1783 shortly after its completion and was immediately\nrebuilt. A fire in 1911 destroyed the madrasah, and subsequent road construction\nwork destroyed many other auxiliary structures to the mosque. The mosque was\nbuilt on a high terrace over a complex of vaulted shops, whose rents were\nintended to financially support the</information>\n<answer>no. <\n<warning> My previous action is invalid. If I want to search, I should put the query\nbetween<search>and</search>. If I want to give the final answer, I should put\nthe answer between<answer>and</answer>. Let me try again. </warning>\n<warning> Now, I can no longer call<search></search>for external information. I\nmust analyze and answer based on the existing information. Now let me make a\nfinal thought and give an answer. </warning>\n<answer> Yes. </answer>\n20\n\nOn Multi-Hop Reasoning with Resource-Constrained Agents\nF.4.",
+      "section": "References",
+      "char_count": 1010,
+      "chunk_index": 80,
+      "page_numbers": [
+        20
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0081",
+      "source_id": "DavidGoliath_2026",
+      "text": "ze and answer based on the existing information. Now let me make a\nfinal thought and give an answer. </warning>\n<answer> Yes. </answer>\n20\n\nOn Multi-Hop Reasoning with Resource-Constrained Agents\nF.4. Search-R1-v0.3\nSearch-R1-v0.3 (Incorrect)\nLevel:HardSource:HotpotQAReasoning Type:Comparison\n[Question]\nAre the Laleli Mosque and Esma Sultan Mansion located in the same neighborhood?\n[Gold Answer]\nNo\n[Titles of Ground Truth Evidence Documents (D∗)]\nLaleli Mosque, Esma Sultan Mansion\n[Response]\nA:<search>are the laleli mosque and esma sultan mansion located in the same\nneighborhood</search>\n<information>Doc 1(Title: ’’Esma Sultan Mansion’’) Esma Sultan Mansion The Esma\nSultan Mansion (), a historical yalı () located at Bosphorus in Ortak ¨oy\nneighborhood of Istanbul, Turkey and named after its original owner Esma Sultan,\nis used today as a cultural center after being redeveloped. The three-storey\nbrick building was designed by the renowned architect Sarkis Balyan and finished\nin 1875 next to Ortak ¨oy Mosque. It was presented to Esma Sultan, the daughter of\nOttoman Sultan Abdulaziz, as a wedding gift. The mansion remained in the\npossession of the Ottoman dynasty until 1915.",
+      "section": "References",
+      "char_count": 1189,
+      "chunk_index": 81,
+      "page_numbers": [
+        20
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0082",
+      "source_id": "DavidGoliath_2026",
+      "text": "n 1875 next to Ortak ¨oy Mosque. It was presented to Esma Sultan, the daughter of\nOttoman Sultan Abdulaziz, as a wedding gift. The mansion remained in the\npossession of the Ottoman dynasty until 1915. The building was subsequently used\nfirst as a tobacco warehouse and then as\nDoc 2(Title: ’’Esma Sultan Mansion’’) guests in the ground floor and 600 guests in\nthe first floor. The venue also hosts concerts of the Istanbul International Jazz\nFestival and the Istanbul International Music Festival. Esma Sultan Mansion The\nEsma Sultan Mansion (), a historical yalı () located at Bosphorus in Ortak ¨oy\nneighborhood of Istanbul, Turkey and named after its original owner Esma Sultan,\nis used today as a cultural center after being redeveloped. The three-storey\nbrick building was designed by the renowned architect Sarkis Balyan and finished\nin 1875 next to Ortak ¨oy Mosque. It was presented to Esma Sultan, the daughter of\nOttoman Sultan Abdulaziz,\nDoc 3(Title: ’’Laleli Mosque’’) Laleli Mosque The Laleli Mosque () is an 18th-\ncentury Ottoman imperial mosque located in Laleli, Fatih, Istanbul, Turkey.",
+      "section": "References",
+      "char_count": 1103,
+      "chunk_index": 82,
+      "page_numbers": [
+        19
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0083",
+      "source_id": "DavidGoliath_2026",
+      "text": "an, the daughter of\nOttoman Sultan Abdulaziz,\nDoc 3(Title: ’’Laleli Mosque’’) Laleli Mosque The Laleli Mosque () is an 18th-\ncentury Ottoman imperial mosque located in Laleli, Fatih, Istanbul, Turkey. The\nLaleli Mosque was built by Sultan Mustafa III from 1760-1763, designed in the\nbaroque style by Ottoman imperial architect Mehmet Tahir A ˘ga. The complex was\ndestroyed by a fire in 1783 shortly after its completion and was immediately\nrebuilt. A fire in 1911 destroyed the madrasah, and subsequent road construction\nwork destroyed many other auxiliary structures to the mosque. The mosque was\nbuilt on a high terrace over a complex of vaulted shops, whose rents were\nintended to financially support the</information>\n<answer> Yes </answer>\n21\n\nOn Multi-Hop Reasoning with Resource-Constrained Agents\nG. Few-Shot Examples\nExample 1\nLevel:EasySource:HotpotQAAnnotation by:DeepSeek-R1-Distill-Qwen-32B\n[Input]\n[user]\nYou are an intelligent reasoning assistant with access to a web search tool to help\nyou obtain accurate information.",
+      "section": "References",
+      "char_count": 1035,
+      "chunk_index": 83,
+      "page_numbers": [
+        21
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0084",
+      "source_id": "DavidGoliath_2026",
+      "text": "Level:EasySource:HotpotQAAnnotation by:DeepSeek-R1-Distill-Qwen-32B\n[Input]\n[user]\nYou are an intelligent reasoning assistant with access to a web search tool to help\nyou obtain accurate information. When answering the user's questions, please\nadhere to the following guidelines:\n1.Uncertainty Handling:\n- Encourage the use of web search to solve the problems mentioned during\nreasoning.\n- If you are uncertain or do not have sufficient knowledge about a specific\ndetail, youmustperform a web search.\n- To perform a web search the formatmustbe in the format mentioned in point 2\nWeb Search Format\n- You can perform multiple web searches to ensure that the answer is correct.\n- The web search should be initiated only within your internal reasoning (the ’’\nthinking’’ phase), and it should not appear in your final answer to the user.\n2.Web Search Format:\n- When calling the web search tool, use the following exact format:\n```\n<begin search>your query here</end search>\n```\n- After you perform a web search, you will receive results enclosed in:\n```\n<search result>...</search result>\n```\n- You can then use this information to further refine your reasoning and answer.",
+      "section": "References",
+      "char_count": 1169,
+      "chunk_index": 84,
+      "page_numbers": [
+        22
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0085",
+      "source_id": "DavidGoliath_2026",
+      "text": "```\n- After you perform a web search, you will receive results enclosed in:\n```\n<search result>...</search result>\n```\n- You can then use this information to further refine your reasoning and answer.\n3.Process:\n- If you encounter any uncertainty or unknown knowledge, embed a web search query\nwithin your internal thoughts (surrounded by`<think></think>`tags) using the\nspecified format.\n- Incorporate the search results into your reasoning before finalizing your\nanswer.\n- You should provide your final answer in the format\\boxed{YOUR_ANSWER}.\nNow, please answer the user's question below:\nThe Voyage that Shook the World was commissioned by what non-profit organisation\nthat has locations in Australia, Canada, New Zealand, South Africa, the United\nKingdom, and the United States?\n[Response]\n<think>\nOkay, so I need to figure out which non-profit organization commissioned the voyage\nknown as ’’The Voyage that Shook the World.’’ The user mentioned that this\norganization has locations in several countries, including Australia, Canada, New\nZealand, South Africa, the UK, and the US. Hmm, that gives me some clues about\nits global presence.",
+      "section": "References",
+      "char_count": 1142,
+      "chunk_index": 85,
+      "page_numbers": [
+        22
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0086",
+      "source_id": "DavidGoliath_2026",
+      "text": "entioned that this\norganization has locations in several countries, including Australia, Canada, New\nZealand, South Africa, the UK, and the US. Hmm, that gives me some clues about\nits global presence.\n22\n\nOn Multi-Hop Reasoning with Resource-Constrained Agents\nFirst, I'm thinking about well-known non-profits that operate internationally.\nOrganizations like the Red Cross come to mind, but I don't recall them being\ninvolved in something called ’’The Voyage that Shook the World.’’ Maybe it's\nsomething related to exploration or maritime activities? That could make sense\ngiven the word ’’voyage.’’\nI remember hearing about the HMS Beagle and Charles Darwin's voyage, which was\nsignificant in shaping evolutionary theory. Could this be related? There's a\nproject or initiative that recreates historical voyages for educational purposes.\nI think it's called something like the Beagle Project. Let me check that.\nWait, the Beagle Project is indeed a non-profit organization. They focus on\nrecreating historical scientific voyages, including the one that Darwin took.\nTheir mission is to promote science education and exploration.",
+      "section": "References",
+      "char_count": 1128,
+      "chunk_index": 86,
+      "page_numbers": [
+        22
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0087",
+      "source_id": "DavidGoliath_2026",
+      "text": "Project is indeed a non-profit organization. They focus on\nrecreating historical scientific voyages, including the one that Darwin took.\nTheir mission is to promote science education and exploration. Given that, it\nmakes sense that they would commission a voyage that has historical significance,\nhence the name ’’The Voyage that Shook the World.’’\nTo confirm, I should probably look up if the Beagle Project operates in all those\ncountries mentioned. I'll do a quick search to verify their international\npresence.\n[Initiating web search]\n<begin search>Beagle Project locations</end search>\n<search result>result 1: ’’Beagle Brigade’’\nthey are placed in adoptive homes. The USDA National Detector Dog Training Center in\nNewnan, Georgia, receives beagles donated by private owners, breeders, and\nanimal shelters.\nresult 2: ’’Beagle station’’\nBeagle is a station on the Port Authority of Allegheny County's light rail network,\nlocated in Bethel Park, Pennsylvania.",
+      "section": "References",
+      "char_count": 962,
+      "chunk_index": 87,
+      "page_numbers": [
+        23
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0088",
+      "source_id": "DavidGoliath_2026",
+      "text": "by private owners, breeders, and\nanimal shelters.\nresult 2: ’’Beagle station’’\nBeagle is a station on the Port Authority of Allegheny County's light rail network,\nlocated in Bethel Park, Pennsylvania. The street level stop is designed as a\nsmall commuter stop, serving area residents who walk to the train so they can be\ntaken toward Downtown Pittsburgh.</search result>\nHmm, the search results didn't directly mention the Beagle Project having locations\nin those countries. Maybe I need a different approach. Perhaps I should search\nspecifically for ’’The Voyage that Shook the World’’ and see which organization\ncommissioned it.\n[Initiating another web search]\n<begin search>The Voyage that Shook the World commissioned by</end search>\n<search result>result 1: ’’The Voyage that Shook the World’’\nThe Voyage That Shook The World is a 2009 dramatised documentary film commissioned\nby Creation Ministries International, a Christian Young Earth creationist\norganisation, and produced by Fathom Media. It was released to mark the 200th\nanniversary of Charles Darwin's birth and the 150th anniversary of the\npublication of his seminal work ’’On the Origin of Species’’.",
+      "section": "References",
+      "char_count": 1166,
+      "chunk_index": 88,
+      "page_numbers": [
+        23
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0089",
+      "source_id": "DavidGoliath_2026",
+      "text": "on, and produced by Fathom Media. It was released to mark the 200th\nanniversary of Charles Darwin's birth and the 150th anniversary of the\npublication of his seminal work ’’On the Origin of Species’’. A historian\nfeatured in the film has stated that the creationist backing of the film had been\nconcealed when he agreed to take part, that the editing of his words could give\na false impression of his views, and that the film presents a historically\ndistorted portrait of Darwin. Creation Ministries agreed that they had set up a\n’’front company’’ to approach experts. They denied any deception and stated that\none of the interviewees had admitted that while the producers choose comments\nthey ’’didn't distort what we said’’, and compared their approach to that used by\nthe BBC in making documentaries. The three historians featured in the film\nsubsequently issued a statement that they had been misrepresented by the film\ncompany's selective reconstruction of Darwin's voyage. CMI countered these claims\nwith extended quotes from the interviews of the historians.",
+      "section": "References",
+      "char_count": 1065,
+      "chunk_index": 89,
+      "page_numbers": [
+        23
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0090",
+      "source_id": "DavidGoliath_2026",
+      "text": "a statement that they had been misrepresented by the film\ncompany's selective reconstruction of Darwin's voyage. CMI countered these claims\nwith extended quotes from the interviews of the historians. Their response was\ndescribed as appearing to be sound in specific aspects by American skeptic Jim\nLippard, who had not seen the\nresult 2: ’’Henry Roberts (Royal Navy officer)’’\n23\n\nOn Multi-Hop Reasoning with Resource-Constrained Agents\nHenry Roberts (1756-1796) was an officer in the Royal Navy who served with Captain\nCook on his last two voyages. Roberts served as lieutenant on Cook's HMS ’’\nDiscovery’’, where he was entrusted with many hydrographic and cartographic tasks\n, and also met then-midshipman George Vancouver. Roberts spent many years after\nthat voyage preparing the detailed charts that went into Cook's posthumous ’’\nAtlas’’. Roberts also served on where he was to make a painting of the ship. In\n1790, Roberts was appointed to command a newly built HMS ’’Discovery’’ on another\nround-the-world voyage and selected George Vancouver as his first lieutenant.",
+      "section": "References",
+      "char_count": 1075,
+      "chunk_index": 90,
+      "page_numbers": [
+        23
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0091",
+      "source_id": "DavidGoliath_2026",
+      "text": "e was to make a painting of the ship. In\n1790, Roberts was appointed to command a newly built HMS ’’Discovery’’ on another\nround-the-world voyage and selected George Vancouver as his first lieutenant.\nHowever, the Nootka Crisis called both men to duty elsewhere, and upon its\nresolution, Vancouver was given command of the historic voyage. Roberts died on\n25 August 1796, Captain of HMS ’’Undaunted’’ in the West Indies, where he\ncontracted yellow fever. Vancouver named Point Roberts after Henry Roberts.\n</search result>\nAh, from the first result, it seems that ’’The Voyage that Shook the World’’ was\ncommissioned by Creation Ministries International (CMI). They're a Christian\nYoung Earth creationist organization. This aligns with the fact that the voyage\nin question is likely referring to Charles Darwin's journey on the HMS Beagle,\nwhich had a significant impact on the world through his theories on evolution.\nCMI operates in multiple countries, including those listed by the user: Australia,\nCanada, New Zealand, South Africa, the UK, and the US. This fits perfectly with\nthe question's details.",
+      "section": "References",
+      "char_count": 1105,
+      "chunk_index": 91,
+      "page_numbers": [
+        24
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0092",
+      "source_id": "DavidGoliath_2026",
+      "text": "on evolution.\nCMI operates in multiple countries, including those listed by the user: Australia,\nCanada, New Zealand, South Africa, the UK, and the US. This fits perfectly with\nthe question's details. So, despite my initial thought about the Beagle Project,\nthe correct answer is Creation Ministries International.\n</think>\nThe non-profit organization that commissioned ’’The Voyage that Shook the World’’ is\nCreation Ministries International (CMI).\n\\boxed{Creation Ministries International}\nExample 2\nLevel:EasySource:HotpotQAAnnotation by:DeepSeek-R1-Distill-Qwen-32B\n[Input]\n[user]\nYou are an intelligent reasoning assistant with access to a web search tool to help\nyou obtain accurate information. When answering the user's questions, please\nadhere to the following guidelines:\n1.Uncertainty Handling:\n- Encourage the use of web search to solve the problems mentioned during\nreasoning.\n- If you are uncertain or do not have sufficient knowledge about a specific\ndetail, youmustperform a web search.\n- To perform a web search the formatmustbe in the format mentioned in point 2\nWeb Search Format\n- You can perform multiple web searches to ensure that the answer is correct.",
+      "section": "References",
+      "char_count": 1176,
+      "chunk_index": 92,
+      "page_numbers": [
+        24
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0093",
+      "source_id": "DavidGoliath_2026",
+      "text": "umustperform a web search.\n- To perform a web search the formatmustbe in the format mentioned in point 2\nWeb Search Format\n- You can perform multiple web searches to ensure that the answer is correct.\n- The web search should be initiated only within your internal reasoning (the ’’\nthinking’’ phase), and it should not appear in your final answer to the user.\n2.Web Search Format:\n- When calling the web search tool, use the following exact format:\n```\n<begin search>your query here</end search>\n```\n24\n\nOn Multi-Hop Reasoning with Resource-Constrained Agents\n- After you perform a web search, you will receive results enclosed in:\n```\n<search result>...</search result>\n```\n- You can then use this information to further refine your reasoning and answer.\n3.Process:\n- If you encounter any uncertainty or unknown knowledge, embed a web search query\nwithin your internal thoughts (surrounded by`<think></think>`tags) using the\nspecified format.\n- Incorporate the search results into your reasoning before finalizing your\nanswer.\n- You should provide your final answer in the format\\boxed{YOUR_ANSWER}.",
+      "section": "References",
+      "char_count": 1100,
+      "chunk_index": 93,
+      "page_numbers": [
+        15
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0094",
+      "source_id": "DavidGoliath_2026",
+      "text": "></think>`tags) using the\nspecified format.\n- Incorporate the search results into your reasoning before finalizing your\nanswer.\n- You should provide your final answer in the format\\boxed{YOUR_ANSWER}.\nNow, please answer the user's question below:\nThe World Classical Network (WCN) is an internet-delivery classical radio\nbroadcasting service owned by which company, in Hyannis, the largest of the seven\nvillages in the town of Barnstable, Massachusetts, in the United States?\n[Response]\n<think>\nOkay, so I need to figure out which company owns the World Classical Network (WCN)\nbased in Hyannis, Massachusetts. Hmm, I don't know much about WCN, so I'll have\nto look it up. Let me think about how to approach this.\nFirst, I know that Hyannis is part of Barnstable, Massachusetts. It's a town with\nseveral villages, and Hyannis is the largest one. So, WCN is located there. But I\n'm not sure which company operates it. Maybe it's a local media company or part\nof a larger network.\nI remember that sometimes classical music stations are operated by public radio\nnetworks or independent broadcasters. Maybe WCN is part of a bigger organization.",
+      "section": "References",
+      "char_count": 1140,
+      "chunk_index": 94,
+      "page_numbers": [
+        22
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0095",
+      "source_id": "DavidGoliath_2026",
+      "text": "a company or part\nof a larger network.\nI remember that sometimes classical music stations are operated by public radio\nnetworks or independent broadcasters. Maybe WCN is part of a bigger organization.\nAlternatively, it could be a subsidiary of a media conglomerate.\nTo get accurate information, I should perform a web search. I'll search for ’’World\nClassical Network owner Hyannis Massachusetts’’ to see if any reliable sources\nmention the company. Let me structure the search query properly.\n<begin search>World Classical Network owner Hyannis Massachusetts</end search>\n<search result>result 1: ’’World Classical Network’’\nThe World Classical Network (WCN) is an internet-delivery classical radio\nbroadcasting service owned by CCB Media in Hyannis, Massachusetts. The service\nhas been in existence since February 1998, when it was owned and operated by\nCharles River Broadcasting. It filled a void left by the demise of the U. S.\nversion of Classic FM, the classical music satellite service of SW Networks.\nStations. WCN programming is carried on Cape Cod Broadcasting's WFCC-FM, licensed\nto Chatham, Massachusetts. WFCC is the WCN flagship station.",
+      "section": "References",
+      "char_count": 1152,
+      "chunk_index": 95,
+      "page_numbers": [
+        25
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0096",
+      "source_id": "DavidGoliath_2026",
+      "text": "FM, the classical music satellite service of SW Networks.\nStations. WCN programming is carried on Cape Cod Broadcasting's WFCC-FM, licensed\nto Chatham, Massachusetts. WFCC is the WCN flagship station. The service is also\nsyndicated, with the following affiliates: Hosts. Current hosts on the World\nClassical Network include Mark Calder, Don Spencer, and Larry King. Longtime\nclassical announcer Steve Murphy joined the WCN as morning host on September 16,\n2008.\nresult 2: ’’Charles River Broadcasting’’\nCharles River Broadcasting was the owner of three classical music stations, one\nclassic rock station, one CNN Headline News relay in Rhode Island, and a\nsyndicated classical satellite delivery program service. History. The company\nstarted in 1948 when WCRB first signed on at 1330 AM. In 1954, Charles River\nBroadcasting added WCRB-FM at 102.5 FM. In the mid 1970s, WCRB's programming was\nremoved from the 1330 AM signal, which was relaunched as WHET, with a big-band/\nadult standards format.",
+      "section": "References",
+      "char_count": 995,
+      "chunk_index": 96,
+      "page_numbers": [
+        25
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0097",
+      "source_id": "DavidGoliath_2026",
+      "text": ", Charles River\nBroadcasting added WCRB-FM at 102.5 FM. In the mid 1970s, WCRB's programming was\nremoved from the 1330 AM signal, which was relaunched as WHET, with a big-band/\nadult standards format. (WHET was sold in 1978 and is now WRCA.) By the early\n25\n\nOn Multi-Hop Reasoning with Resource-Constrained Agents\n1990s, Charles River Broadcasting and WCRB entered into a commitment for the\nstation to continue running classical music until 2092. Later in the decade, the\ncompany purchased WFCC-FM Chatham, WKPE-FM Orleans (both on Cape Cod), WCRI Block\nIsland/Westerly (formerly WVBI), and WCNX Hope Valley, Rhode Island (formerly\nWJJF) (both in Rhode Island) from their respective local owners. In addition, a\nsatellite service named the World Classical Network was started by Charles River\nBroadcasting. The company explored a sale possibility for</search result>\nAlright, looking at the search results, the first result mentions that WCN is owned\nby CCB Media in Hyannis, Massachusetts. It also notes that Charles River\nBroadcasting was the original owner but later became CCB Media.",
+      "section": "References",
+      "char_count": 1088,
+      "chunk_index": 97,
+      "page_numbers": [
+        25
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0098",
+      "source_id": "DavidGoliath_2026",
+      "text": "the search results, the first result mentions that WCN is owned\nby CCB Media in Hyannis, Massachusetts. It also notes that Charles River\nBroadcasting was the original owner but later became CCB Media. The second result\nconfirms that Charles River Broadcasting started the World Classical Network and\nlater sold it or rebranded under CCB Media.\nSo, putting this together, the current owner of WCN is CCB Media. They took over\nfrom Charles River Broadcasting, which had initially established the service.\nTherefore, the company in Hyannis that owns WCN is CCB Media.\n</think>\nThe World Classical Network (WCN) is owned by CCB Media in Hyannis, Massachusetts.\n\\boxed{CCB Media}\nExample 3\nLevel:MediumSource:HotpotQAAnnotation by:DeepSeek-R1-Distill-Qwen-32B\n[Input]\n[user]\nYou are an intelligent reasoning assistant with access to a web search tool to help\nyou obtain accurate information. When answering the user's questions, please\nadhere to the following guidelines:\n1.Uncertainty Handling:\n- Encourage the use of web search to solve the problems mentioned during\nreasoning.\n- If you are uncertain or do not have sufficient knowledge about a specific\ndetail, youmustperform a web search.",
+      "section": "References",
+      "char_count": 1187,
+      "chunk_index": 98,
+      "page_numbers": [
+        26
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0099",
+      "source_id": "DavidGoliath_2026",
+      "text": "ng:\n- Encourage the use of web search to solve the problems mentioned during\nreasoning.\n- If you are uncertain or do not have sufficient knowledge about a specific\ndetail, youmustperform a web search.\n- To perform a web search the formatmustbe in the format mentioned in point 2\nWeb Search Format\n- You can perform multiple web searches to ensure that the answer is correct.\n- The web search should be initiated only within your internal reasoning (the ’’\nthinking’’ phase), and it should not appear in your final answer to the user.\n2.Web Search Format:\n- When calling the web search tool, use the following exact format:\n```\n<begin search>your query here</end search>\n```\n- After you perform a web search, you will receive results enclosed in:\n```\n<search result>...</search result>\n```\n- You can then use this information to further refine your reasoning and answer.\n3.Process:\n26\n\nOn Multi-Hop Reasoning with Resource-Constrained Agents\n- If you encounter any uncertainty or unknown knowledge, embed a web search query\nwithin your internal thoughts (surrounded by`<think></think>`tags) using the\nspecified format.",
+      "section": "References",
+      "char_count": 1117,
+      "chunk_index": 99,
+      "page_numbers": [
+        15
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0100",
+      "source_id": "DavidGoliath_2026",
+      "text": "urce-Constrained Agents\n- If you encounter any uncertainty or unknown knowledge, embed a web search query\nwithin your internal thoughts (surrounded by`<think></think>`tags) using the\nspecified format.\n- Incorporate the search results into your reasoning before finalizing your\nanswer.\n- You should provide your final answer in the format\\boxed{YOUR_ANSWER}.\nNow, please answer the user's question below:\nThe seventh FIFA Women's World Cup, in which Sukanya Chor Charoenying played,\noccurred in what year?\n[Response]\n<think>\nAlright, I need to figure out the year when the seventh FIFA Women's World Cup took\nplace, specifically the one in which Sukanya Chor Charoenying played. Let me\nstart by recalling what I know about the FIFA Women's World Cup.\nI remember that the first Women's World Cup was held in 1991, so each subsequent\ntournament would follow every four years. Let me count them out:\n1. 1991 - First edition\n2. 1995 - Second\n3. 1999 - Third\n4. 2003 - Fourth\n5. 2007 - Fifth\n6. 2011 - Sixth\n7. 2015 - Seventh\nWait, does that add up correctly? From 1991 to 1995 is four years, then each\nsubsequent is another four. So yes, the seventh would be 2015.",
+      "section": "References",
+      "char_count": 1159,
+      "chunk_index": 100,
+      "page_numbers": [
+        27
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0101",
+      "source_id": "DavidGoliath_2026",
+      "text": "3 - Fourth\n5. 2007 - Fifth\n6. 2011 - Sixth\n7. 2015 - Seventh\nWait, does that add up correctly? From 1991 to 1995 is four years, then each\nsubsequent is another four. So yes, the seventh would be 2015. But I'm not\nentirely sure, so I should double-check this information.\nAdditionally, I need to confirm whether Sukanya Chor Charoenying participated in the\n2015 tournament. I'm not certain about her participation in that specific year,\nso I should look into her career timeline as well.\nLet me structure my thoughts:\n1. Confirm the year of the seventh FIFA Women's World Cup.\n2. Verify if Sukanya Chor Charoenying played in that edition.\nStarting with the first point, I think the seventh edition was in 2015, but I want\nto make sure. I'll perform a web search to confirm the years of each Women's\nWorld Cup.\n<begin search>FIFA Women's World Cup editions years</end search>\n<search result>result 1: ’’FIFA Women's World Cup’’\nThe FIFA Women's World Cup is an international football competition contested by the\nsenior women's national teams of the members of F ´ed´eration Internationale de\nFootball Association (FIFA), the sport's international governing body.",
+      "section": "References",
+      "char_count": 1161,
+      "chunk_index": 101,
+      "page_numbers": [
+        27
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0102",
+      "source_id": "DavidGoliath_2026",
+      "text": "ternational football competition contested by the\nsenior women's national teams of the members of F ´ed´eration Internationale de\nFootball Association (FIFA), the sport's international governing body. The\ncompetition has been held every four years since 1991, when the inaugural\ntournament, then called the FIFA Women's World Championship, was held in China.\nUnder the tournament's current format, national teams vie for 23 slots in a three\n-year qualification phase. The host nation's team is automatically entered as the\n24th slot. The tournament proper, alternatively called the ’’World Cup Finals’’,\nis contested at venues within the host nation(s) over a period of about one\nmonth. The eight FIFA Women's World Cup tournaments have been won by four\nnational teams. The United States has won four times, and is the current champion\nafter winning it at the 2019 tournament in France. The other winners are Germany\n27\n\nOn Multi-Hop Reasoning with Resource-Constrained Agents\n, with two titles, and Japan and Norway with one title each. Six countries have\nhosted the Women's World Cup.",
+      "section": "References",
+      "char_count": 1086,
+      "chunk_index": 102,
+      "page_numbers": [
+        27
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0103",
+      "source_id": "DavidGoliath_2026",
+      "text": "The other winners are Germany\n27\n\nOn Multi-Hop Reasoning with Resource-Constrained Agents\n, with two titles, and Japan and Norway with one title each. Six countries have\nhosted the Women's World Cup. China and the United States have each hosted the\ntournament twice, while Canada, France, Germany, and Sweden have each hosted it\nonce. Format. Qualification. Qualifying tournaments are held within the six FIFA\ncontinental zones (Africa, Asia, North and Central America and Caribbean, South\nresult 2: ’’FIFA Women's World Cup’’\nautomatically chosen to host the 2007 FIFA Women's World Cup. Germany hosted the\n2011 FIFA Women's World Cup, as decided by vote in October 2007. In March 2011,\nFIFA awarded Canada the right to host the 2015 FIFA Women's World Cup. The 2015\nedition saw the field expand from 16 to 24 teams. During the 2015 FIFA Women's\nWorld Cup, both Formiga of Brazil and Homare Sawa of Japan appeared in their\nrecord sixth World Cup, a feat that had never been achieved before by either\nfemale or male players. Christie Pearce is the oldest player to ever play in a\nWomen's World Cup match, at the age of 40 years.",
+      "section": "References",
+      "char_count": 1128,
+      "chunk_index": 103,
+      "page_numbers": [
+        27
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0104",
+      "source_id": "DavidGoliath_2026",
+      "text": "rd sixth World Cup, a feat that had never been achieved before by either\nfemale or male players. Christie Pearce is the oldest player to ever play in a\nWomen's World Cup match, at the age of 40 years. In March 2015, FIFA awarded\nFrance the right to host the 2019 FIFA Women's World Cup over South Korea. Trophy\n. The current trophy was designed in 1998 for the 1999 tournament, and takes the\nform of a spiral band, enclosing a football at the top, that aims to capture the\nathleticism, dynamism, and elegance of international women's football. In the\n2010s, it was fitted with a cone-shaped base. Underneath the base, the name of\neach of the tournament's previous winners is engraved. The trophy\n</search result>\nFrom the search results, I see that the 2015 FIFA Women's World Cup was the seventh\nedition. It was hosted by Canada, and it was the first time the tournament\nexpanded to 24 teams. So that confirms the year as 2015.\nNow, moving on to the second point: Sukanya Chor Charoenying's participation. I need\nto check if she played in the 2015 Women's World Cup.",
+      "section": "References",
+      "char_count": 1067,
+      "chunk_index": 104,
+      "page_numbers": [
+        28
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0105",
+      "source_id": "DavidGoliath_2026",
+      "text": "ment\nexpanded to 24 teams. So that confirms the year as 2015.\nNow, moving on to the second point: Sukanya Chor Charoenying's participation. I need\nto check if she played in the 2015 Women's World Cup.\n<begin search>Sukanya Chor Charoenying FIFA Women's World Cup 2015</end search>\n<search result>result 1: ’’Sukanya Chor Charoenying’’\nSukanya Chor Charoenying (born 24 November 1987) is a Thai women's international\nfootballer who plays as a goalkeeper. She is a member of the Thailand women's\nnational football team. She was part of the team at the 2015 FIFA Women's World\nCup. On club level she plays for Air Force United in Thailand.\nresult 2: ’’Sudarat Chuchuen’’\nSudarat Chuchuen (; born 19 June 1997) is a Thai footballer who plays as a defender\nfor Sisaket FC and the Thailand women's national team. She was selected for the\n2019 FIFA Women's World Cup.</search result>\nThe first result clearly states that Sukanya Chor Charoenying was part of the\nThailand women's national team at the 2015 FIFA Women's World Cup. The second\nresult mentions another player, Sudarat Chuchuen, who played in the 2019 edition,\nbut that's not relevant here.",
+      "section": "References",
+      "char_count": 1144,
+      "chunk_index": 105,
+      "page_numbers": [
+        28
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0106",
+      "source_id": "DavidGoliath_2026",
+      "text": "art of the\nThailand women's national team at the 2015 FIFA Women's World Cup. The second\nresult mentions another player, Sudarat Chuchuen, who played in the 2019 edition,\nbut that's not relevant here.\nTherefore, combining both pieces of information, the seventh FIFA Women's World Cup\noccurred in 2015, and Sukanya Chor Charoenying was indeed a participant in that\ntournament.\n</think>\nThe seventh FIFA Women's World Cup took place in 2015, and Sukanya Chor Charoenying\nwas part of the Thailand team during that event.\n\\boxed{2015}\nExample 4\nLevel:EasySource:HotpotQAAnnotation by:DeepSeek-R1-Distill-Qwen-32B\n28\n\nOn Multi-Hop Reasoning with Resource-Constrained Agents\n[Input]\n[user]\nYou are an intelligent reasoning assistant with access to a web search tool to help\nyou obtain accurate information. When answering the user's questions, please\nadhere to the following guidelines:\n1.Uncertainty Handling:\n- Encourage the use of web search to solve the problems mentioned during\nreasoning.\n- If you are uncertain or do not have sufficient knowledge about a specific\ndetail, youmustperform a web search.",
+      "section": "References",
+      "char_count": 1102,
+      "chunk_index": 106,
+      "page_numbers": [
+        28
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0107",
+      "source_id": "DavidGoliath_2026",
+      "text": "ng:\n- Encourage the use of web search to solve the problems mentioned during\nreasoning.\n- If you are uncertain or do not have sufficient knowledge about a specific\ndetail, youmustperform a web search.\n- To perform a web search the formatmustbe in the format mentioned in point 2\nWeb Search Format\n- You can perform multiple web searches to ensure that the answer is correct.\n- The web search should be initiated only within your internal reasoning (the ’’\nthinking’’ phase), and it should not appear in your final answer to the user.\n2.Web Search Format:\n- When calling the web search tool, use the following exact format:\n```\n<begin search>your query here</end search>\n```\n- After you perform a web search, you will receive results enclosed in:\n```\n<search result>...</search result>\n```\n- You can then use this information to further refine your reasoning and answer.\n3.Process:\n- If you encounter any uncertainty or unknown knowledge, embed a web search query\nwithin your internal thoughts (surrounded by`<think></think>`tags) using the\nspecified format.\n- Incorporate the search results into your reasoning before finalizing your\nanswer.",
+      "section": "References",
+      "char_count": 1141,
+      "chunk_index": 107,
+      "page_numbers": [
+        15
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0108",
+      "source_id": "DavidGoliath_2026",
+      "text": "ed a web search query\nwithin your internal thoughts (surrounded by`<think></think>`tags) using the\nspecified format.\n- Incorporate the search results into your reasoning before finalizing your\nanswer.\n- You should provide your final answer in the format\\boxed{YOUR_ANSWER}.\nNow, please answer the user's question below:\nWho founded the Honest Conpnay along with Brian Lee\n[Response]\n<think>\nOkay, so I need to figure out who founded the Honest Company along with Brian Lee. I\nremember hearing about the Honest Company being a company that makes baby\nproducts and other household items, but I'm not exactly sure about their founders\n. I think it might involve someone well-known, maybe from the entertainment\nindustry?\nWait, wasn't there a famous actor involved? I think it was someone like Jessica Alba.\nI recall seeing her name associated with Honest Company somewhere. Let me try to\nremember. Yes, Jessica Alba is an actress, and she started a company focused on\nnatural and safe products for babies. That sounds right.\nBut I'm not entirely certain if Brian Lee is her co-founder or if there's another\nperson. Maybe Brian Lee is another partner or investor? I'm a bit fuzzy on the\ndetails.",
+      "section": "References",
+      "char_count": 1191,
+      "chunk_index": 108,
+      "page_numbers": [
+        22
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0109",
+      "source_id": "DavidGoliath_2026",
+      "text": "for babies. That sounds right.\nBut I'm not entirely certain if Brian Lee is her co-founder or if there's another\nperson. Maybe Brian Lee is another partner or investor? I'm a bit fuzzy on the\ndetails. To make sure, I should look up the founders of the Honest Company.\nI'll perform a quick search to confirm.\n29\n\nOn Multi-Hop Reasoning with Resource-Constrained Agents\n<begin search>founders of the honest company</end search>\n<search result>result 1: ’’The Honest Company’’\nThe Honest Company is an American consumer goods company, founded by actress Jessica\nAlba. It emphasizes household products to supply the marketplace for ethical\nconsumerism. The company had $250 million in 2016 sales, and was valued shy of $1\nbillion as of October 2017. The Honest Company has raised multiple rounds of\nventure capital, and was anticipating an initial public offering as of 2016.\nHonest serves the United States and Canada, and planned to launch its beauty line\nproducts in Western Europe in 2019. History.",
+      "section": "References",
+      "char_count": 998,
+      "chunk_index": 109,
+      "page_numbers": [
+        29
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0110",
+      "source_id": "DavidGoliath_2026",
+      "text": "ture capital, and was anticipating an initial public offering as of 2016.\nHonest serves the United States and Canada, and planned to launch its beauty line\nproducts in Western Europe in 2019. History. Company founder Jessica Alba was\ninspired by the 2008 birth of her first child, Honor, and her own history of\nchildhood illnesses to create a company that provided an alternative to the\nprevalent baby products with ingredients such as petrochemicals and synthetic\nfragrances. She was compelled to become serious about this venture when one of\nher mother's baby laundry recommendations caused her to have a welt outbreak. It\ntook Alba three years to find her business partners Brian Lee, Sean Kane, and\nChristopher Gavigan. Despite advice that she should start small with a singular\nfocus, Alba launched the company in 2012 with 17 products. Christopher Gavigan\nwrote the book, Healthy Child Healthy World, that addresses all the different\ntoxins that children are exposed to in traditional household\nresult 2: ’’Honest Tea’’\nHonest Tea (U.S.) is a bottled organic tea company based in Bethesda, Maryland. It\nwas founded in 1998 by Seth Goldman and Barry Nalebuff.",
+      "section": "References",
+      "char_count": 1164,
+      "chunk_index": 110,
+      "page_numbers": [
+        30
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0111",
+      "source_id": "DavidGoliath_2026",
+      "text": "exposed to in traditional household\nresult 2: ’’Honest Tea’’\nHonest Tea (U.S.) is a bottled organic tea company based in Bethesda, Maryland. It\nwas founded in 1998 by Seth Goldman and Barry Nalebuff. The company is a wholly\nowned subsidiary of The Coca-Cola Company. The name is a pun on the word ’’\nhonesty’’. History. Honest Tea was founded in 1998 by Seth Goldman, a graduate of\nHarvard and the Yale School of Management who got the idea to found a beverage\ncompany while he was at business school. There were two key ideas behind the\ncompany: to bring beverages to market that were organic and not as heavily\nsweetened, and to conduct the business using fair trade principles. Goldman and\none of his Yale professors, Barry Nalebuff, conceived the idea for the company\nand raised $500,000 in startup funds from friends and family. The first order for\nHonest Tea was from Fresh Fields, an East Coast natural grocery chain that was\nlater acquired by Whole Foods Market. By 2006, Honest Tea had revenue of $13.5\nmillion and was selling about 1.5 million cases a year. The Coca-Cola Company\npurchased a 40% stake of the U.S. company at $43 million in 2008.",
+      "section": "References",
+      "char_count": 1155,
+      "chunk_index": 111,
+      "page_numbers": [
+        30
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0112",
+      "source_id": "DavidGoliath_2026",
+      "text": "e Foods Market. By 2006, Honest Tea had revenue of $13.5\nmillion and was selling about 1.5 million cases a year. The Coca-Cola Company\npurchased a 40% stake of the U.S. company at $43 million in 2008. It bought the\nrest of the company in</search result>\nAlright, from the search results, it seems that the Honest Company, which is\ndifferent from Honest Tea, was indeed founded by Jessica Alba. The other co-\nfounders listed are Brian Lee, Sean Kane, and Christopher Gavigan. So, Brian Lee\nis definitely one of the co-founders alongside Jessica Alba.\nJust to clarify, the search result mentions that Jessica Alba found the company with\nBrian Lee, Sean Kane, and Christopher Gavigan. They started it in 2012 with 17\nproducts. So, the answer should be that Jessica Alba founded the Honest Company\nalong with Brian Lee, Sean Kane, and Christopher Gavigan. However, the question\nspecifically asks who founded it along with Brian Lee, so the primary co-founder\nis Jessica Alba.\n</think>\nThe Honest Company was founded by Jessica Alba along with Brian Lee, Sean Kane, and\nChristopher Gavigan. Therefore, the co-founder alongside Brian Lee is Jessica\nAlba.",
+      "section": "References",
+      "char_count": 1148,
+      "chunk_index": 112,
+      "page_numbers": [
+        30
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    },
+    {
+      "chunk_id": "DavidGoliath_2026_chunk_0113",
+      "source_id": "DavidGoliath_2026",
+      "text": "ounder\nis Jessica Alba.\n</think>\nThe Honest Company was founded by Jessica Alba along with Brian Lee, Sean Kane, and\nChristopher Gavigan. Therefore, the co-founder alongside Brian Lee is Jessica\nAlba.\n\\boxed{Jessica Alba}\n30",
+      "section": "References",
+      "char_count": 224,
+      "chunk_index": 113,
+      "page_numbers": [
+        30
+      ],
+      "source_file": "DavidGoliath_2026_2601_21699.pdf",
+      "total_source_pages": 30
+    }
+  ]
+}

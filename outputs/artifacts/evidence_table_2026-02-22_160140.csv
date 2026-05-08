@@ -1,0 +1,53 @@
+Claim,Evidence Snippet,Citation,Confidence,Notes
+Dat fixed N(R2= 0.8484 ); (d) ∆NLvs.Nat fixed D(R2= 0.8733 ). The high R2in (a) ( 0.9807 ) demonstrates a consistent power-law relationship between...,"Dat fixed N(R2= 0.8484 ); (d) ∆NLvs.Nat fixed D(R2= 0.8733 ).
+The high R2in (a) ( 0.9807 ) demonstrates a consistent power-law relationship between ∆DLandD,
+so we adopt this form in our main analysis. As detailed in Appendix I, the associated terms A(N)
+andˆB(N)further offer improved numerical behav...","Farseer_2025, Farseer_2025_chunk_0016",High,Relevance: 0.70
+per character (BPC) as the quantitative metric for evaluating LLM compression efficiency. BPC measures the cross-entropy between the model’s predicted...,"per character (BPC) as the quantitative metric for evaluating LLM compression
+efficiency. BPC measures the cross-entropy between the model’s predicted distribution and the
+true character distribution. Crucially, when the predicted distribution aligns perfectly with the
+25
+
+true distribution, this cr...","Farseer_2025, Farseer_2025_chunk_0093",High,Relevance: 0.70
+"our focus in this paper, is highly challenging: for instance, the parameters of GPT3-175B occupy 326GB (counting in multiples of 1024) of memory when...","odel, which is
+our focus in this paper, is highly challenging: for instance, the parameters of GPT3-175B occupy
+326GB (counting in multiples of 1024) of memory when stored in a compact float16 format. This
+exceeds the capacity of even the highest-end single GPUs, and thus inference must be performed...","GPTQ_2022, GPTQ_2022_chunk_0004",High,Relevance: 0.70
+"PT-175B, a less than 1 point drop. While this leads to worse compression on average relative to the 2-bit numbers above, this pattern could be...","PT-175B, a less than 1 point drop. While this leads to worse compression on
+average relative to the 2-bit numbers above, this pattern could be efficiently implemented on custom
+hardware such as FPGAs. In summary, these results are an encouraging first step towards pushing
+highly-accurate one-shot co...","GPTQ_2022, GPTQ_2022_chunk_0041",High,Relevance: 0.70
+"orted by the PASC DaCeMI project, received EuroHPC-JU funding under grant MAELSTROM, No. 955513. We thank the Swiss National Supercomputing Center...","orted by the PASC DaCeMI project, received EuroHPC-JU
+funding under grant MAELSTROM, No. 955513. We thank the Swiss National Supercomputing
+Center (CSCS) for supporting us with compute infrastructure.
+7 E THICS STATEMENT
+Our work introduces a general method for compressing large language models (LLM...","GPTQ_2022, GPTQ_2022_chunk_0043",High,Relevance: 0.70
+orresponds to better compression and shorter effective sequences for the same text. 4.1 Tokenization Efficiency We begin by measuring intrinsic...,"orresponds to better compression and shorter effective sequences for the same text.
+4.1 Tokenization Efficiency
+We begin by measuring intrinsic compression metrics across vocabulary sizes and domains. The
+results show that the length-weighted objective reduces TPC relative to frequency-only baseline...","LengthMAX_2025, LengthMAX_2025_chunk_0023",High,Relevance: 0.70
+Figure 4: TPC across tokenizers and vocabulary sizes on the FineWeb10B training corpus. Length- MAX consistently achieves better compression than...,"BPE
+SentencePiece
+WordPiece
+Figure 4: TPC across tokenizers and vocabulary sizes on the FineWeb10B training corpus. Length-
+MAX consistently achieves better compression than frequency-based baselines.
+Cross-domain compression.Table 1 complements the above analysis by reporting the average
+number of ...","LengthMAX_2025, LengthMAX_2025_chunk_0024",High,Relevance: 0.70
+"difference lies in the algorithms’ fundamental approaches: BPE builds tokens incrementally through merge operations, creating intermediate tokens that...","difference lies in the algorithms’ fundamental approaches: BPE builds
+tokens incrementally through merge operations, creating intermediate tokens that may become
+redundantaslargermergedunitsareformed. Incontrast, Length-MAXselectstokensdirectlybased
+on their value in representing the corpus, avoidin...","LengthMAX_2025, LengthMAX_2025_chunk_0062",High,Relevance: 0.70
+shard for vocabulary construction (50k target) and a 1 GB concatenated text file for encoding. We report five-run means±std. Table 20: Vocabulary...,"shard for vocabulary construction (50k target) and a 1 GB
+concatenated text file for encoding. We report five-run means±std.
+Table 20: Vocabulary construction (10 GB→50k). Lower wall-clock is better.
+Library Cores Wall-clock (s) Speed-up vs HF
+HF tokenizers (BPE) 1 3,100±65 -
+Length-MAX (ours) 1 2,1...","LengthMAX_2025, LengthMAX_2025_chunk_0068",High,Relevance: 0.70
+Languages0.00.51.01.52.02.53.03.5Compression RatioModel QwenFigure 3: Encoding compression rates of different models. We randomly selected 1million...,"tr id pl ru nl pt it de es fr en code
+Languages0.00.51.01.52.02.53.03.5Compression RatioModel
+LLaMA-7B
+Baichuan-7B
+ChatGLM2-6B
+InternLM-7B
+QwenFigure 3: Encoding compression rates of different models. We randomly selected 1million
+document corpora of each language to test and compare the encoding co...","SLMEval_2023, SLMEval_2023_chunk_0018",High,Relevance: 0.70

@@ -1,0 +1,402 @@
+{
+  "source_id": "Mistral_2023",
+  "metadata": {
+    "title": "Mistral 7B",
+    "authors": "Albert Q. Jiang, Alexandre Sablayrolles, Arthur Mensch, Chris Bamford, Devendra Singh Chaplot, Diego de las Casas, Florian Bressand, Gianna Lengyel, Guillaume Lample, Lucile Saulnier, Lélio Renard Lavaud, Marie-Anne Lachaux, Pierre Stock, Teven Le Scao, Thibaut Lavril, Thomas Wang, Timothée Lacroix, William El Sayed",
+    "year": "2023",
+    "venue": "arXiv",
+    "url": "https://arxiv.org/abs/2310.06825",
+    "source_type": "peer-reviewed",
+    "relevance_note": "Highly efficient 7B model - demonstrates importance of architecture choices in SLMs"
+  },
+  "pdf_metadata": {
+    "title": "",
+    "author": "",
+    "total_pages": 9
+  },
+  "statistics": {
+    "total_pages": 9,
+    "total_chunks": 29,
+    "avg_chunk_size": 1003.1379310344828,
+    "ingestion_timestamp": "2026-02-02T19:03:45.675277"
+  },
+  "chunks": [
+    {
+      "chunk_id": "Mistral_2023_chunk_0000",
+      "source_id": "Mistral_2023",
+      "text": "Mistral 7B\nAlbert Q. Jiang, Alexandre Sablayrolles, Arthur Mensch, Chris Bamford,\nDevendra Singh Chaplot, Diego de las Casas, Florian Bressand, Gianna Lengyel,\nGuillaume Lample, Lucile Saulnier, Lélio Renard Lavaud, Marie-Anne Lachaux,\nPierre Stock, Teven Le Scao, Thibaut Lavril, Thomas Wang, Timothée Lacroix,\nWilliam El Sayed",
+      "section": "Header/Title",
+      "char_count": 328,
+      "chunk_index": 0,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "Mistral_2023_2310_06825.pdf",
+      "total_source_pages": 9
+    },
+    {
+      "chunk_id": "Mistral_2023_chunk_0001",
+      "source_id": "Mistral_2023",
+      "text": "Abstract\nWe introduce Mistral 7B, a 7–billion-parameter language model engineered for\nsuperior performance and efficiency. Mistral 7B outperforms the best open 13B\nmodel (Llama 2) across all evaluated benchmarks, and the best released 34B\nmodel (Llama 1) in reasoning, mathematics, and code generation. Our model\nleverages grouped-query attention (GQA) for faster inference, coupled with sliding\nwindow attention (SWA) to effectively handle sequences of arbitrary length with a\nreduced inference cost. We also provide a model fine-tuned to follow instructions,\nMistral 7B – Instruct, that surpasses Llama 2 13B – chat model both on human and\nautomated benchmarks. Our models are released under the Apache 2.0 license.\nCode: \nWebpage:",
+      "section": "Abstract",
+      "char_count": 733,
+      "chunk_index": 1,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "Mistral_2023_2310_06825.pdf",
+      "total_source_pages": 9
+    },
+    {
+      "chunk_id": "Mistral_2023_chunk_0002",
+      "source_id": "Mistral_2023",
+      "text": "1 Introduction\nIn the rapidly evolving domain of Natural Language Processing (NLP), the race towards higher model\nperformance often necessitates an escalation in model size. However, this scaling tends to increase\ncomputational costs and inference latency, thereby raising barriers to deployment in practical,\nreal-world scenarios. In this context, the search for balanced models delivering both high-level\nperformance and efficiency becomes critically essential. Our model, Mistral 7B, demonstrates that\na carefully designed language model can deliver high performance while maintaining an efficient\ninference. Mistral 7B outperforms the previous best 13B model (Llama 2, [ 26]) across all tested\nbenchmarks, and surpasses the best 34B model (LLaMa 34B, [ 25]) in mathematics and code\ngeneration. Furthermore, Mistral 7B approaches the coding performance of Code-Llama 7B [ 20],\nwithout sacrificing performance on non-code related benchmarks.\nMistral 7B leverages grouped-query attention (GQA) [ 1], and sliding window attention (SWA) [ 6,3].",
+      "section": "1 Introduction",
+      "char_count": 1043,
+      "chunk_index": 2,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "Mistral_2023_2310_06825.pdf",
+      "total_source_pages": 9
+    },
+    {
+      "chunk_id": "Mistral_2023_chunk_0003",
+      "source_id": "Mistral_2023",
+      "text": "performance of Code-Llama 7B [ 20],\nwithout sacrificing performance on non-code related benchmarks.\nMistral 7B leverages grouped-query attention (GQA) [ 1], and sliding window attention (SWA) [ 6,3].\nGQA significantly accelerates the inference speed, and also reduces the memory requirement during\ndecoding, allowing for higher batch sizes hence higher throughput, a crucial factor for real-time\napplications. In addition, SWA is designed to handle longer sequences more effectively at a reduced\ncomputational cost, thereby alleviating a common limitation in LLMs. These attention mechanisms\ncollectively contribute to the enhanced performance and efficiency of Mistral 7B.arXiv:2310.06825v1 [cs.CL] 10 Oct 2023\n\nMistral 7B is released under the Apache 2.0 license. This release is accompanied by a reference\nimplementation1facilitating easy deployment either locally or on cloud platforms such as AWS, GCP,\nor Azure using the vLLM [ 17] inference server and SkyPilot2. Integration with Hugging Face3is\nalso streamlined for easier integration. Moreover, Mistral 7B is crafted for ease of fine-tuning across\na myriad of tasks.",
+      "section": "1 Introduction",
+      "char_count": 1125,
+      "chunk_index": 3,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "Mistral_2023_2310_06825.pdf",
+      "total_source_pages": 9
+    },
+    {
+      "chunk_id": "Mistral_2023_chunk_0004",
+      "source_id": "Mistral_2023",
+      "text": "e vLLM [ 17] inference server and SkyPilot2. Integration with Hugging Face3is\nalso streamlined for easier integration. Moreover, Mistral 7B is crafted for ease of fine-tuning across\na myriad of tasks. As a demonstration of its adaptability and superior performance, we present a chat\nmodel fine-tuned from Mistral 7B that significantly outperforms the Llama 2 13B – Chat model.\nMistral 7B takes a significant step in balancing the goals of getting high performance while keeping\nlarge language models efficient. Through our work, our aim is to help the community create more\naffordable, efficient, and high-performing language models that can be used in a wide range of\nreal-world applications.\n2 Architectural details\nFigure 1: Sliding Window Attention. The number of operations in vanilla attention is quadratic in the sequence\nlength, and the memory increases linearly with the number of tokens. At inference time, this incurs higher\nlatency and smaller throughput due to reduced cache availability. To alleviate this issue, we use sliding window\nattention: each token can attend to at most Wtokens from the previous layer (here, W= 3).",
+      "section": "1 Introduction",
+      "char_count": 1139,
+      "chunk_index": 4,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "Mistral_2023_2310_06825.pdf",
+      "total_source_pages": 9
+    },
+    {
+      "chunk_id": "Mistral_2023_chunk_0005",
+      "source_id": "Mistral_2023",
+      "text": "tency and smaller throughput due to reduced cache availability. To alleviate this issue, we use sliding window\nattention: each token can attend to at most Wtokens from the previous layer (here, W= 3). Note that tokens\noutside the sliding window still influence next word prediction. At each attention layer, information can move\nforward by Wtokens. Hence, after kattention layers, information can move forward by up to k×Wtokens.\nParameter Value\ndim 4096\nn_layers 32\nhead_dim 128\nhidden_dim 14336\nn_heads 32\nn_kv_heads 8\nwindow_size 4096\ncontext_len 8192\nvocab_size 32000\nTable 1: Model architecture.Mistral 7B is based on a transformer architecture [ 27]. The main\nparameters of the architecture are summarized in Table 1. Compared\nto Llama, it introduces a few changes that we summarize below.\nSliding Window Attention. SWA exploits the stacked layers of a trans-\nformer to attend information beyond the window size W. The hidden\nstate in position iof the layer k,hi, attends to all hidden states from\nthe previous layer with positions between i−Wandi. Recursively,\nhican access tokens from the input layer at a distance of up to W×k\ntokens, as illustrated in Figure 1.",
+      "section": "1 Introduction",
+      "char_count": 1171,
+      "chunk_index": 5,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "Mistral_2023_2310_06825.pdf",
+      "total_source_pages": 9
+    },
+    {
+      "chunk_id": "Mistral_2023_chunk_0006",
+      "source_id": "Mistral_2023",
+      "text": "ttends to all hidden states from\nthe previous layer with positions between i−Wandi. Recursively,\nhican access tokens from the input layer at a distance of up to W×k\ntokens, as illustrated in Figure 1. At the last layer, using a window size\nofW= 4096 , we have a theoretical attention span of approximately\n131Ktokens. In practice, for a sequence length of 16K and W= 4096 ,\nchanges made to FlashAttention [ 11] and xFormers [ 18] yield a 2x\nspeed improvement over a vanilla attention baseline.\nRolling Buffer Cache. A fixed attention span means that we can limit our cache size using a rolling\nbuffer cache. The cache has a fixed size of W, and the keys and values for the timestep iare stored\nin position imodWof the cache. As a result, when the position iis larger than W, past values\nin the cache are overwritten, and the size of the cache stops increasing. We provide an illustration\nin Figure 2 for W= 3. On a sequence length of 32k tokens, this reduces the cache memory usage\nby 8x, without impacting the model quality.\n1\n2\n3\n2\n\nFigure 2: Rolling buffer cache. The cache has a fixed size of W= 4. Keys and values for position iare stored\nin position imod Wof the cache.",
+      "section": "1 Introduction",
+      "char_count": 1175,
+      "chunk_index": 6,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "Mistral_2023_2310_06825.pdf",
+      "total_source_pages": 9
+    },
+    {
+      "chunk_id": "Mistral_2023_chunk_0007",
+      "source_id": "Mistral_2023",
+      "text": "usage\nby 8x, without impacting the model quality.\n1\n2\n3\n2\n\nFigure 2: Rolling buffer cache. The cache has a fixed size of W= 4. Keys and values for position iare stored\nin position imod Wof the cache. When the position iis larger than W, past values in the cache are overwritten.\nThe hidden state corresponding to the latest generated tokens are colored in orange.\nPre-fill and Chunking. When generating a sequence, we need to predict tokens one-by-one, as\neach token is conditioned on the previous ones. However, the prompt is known in advance, and we\ncan pre-fill the ( k,v) cache with the prompt. If the prompt is very large, we can chunk it into smaller\npieces, and pre-fill the cache with each chunk. For this purpose, we can select the window size as\nour chunk size. For each chunk, we thus need to compute the attention over the cache and over the\nchunk. Figure 3 shows how the attention mask works over both the cache and the chunk.\ngodog0000100000thetoThecatsatonthe\n1matand111sawthe1000doggoto\n100000110000000011100000011110PastCacheCurrent\nFigure 3: Pre-fill and chunking. During pre-fill of the cache, long sequences are chunked to limit memory\nusage.",
+      "section": "1 Introduction",
+      "char_count": 1162,
+      "chunk_index": 7,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "Mistral_2023_2310_06825.pdf",
+      "total_source_pages": 9
+    },
+    {
+      "chunk_id": "Mistral_2023_chunk_0008",
+      "source_id": "Mistral_2023",
+      "text": "ecatsatonthe\n1matand111sawthe1000doggoto\n100000110000000011100000011110PastCacheCurrent\nFigure 3: Pre-fill and chunking. During pre-fill of the cache, long sequences are chunked to limit memory\nusage. We process a sequence in three chunks, “The cat sat on”, “the mat and saw”, “the dog go to”. The figure\nshows what happens for the third chunk (“the dog go to”): it attends itself using a causal mask (rightmost block),\nattends the cache using a sliding window (center block), and does not attend to past tokens as they are outside of\nthe sliding window (left block).",
+      "section": "1 Introduction",
+      "char_count": 567,
+      "chunk_index": 8,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "Mistral_2023_2310_06825.pdf",
+      "total_source_pages": 9
+    },
+    {
+      "chunk_id": "Mistral_2023_chunk_0009",
+      "source_id": "Mistral_2023",
+      "text": "3 Results\nWe compare Mistral 7B to Llama, and re-run all benchmarks with our own evaluation pipeline for\nfair comparison. We measure performance on a wide variety of tasks categorized as follow:\n•Commonsense Reasoning (0-shot): Hellaswag [ 28], Winogrande [ 21], PIQA [ 4], SIQA [ 22],\nOpenbookQA [19], ARC-Easy, ARC-Challenge [9], CommonsenseQA [24]\n•World Knowledge (5-shot): NaturalQuestions [16], TriviaQA [15]\n•Reading Comprehension (0-shot): BoolQ [8], QuAC [7]\n•Math: GSM8K [10] (8-shot) with  and MATH [13] (4-shot) with \n•Code: Humaneval [5] (0-shot) and MBPP [2] (3-shot)\n•Popular aggregated results: MMLU [ 12] (5-shot), BBH [ 23] (3-shot), and AGI Eval [ 29]\n(3-5-shot, English multiple-choice questions only)\nDetailed results for Mistral 7B, Llama 2 7B/13B, and Code-Llama 7B are reported in Table 2. Figure 4\ncompares the performance of Mistral 7B with Llama 2 7B/13B, and Llama 1 34B4in different\ncategories. Mistral 7B surpasses Llama 2 13B across all metrics, and outperforms Llama 1 34B on\nmost benchmarks. In particular, Mistral 7B displays a superior performance in code, mathematics,\nand reasoning benchmarks.",
+      "section": "3 Results",
+      "char_count": 1130,
+      "chunk_index": 9,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "Mistral_2023_2310_06825.pdf",
+      "total_source_pages": 9
+    },
+    {
+      "chunk_id": "Mistral_2023_chunk_0010",
+      "source_id": "Mistral_2023",
+      "text": "l 7B surpasses Llama 2 13B across all metrics, and outperforms Llama 1 34B on\nmost benchmarks. In particular, Mistral 7B displays a superior performance in code, mathematics,\nand reasoning benchmarks.\n4Since Llama 2 34B was not open-sourced, we report results for Llama 1 34B.\n3\n\nFigure 4: Performance of Mistral 7B and different Llama models on a wide range of benchmarks . All\nmodels were re-evaluated on all metrics with our evaluation pipeline for accurate comparison. Mistral 7B\nsignificantly outperforms Llama 2 7B and Llama 2 13B on all benchmarks. It is also vastly superior to Llama 1\n34B in mathematics, code generation, and reasoning benchmarks.\nModel Modality MMLU HellaSwag WinoG PIQA Arc-e Arc-c NQ TriviaQA HumanEval MBPP MATH GSM8K\nLLaMA 2 7B Pretrained 44.4% 77.1% 69.5% 77.9% 68.7% 43.2% 24.7% 63.8% 11.6% 26.1% 3.9% 16.0%\nLLaMA 2 13B Pretrained 55.6% 80.7% 72.9% 80.8% 75.2% 48.8% 29.0% 69.6% 18.9% 35.4% 6.0% 34.3%\nCode-Llama 7B Finetuned 36.9% 62.9% 62.3% 72.8% 59.4% 34.5% 11.0% 34.9% 31.1% 52.5% 5.2% 20.8%\nMistral 7B Pretrained 60.1% 81.3% 75.3% 83.0% 80.0% 55.5% 28.8% 69.9% 30.5% 47.5% 13.1% 52.2%\nTable 2: Comparison of Mistral 7B with Llama.",
+      "section": "3 Results",
+      "char_count": 1169,
+      "chunk_index": 10,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "Mistral_2023_2310_06825.pdf",
+      "total_source_pages": 9
+    },
+    {
+      "chunk_id": "Mistral_2023_chunk_0011",
+      "source_id": "Mistral_2023",
+      "text": "% 62.3% 72.8% 59.4% 34.5% 11.0% 34.9% 31.1% 52.5% 5.2% 20.8%\nMistral 7B Pretrained 60.1% 81.3% 75.3% 83.0% 80.0% 55.5% 28.8% 69.9% 30.5% 47.5% 13.1% 52.2%\nTable 2: Comparison of Mistral 7B with Llama. Mistral 7B outperforms Llama 2 13B on all metrics, and\napproaches the code performance of Code-Llama 7B without sacrificing performance on non-code benchmarks.\nSize and Efficiency. We computed “equivalent model sizes” of the Llama 2 family, aiming to\nunderstand Mistral 7B models’ efficiency in the cost-performance spectrum (see Figure 5). When\nevaluated on reasoning, comprehension, and STEM reasoning (specifically MMLU), Mistral 7B\nmirrored performance that one might expect from a Llama 2 model with more than 3x its size. On\nthe Knowledge benchmarks, Mistral 7B’s performance achieves a lower compression rate of 1.9x,\nwhich is likely due to its limited parameter count that restricts the amount of knowledge it can store.\nEvaluation Differences. On some benchmarks, there are some differences between our evaluation\nprotocol and the one reported in the Llama 2 paper: 1) on MBPP, we use the hand-verified subset 2)\non TriviaQA, we do not provide Wikipedia contexts.",
+      "section": "3 Results",
+      "char_count": 1173,
+      "chunk_index": 11,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "Mistral_2023_2310_06825.pdf",
+      "total_source_pages": 9
+    },
+    {
+      "chunk_id": "Mistral_2023_chunk_0012",
+      "source_id": "Mistral_2023",
+      "text": "there are some differences between our evaluation\nprotocol and the one reported in the Llama 2 paper: 1) on MBPP, we use the hand-verified subset 2)\non TriviaQA, we do not provide Wikipedia contexts.\n4 Instruction Finetuning\nModelChatbot Arena\nELO RatingMT Bench\nWizardLM 13B v1.2 1047 7.2\nMistral 7B Instruct 1031 6.84 +/- 0.07\nLlama 2 13B Chat 1012 6.65\nVicuna 13B 1041 6.57\nLlama 2 7B Chat 985 6.27\nVicuna 7B 997 6.17\nAlpaca 13B 914 4.53\nTable 3: Comparison of Chat models. Mistral 7B –\nInstruct outperforms all 7B models on MT-Bench, and\nis comparable to 13B – Chat models.To evaluate the generalization capabilities of\nMistral 7B, we fine-tuned it on instruction datasets\npublicly available on the Hugging Face repository.\nNo proprietary data or training tricks were utilized:\nMistral 7B – Instruct model is a simple and\npreliminary demonstration that the base model can\neasily be fine-tuned to achieve good performance.\nIn Table 3, we observe that the resulting model,\nMistral 7B – Instruct, exhibits superior perfor-\nmance compared to all 7B models on MT-Bench,\nand is comparable to 13B – Chat models. An\nindependent human evaluation was conducted on\n .",
+      "section": "3 Results",
+      "char_count": 1160,
+      "chunk_index": 12,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "Mistral_2023_2310_06825.pdf",
+      "total_source_pages": 9
+    },
+    {
+      "chunk_id": "Mistral_2023_chunk_0013",
+      "source_id": "Mistral_2023",
+      "text": "sulting model,\nMistral 7B – Instruct, exhibits superior perfor-\nmance compared to all 7B models on MT-Bench,\nand is comparable to 13B – Chat models. An\nindependent human evaluation was conducted on\n .\nIn this evaluation, participants were provided with a set of questions along with anonymous responses\nfrom two models and were asked to select their preferred response, as illustrated in Figure 6. As of\nOctober 6, 2023, the outputs generated by Mistral 7B were preferred 5020 times, compared to 4143\ntimes for Llama 2 13B.\n4\n\nFigure 5: Results on MMLU, commonsense reasoning, world knowledge and reading comprehension for\nMistral 7B and Llama 2 (7B/13B/70B) . Mistral 7B largely outperforms Llama 2 13B on all evaluations, except\non knowledge benchmarks, where it is on par (this is likely due to its limited parameter count, which limits the\namount of knowledge it can compress).\n5 Adding guardrails for front-facing applications\nThe ability to enforce guardrails when it comes to AI generation is important for front-facing appli-\ncations. In this section, we highlight how to leverage system prompting to optionally enforce output\nconstraints on top of our models.",
+      "section": "3 Results",
+      "char_count": 1168,
+      "chunk_index": 13,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "Mistral_2023_2310_06825.pdf",
+      "total_source_pages": 9
+    },
+    {
+      "chunk_id": "Mistral_2023_chunk_0014",
+      "source_id": "Mistral_2023",
+      "text": "en it comes to AI generation is important for front-facing appli-\ncations. In this section, we highlight how to leverage system prompting to optionally enforce output\nconstraints on top of our models. Additionally, we showcase the ability of Mistral 7B to perform\nfine-grained content moderation, which can be useful to enforce quality content in applications.\n5.1 System prompt to enforce guardrails\nWe introduce a system prompt (see below) to guide the model to generate answers within specified\nguardrails, similar to the work done with Llama 2. Using this prompt allows the user to move on the\nPareto front of model utility / guardrails enforcement, as indicated in Table 4.\nAlways assist with care, respect, and truth. Respond with utmost utility yet securely. Avoid harmful,\nunethical, prejudiced, or negative content. Ensure replies promote fairness and positivity.\nGuardrails MT Bench\nNo system prompt 6.84 ±0.07\nLlama 2 system prompt 6.38 ±0.07\nMistral system prompt 6.58 ±0.05\nTable 4: System prompts. Mean official\nMT Bench score over 10 iterations with\nstandard deviation for Mistral 7B – Instruct.",
+      "section": "3 Results",
+      "char_count": 1110,
+      "chunk_index": 14,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "Mistral_2023_2310_06825.pdf",
+      "total_source_pages": 9
+    },
+    {
+      "chunk_id": "Mistral_2023_chunk_0015",
+      "source_id": "Mistral_2023",
+      "text": "6.84 ±0.07\nLlama 2 system prompt 6.38 ±0.07\nMistral system prompt 6.58 ±0.05\nTable 4: System prompts. Mean official\nMT Bench score over 10 iterations with\nstandard deviation for Mistral 7B – Instruct.\nFor reference, Llama 2 13B – Chat reports\nofficial results of 6.65.We use a set of 175 unsafe prompts for evaluating safety.\nWith the recommended system prompt, the model properly\ndeclines to answer 100% of the harmful questions.\nAs an illustration, we provide in Table 5 the answers of\nboth Mistral 7B – Instruct and Llama 2 Chat 13B to the\nquestion How to kill a linux process with system prompts\nactivated. We observe that Mistral 7B provides a correct\nresponse while Llama 2 declines to answer. Note that on\nthis specific question, both models answer correctly when\nsystem prompts are deactivated.",
+      "section": "3 Results",
+      "char_count": 802,
+      "chunk_index": 15,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "Mistral_2023_2310_06825.pdf",
+      "total_source_pages": 9
+    },
+    {
+      "chunk_id": "Mistral_2023_chunk_0016",
+      "source_id": "Mistral_2023",
+      "text": "tivated. We observe that Mistral 7B provides a correct\nresponse while Llama 2 declines to answer. Note that on\nthis specific question, both models answer correctly when\nsystem prompts are deactivated.\n5.2 Content moderation with self-reflection\nMistral 7B – Instruct can be used as a content moderator: the model itself is able to accurately\nclassify a user prompt or its generated answer as being either acceptable or falling into one of the\nfollowing categories: Illegal activities such as terrorism, child abuse or fraud; Hateful, harassing\nor violent content such as discrimination, self-harm or bullying; Unqualified advice for instance\nin legal, medical or financial domains.\n5\n\nModel Answer\nMistral 7B – Instruct\nwith Mistral system promptTo kill a Linux process, you can use the `kill`command followed by the process ID (PID)\nof the process you want to terminate. For example, to kill process with PID 1234, you\nwould run the command `kill 1234 `. It’s important to note that killing a process can\nhave unintended consequences, so it’s generally a good idea to only kill processes that\nyou are certain you want to terminate.",
+      "section": "3 Results",
+      "char_count": 1132,
+      "chunk_index": 16,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "Mistral_2023_2310_06825.pdf",
+      "total_source_pages": 9
+    },
+    {
+      "chunk_id": "Mistral_2023_chunk_0017",
+      "source_id": "Mistral_2023",
+      "text": "e command `kill 1234 `. It’s important to note that killing a process can\nhave unintended consequences, so it’s generally a good idea to only kill processes that\nyou are certain you want to terminate. Additionally, it’s generally a good idea to use the\n`kill`command with caution, as it can be used to terminate critical system processes that\nare necessary for the operation of the system.\nLlama 2 13B – Chat\nwith Llama 2 system promptAs a helpful and respectful assistant, I cannot provide information on how to kill a Linux\nprocess. It is not appropriate or ethical to intentionally harm or terminate processes, as it\ncan cause damage to the system and potentially result in data loss. Additionally, it is\nimportant to respect the autonomy and security of other users’ processes, as they may be\ncritical to their work or personal activities. Instead, I suggest that you explore other\noptions to address any issues or concerns you may have.\nTable 5: Comparison between Mistral and Llama system prompts . Mistral provides the right answer whereas\nLlama 2 declines to answer to the question How to kill a linux process .",
+      "section": "3 Results",
+      "char_count": 1119,
+      "chunk_index": 17,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "Mistral_2023_2310_06825.pdf",
+      "total_source_pages": 9
+    },
+    {
+      "chunk_id": "Mistral_2023_chunk_0018",
+      "source_id": "Mistral_2023",
+      "text": "concerns you may have.\nTable 5: Comparison between Mistral and Llama system prompts . Mistral provides the right answer whereas\nLlama 2 declines to answer to the question How to kill a linux process .\nTo do so, we designed a self-reflection prompt that makes Mistral 7B classify a prompt or a generated\nanswer. We evaluated self-reflection on our manually curated and balanced dataset of adversarial\nand standard prompts and got a precision of 99.4% for a recall of 95.6% (considering acceptable\nprompts as positives).\nThe use cases are vast, from moderating comments on social media or forums to brand monitoring\non the internet. In particular, the end user is able to select afterwards which categories to effectively\nfilter based on their particular use-case.",
+      "section": "3 Results",
+      "char_count": 762,
+      "chunk_index": 18,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "Mistral_2023_2310_06825.pdf",
+      "total_source_pages": 9
+    },
+    {
+      "chunk_id": "Mistral_2023_chunk_0019",
+      "source_id": "Mistral_2023",
+      "text": "6 Conclusion\nOur work on Mistral 7B demonstrates that language models may compress knowledge more than\nwhat was previously thought. This opens up interesting perspectives: the field has so far put the\nemphasis on scaling laws in 2 dimensions (directly associating model capabilities to training cost, as\nin [14]); the problem is rather 3 dimensional (model capabilities, training cost, inference cost), and\nmuch remains to be explored to obtain the best performance with the smallest possible model.\nAcknowledgements\nWe are grateful to CoreWeave for their 24/7 help in marshalling our cluster. We thank the\nCINECA/EuroHPC team, and in particular the operators of Leonardo, for their resources and help.\nWe thank the maintainers of FlashAttention, vLLM, xFormers, Skypilot for their precious assistance\nin implementing new features and integrating their solutions into ours. A huge thanks to Tri Dao\nand Daniel Haziza for helping include Mistral related changes to FlashAttention and xFormers on\na tight schedule. We thank the teams of Hugging Face, AWS, GCP, Azure ML for their intense help\nin making our model compatible everywhere.",
+      "section": "6 Conclusion",
+      "char_count": 1133,
+      "chunk_index": 19,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "Mistral_2023_2310_06825.pdf",
+      "total_source_pages": 9
+    },
+    {
+      "chunk_id": "Mistral_2023_chunk_0020",
+      "source_id": "Mistral_2023",
+      "text": "ude Mistral related changes to FlashAttention and xFormers on\na tight schedule. We thank the teams of Hugging Face, AWS, GCP, Azure ML for their intense help\nin making our model compatible everywhere.\n6\n\nFigure 6: Human evaluation of Mistral 7B – Instruct vs Llama 2 13B – Chat Example. An example of\nhuman evaluation from llmboxing.com . The question asks for recommendations of books in quantum physics.\nLlama 2 13B – Chat recommends a general physics book, while Mistral 7B – Instruct recommends a more\nrelevant book on quantum physics and describes in the contents in more detail.\n7",
+      "section": "6 Conclusion",
+      "char_count": 586,
+      "chunk_index": 20,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "Mistral_2023_2310_06825.pdf",
+      "total_source_pages": 9
+    },
+    {
+      "chunk_id": "Mistral_2023_chunk_0021",
+      "source_id": "Mistral_2023",
+      "text": "References\n[1]Joshua Ainslie, James Lee-Thorp, Michiel de Jong, Yury Zemlyanskiy, Federico Lebrón, and\nSumit Sanghai. Gqa: Training generalized multi-query transformer models from multi-head\ncheckpoints. arXiv preprint arXiv:2305.13245 , 2023.\n[2]Jacob Austin, Augustus Odena, Maxwell Nye, Maarten Bosma, Henryk Michalewski, David\nDohan, Ellen Jiang, Carrie Cai, Michael Terry, Quoc Le, et al. Program synthesis with large\nlanguage models. arXiv preprint arXiv:2108.07732 , 2021.\n[3]Iz Beltagy, Matthew E Peters, and Arman Cohan. Longformer: The long-document transformer.\narXiv preprint arXiv:2004.05150 , 2020.\n[4]Yonatan Bisk, Rowan Zellers, Jianfeng Gao, Yejin Choi, et al. Piqa: Reasoning about phys-\nical commonsense in natural language. In Proceedings of the AAAI conference on artificial\nintelligence , 2020.\n[5]Mark Chen, Jerry Tworek, Heewoo Jun, Qiming Yuan, Henrique Ponde de Oliveira Pinto, Jared\nKaplan, Harri Edwards, Yuri Burda, Nicholas Joseph, Greg Brockman, et al. Evaluating large\nlanguage models trained on code. arXiv preprint arXiv:2107.03374 , 2021.\n[6]Rewon Child, Scott Gray, Alec Radford, and Ilya Sutskever. Generating long sequences with\nsparse transformers.",
+      "section": "References",
+      "char_count": 1187,
+      "chunk_index": 21,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "Mistral_2023_2310_06825.pdf",
+      "total_source_pages": 9
+    },
+    {
+      "chunk_id": "Mistral_2023_chunk_0022",
+      "source_id": "Mistral_2023",
+      "text": "luating large\nlanguage models trained on code. arXiv preprint arXiv:2107.03374 , 2021.\n[6]Rewon Child, Scott Gray, Alec Radford, and Ilya Sutskever. Generating long sequences with\nsparse transformers. arXiv preprint arXiv:1904.10509 , 2019.\n[7]Eunsol Choi, He He, Mohit Iyyer, Mark Yatskar, Wen-tau Yih, Yejin Choi, Percy Liang, and\nLuke Zettlemoyer. Quac: Question answering in context. arXiv preprint arXiv:1808.07036 ,\n2018.\n[8]Christopher Clark, Kenton Lee, Ming-Wei Chang, Tom Kwiatkowski, Michael Collins, and\nKristina Toutanova. Boolq: Exploring the surprising difficulty of natural yes/no questions.\narXiv preprint arXiv:1905.10044 , 2019.\n[9]Peter Clark, Isaac Cowhey, Oren Etzioni, Tushar Khot, Ashish Sabharwal, Carissa Schoenick,\nand Oyvind Tafjord. Think you have solved question answering? try arc, the ai2 reasoning\nchallenge. arXiv preprint arXiv:1803.05457 , 2018.\n[10] Karl Cobbe, Vineet Kosaraju, Mohammad Bavarian, Mark Chen, Heewoo Jun, Lukasz Kaiser,\nMatthias Plappert, Jerry Tworek, Jacob Hilton, Reiichiro Nakano, et al. Training verifiers to\nsolve math word problems. arXiv preprint arXiv:2110.14168 , 2021.\n[11] Tri Dao, Daniel Y .",
+      "section": "References",
+      "char_count": 1157,
+      "chunk_index": 22,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "Mistral_2023_2310_06825.pdf",
+      "total_source_pages": 9
+    },
+    {
+      "chunk_id": "Mistral_2023_chunk_0023",
+      "source_id": "Mistral_2023",
+      "text": "Lukasz Kaiser,\nMatthias Plappert, Jerry Tworek, Jacob Hilton, Reiichiro Nakano, et al. Training verifiers to\nsolve math word problems. arXiv preprint arXiv:2110.14168 , 2021.\n[11] Tri Dao, Daniel Y . Fu, Stefano Ermon, Atri Rudra, and Christopher Ré. FlashAttention: Fast\nand memory-efficient exact attention with IO-awareness. In Advances in Neural Information\nProcessing Systems , 2022.\n[12] Dan Hendrycks, Collin Burns, Steven Basart, Andy Zou, Mantas Mazeika, Dawn Song, and\nJacob Steinhardt. Measuring massive multitask language understanding. arXiv preprint\narXiv:2009.03300 , 2020.\n[13] Dan Hendrycks, Collin Burns, Saurav Kadavath, Akul Arora, Steven Basart, Eric Tang, Dawn\nSong, and Jacob Steinhardt. Measuring mathematical problem solving with the math dataset.\narXiv preprint arXiv:2103.03874 , 2021.\n[14] Jordan Hoffmann, Sebastian Borgeaud, Arthur Mensch, Elena Buchatskaya, Trevor Cai, Eliza\nRutherford, Diego de Las Casas, Lisa Anne Hendricks, Johannes Welbl, Aidan Clark, Thomas\nHennigan, Eric Noland, Katherine Millican, George van den Driessche, Bogdan Damoc, Aurelia\nGuy, Simon Osindero, Karén Simonyan, Erich Elsen, Oriol Vinyals, Jack Rae, and Laurent\nSifre.",
+      "section": "References",
+      "char_count": 1180,
+      "chunk_index": 23,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "Mistral_2023_2310_06825.pdf",
+      "total_source_pages": 9
+    },
+    {
+      "chunk_id": "Mistral_2023_chunk_0024",
+      "source_id": "Mistral_2023",
+      "text": "n Clark, Thomas\nHennigan, Eric Noland, Katherine Millican, George van den Driessche, Bogdan Damoc, Aurelia\nGuy, Simon Osindero, Karén Simonyan, Erich Elsen, Oriol Vinyals, Jack Rae, and Laurent\nSifre. An empirical analysis of compute-optimal large language model training. In Advances in\nNeural Information Processing Systems , volume 35, 2022.\n[15] Mandar Joshi, Eunsol Choi, Daniel S Weld, and Luke Zettlemoyer. Triviaqa: A large\nscale distantly supervised challenge dataset for reading comprehension. arXiv preprint\narXiv:1705.03551 , 2017.\n[16] Tom Kwiatkowski, Jennimaria Palomaki, Olivia Redfield, Michael Collins, Ankur Parikh, Chris\nAlberti, Danielle Epstein, Illia Polosukhin, Jacob Devlin, Kenton Lee, et al. Natural questions: a\nbenchmark for question answering research. Transactions of the Association for Computational\nLinguistics , 7:453–466, 2019.\n8\n\n[17] Woosuk Kwon, Zhuohan Li, Siyuan Zhuang, Ying Sheng, Lianmin Zheng, Cody Hao Yu,\nJoseph E. Gonzalez, Hao Zhang, and Ion Stoica. Efficient memory management for large lan-\nguage model serving with pagedattention. In Proceedings of the ACM SIGOPS 29th Symposium\non Operating Systems Principles , 2023.",
+      "section": "References",
+      "char_count": 1170,
+      "chunk_index": 24,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "Mistral_2023_2310_06825.pdf",
+      "total_source_pages": 9
+    },
+    {
+      "chunk_id": "Mistral_2023_chunk_0025",
+      "source_id": "Mistral_2023",
+      "text": ", Hao Zhang, and Ion Stoica. Efficient memory management for large lan-\nguage model serving with pagedattention. In Proceedings of the ACM SIGOPS 29th Symposium\non Operating Systems Principles , 2023.\n[18] Benjamin Lefaudeux, Francisco Massa, Diana Liskovich, Wenhan Xiong, Vittorio Caggiano,\nSean Naren, Min Xu, Jieru Hu, Marta Tintore, Susan Zhang, Patrick Labatut, and Daniel Haziza.\nxformers: A modular and hackable transformer modelling library. \nfacebookresearch/xformers , 2022.\n[19] Todor Mihaylov, Peter Clark, Tushar Khot, and Ashish Sabharwal. Can a suit of armor conduct\nelectricity? a new dataset for open book question answering. arXiv preprint arXiv:1809.02789 ,\n2018.\n[20] Baptiste Rozière, Jonas Gehring, Fabian Gloeckle, Sten Sootla, Itai Gat, Xiaoqing Ellen Tan,\nYossi Adi, Jingyu Liu, Tal Remez, Jérémy Rapin, et al. Code llama: Open foundation models\nfor code. arXiv preprint arXiv:2308.12950 , 2023.\n[21] Keisuke Sakaguchi, Ronan Le Bras, Chandra Bhagavatula, and Yejin Choi. Winogrande: An\nadversarial winograd schema challenge at scale. Communications of the ACM , 64(9):99–106,\n2021.\n[22] Maarten Sap, Hannah Rashkin, Derek Chen, Ronan LeBras, and Yejin Choi.",
+      "section": "References",
+      "char_count": 1184,
+      "chunk_index": 25,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "Mistral_2023_2310_06825.pdf",
+      "total_source_pages": 9
+    },
+    {
+      "chunk_id": "Mistral_2023_chunk_0026",
+      "source_id": "Mistral_2023",
+      "text": "d Yejin Choi. Winogrande: An\nadversarial winograd schema challenge at scale. Communications of the ACM , 64(9):99–106,\n2021.\n[22] Maarten Sap, Hannah Rashkin, Derek Chen, Ronan LeBras, and Yejin Choi. Socialiqa: Com-\nmonsense reasoning about social interactions. arXiv preprint arXiv:1904.09728 , 2019.\n[23] Mirac Suzgun, Nathan Scales, Nathanael Schärli, Sebastian Gehrmann, Yi Tay, Hyung Won\nChung, Aakanksha Chowdhery, Quoc V Le, Ed H Chi, Denny Zhou, , and Jason Wei.\nChallenging big-bench tasks and whether chain-of-thought can solve them. arXiv preprint\narXiv:2210.09261 , 2022.\n[24] Alon Talmor, Jonathan Herzig, Nicholas Lourie, and Jonathan Berant. Commonsenseqa: A ques-\ntion answering challenge targeting commonsense knowledge. arXiv preprint arXiv:1811.00937 ,\n2018.\n[25] Hugo Touvron, Thibaut Lavril, Gautier Izacard, Xavier Martinet, Marie-Anne Lachaux, Timo-\nthée Lacroix, Baptiste Rozière, Naman Goyal, Eric Hambro, Faisal Azhar, et al. Llama: Open\nand efficient foundation language models. arXiv preprint arXiv:2302.13971 , 2023.",
+      "section": "References",
+      "char_count": 1046,
+      "chunk_index": 26,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "Mistral_2023_2310_06825.pdf",
+      "total_source_pages": 9
+    },
+    {
+      "chunk_id": "Mistral_2023_chunk_0027",
+      "source_id": "Mistral_2023",
+      "text": ", Marie-Anne Lachaux, Timo-\nthée Lacroix, Baptiste Rozière, Naman Goyal, Eric Hambro, Faisal Azhar, et al. Llama: Open\nand efficient foundation language models. arXiv preprint arXiv:2302.13971 , 2023.\n[26] Hugo Touvron, Louis Martin, Kevin Stone, Peter Albert, Amjad Almahairi, Yasmine Babaei,\nNikolay Bashlykov, Soumya Batra, Prajjwal Bhargava, Shruti Bhosale, et al. Llama 2: Open\nfoundation and fine-tuned chat models. arXiv preprint arXiv:2307.09288 , 2023.\n[27] Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N Gomez,\nŁukasz Kaiser, and Illia Polosukhin. Attention is all you need. Advances in neural information\nprocessing systems , 30, 2017.\n[28] Rowan Zellers, Ari Holtzman, Yonatan Bisk, Ali Farhadi, and Yejin Choi. Hellaswag: Can a\nmachine really finish your sentence? arXiv preprint arXiv:1905.07830 , 2019.\n[29] Wanjun Zhong, Ruixiang Cui, Yiduo Guo, Yaobo Liang, Shuai Lu, Yanlin Wang, Amin Saied,\nWeizhu Chen, and Nan Duan. Agieval: A human-centric benchmark for evaluating foundation\nmodels. arXiv preprint arXiv:2304.06364 , 2023.",
+      "section": "References",
+      "char_count": 1079,
+      "chunk_index": 27,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "Mistral_2023_2310_06825.pdf",
+      "total_source_pages": 9
+    },
+    {
+      "chunk_id": "Mistral_2023_chunk_0028",
+      "source_id": "Mistral_2023",
+      "text": "Cui, Yiduo Guo, Yaobo Liang, Shuai Lu, Yanlin Wang, Amin Saied,\nWeizhu Chen, and Nan Duan. Agieval: A human-centric benchmark for evaluating foundation\nmodels. arXiv preprint arXiv:2304.06364 , 2023.\n9",
+      "section": "References",
+      "char_count": 201,
+      "chunk_index": 28,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "Mistral_2023_2310_06825.pdf",
+      "total_source_pages": 9
+    }
+  ]
+}

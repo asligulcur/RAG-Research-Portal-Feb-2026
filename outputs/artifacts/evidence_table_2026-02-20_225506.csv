@@ -1,0 +1,79 @@
+Claim,Evidence Snippet,Citation,Confidence,Notes
+"L
+ .
+[55]Rohan Taori, Ishaan Gulrajani, Tianyi Zhang, Yann Dubois, Xuechen Li, Carlos Guestrin,
+Percy Liang, and Tatsunori B. Hashimoto. Stanford alpa...","L
+ .
+[55]Rohan Taori, Ishaan Gulrajani, Tianyi Zhang, Yann Dubois, Xuechen Li, Carlos Guestrin,
+Percy Liang, and Tatsunori B. Hashimoto. Stanford alpaca: An instruction-following llama
+model.  , 2023.
+[56]Romal Thoppilan, Daniel De Freitas, Jamie Hall, Noam Shazeer, Apoorv Kulshreshtha,
+Heng-Tze Che...","Orca2_2023, Orca2_2023_chunk_0095",Medium,Relevance: 0.55
+"1–45, 2024.
+Karl Cobbe, Vineet Kosaraju, Mohammad Bavarian, Mark Chen, Heewoo Jun, Lukasz Kaiser,
+Matthias Plappert, Jerry Tworek, Jacob Hilton, Reiic...","1–45, 2024.
+Karl Cobbe, Vineet Kosaraju, Mohammad Bavarian, Mark Chen, Heewoo Jun, Lukasz Kaiser,
+Matthias Plappert, Jerry Tworek, Jacob Hilton, Reiichiro Nakano, Christopher Hesse, and John
+Schulman. Training verifiers to solve math word problems.arXiv preprint arXiv:2110.14168,
+2021.
+Dario Di Palm...","SLMasJudge_2026, SLMasJudge_2026_chunk_0041",Medium,Relevance: 0.54
+"References
+Josh Achiam, Steven Adler, Sandhini Agarwal, Lama Ahmad, Ilge Akkaya, Florencia Leoni Aleman,
+Diogo Almeida, Janko Altenschmidt, Sam Altman...","References
+Josh Achiam, Steven Adler, Sandhini Agarwal, Lama Ahmad, Ilge Akkaya, Florencia Leoni Aleman,
+Diogo Almeida, Janko Altenschmidt, Sam Altman, Shyamal Anadkat, et al. 2023. Gpt-4 technical
+report. arXiv preprint arXiv:2303.08774 .
+Aaron Grattafiori, Abhimanyu Dubey, Abhinav Jauhri, Abhinav ...","Phi4_2025, Phi4_2025_chunk_0037",Medium,Relevance: 0.53
+"% 62.3% 72.8% 59.4% 34.5% 11.0% 34.9% 31.1% 52.5% 5.2% 20.8%
+Mistral 7B Pretrained 60.1% 81.3% 75.3% 83.0% 80.0% 55.5% 28.8% 69.9% 30.5% 47.5% 13.1% 5...","% 62.3% 72.8% 59.4% 34.5% 11.0% 34.9% 31.1% 52.5% 5.2% 20.8%
+Mistral 7B Pretrained 60.1% 81.3% 75.3% 83.0% 80.0% 55.5% 28.8% 69.9% 30.5% 47.5% 13.1% 52.2%
+Table 2: Comparison of Mistral 7B with Llama. Mistral 7B outperforms Llama 2 13B on all metrics, and
+approaches the code performance of Code-Llam...","Mistral_2023, Mistral_2023_chunk_0011",Medium,Relevance: 0.51
+"er. That
+being said, the performance of models trained in
+a similar fashion improves only logarithmically
+with their size and hence, our model is like...","er. That
+being said, the performance of models trained in
+a similar fashion improves only logarithmically
+with their size and hence, our model is likely in
+the same Pareto curve as the LLaMA-3 models.
+However, it is not clear how these differences
+affect the quality of the resulting IT models.
+Evalu...","Gemma2_2024, Gemma2_2024_chunk_0020",Medium,Relevance: 0.50
+"teorobjectionableresponsestouserprompts. Therefore,beforedeployingany
+applications of Llama 2, developers should perform safety testing and tuning tai...","teorobjectionableresponsestouserprompts. Therefore,beforedeployingany
+applications of Llama 2, developers should perform safety testing and tuning tailored to their
+specific applications of the model. Please see the Responsible Use Guide available available at
+
+Table 52: Model card for Llama 2 .
+77","Llama2_2023, Llama2_2023_chunk_0282",Low,Relevance: 0.50
+"elopers Meta AI
+Variations Llama 2 comes in a range of parameter sizes—7B, 13B, and 70B—as well as
+pretrained and fine-tuned variations.
+Input Models ...","elopers Meta AI
+Variations Llama 2 comes in a range of parameter sizes—7B, 13B, and 70B—as well as
+pretrained and fine-tuned variations.
+Input Models input text only.
+Output Models generate text only.
+Model Architecture Llama 2 isanauto-regressivelanguagemodelthatusesanoptimizedtransformer
+architect...","Llama2_2023, Llama2_2023_chunk_0279",Low,Relevance: 0.50
+"g
+of a small base model, Llama 3.2-1B [ 9], using the synthetically gen-
+erated data. Specifically, we employ low-rank adaptation (LoRA) [ 10]
+of the ...","g
+of a small base model, Llama 3.2-1B [ 9], using the synthetically gen-
+erated data. Specifically, we employ low-rank adaptation (LoRA) [ 10]
+of the base model, using a prompt-loss weight [11] of5 %.
+From the 1800 generated pairs, we randomly selected 1440 in-
+puts for fine-tuning and reserved the ...","DynamicGameContent_2026, DynamicGameContent_2026_chunk_0026",Low,Relevance: 0.49
+"eindividuals. Wemadeabest
+effort to train our models efficiently to reduce the carbon footprint of pretraining (Section 2.2.1). Sharing our
+modelsbroa...","eindividuals. Wemadeabest
+effort to train our models efficiently to reduce the carbon footprint of pretraining (Section 2.2.1). Sharing our
+modelsbroadlywillreducetheneedforotherstotrainsimilarmodels. Noadditionalfilteringwasconducted
+onthedatasets,toallow Llama 2 tobemorewidelyusableacrosstasks(e.g...","Llama2_2023, Llama2_2023_chunk_0072",Low,Relevance: 0.48
+"lar Aggregated Benchmarks . We report the overall results for MMLU (5 shot) (Hendrycks
+et al., 2020), Big Bench Hard (BBH) (3 shot) (Suzgun et al., 20...","lar Aggregated Benchmarks . We report the overall results for MMLU (5 shot) (Hendrycks
+et al., 2020), Big Bench Hard (BBH) (3 shot) (Suzgun et al., 2022), and AGI Eval (3–5 shot) (Zhong
+et al., 2023). For AGI Eval, we only evaluate on the English tasks and report the average.
+As shown in Table 3, Ll...","Llama2_2023, Llama2_2023_chunk_0024",Low,Relevance: 0.48

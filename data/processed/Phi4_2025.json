@@ -1,0 +1,610 @@
+{
+  "source_id": "Phi4_2025",
+  "metadata": {
+    "title": "Phi-4 Technical Report",
+    "authors": "Microsoft Research",
+    "year": "2025",
+    "venue": "arXiv",
+    "url": "https://arxiv.org/abs/2504.21233",
+    "source_type": "peer-reviewed",
+    "relevance_note": "Latest iteration of Phi series - shows continued improvement in SLM capabilities (April 2025)"
+  },
+  "pdf_metadata": {
+    "title": "",
+    "author": "",
+    "total_pages": 12
+  },
+  "statistics": {
+    "total_pages": 12,
+    "total_chunks": 45,
+    "avg_chunk_size": 944.2222222222222,
+    "ingestion_timestamp": "2026-02-02T19:03:44.414440"
+  },
+  "chunks": [
+    {
+      "chunk_id": "Phi4_2025_chunk_0000",
+      "source_id": "Phi4_2025",
+      "text": "Phi-4-Mini-Reasoning: Exploring the Limits of Small Reasoning\nLanguage Models in Math\nHaoran Xu‡Baolin Peng‡Hany Awadalla Dongdong Chen Yen-Chun Chen Mei Gao\nYoung Jin Kim Yunsheng Li Liliang Ren Yelong Shen Shuohang Wang Weijian Xu\nJianfeng Gao Weizhu Chen\nMicrosoft",
+      "section": "Header/Title",
+      "char_count": 267,
+      "chunk_index": 0,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "2_Claim_Evidence_Phi4_2504.21233v1.pdf",
+      "total_source_pages": 12
+    },
+    {
+      "chunk_id": "Phi4_2025_chunk_0001",
+      "source_id": "Phi4_2025",
+      "text": "Abstract\nChain-of-Thought (CoT) significantly enhances formal reasoning capabilities in Large Language\nModels (LLMs) by training them to explicitly generate intermediate reasoning steps. While LLMs\nreadily benefit from such techniques, improving reasoning in Small Language Models (SLMs) remains\nchallenging due to their limited model capacity. Recent work by Deepseek-R1 (Luo et al., 2025)\ndemonstrates that distillation from LLM-generated synthetic data can substantially improve the rea-\nsoning ability of SLM. However, the detailed modeling recipe is not disclosed. In this work, we present\na systematic training recipe for SLMs that consists of four steps: (1) large-scale mid-training on di-\nverse distilled long-CoT data, (2) supervised fine-tuning on high-quality long-CoT data, (3) Rollout\nDPO leveraging a carefully curated preference dataset, and (4) Reinforcement Learning (RL) with\nVerifiable Reward. We apply our method on Phi-4-Mini , a compact 3.8B-parameter model.",
+      "section": "Abstract",
+      "char_count": 981,
+      "chunk_index": 1,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "2_Claim_Evidence_Phi4_2504.21233v1.pdf",
+      "total_source_pages": 12
+    },
+    {
+      "chunk_id": "Phi4_2025_chunk_0002",
+      "source_id": "Phi4_2025",
+      "text": "data, (3) Rollout\nDPO leveraging a carefully curated preference dataset, and (4) Reinforcement Learning (RL) with\nVerifiable Reward. We apply our method on Phi-4-Mini , a compact 3.8B-parameter model. The\nresulting Phi-4-Mini-Reasoning model exceeds, on math reasoning tasks, much larger reasoning\nmodels, e.g., outperforming DeepSeek-R1-Distill-Qwen-7B by 3.2 points and DeepSeek-R1-Distill-\nLlama-8B by 7.7 points on Math-500. Our results validate that a carefully designed training recipe,\nwith large-scale high-quality CoT data, is effective to unlock strong reasoning capabilities even in\nresource-constrained small models.\n/uni00000024/uni0000002c/uni00000030/uni00000028/uni00000015/uni00000017 /uni00000030/uni00000024/uni00000037/uni0000002b/uni00000010/uni00000018/uni00000013/uni00000013 /uni0000002a/uni00000033/uni00000034/uni00000024/uni00000003/uni00000027/uni0000004c/uni00000044/uni00000050/uni00000052/uni00000051/uni00000047/uni00000013/uni00000015/uni00000013/uni00000017/uni00000",
+      "section": "Abstract",
+      "char_count": 1000,
+      "chunk_index": 2,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "2_Claim_Evidence_Phi4_2504.21233v1.pdf",
+      "total_source_pages": 12
+    },
+    {
+      "chunk_id": "Phi4_2025_chunk_0003",
+      "source_id": "Phi4_2025",
+      "text": "uni0000002a/uni00000033/uni00000034/uni00000024/uni00000003/uni00000027/uni0000004c/uni00000044/uni00000050/uni00000052/uni00000051/uni00000047/uni00000013/uni00000015/uni00000013/uni00000017/uni00000013/uni00000019/uni00000013/uni0000001b/uni00000013/uni00000014/uni00000013/uni00000013/uni00000024/uni00000046/uni00000046/uni00000058/uni00000055/uni00000044/uni00000046/uni0000005c/uni00000003/uni00000033/uni00000044/uni00000056/uni00000056/uni00000023/uni00000014/uni00000003/uni0000000b/uni00000008/uni0000000c/uni00000018/uni0000001a/uni00000011/uni00000018/uni0000001c/uni00000017/uni00000011/uni00000019\n/uni00000018/uni00000015/uni00000011/uni00000013\n/uni00000014/uni00000013/uni00000011/uni00000013/uni0000001a/uni00000014/uni00000011/uni0000001b\n/uni00000016/uni00000019/uni00000011/uni0000001c/uni00000017/uni00000016/uni00000011/uni00000016/uni0000001b/uni00000019/uni00000011/uni0000001c\n/uni00000017/uni0000001a/uni00000011/uni00000016/uni00000018/uni00000016/uni00000011/uni00000016/",
+      "section": "Abstract",
+      "char_count": 1000,
+      "chunk_index": 3,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "2_Claim_Evidence_Phi4_2504.21233v1.pdf",
+      "total_source_pages": 12
+    },
+    {
+      "chunk_id": "Phi4_2025_chunk_0004",
+      "source_id": "Phi4_2025",
+      "text": "00001c/uni00000017/uni00000016/uni00000011/uni00000016/uni0000001b/uni00000019/uni00000011/uni0000001c\n/uni00000017/uni0000001a/uni00000011/uni00000016/uni00000018/uni00000016/uni00000011/uni00000016/uni0000001c/uni00000014/uni00000011/uni00000017\n/uni00000017/uni0000001c/uni00000011/uni00000018/uni00000033/uni0000004b/uni0000004c/uni00000010/uni00000017/uni00000010/uni00000030/uni0000004c/uni00000051/uni0000004c/uni00000010/uni00000035/uni00000048/uni00000044/uni00000056/uni00000052/uni00000051/uni0000004c/uni00000051/uni0000004a/uni00000003/uni0000000b/uni00000016/uni00000011/uni0000001b/uni00000025/uni0000000c /uni00000033/uni0000004b/uni0000004c/uni00000010/uni00000017/uni00000010/uni00000030/uni0000004c/uni00000051/uni0000004c /uni00000027/uni00000048/uni00000048/uni00000053/uni00000036/uni00000048/uni00000048/uni0000004e/uni00000010/uni00000035/uni00000014/uni00000010/uni00000027/uni0000004c/uni00000056/uni00000057/uni0000004c/uni0000004f/uni0000004f/uni00000010/uni0000002f/uni00",
+      "section": "Abstract",
+      "char_count": 1000,
+      "chunk_index": 4,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "2_Claim_Evidence_Phi4_2504.21233v1.pdf",
+      "total_source_pages": 12
+    },
+    {
+      "chunk_id": "Phi4_2025_chunk_0005",
+      "source_id": "Phi4_2025",
+      "text": "36/uni00000048/uni00000048/uni0000004e/uni00000010/uni00000035/uni00000014/uni00000010/uni00000027/uni0000004c/uni00000056/uni00000057/uni0000004c/uni0000004f/uni0000004f/uni00000010/uni0000002f/uni0000004f/uni00000044/uni00000050/uni00000044/uni00000010/uni0000001b/uni00000025 /uni00000027/uni00000048/uni00000048/uni00000053/uni00000036/uni00000048/uni00000048/uni0000004e/uni00000010/uni00000035/uni00000014/uni00000010/uni00000027/uni0000004c/uni00000056/uni00000057/uni0000004c/uni0000004f/uni0000004f/uni00000010/uni00000034/uni0000005a/uni00000048/uni00000051/uni00000010/uni0000001a/uni00000025\nFigure 1: Math benchmark performance of Phi-4-Mini-Reasoning.\n‡Equal Contribution. Except for the first and last two authors, the remaining authors are listed in alphabetical order.\n1arXiv:2504.21233v1 [cs.CL] 30 Apr 2025",
+      "section": "Abstract",
+      "char_count": 825,
+      "chunk_index": 5,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "2_Claim_Evidence_Phi4_2504.21233v1.pdf",
+      "total_source_pages": 12
+    },
+    {
+      "chunk_id": "Phi4_2025_chunk_0006",
+      "source_id": "Phi4_2025",
+      "text": "233v1 [cs.CL] 30 Apr 2025",
+      "section": "Abstract",
+      "char_count": 25,
+      "chunk_index": 6,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "2_Claim_Evidence_Phi4_2504.21233v1.pdf",
+      "total_source_pages": 12
+    },
+    {
+      "chunk_id": "Phi4_2025_chunk_0007",
+      "source_id": "Phi4_2025",
+      "text": "1 Introduction\nLarge Language Models (LLMs) have demonstrated remarkable capabilities across numerous natural\nlanguage processing tasks, while their reasoning ability often deteriorates when confronting intricate,\nmulti-step problems, where simply outputting an answer without intermediate steps leads to significant\nperformance gaps (Wei et al., 2022). The Chain-of-Thought (CoT) approach addresses this challenge\nby explicitly prompting models to generate a sequence of logical steps prior to arriving at a final an-\nswer, thereby significantly enhancing their reasoning capacities (Kojima et al., 2022; Wei et al., 2022).\nIncorporating this reasoning process during inference has established the paradigm of test-time scaling,\nwhich further elevates performance in complex reasoning tasks (Snell et al., 2024; Welleck et al., 2024;\nOpenAI, 2024).\nEnhancing reasoning abilities is inherently easier for larger LLMs due to their extensive capacity,\nwhereas it remains challenging for Small Language Models (SLMs).",
+      "section": "1 Introduction",
+      "char_count": 1014,
+      "chunk_index": 7,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "2_Claim_Evidence_Phi4_2504.21233v1.pdf",
+      "total_source_pages": 12
+    },
+    {
+      "chunk_id": "Phi4_2025_chunk_0008",
+      "source_id": "Phi4_2025",
+      "text": "elleck et al., 2024;\nOpenAI, 2024).\nEnhancing reasoning abilities is inherently easier for larger LLMs due to their extensive capacity,\nwhereas it remains challenging for Small Language Models (SLMs). Fortunately, Deepseek-R1 (Guo\net al., 2025) indicates that non-logits-level distillation—effectively supervised fine-tuning (SFT) of SLMs\nusing synthetic data generated by more capable models—can markedly improve SLM reasoning perfor-\nmance. For instance, such an approach could elevate MATH-500 (Lightman et al., 2023) accuracy of\nLlama-8B (Grattafiori et al., 2024) from 44.4% to 89.1% . Following this breakthrough, numerous efforts,\nincluding Bespoke-Stratos-7B (Labs, 2025) and OpenThinker-7B (OpenThoughts, 2025), have aimed to\nreplicate these results. Despite this enthusiasm, debates persist regarding the primary focus of training.\nDeepscaler (Luo et al., 2025) suggests scaling RL like GRPO (Shao et al., 2024) for reasoning gains,\nwhile S1 and LIMO (Muennighoff et al., 2025; Ye et al., 2025b) emphasize the quality and diversity\nof reasoning datasets, revealing that even datasets as small as fewer than 1K examples can enhance\nreasoning performance.",
+      "section": "1 Introduction",
+      "char_count": 1163,
+      "chunk_index": 8,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "2_Claim_Evidence_Phi4_2504.21233v1.pdf",
+      "total_source_pages": 12
+    },
+    {
+      "chunk_id": "Phi4_2025_chunk_0009",
+      "source_id": "Phi4_2025",
+      "text": "uennighoff et al., 2025; Ye et al., 2025b) emphasize the quality and diversity\nof reasoning datasets, revealing that even datasets as small as fewer than 1K examples can enhance\nreasoning performance.\nRather than focusing on isolated techniques that individually benefit training, we systematically\nexplore a training paradigm specifically tailored for SLMs, where limited model capacity makes reasoning\nimprovements particularly challenging. Our methodology consists of two stages of distillation, followed\nby rollout-based preference learning that also reuses wrong LLM-generated samples, and concludes with\nRL using a verifiable reward. Initially, we employ distillation as a mid-training mechanism to embed\nfoundational reasoning capabilities. We then apply distillation again in a fine-tuning phase to further\nimprove model generalization. During LLM rollout sampling for distillation, some incorrect outputs are\ntypically discarded; however, we re-purpose these discarded samples to create a customized preference\ndataset, which is used for preference learning applied on top of the distilled model.",
+      "section": "1 Introduction",
+      "char_count": 1105,
+      "chunk_index": 9,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "2_Claim_Evidence_Phi4_2504.21233v1.pdf",
+      "total_source_pages": 12
+    },
+    {
+      "chunk_id": "Phi4_2025_chunk_0010",
+      "source_id": "Phi4_2025",
+      "text": "outputs are\ntypically discarded; however, we re-purpose these discarded samples to create a customized preference\ndataset, which is used for preference learning applied on top of the distilled model. Finally, we fine-tune\nthe model using reinforcement learning with a verifiable reward signal based on final answer correctness.\nTo ensure stable training, we introduce several targeted improvements, including prompt optimization,\nreward re-balancing via oversampling and filtering, and temperature annealing during exploration.\nWe validate our proposed approach using Phi-4-Mini (Microsoft et al., 2025), a compact 3.8-billion-\nparameter model, resulting in Phi-4-Mini-Reasoning , which outperforms other reasoning models\nnearly twice its size, such as DeepSeek-R1-Distill-Qwen-7B and DeepSeek-R1-Distill-Llama-8B.",
+      "section": "1 Introduction",
+      "char_count": 814,
+      "chunk_index": 10,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "2_Claim_Evidence_Phi4_2504.21233v1.pdf",
+      "total_source_pages": 12
+    },
+    {
+      "chunk_id": "Phi4_2025_chunk_0011",
+      "source_id": "Phi4_2025",
+      "text": "still-Llama-8B.",
+      "section": "1 Introduction",
+      "char_count": 15,
+      "chunk_index": 11,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "2_Claim_Evidence_Phi4_2504.21233v1.pdf",
+      "total_source_pages": 12
+    },
+    {
+      "chunk_id": "Phi4_2025_chunk_0012",
+      "source_id": "Phi4_2025",
+      "text": "2 Background\nSmall language models (SLMs) have demonstrated significant potential for strong reasoning capabilities.\nFor example, Qwen-1.5B can achieve 83.9% accuracy on the Math-500 (Lightman et al., 2023) benchmark\nsimply by distilling 800K examples from DeepSeek-R1 (Guo et al., 2025). Distillation has emerged as a\npowerful tool to enhance the reasoning abilities of SLMs; however, the optimal distillation strategy for\nsmall models remains underexplored. Recent studies provide complementary insights: Luo et al. (2025)\nsuggests that gradually increasing generation length via reinforcement learning can further improve\n2\n\ndistilled models, while Muennighoff et al. (2025) and Ye et al. (2025b) emphasize that data diversity\nand quality, rather than quantity alone, are critical to success. Despite these advances, a comprehensive\nunderstanding of an effective distillation recipe for SLMs is still lacking. Moreover, naively applying\nisolated techniques can lead to degraded performance. For instance, directly distilling S1K (Muennighoff\net al., 2025) or LIMO (Ye et al., 2025b) datasets onto Phi-4-Mini results in a significant drop in reasoning\nperformance.",
+      "section": "2 Background",
+      "char_count": 1166,
+      "chunk_index": 12,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "2_Claim_Evidence_Phi4_2504.21233v1.pdf",
+      "total_source_pages": 12
+    },
+    {
+      "chunk_id": "Phi4_2025_chunk_0013",
+      "source_id": "Phi4_2025",
+      "text": "ad to degraded performance. For instance, directly distilling S1K (Muennighoff\net al., 2025) or LIMO (Ye et al., 2025b) datasets onto Phi-4-Mini results in a significant drop in reasoning\nperformance. This observation suggests that SLMs, due to their limited capacity, require substantially\nmore carefully designed data and training strategies to develop robust reasoning capabilities compared\nto their larger counterparts. Detailed results illustrating this phenomenon are shown in Table 1.\nModel AIME 2024 MATH-500 GPQA Diamond\nPhi-4-Mini 10.0 71.8 36.9\nPhi-4-Mini + LIMO 6.7 57.8 24.8\nPhi-4-Mini + S1K 3.0 47.0 26.3\nPhi-4-Mini-Reasoning (with our full recipe) 57.5 94.6 52.0\nTable 1:  performance of Phi-4-Mini under different distillation settings. Naively using a small amount\nof high-quality data leads to significant performance degradation, highlighting the necessity of a comprehensive\ntraining recipe.\nHence, our goal is to develop a comprehensive and efficient recipe for training SLMs. We first observe\nthat non-reasoning SLMs require an initial mid-training stage to absorb a large volume of reasoning\ntrajectories before any additional techniques are applied.",
+      "section": "2 Background",
+      "char_count": 1173,
+      "chunk_index": 13,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "2_Claim_Evidence_Phi4_2504.21233v1.pdf",
+      "total_source_pages": 12
+    },
+    {
+      "chunk_id": "Phi4_2025_chunk_0014",
+      "source_id": "Phi4_2025",
+      "text": "ecipe for training SLMs. We first observe\nthat non-reasoning SLMs require an initial mid-training stage to absorb a large volume of reasoning\ntrajectories before any additional techniques are applied. However, several key questions remain: How\nmuch mid-training data is necessary? What subsequent techniques–such as careful distillation, preference\nlearning, or reinforcement learning–should be employed next? In this work, we systematically address\nthese questions and propose a complete recipe for building high-performing reasoning SLMs.\n3 Multi-Stage Continual Training for Reasoning\nHere, we systematically introduce our complete training recipe rather than exploring individual com-\nponents. Taking a pre-trained SLM as a base, we improve its formal reasoning capability by first\nperforming a multi-stage continual training using a curated CoT reasoning dataset and then running\nRL with verifiable rewards.\n3.1 Distillation as Mid-Training\nIn the first stage, we frame distillation as mid-training.",
+      "section": "2 Background",
+      "char_count": 1004,
+      "chunk_index": 14,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "2_Claim_Evidence_Phi4_2504.21233v1.pdf",
+      "total_source_pages": 12
+    },
+    {
+      "chunk_id": "Phi4_2025_chunk_0015",
+      "source_id": "Phi4_2025",
+      "text": "-stage continual training using a curated CoT reasoning dataset and then running\nRL with verifiable rewards.\n3.1 Distillation as Mid-Training\nIn the first stage, we frame distillation as mid-training. Specifically, we train the base model with next\ntoken prediction on an extensive corpus of synthetic chain-of-thought (CoT) data, which covers questions\nfrom diverse domains and varying levels of difficulty. The CoT-style answers for these questions are\nsampled by the Deepseek-R1 model (Guo et al., 2025), after which we apply rejection sampling to retain\nonly the correct answers. More details on our data generation methodology are presented in Section 4.\nWe pair each question with its corresponding correct CoT answer and train the base model using the\nstandard causal language modeling objective. We train the model under a packing mode, i.e., multiple\nshort examples are packed in the same input sequence to increase training efficiency. The goal of this\nmid-training step is to equip the small base model with general CoT reasoning capabilities that are not\nexplicitly learned during model mid-training.",
+      "section": "2 Background",
+      "char_count": 1112,
+      "chunk_index": 15,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "2_Claim_Evidence_Phi4_2504.21233v1.pdf",
+      "total_source_pages": 12
+    },
+    {
+      "chunk_id": "Phi4_2025_chunk_0016",
+      "source_id": "Phi4_2025",
+      "text": "to increase training efficiency. The goal of this\nmid-training step is to equip the small base model with general CoT reasoning capabilities that are not\nexplicitly learned during model mid-training. We find it effective to allow mid-training to iteratively use\nas much CoT training data as possible until model performance saturates on a validation dataset.\n3\n\n3.2 Distillation as Supervised Fine-tuning\nAfter learning extensive and diverse reasoning chains, our next step involves selecting a compact, yet\nrepresentative, subset from the mid-training dataset for subsequent fine-tuning. Fine-tuning is performed\nin anon-packing mode where we teach the model to decide where to stop generating. As it has been\nshown that higher-quality data can notably improve model performance and generalization capabilities\nand enable the model to better answer complex questions (Xu et al., 2024a; Zhou et al., 2023; Ye\net al., 2025b; Muennighoff et al., 2025), we have constructed a combined dataset spanning diverse math\ndomains, with difficulty levels exceeding the ‘college level’. More details about data categorization are\ndescribed in Section 4.",
+      "section": "2 Background",
+      "char_count": 1141,
+      "chunk_index": 16,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "2_Claim_Evidence_Phi4_2504.21233v1.pdf",
+      "total_source_pages": 12
+    },
+    {
+      "chunk_id": "Phi4_2025_chunk_0017",
+      "source_id": "Phi4_2025",
+      "text": "., 2025), we have constructed a combined dataset spanning diverse math\ndomains, with difficulty levels exceeding the ‘college level’. More details about data categorization are\ndescribed in Section 4.\n3.3 Rollout Preference Learning\nIn the previous two stages, the model is trained exclusively on accepted generations, filtering out rollouts\ncontaining incorrect answers. However, are the rejected rollouts entirely devoid of value? In this stage,\nwe use rejected rollouts to enhance model performance. The quality of rejected data is important for\npreference learning, as pointed out by Xu et al. (2024b),. Specifically, incorrect responses with minor\nnuances compared to their correct counterparts provide effective candidates for constructing informative\npreference pairs. To ensure data quality, we retained the questions that are categorized as ‘high-school’\nlevel math or above, determined by GPT-4o-mini (Achiam et al., 2023). The preference dataset is then\nconstructed by designating correct answers as preferred rollouts and incorrect answers as dis-preferred\nrollouts for each question.",
+      "section": "2 Background",
+      "char_count": 1096,
+      "chunk_index": 17,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "2_Claim_Evidence_Phi4_2504.21233v1.pdf",
+      "total_source_pages": 12
+    },
+    {
+      "chunk_id": "Phi4_2025_chunk_0018",
+      "source_id": "Phi4_2025",
+      "text": "by GPT-4o-mini (Achiam et al., 2023). The preference dataset is then\nconstructed by designating correct answers as preferred rollouts and incorrect answers as dis-preferred\nrollouts for each question. Finally, we apply Direct Preference Optimization (DPO) (Rafailov et al.,\n2023) to the model:\nJDPO(πθ;πref)=−E(x,yw,yl)∼D[logσ(βlogπθ(yw∣x)\nπref(yw∣x)−βlogπθ(yl∣x)\nπref(yl∣x))], (1)\nwhere πrefis the reference model, ywandylare preferred and dis-preferred rollouts, respectively.\n3.4 RL with Verifiable Reward\nAlthough DPO improves the model’s alignment and reasoning ability using curated preference pairs,\nDPO is limited as an offline learning method using a fixed dataset. To improve model’s reasoning\ncapability through online learning, we perform RL on the distilled and preference-trained model. In\nwhat follows, we describe the RL algorithms we have experimented and the RL training recipe.\nProximal Policy Optimization (PPO) PPO (Schulman et al., 2017) has been successfully applied\nto fine-tuning LLMs via RLHF. The algorithm employs a clipped surrogate objective to limit each\npolicy update so that it stays close to the previous policy.",
+      "section": "2 Background",
+      "char_count": 1146,
+      "chunk_index": 18,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "2_Claim_Evidence_Phi4_2504.21233v1.pdf",
+      "total_source_pages": 12
+    },
+    {
+      "chunk_id": "Phi4_2025_chunk_0019",
+      "source_id": "Phi4_2025",
+      "text": "et al., 2017) has been successfully applied\nto fine-tuning LLMs via RLHF. The algorithm employs a clipped surrogate objective to limit each\npolicy update so that it stays close to the previous policy. This clipping mechanism avoids overly large\nimportance sampling ratios, which both stabilizes learning and enhances sample efficiency. PPO seeks\nto maximize\nJPPO(θ)=Eq∼D, o≤t∼πθold(⋅∣q)[min(rt(θ)̂At,clip(rt(θ),1−ϵ,1+ϵ)̂At)], (2)\nwhere\nrt(θ)=πθ(ot∣q, o<t)\nπθold(ot∣q, o<t),\nandqis sampled from the data distribution D,ϵcontrols the clipping range, and ̂Atdenotes the\nadvantage estimate at time step t. To compute ̂At, PPO uses the Generalized Advantage Estimator\n4\n\n(GAE) (Schulman et al., 2015). Given a value function Vand a reward function R, the estimator is\n̂AGAE (γ,λ)\nt=∞\n∑\nl=0(γ λ)lδt+l, (3)\nwith the temporal-difference term\nδl=Rl+γ V(sl+1)−V(sl),0≤γ, λ≤1. (4)\nGroup-based Relative Policy Optimization (GRPO) GRPO (Shao et al., 2024) estimates its\nbaseline by comparing rewards within a batch of Gmodel responses, reducing the critic’s cost and\nimproving model training stability.",
+      "section": "2 Background",
+      "char_count": 1089,
+      "chunk_index": 19,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "2_Claim_Evidence_Phi4_2504.21233v1.pdf",
+      "total_source_pages": 12
+    },
+    {
+      "chunk_id": "Phi4_2025_chunk_0020",
+      "source_id": "Phi4_2025",
+      "text": "e Policy Optimization (GRPO) GRPO (Shao et al., 2024) estimates its\nbaseline by comparing rewards within a batch of Gmodel responses, reducing the critic’s cost and\nimproving model training stability. Concretely, for each question q, it samples a set of candidate responses\nG{oi}G\ni=1under the old policy πθold, then computes their rewards {Ri}G\ni=1. The normalized advantage is\ncomputed as\nAi=Ri−mean(R1, . . . , R G)\nstd(R1, . . . , R G), (5)\nGRPO then maximizes a clipped-surrogate objective, averaged over the group, with an additional KL-\npenalty toward a reference policy πref:\nJGRPO(θ)=Eq∼D,{oi}∼πθold(⋅∣q)⎡⎢⎢⎢⎢⎣1\nGG\n∑\ni=1min(ri(θ)Ai,clip(ri(θ),1−ϵ,1+ϵ)Ai)−β DKL(πθ∥πref)⎤⎥⎥⎥⎥⎦,(6)\nwhere ϵis the clipping parameter and βweights the KL-penalty.\nVerifiable Reward Reinforcement learning with verifiable reward (RLVR) has shown to be very\neffective in training models for various reasoning tasks (Guo et al., 2025; Ye et al., 2025a). Following\nprior work (Guo et al., 2025), the reward for a verifiable task is defined as a function of the accuracy of\nthe model’s final answer.",
+      "section": "2 Background",
+      "char_count": 1081,
+      "chunk_index": 20,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "2_Claim_Evidence_Phi4_2504.21233v1.pdf",
+      "total_source_pages": 12
+    },
+    {
+      "chunk_id": "Phi4_2025_chunk_0021",
+      "source_id": "Phi4_2025",
+      "text": "us reasoning tasks (Guo et al., 2025; Ye et al., 2025a). Following\nprior work (Guo et al., 2025), the reward for a verifiable task is defined as a function of the accuracy of\nthe model’s final answer. Concretely,\nR(ˆy, y)=⎧⎪⎪⎨⎪⎪⎩+1,ifverify (ˆy, y),\n−1,otherwise.(7)\nwhere ydenotes the ground-truth answer and ˆ ythe response of the model.\nOur RL Recipe In our pilot study of applying GRPO to train our base model, we have observed\nthree issues that affect the stability and effectiveness of model training.\n1.High Variance in Response Lengths Although the base model, after mid-training, is already\nable to generate reasonable CoT responses, we have observed substantial variability in response\nlengths within the same GRPO sampling group. For the same prompt, positively rewarded re-\nsponses ranged from approximately 12k to 20k tokens. Directly optimizing the model for the\nstandard GRPO objective on such length-heterogeneous responses induces instability. Zhang et al.\n(2025) reports a similar phenomenon when training a model on both mathematical and coding\ntasks.",
+      "section": "2 Background",
+      "char_count": 1070,
+      "chunk_index": 21,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "2_Claim_Evidence_Phi4_2504.21233v1.pdf",
+      "total_source_pages": 12
+    },
+    {
+      "chunk_id": "Phi4_2025_chunk_0022",
+      "source_id": "Phi4_2025",
+      "text": "or the\nstandard GRPO objective on such length-heterogeneous responses induces instability. Zhang et al.\n(2025) reports a similar phenomenon when training a model on both mathematical and coding\ntasks.\n2.Vanishing Gradients under Uniform Rewards GRPO’s reliance on advantage estimates\nmakes it susceptible to the vanishing gradient problem of all sampled responses in a group re-\nceiving identical rewards, yielding zero variance in the returns. The DAPO framework (Yu et al.)\naddresses this problem by oversampling and filtering out prompts whose response accuracies are\nexactly 0 or 1, thereby preserving non-zero advantage signals. However, we find in our experiments\nthat we need to address the following two problems when applying DAPO to our model:\n5\n\n(i) The model is sensitive to intra-group length discrepancies: responses with intermediate ac-\ncuracies (e.g., 0.1 or 0.9) still provoke unstable gradient magnitudes due to response-length\nvariance.\n(ii) For difficult math tasks, attaining even a single positively rewarded sample (by prompting\nthe model) requires expanding the GRPO batch size to 128. This imbalance between positive\nand negative training signals impedes RL convergence.",
+      "section": "2 Background",
+      "char_count": 1196,
+      "chunk_index": 22,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "2_Claim_Evidence_Phi4_2504.21233v1.pdf",
+      "total_source_pages": 12
+    },
+    {
+      "chunk_id": "Phi4_2025_chunk_0023",
+      "source_id": "Phi4_2025",
+      "text": "g even a single positively rewarded sample (by prompting\nthe model) requires expanding the GRPO batch size to 128. This imbalance between positive\nand negative training signals impedes RL convergence.\nWe hypothesize that these issues become more prominent for small language models, where the\nRL stability is more likely to be fragile, compared to LLMs.\n3.Exploration–Exploitation Tradeoff Effective exploration is essential for discovering high-reward\npolicies in RL. While a sampling temperature of 1.0 or higher is employed to encourage explorations,\na lower temperature (e.g. 0.6) is typically used to constrain output variance on math and coding\ntasks. In our experiments, we have observed a substantial performance gap resulting from this\ndivergence between the exploration used during training and the exploitation settings applied at\nevaluation.\nTo address the aforementioned challenges, we introduce a set of methods to improve the stability\nand effectiveness of RL training:\n1.Prompt Optimization We perform multiple rounds of sampling using multiple candidate prompts\nintended for RL training using the distilled model.",
+      "section": "2 Background",
+      "char_count": 1130,
+      "chunk_index": 23,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "2_Claim_Evidence_Phi4_2504.21233v1.pdf",
+      "total_source_pages": 12
+    },
+    {
+      "chunk_id": "Phi4_2025_chunk_0024",
+      "source_id": "Phi4_2025",
+      "text": "mprove the stability\nand effectiveness of RL training:\n1.Prompt Optimization We perform multiple rounds of sampling using multiple candidate prompts\nintended for RL training using the distilled model. Then only those prompts whose generated re-\nsponses exhibit relatively uniform token lengths are retained. This method mitigates the instability\ninduced by high intra-group response length variance during GRPO optimization.\n2.Reward Rebalancing through Oversampling and Filtering Inspired by DAPO (Yu et al.),\nfor difficult prompts, we first conduct oversampling to ensure sufficient diversity in the response\ngroup. We then re-balance the group by retaining all positive-reward responses and randomly\nsampling an equal number of negative-reward responses. To further reduce the length variance\nand avoid instability from overly easy prompts, we filter out prompts whose group-level accuracy\nexceeds a certain threshold (e.g., 50%).\n3.Temperature Annealing To seek the best tradeoff between exploration and exploitation during\nthe course of model training, we introduce temperature annealing.",
+      "section": "2 Background",
+      "char_count": 1093,
+      "chunk_index": 24,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "2_Claim_Evidence_Phi4_2504.21233v1.pdf",
+      "total_source_pages": 12
+    },
+    {
+      "chunk_id": "Phi4_2025_chunk_0025",
+      "source_id": "Phi4_2025",
+      "text": "exceeds a certain threshold (e.g., 50%).\n3.Temperature Annealing To seek the best tradeoff between exploration and exploitation during\nthe course of model training, we introduce temperature annealing. We initialize the sampling\ntemperature as 1.0 and linearly decay it over the first 50% of training steps down to 0.6. For\nthe remaining training steps, the temperature is fixed as 0.6. This strategy encourages broader\nexploration in the early stage of RL while gradually transitioning toward the exploitation in the\nwell-known state-action subspace.\n4 Synthetic CoT Data Generation\nTo support distillation and rollout-based preference learning, we construct a large-scale reasoning dataset\ncomposed of LLM-generated synthesized reasoning trajectories. Specifically, we aggregate multiple pub-\nlic datasets—such as Bespoke (Labs, 2025), Openthoughts (OpenThoughts, 2025), and OpenR1-Math\n(HuggingFace, 2025)—along with several in-house seed datasets. For datasets that already include rea-\nsoning trajectories, we directly use the provided annotations. For datasets lacking such trajectories, we\nretain only the math questions and generate new chain-of-thought answers using DeepSeek-R1 (671B).",
+      "section": "2 Background",
+      "char_count": 1194,
+      "chunk_index": 25,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "2_Claim_Evidence_Phi4_2504.21233v1.pdf",
+      "total_source_pages": 12
+    },
+    {
+      "chunk_id": "Phi4_2025_chunk_0026",
+      "source_id": "Phi4_2025",
+      "text": "ng trajectories, we directly use the provided annotations. For datasets lacking such trajectories, we\nretain only the math questions and generate new chain-of-thought answers using DeepSeek-R1 (671B).\nFor each question, we sample approximately eight rollouts. An overview of the data sources is provided\n6\n\nData Resource Size Reasoning\nAquaRAT (Ling et al., 2017) 98K ✘\nApe210K (Zhao et al., 2020) 210K ✘\nMetaMathQA (Yu et al., 2023) 395K ✘\nMathInstruct (Yue et al., 2023) 262K ✘\nTAL-SCQ5K (TAL-SCQ5K, 2023) 5K ✘\nOpenR1-Math (HuggingFace, 2025) 220K ✔\nBespoke-Stratos-17k (Labs, 2025) 17K ✔\nOpenThoughts-114K (OpenThoughts, 2025) 114K ✔\nTable 2: Overview of the data resources used for constructing the reasoning dataset. For non-reasoning data, we\nonly use the questions and sample answers from Deepseek R1.\nin Table 2. In total, we collect around 10 million rollouts across 1.6 million samples, including contri-\nbutions from public datasets. For math questions that are verifiable, we first apply a math-verification\ntool to assess the correctness of the answers.",
+      "section": "2 Background",
+      "char_count": 1066,
+      "chunk_index": 26,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "2_Claim_Evidence_Phi4_2504.21233v1.pdf",
+      "total_source_pages": 12
+    },
+    {
+      "chunk_id": "Phi4_2025_chunk_0027",
+      "source_id": "Phi4_2025",
+      "text": "ts across 1.6 million samples, including contri-\nbutions from public datasets. For math questions that are verifiable, we first apply a math-verification\ntool to assess the correctness of the answers. However, as automatic verification can sometimes fail to\nvalidate complex solutions—leading to false negatives—we additionally employ GPT-4o-mini to re-verify\nrollouts initially flagged as incorrect. To maintain dataset balance, we annotate each data sample with\nattributes including the domain category, the difficulty level, and the presence of repetitive patterns. Do-\nmain categories cover a wide range of areas such as algebra, geometry, theory, probability, and calculus.\nDifficulty levels are categorized as elementary school, middle school, high school, college, and graduate\nlevel. The mid-training phase leverages the full dataset, while subsequent training steps operate on\nselected subsets.",
+      "section": "2 Background",
+      "char_count": 903,
+      "chunk_index": 27,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "2_Claim_Evidence_Phi4_2504.21233v1.pdf",
+      "total_source_pages": 12
+    },
+    {
+      "chunk_id": "Phi4_2025_chunk_0028",
+      "source_id": "Phi4_2025",
+      "text": "training phase leverages the full dataset, while subsequent training steps operate on\nselected subsets.",
+      "section": "2 Background",
+      "char_count": 103,
+      "chunk_index": 28,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "2_Claim_Evidence_Phi4_2504.21233v1.pdf",
+      "total_source_pages": 12
+    },
+    {
+      "chunk_id": "Phi4_2025_chunk_0029",
+      "source_id": "Phi4_2025",
+      "text": "5 Experiment\n5.1 Evaluation\nWe evaluate our model on three mathematical reasoning tasks: AIME24 (MAA, 2024), Math-500 (Light-\nman et al., 2023), and GPQA Diamond (Rein et al.). For evaluation, the generation parameters are\nset with a temperature of 0.6, toppof 0.95, and a maximum sequence length of 32K. For each task, we\nconduct 3 runs and report the average performance across these trials.\n5.2 Baselines\nWe compare our Phi-4-Mini-Reasoning model with o1-mini and several leading open-source, small-\nscale reasoning models, including DeepSeek-R1-Distill-Llama-8B (Guo et al., 2025), Bespoke-Stratos-7B\n(Labs, 2025), and OpenThinker-7B (OpenThoughts, 2025).\n5.3 Training Settings\nFor the first two distillation stages, we use a batch size of 128, a learning rate of 1e-5, a total of 5 training\nepochs, and a warmup ratio of 0.1. During the first stage, the sequence length is set to 16K with packing\nstrategy, whereas in the second stage the sequence length is extended to 20K without packing. For the\nRollout DPO phase, we use a learning rate of 5e-7 for a single training epoch, with a sequence length of\n16K.",
+      "section": "5 Experiment",
+      "char_count": 1113,
+      "chunk_index": 29,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "2_Claim_Evidence_Phi4_2504.21233v1.pdf",
+      "total_source_pages": 12
+    },
+    {
+      "chunk_id": "Phi4_2025_chunk_0030",
+      "source_id": "Phi4_2025",
+      "text": "hereas in the second stage the sequence length is extended to 20K without packing. For the\nRollout DPO phase, we use a learning rate of 5e-7 for a single training epoch, with a sequence length of\n16K. During the RL stage, a learning rate of 5e-7 and a sequence length of 25k are used to encourage\nmodel exploration.\n7\n\n5.4 Results\nThe overall results are presented in Table 3. Phi-4-Mini-Reasoning , despite having only 3.8 bil-\nlion parameters, outperforms all open-source baseline models, including those nearly twice its size. In\naddition, we provide an ablation study to demonstrate the contribution of each training stage to the\nperformance of Phi-4-Mini-Reasoning .\nModel AIME MATH-500 GPQA Diamond\no1-mini* 63.6 90.0 60.0\nDeepSeek-R1-Distill-Qwen-7B 53.3 91.4 49.5\nDeepSeek-R1-Distill-Llama-8B 43.3 86.9 47.3\nBespoke-Stratos-7B* 20.0 82.0 37.8\nOpenThinker-7B* 31.3 83.0 42.4\nLlama-3.2-3B-Instruct 6.7 44.4 25.3\nPhi-4-Mini 10.0 71.8 36.9\n+ Distill Mid-training 30.0 82.9 42.6\n+ Distill Fine-tun",
+      "section": "5 Experiment",
+      "char_count": 1000,
+      "chunk_index": 30,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "2_Claim_Evidence_Phi4_2504.21233v1.pdf",
+      "total_source_pages": 12
+    },
+    {
+      "chunk_id": "Phi4_2025_chunk_0031",
+      "source_id": "Phi4_2025",
+      "text": "43.3 86.9 47.3\nBespoke-Stratos-7B* 20.0 82.0 37.8\nOpenThinker-7B* 31.3 83.0 42.4\nLlama-3.2-3B-Instruct 6.7 44.4 25.3\nPhi-4-Mini 10.0 71.8 36.9\n+ Distill Mid-training 30.0 82.9 42.6\n+ Distill Fine-tuning 43.3 89.3 48.3\n+ Roll-Out DPO 50.0 93.6 49.0\n+ RL ( Phi-4-Mini-Reasoning )57.5 94.6 52.0\nTable 3:  CoT Reasoning results of Phi-4-Mini-Reasoning compared with larger 7B reasoning models\nand OpenAI models. An asterisk (*) indicates results taken directly from the published reports, while the remaining\nresults were reproduced in our work.\n5.5 Ablations\nIn this section, we conduct ablation studies to understand the impact of our distillation training on the\nmodel’s reasoning capability and compare the training stability of our RL recipe with DAPO.\nTo measure the reasoning boundary of an LLM, we use the pass@ kmetric. For each problem, we\nsample koutputs from the model. The pass@ kvalue for a question is 1 if at least one of the ksamples\npasses verification; otherwise, it is 0. The average pass@ kover the dataset reflects the proportion of\nproblems that the model can solve within kattempts.",
+      "section": "5 Experiment",
+      "char_count": 1102,
+      "chunk_index": 31,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "2_Claim_Evidence_Phi4_2504.21233v1.pdf",
+      "total_source_pages": 12
+    },
+    {
+      "chunk_id": "Phi4_2025_chunk_0032",
+      "source_id": "Phi4_2025",
+      "text": "uestion is 1 if at least one of the ksamples\npasses verification; otherwise, it is 0. The average pass@ kover the dataset reflects the proportion of\nproblems that the model can solve within kattempts. As shown in Figure 2a, our distillation pipeline\nserves as an effective approach for injecting reasoning-related knowledge into the model. After the\ndistillation phase, pass@ kscores are substantially improved, indicating that distillation successfully\nextends the reasoning capability boundary of the base LLM. This lays a strong foundation for subsequent\nRL training. Building on this, RL fine-tuning further improves performance, providing an additional\nboost of approximately 7 points on average and further refining the model’s abilities.\nWe also compare our RL training method against DAPO. As shown in Figure 2b, DAPO does not\nperform well in our setting: the  metric on the AIME dataset consistently degrades as\ntraining progresses. In contrast, our RL training technique exhibits greater stability and consistently\nyields meaningful improvements over the base model.\n5.6 Safety Statement\nPhi-4-Mini-Reasoning was developed in accordance with Microsoft’s responsible AI principles.",
+      "section": "5 Experiment",
+      "char_count": 1190,
+      "chunk_index": 32,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "2_Claim_Evidence_Phi4_2504.21233v1.pdf",
+      "total_source_pages": 12
+    },
+    {
+      "chunk_id": "Phi4_2025_chunk_0033",
+      "source_id": "Phi4_2025",
+      "text": "greater stability and consistently\nyields meaningful improvements over the base model.\n5.6 Safety Statement\nPhi-4-Mini-Reasoning was developed in accordance with Microsoft’s responsible AI principles. Poten-\ntial safety risks in the model’s responses were assessed using the Azure AI Foundry’s Risk and Safety\nEvaluation framework, focusing on harmful content, direct jailbreak, and model groundedness. The\n8\n\n(a)\n (b)\nFigure 2: (a)  curves on AIME 2024 for the base model, the Roll-Out DPO model, and the model with\nadditional RL training. Rollout DPO significantly improves  extending the model’s reasoning capabilities.\nFurther RL training yields additional gains. (b) Comparison between DAPO and our RL training method, evalu-\nated by  accuracy on AIME 2024. Our RL training approach demonstrates better stability.",
+      "section": "5 Experiment",
+      "char_count": 818,
+      "chunk_index": 33,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "2_Claim_Evidence_Phi4_2504.21233v1.pdf",
+      "total_source_pages": 12
+    },
+    {
+      "chunk_id": "Phi4_2025_chunk_0034",
+      "source_id": "Phi4_2025",
+      "text": "ies.\nFurther RL training yields additional gains. (b) Comparison between DAPO and our RL training method, evalu-\nated by  accuracy on AIME 2024. Our RL training approach demonstrates better stability.\nPhi-4-Mini-Reasoning Model Card contains additional information about our approach to safety and\nresponsible AI considerations that developers should be aware of when using this model.",
+      "section": "5 Experiment",
+      "char_count": 385,
+      "chunk_index": 34,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "2_Claim_Evidence_Phi4_2504.21233v1.pdf",
+      "total_source_pages": 12
+    },
+    {
+      "chunk_id": "Phi4_2025_chunk_0035",
+      "source_id": "Phi4_2025",
+      "text": "6 Conclusion\nWe present a multi-stage training paradigm to enhance reasoning capabilities in small language models\n(SLMs), combining large-scale distillation, rollout preference learning, and reinforcement learning with\nverifiable rewards. Applied to Phi-4-Mini, our approach produces Phi-4-Mini-Reasoning , a compact\n3.8-billion-parameter model that outperforms open-source reasoning models nearly twice its size. We\ndemonstrate that a carefully coordinated sequence of training stages is essential for unlocking robust\nreasoning in SLMs. Our results show that small models, when trained with deliberate data selection and\ntraining strategies, can match or even exceed the capabilities of much larger models. We believe that this\nwork provides a blueprint for developing efficient, high-performing models under resource constraints.\nAcknowledgments\nWe extend our sincere gratitude to Amit Garg, Daniel Perez-Becker, Nguyen Bach, Tetyana Sych and\nthe entire GenAI team for their invaluable contributions to this work. Their support in model review, de-\nployment, and productization was instrumental in bringing this project to completion.",
+      "section": "6 Conclusion",
+      "char_count": 1138,
+      "chunk_index": 35,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "2_Claim_Evidence_Phi4_2504.21233v1.pdf",
+      "total_source_pages": 12
+    },
+    {
+      "chunk_id": "Phi4_2025_chunk_0036",
+      "source_id": "Phi4_2025",
+      "text": "Sych and\nthe entire GenAI team for their invaluable contributions to this work. Their support in model review, de-\nployment, and productization was instrumental in bringing this project to completion. We also gratefully\nacknowledge the Turing team for their ongoing technical collaboration and insightful discussions.\n9",
+      "section": "6 Conclusion",
+      "char_count": 319,
+      "chunk_index": 36,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "2_Claim_Evidence_Phi4_2504.21233v1.pdf",
+      "total_source_pages": 12
+    },
+    {
+      "chunk_id": "Phi4_2025_chunk_0037",
+      "source_id": "Phi4_2025",
+      "text": "References\nJosh Achiam, Steven Adler, Sandhini Agarwal, Lama Ahmad, Ilge Akkaya, Florencia Leoni Aleman,\nDiogo Almeida, Janko Altenschmidt, Sam Altman, Shyamal Anadkat, et al. 2023. Gpt-4 technical\nreport. arXiv preprint arXiv:2303.08774 .\nAaron Grattafiori, Abhimanyu Dubey, Abhinav Jauhri, Abhinav Pandey, Abhishek Kadian, Ahmad Al-\nDahle, Aiesha Letman, Akhil Mathur, Alan Schelten, Alex Vaughan, et al. 2024. The llama 3 herd of\nmodels. arXiv preprint arXiv:2407.21783 .\nDaya Guo, Dejian Yang, Haowei Zhang, Junxiao Song, Ruoyu Zhang, Runxin Xu, Qihao Zhu, Shirong\nMa, Peiyi Wang, Xiao Bi, et al. 2025. Deepseek-r1: Incentivizing reasoning capability in llms via\nreinforcement learning. arXiv preprint arXiv:2501.12948 .\nHuggingFace. 2025. Open r1: A fully open reproduction of deepseek-r1.\nTakeshi Kojima, Shixiang Shane Gu, Machel Reid, Yutaka Matsuo, and Yusuke Iwasawa. 2022. Large\nlanguage models are zero-shot reasoners. Advances in neural information processing systems , 35:22199–\n22213.\nBespoke Labs. 2025. Bespoke-stratos: The unreasonable effectiveness of reasoning distilla-\ntion. \ndistillation. Accessed: 2025-01-22.",
+      "section": "References",
+      "char_count": 1133,
+      "chunk_index": 37,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "2_Claim_Evidence_Phi4_2504.21233v1.pdf",
+      "total_source_pages": 12
+    },
+    {
+      "chunk_id": "Phi4_2025_chunk_0038",
+      "source_id": "Phi4_2025",
+      "text": "vances in neural information processing systems , 35:22199–\n22213.\nBespoke Labs. 2025. Bespoke-stratos: The unreasonable effectiveness of reasoning distilla-\ntion. \ndistillation. Accessed: 2025-01-22.\nHunter Lightman, Vineet Kosaraju, Yura Burda, Harri Edwards, Bowen Baker, Teddy Lee, Jan Leike,\nJohn Schulman, Ilya Sutskever, and Karl Cobbe. 2023. Let’s verify step by step. arXiv preprint\narXiv:2305.20050 .\nWang Ling, Dani Yogatama, Chris Dyer, and Phil Blunsom. 2017. Program induction by rationale\ngeneration: Learning to solve and explain algebraic word problems. In Proceedings of the 55th Annual\nMeeting of the Association for Computational Linguistics (Volume 1: Long Papers) , pages 158–167,\nVancouver, Canada. Association for Computational Linguistics.\nMichael Luo, Sijun Tan, Justin Wong, Xiaoxiang Shi, William Y. Tang, Manan Roongta, Colin Cai,\nJeffrey Luo, Tianjun Zhang, Li Erran Li, Raluca Ada Popa, and Ion Stoica. 2025. Deepscaler: Sur-\npassing o1-preview with a 1.5b model by scaling rl. \nSurpassing-O1-Preview-with-a-1-5B-Model-by-Scaling-RL-19681902c1468005bed8ca303013a4e2. No-\ntion Blog.\nMAA. 2024. American invitational mathematics examination–aime.",
+      "section": "References",
+      "char_count": 1175,
+      "chunk_index": 38,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "2_Claim_Evidence_Phi4_2504.21233v1.pdf",
+      "total_source_pages": 12
+    },
+    {
+      "chunk_id": "Phi4_2025_chunk_0039",
+      "source_id": "Phi4_2025",
+      "text": "with a 1.5b model by scaling rl. \nSurpassing-O1-Preview-with-a-1-5B-Model-by-Scaling-RL-19681902c1468005bed8ca303013a4e2. No-\ntion Blog.\nMAA. 2024. American invitational mathematics examination–aime. In American Invitational Mathe-\nmatics Examination–AIME 2024.\nMicrosoft, Abdelrahman Abouelenin, Atabak Ashfaq, Adam Atkinson, Hany Awadalla, Nguyen Bach,\nJianmin Bao, Alon Benhaim, Martin Cai, Vishrav Chaudhary, Congcong Chen, et al. 2025. Phi-4-\nmini technical report: Compact yet powerful multimodal language models via mixture-of-loras. arXiv\npreprint arXiv:2503.01743 .\nNiklas Muennighoff, Zitong Yang, Weijia Shi, Xiang Lisa Li, Li Fei-Fei, Hannaneh Hajishirzi, Luke\nZettlemoyer, Percy Liang, Emmanuel Cand` es, and Tatsunori Hashimoto. 2025. s1: Simple test-time\nscaling. arXiv preprint arXiv:2501.19393 .\nOpenAI. 2024. Learning to reason with llms.  .\n10\n\nOpenThoughts. 2025. Open Thoughts. \nRafael Rafailov, Archit Sharma, Eric Mitchell, Christopher D Manning, Stefano Ermon, and Chelsea\nFinn. 2023. Direct preference optimization: Your language model is secretly a reward model. Advances\nin Neural Information Processing Systems , 36:53728–53741.",
+      "section": "References",
+      "char_count": 1156,
+      "chunk_index": 39,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "2_Claim_Evidence_Phi4_2504.21233v1.pdf",
+      "total_source_pages": 12
+    },
+    {
+      "chunk_id": "Phi4_2025_chunk_0040",
+      "source_id": "Phi4_2025",
+      "text": "er D Manning, Stefano Ermon, and Chelsea\nFinn. 2023. Direct preference optimization: Your language model is secretly a reward model. Advances\nin Neural Information Processing Systems , 36:53728–53741.\nDavid Rein, Betty Li Hou, Asa Cooper Stickland, Jackson Petty, Richard Yuanzhe Pang, Julien Dirani,\nJulian Michael, and Samuel R Bowman. Gpqa: A graduate-level google-proof q&a benchmark. In\nFirst Conference on Language Modeling .\nJohn Schulman, Philipp Moritz, Sergey Levine, Michael Jordan, and Pieter Abbeel. 2015.\nHigh-dimensional continuous control using generalized advantage estimation. arXiv preprint\narXiv:1506.02438 .\nJohn Schulman, Filip Wolski, Prafulla Dhariwal, Alec Radford, and Oleg Klimov. 2017. Proximal policy\noptimization algorithms. arXiv preprint arXiv:1707.06347 .\nZhihong Shao, Peiyi Wang, Qihao Zhu, Runxin Xu, Junxiao Song, Xiao Bi, Haowei Zhang, Mingchuan\nZhang, YK Li, Y Wu, et al. 2024. Deepseekmath: Pushing the limits of mathematical reasoning in\nopen language models. arXiv preprint arXiv:2402.03300 .\nCharlie Snell, Jaehoon Lee, Kelvin Xu, and Aviral Kumar. 2024. Scaling llm test-time compute optimally\ncan be more effective than scaling model parameters.",
+      "section": "References",
+      "char_count": 1190,
+      "chunk_index": 40,
+      "page_numbers": [
+        11
+      ],
+      "source_file": "2_Claim_Evidence_Phi4_2504.21233v1.pdf",
+      "total_source_pages": 12
+    },
+    {
+      "chunk_id": "Phi4_2025_chunk_0041",
+      "source_id": "Phi4_2025",
+      "text": "ge models. arXiv preprint arXiv:2402.03300 .\nCharlie Snell, Jaehoon Lee, Kelvin Xu, and Aviral Kumar. 2024. Scaling llm test-time compute optimally\ncan be more effective than scaling model parameters. arXiv preprint arXiv:2408.03314 .\nTAL-SCQ5K. 2023. TAL-SCQ5K: A high-quality mathematical competition dataset in english and\nchinese. Accessed: 2025-04-26.\nJason Wei, Xuezhi Wang, Dale Schuurmans, Maarten Bosma, Fei Xia, Ed Chi, Quoc V Le, Denny Zhou,\net al. 2022. Chain-of-thought prompting elicits reasoning in large language models. Advances in neural\ninformation processing systems , 35:24824–24837.\nSean Welleck, Amanda Bertsch, Matthew Finlayson, Hailey Schoelkopf, Alex Xie, Graham Neubig, Ilia\nKulikov, and Zaid Harchaoui. 2024. From decoding to meta-generation: Inference-time algorithms for\nlarge language models. arXiv preprint arXiv:2406.16838 .\nHaoran Xu, Young Jin Kim, Amr Sharaf, and Hany Hassan Awadalla. 2024a. A paradigm shift in\nmachine translation: Boosting translation performance of large language models. In The Twelfth\nInternational Conference on Learning Representations .",
+      "section": "References",
+      "char_count": 1099,
+      "chunk_index": 41,
+      "page_numbers": [
+        11
+      ],
+      "source_file": "2_Claim_Evidence_Phi4_2504.21233v1.pdf",
+      "total_source_pages": 12
+    },
+    {
+      "chunk_id": "Phi4_2025_chunk_0042",
+      "source_id": "Phi4_2025",
+      "text": "d Hany Hassan Awadalla. 2024a. A paradigm shift in\nmachine translation: Boosting translation performance of large language models. In The Twelfth\nInternational Conference on Learning Representations .\nHaoran Xu, Amr Sharaf, Yunmo Chen, Weiting Tan, Lingfeng Shen, Benjamin Van Durme, Kenton\nMurray, and Young Jin Kim. 2024b. Contrastive preference optimization: Pushing the boundaries\nof LLM performance in machine translation. In Forty-first International Conference on Machine\nLearning .\nGuanghao Ye, Khiem Duc Pham, Xinzhi Zhang, Sivakanth Gopi, Baolin Peng, Beibin Li, Janardhan\nKulkarni, and Huseyin A Inan. 2025a. On the emergence of thinking in llms i: Searching for the right\nintuition. arXiv preprint arXiv:2502.06773 .\nYixin Ye, Zhen Huang, Yang Xiao, Ethan Chern, Shijie Xia, and Pengfei Liu. 2025b. Limo: Less is more\nfor reasoning. arXiv preprint arXiv:2502.03387 .\n11\n\nLonghui Yu, Weisen Jiang, Han Shi, Jincheng Yu, Zhengying Liu, Yu Zhang, James T Kwok, Zhenguo\nLi, Adrian Weller, and Weiyang Liu. 2023. Metamath: Bootstrap your own mathematical questions\nfor large language models. arXiv preprint arXiv:2309.12284 .",
+      "section": "References",
+      "char_count": 1132,
+      "chunk_index": 42,
+      "page_numbers": [
+        11
+      ],
+      "source_file": "2_Claim_Evidence_Phi4_2504.21233v1.pdf",
+      "total_source_pages": 12
+    },
+    {
+      "chunk_id": "Phi4_2025_chunk_0043",
+      "source_id": "Phi4_2025",
+      "text": "hengying Liu, Yu Zhang, James T Kwok, Zhenguo\nLi, Adrian Weller, and Weiyang Liu. 2023. Metamath: Bootstrap your own mathematical questions\nfor large language models. arXiv preprint arXiv:2309.12284 .\nQiying Yu, Zheng Zhang, Ruofei Zhu, Yufeng Yuan, Xiaochen Zuo, Yu Yue, Tiantian Fan, Gaohong Liu,\nLingjun Liu, Xin Liu, et al. Dapo: An open-source llm reinforcement learning system at scale, 2025.\nURL  org/abs/2503.14476 .\nXiang Yue, Xingwei Qu, Ge Zhang, Yao Fu, Wenhao Huang, Huan Sun, Yu Su, and Wenhu Chen.\n2023. Mammoth: Building math generalist models through hybrid instruction tuning. arXiv preprint\narXiv:2309.05653 .\nXiaojiang Zhang, Jinghui Wang, Zifei Cheng, Wenhao Zhuang, Zheng Lin, Minglei Zhang, Shaojie Wang,\nYinghan Cui, Chao Wang, Junyi Peng, et al. 2025. Srpo: A cross-domain implementation of large-scale\nreinforcement learning on llm. arXiv preprint arXiv:2504.14286 .\nWei Zhao, Mingyue Shang, Yang Liu, Liang Wang, and Jingming Liu. 2020. Ape210k: A large-scale\nand template-rich dataset of math word problems. arXiv preprint arXiv:2009.11506 .",
+      "section": "References",
+      "char_count": 1069,
+      "chunk_index": 43,
+      "page_numbers": [
+        12
+      ],
+      "source_file": "2_Claim_Evidence_Phi4_2504.21233v1.pdf",
+      "total_source_pages": 12
+    },
+    {
+      "chunk_id": "Phi4_2025_chunk_0044",
+      "source_id": "Phi4_2025",
+      "text": "rint arXiv:2504.14286 .\nWei Zhao, Mingyue Shang, Yang Liu, Liang Wang, and Jingming Liu. 2020. Ape210k: A large-scale\nand template-rich dataset of math word problems. arXiv preprint arXiv:2009.11506 .\nChunting Zhou, Pengfei Liu, Puxin Xu, Srini Iyer, Jiao Sun, Yuning Mao, Xuezhe Ma, Avia Efrat,\nPing Yu, LILI YU, Susan Zhang, Gargi Ghosh, Mike Lewis, Luke Zettlemoyer, and Omer Levy. 2023.\nLIMA: Less is more for alignment. In Thirty-seventh Conference on Neural Information Processing\nSystems .\n12",
+      "section": "References",
+      "char_count": 499,
+      "chunk_index": 44,
+      "page_numbers": [
+        12
+      ],
+      "source_file": "2_Claim_Evidence_Phi4_2504.21233v1.pdf",
+      "total_source_pages": 12
+    }
+  ]
+}

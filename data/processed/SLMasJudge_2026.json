@@ -1,0 +1,1078 @@
+{
+  "source_id": "SLMasJudge_2026",
+  "metadata": {
+    "title": "Rethinking LLM-as-a-Judge: Representation-as-a-Judge with Small Language Models",
+    "authors": "Research Team",
+    "year": "2026",
+    "venue": "arXiv",
+    "url": "https://arxiv.org/abs/2601.22588",
+    "source_type": "peer-reviewed",
+    "relevance_note": "SLMs as evaluation judges - shows capability expansion beyond generation (Jan 30, 2026)"
+  },
+  "pdf_metadata": {
+    "title": "Rethinking LLM-as-a-Judge: Representation-as-a-Judge with Small Language Models via Semantic Capacity Asymmetry",
+    "author": "Zhuochun Li; Yong Zhang; Ming Li; Yuelyu Ji; Yiming Zeng; Ning Cheng; Yun Zhu; Yanmeng Wang; Shaojun Wang; Jing Xiao; Daqing He",
+    "total_pages": 27
+  },
+  "statistics": {
+    "total_pages": 27,
+    "total_chunks": 81,
+    "avg_chunk_size": 1024.4197530864199,
+    "ingestion_timestamp": "2026-02-02T19:03:59.863512"
+  },
+  "chunks": [
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0000",
+      "source_id": "SLMasJudge_2026",
+      "text": "RETHINKINGLLM-AS-A-JUDGE: REPRESENTATION-\nAS-A-JUDGE WITHSMALLLANGUAGEMODELS VIA\nSEMANTICCAPACITYASYMMETRY\nZhuochun Li1,2,†, Yong Zhang1,†, Ming Li3, Yuelyu Ji2, Yiming Zeng4, Ning Cheng1,*,\nYun Zhu1,Yanmeng Wang1,Shaojun Wang1,Jing Xiao1,Daqing He2\n1Ping An Technology (Shenzhen) Co., Ltd.2University of Pittsburgh\n3University of Maryland, College Park4University of Connecticut",
+      "section": "Header/Title",
+      "char_count": 379,
+      "chunk_index": 0,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0001",
+      "source_id": "SLMasJudge_2026",
+      "text": "ABSTRACT\nLarge language models (LLMs) are widely used as reference-free evaluators via\nprompting, but this “LLM-as-a-Judge” paradigm is costly, opaque, and sensitive to\nprompt design. In this work, we investigate whether smaller models can serve as\nefficient evaluators by leveraging internal representations instead of surface gen-\neration. We uncover a consistent empirical pattern: small LMs, despite with weak\ngenerative ability, encode rich evaluative signals in their hidden states. This mo-\ntivates us to propose the Semantic Capacity Asymmetry Hypothesis: evaluation\nrequires significantly less semantic capacity than generation and can be grounded\nin intermediate representations, suggesting that evaluation does not necessarily\nneed to rely on large-scale generative models but can instead leverage latent fea-\ntures from smaller ones. Our findings motivate a paradigm shift fromLLM-as-\na-JudgetoRepresentation-as-a-Judge, a decoding-free evaluation strategy that\nprobes internal model structure rather than relying on prompted output. We in-\nstantiate this paradigm throughINSPECTOR, a probing-based framework that\npredicts aspect-level evaluation scores from small model representations.",
+      "section": "ABSTRACT",
+      "char_count": 1199,
+      "chunk_index": 1,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0002",
+      "source_id": "SLMasJudge_2026",
+      "text": "ucture rather than relying on prompted output. We in-\nstantiate this paradigm throughINSPECTOR, a probing-based framework that\npredicts aspect-level evaluation scores from small model representations. Exper-\niments on reasoning benchmarks (GSM8K, MATH, GPQA) show that INSPEC-\nTOR substantially outperforms prompting-based small LMs and closely approxi-\nmates full LLM judges, while offering a more efficient, reliable, and interpretable\nalternative for scalable evaluation. The code and data are available at:https:\n//github.com/zhuochunli/Representation-as-a-judge",
+      "section": "ABSTRACT",
+      "char_count": 566,
+      "chunk_index": 2,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0003",
+      "source_id": "SLMasJudge_2026",
+      "text": "1 INTRODUCTION\nLarge language models (LLMs) have demonstrated remarkable capabilities in generation, reasoning,\nand alignment tasks (Achiam et al., 2023; Touvron et al., 2023). A growing number of works\nleverage the paradigm ofLLM-as-a-Judge, wherein powerful LLMs are prompted to assess the\nquality of generated outputs without access to ground-truth references (Chang et al., 2024; Prasad\net al., 2023). This approach has achieved strong empirical results in reference-free evaluation across\ndomains such as summarization and complex reasoning (He et al., 2023; Zhang et al., 2024).\nHowever, this prompt-based evaluation paradigm has important limitations. First, it requires autore-\ngressive decoding, making it computationally expensive even for single-point evaluations. Second,\nit relies on large proprietary models (e.g., GPT-4), whose internal mechanisms remain opaque and\nunverifiable. Lastly, its effectiveness depends heavily on prompt engineering, raising concerns about\nreproducibility, robustness, and scaling (Polo et al., 2024; V oronov et al., 2024; Mizrahi et al., 2024).\n† Equal contribution.\n*Corresponding author.",
+      "section": "1 INTRODUCTION",
+      "char_count": 1134,
+      "chunk_index": 3,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0004",
+      "source_id": "SLMasJudge_2026",
+      "text": "ly on prompt engineering, raising concerns about\nreproducibility, robustness, and scaling (Polo et al., 2024; V oronov et al., 2024; Mizrahi et al., 2024).\n† Equal contribution.\n*Corresponding author.\nWork was done during Zhuochun Li’s internship at Ping An Technology.\n1arXiv:2601.22588v1 [cs.CL] 30 Jan 2026\n\nLLM-as-a-Judge123\n😟\n✅ Accurate\n❌Resource-Intensive\nSLM-as-a-Judge123\n☹\n❌Inaccurate\n✅ Resource-Eﬃcient\nRepresentation-as-a-Judge\nProbing123\n😃\n✅ Accurate\n✅ Resource-Eﬃcient\nFigure 1: Illustration ofRepresentation-as-a-Judge.\nA natural goal is to use smaller open-source LMs as evaluators, as they offer a more lightweight and\naccessible alternative to large proprietary models. However, when prompted directly, their evalu-\nation performance is poor and highly inconsistent compared to large LLMs. Prior work (Li et al.,\n2024a; Waldis et al., 2024) has shown that small models, despite weaker generation, often possess\nsemantic competence comparable to large models. This suggests that their poor evaluation perfor-\nmance may stem from limitations in surface generation rather than a fundamental lack of understand-\ning.",
+      "section": "1 INTRODUCTION",
+      "char_count": 1129,
+      "chunk_index": 4,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0005",
+      "source_id": "SLMasJudge_2026",
+      "text": "emantic competence comparable to large models. This suggests that their poor evaluation perfor-\nmance may stem from limitations in surface generation rather than a fundamental lack of understand-\ning. Building on this, we ask a more granular question:do small models encode evaluation-relevant\nsignals in their internal representations, even when generation is poor?\nThis question represents a broader insight: the ability toevaluatemay place lower demands on\nsemantic capacity than the ability togenerate. Even when generation fails, compact internal rep-\nresentations may already encode the features needed for judgment. We therefore formalize theSe-\nmantic Capacity Asymmetry Hypothesis:The semantic capacity required for accurate evaluation\nis significantly lower than that required for generation. Evaluation can be grounded in compressed\ninternal representations of small language models, even when generation requires full-model decod-\ning.\nBuilding on this hypothesis, we advance an alternative perspective on evaluation:Representation-\nas-a-Judge. Rather than relying on prompted text generation, evaluative signals can be extracted\ndirectly from the latent structure.",
+      "section": "1 INTRODUCTION",
+      "char_count": 1177,
+      "chunk_index": 5,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0006",
+      "source_id": "SLMasJudge_2026",
+      "text": "we advance an alternative perspective on evaluation:Representation-\nas-a-Judge. Rather than relying on prompted text generation, evaluative signals can be extracted\ndirectly from the latent structure. This addresses key bottlenecks of prompt-based evaluation and\nopens the door to lightweight, interpretable, and scalable systems.\nTo explore this perspective, we introduceINSPECTOR( IN ternal S ignal P robing and E valuaT ion\nOf Representations), a probing-based framework for reference-free evaluation. Given a (prompt,\nresponse) pair, INSPECTOR performs the following steps: (1) obtain aspect-level evaluation scores\nfrom a strong LLM judge across multiple aspects (e.g., logicality, fluency, consistency); (2) input the\nsame evaluation prompt to a small LM and extract internal representations; (3) identify informative\nlayers and train lightweight classifiers to approximate evaluation scores using latent embeddings.",
+      "section": "1 INTRODUCTION",
+      "char_count": 922,
+      "chunk_index": 6,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0007",
+      "source_id": "SLMasJudge_2026",
+      "text": "e\nsame evaluation prompt to a small LM and extract internal representations; (3) identify informative\nlayers and train lightweight classifiers to approximate evaluation scores using latent embeddings.\nEmpirically, we validate this framework on reasoning benchmarks such as GSM8K, MATH, and\nGPQA, and find that internal representations from small models (e.g., 1.7B) achieve high predictive\nperformance, substantially outperforming prompting-based baselines and in many cases approach-\ning the fidelity of full-scale LLM judges. Furthermore, we show that classifiers trained with this\nmethod can be used to filter noisy reasoning data, leading to measurable gains in downstream super-\nvised fine-tuning (Xu et al., 2024; Albalak et al., 2024; Li et al., 2024b).\nOur contributions are threefold:\n• We identify and analyze a consistent empirical phenomenon: small LMs, despite weak\ngeneration, encode evaluation-relevant signals in their internal representations.\n• We formalize this insight as theSemantic Capacity Asymmetry Hypothesis, positing\nthat evaluation requires less semantic capacity than generation and can be grounded in\nintermediate representations.",
+      "section": "1 INTRODUCTION",
+      "char_count": 1160,
+      "chunk_index": 7,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0008",
+      "source_id": "SLMasJudge_2026",
+      "text": "• We formalize this insight as theSemantic Capacity Asymmetry Hypothesis, positing\nthat evaluation requires less semantic capacity than generation and can be grounded in\nintermediate representations.\n• We advance a new perspective,Representation-as-a-Judge, and instantiate it through our\nprobing-based framework,INSPECTOR, demonstrating high-fidelity evaluation and effi-\ncient data filtering for reasoning tasks. To the best of our knowledge, this is the first work\nto investigate LLM probing for evaluation tasks.\n2\n\nProbing Classifier\n🔥 \nRepresentation \n✅\nFluencyFactuality…Quality?Frozen LM \n❄Labels\nInputResponse \n❌Response \n✅ Figure 2: Overview of our proposedINSPECTOR. We freeze the small LMs and probe their rep-\nresentations, training only a lightweight probing classifier to fit the proprietary LLM evaluations.\n2 RELATEDWORK\nOur work builds on two research directions: (i) data evaluation methods, particularly the emerging\nLLM-as-a-Judgeparadigm, and (ii) probing techniques for analyzing LLM representations. Below\nwe summarize progress in each line and position our contribution.",
+      "section": "1 INTRODUCTION",
+      "char_count": 1095,
+      "chunk_index": 8,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0009",
+      "source_id": "SLMasJudge_2026",
+      "text": "uation methods, particularly the emerging\nLLM-as-a-Judgeparadigm, and (ii) probing techniques for analyzing LLM representations. Below\nwe summarize progress in each line and position our contribution.\nLLM EvaluationRecent studies in NLP have introduced reference-based evaluation metrics such\nas BERTScore (Zhang et al., 2019) and BARTScore (Yuan et al., 2021), which leverage pretrained\nlanguage models to better align with human judgments. ROSCOE further develops unsupervised,\nreference-free metrics that outperform traditional n-gram methods like ROUGE (Lin, 2004) and\nBLEU (Papineni et al., 2002), as well as several model-based metrics. With the emergence of LLMs,\nmany works have begun to treat LLMs themselves as evaluators (Zheng et al., 2023; Liu et al., 2023;\nLi et al., 2024c), identifying and filtering high-quality data samples. A variety of techniques enhance\nthis LLM-as-a-Judge paradigm: Chain-of-Thought reasoning (Wei et al., 2022) to improve decision\nquality, RECEV AL (Prasad et al., 2023) to assess reasoning chains via correctness and informative-\nness, and SOCREV AL (He et al., 2023) to let LLMs generate their own answers before evaluation.",
+      "section": "1 INTRODUCTION",
+      "char_count": 1166,
+      "chunk_index": 9,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0010",
+      "source_id": "SLMasJudge_2026",
+      "text": "sion\nquality, RECEV AL (Prasad et al., 2023) to assess reasoning chains via correctness and informative-\nness, and SOCREV AL (He et al., 2023) to let LLMs generate their own answers before evaluation.\nHowever, these methods often rely on prompt engineering and proprietary LLMs, limiting both\ntheir reliability and interpretability. Alternatively, we propose to probe and analyze critical internal\nrepresentations of small LMs, training lightweight classifiers to approximate state-of-the-art evalua-\ntions from powerful LLMs. This yields a more efficient and explainable approach to data evaluation.\nProbing LLM RepresentationsThere is a growing interest in probing the internal representations\nof LLMs to uncover interpretable features. Early work by Shi et al. (2016) introduced probing by\ntraining a logistic regression classifier on top of machine translation encoders to study the extent\nof syntactic information. Building on this idea, later studies investigate more complex linguistic\nphenomena. For example, Starace et al.",
+      "section": "1 INTRODUCTION",
+      "char_count": 1031,
+      "chunk_index": 10,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0011",
+      "source_id": "SLMasJudge_2026",
+      "text": "ier on top of machine translation encoders to study the extent\nof syntactic information. Building on this idea, later studies investigate more complex linguistic\nphenomena. For example, Starace et al. (2023) examine how linguistic categories such as part-of-\nspeech (POS) and dependency relations are jointly encoded across layers of LLMs, revealing shared\nand hierarchical structures in their representations. Beyond linguistic categories, recent research has\nexplored whether LLMs capture higher-level abstractions of world knowledge and state. Zhang et al.\n(2025) propose Sentinel, which probes decoder attention in small proxy LLMs to extract relevance\nsignals for context compression, framing probing as a lightweight understanding task rather than\na linguistic diagnostic. More works further probe the internal representations of world states in\nTransformer models when processing game scripts and embodied sequences (Li et al., 2023; Jin &\nRinard, 2024; Di Palma et al., 2025).",
+      "section": "1 INTRODUCTION",
+      "char_count": 984,
+      "chunk_index": 11,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0012",
+      "source_id": "SLMasJudge_2026",
+      "text": "works further probe the internal representations of world states in\nTransformer models when processing game scripts and embodied sequences (Li et al., 2023; Jin &\nRinard, 2024; Di Palma et al., 2025).\nIn contrast to prior work, which mainly seeks to understand what knowledge LLMs encode, we\nleverage probing in a new direction: extracting critical internal representations that are predictive of\nevaluation quality. To the best of our knowledge, this is the first work to bridge probing with the\nLLM-as-a-Judge paradigm, enabling evaluation that is both more efficient and more interpretable.",
+      "section": "1 INTRODUCTION",
+      "char_count": 593,
+      "chunk_index": 12,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0013",
+      "source_id": "SLMasJudge_2026",
+      "text": "3 METHODOLOGY\nTheSemantic Capacity Asymmetry Hypothesissuggests that evaluation can be grounded in com-\npact intermediate representations of small LMs, without requiring full decoding. To operationalize\nand test this idea, we propose REPRESENTATION-AS-A-JUDGE: a new evaluation paradigm that\ndirectly probes latent semantic structure rather than relying on surface-level outputs. We instantiate\nthis paradigm throughINSPECTOR. Illustrated in Figure2, it consists of three components: LLMs\nevaluation annotation, small LMs probing, and building probing classifiers, which we will discuss\nin Sec. 4.1, 4.2, and 4.3, respectively.\n3\n\n3.1 LLMS EVALUATION ANNOTATION\nFollowing established rubric definitions from prior work, including ROSCOE Golovneva et al.\n(2022) and Socreval He et al. (2023), we adopt five widely used evaluation aspectsKto assess\nthe quality of reference-free rationales, with the corresponding few-shot prompts provided in Ap-\npendix K:\n•Semantic Consistency: Do the solution steps",
+      "section": "3 METHODOLOGY",
+      "char_count": 999,
+      "chunk_index": 13,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0014",
+      "source_id": "SLMasJudge_2026",
+      "text": "five widely used evaluation aspectsKto assess\nthe quality of reference-free rationales, with the corresponding few-shot prompts provided in Ap-\npendix K:\n•Semantic Consistency: Do the solution steps and final answer remain faithful to the prob-\nlem facts (no invented events, omitted givens, or unstated assumptions)?\n•Logicality: Does each inference and arithmetic step follow valid rules and correctly apply\noperations?\n•Informativeness: Does the rationale include the essential steps and intermediate calcula-\ntions needed to verify the final answer?\n•Fluency: Is the text grammatical, clear, and easy to follow, with proper punctuation, sen-\ntence flow, notation, and presentation?\n•Factuality: Are the claims, facts, evidence, references, and concrete assertions in the ra-\ntionale factually correct and supported?\nLetxdenote a task instruction andythe corresponding model-generated response. We first employ\na medium-scale language modelM med(10-50B) to generate responses for all benchmark queries.",
+      "section": "3 METHODOLOGY",
+      "char_count": 1005,
+      "chunk_index": 14,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0015",
+      "source_id": "SLMasJudge_2026",
+      "text": "and supported?\nLetxdenote a task instruction andythe corresponding model-generated response. We first employ\na medium-scale language modelM med(10-50B) to generate responses for all benchmark queries.\nUnlike state-of-the-art LLMsM large (50–100B+),M medis less powerful, which is desirable be-\ncause it produces more diverse evaluation distributions, containing both good and bad quality sam-\nples, across different aspects, thereby facilitating the subsequent probing process. This will construct\nthe response datasetD={(x i, yi)}N\ni=1, wherex iis a benchmark question andy i=M med(xi)is\nthe corresponding response. For each evaluation aspectk∈ K, we construct an aspect-specific in-\nstructionI kand integrate(x, y)into it, yieldingI k(x, y)as the evaluation prompt. We then query\na state-of-the-art LLMM largeto obtain evaluation scores along each aspect. For a given sample\n(x, y), we promptM largewithI k(x, y)and obtain a scalar scores k∈[1,5]:\nsi,k=M large\u0000\nIk(xi, yi)\u0001\n.",
+      "section": "3 METHODOLOGY",
+      "char_count": 977,
+      "chunk_index": 15,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0016",
+      "source_id": "SLMasJudge_2026",
+      "text": "uery\na state-of-the-art LLMM largeto obtain evaluation scores along each aspect. For a given sample\n(x, y), we promptM largewithI k(x, y)and obtain a scalar scores k∈[1,5]:\nsi,k=M large\u0000\nIk(xi, yi)\u0001\n.\nCollecting these pairs yields the probing dataset\nDprob=[\nk∈K{(Ik(xi, yi), si,k)}N\ni=1.(1)\nTo avoid bias toward over-represented quality levels, we construct a balanced probing dataset for\neach aspect: we first determine the minimum number of samples among the five score levels (1–5),\nand then randomly downsample the other levels to this size. This ensures that the multiclass probing\ntasks are balanced across labels and not dominated by frequent scores.\nSpecifically, original scores (1–5) are treated asmulticlass classification tasks, while responses\nwith scores higher than thresholdτare labeled high quality and the rest low quality, forming a\nsimplerbinary classification task. Since these aspects have been validated and the effectiveness\nof powerful LLMs has been extensively studied in prior work, we treat the resulting scores as gold\nlabels for our subsequent LM probing experiments.",
+      "section": "3 METHODOLOGY",
+      "char_count": 1098,
+      "chunk_index": 16,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0017",
+      "source_id": "SLMasJudge_2026",
+      "text": "e aspects have been validated and the effectiveness\nof powerful LLMs has been extensively studied in prior work, we treat the resulting scores as gold\nlabels for our subsequent LM probing experiments.\n3.2 SMALLLMS PROBING\nWe use probing to test whether small LMs encode linearly recoverable evaluative cues in their hid-\nden states, with the probe’s minimal capacity ensuring that any predictive signal reflects the model’s\nown semantics. In our tasks, we observe that prompt-based evaluation inference from small LMs\nMsmall (0-10B) yields a large gap compared to the gold scores fromM large , primarily due to dif-\nferences in model capacity. To address this, instead of relying solely on the final decoded text, we\nanalyze internal representations layer by layer to identify those most predictive of the gold evaluation\nscores. Specifically, we convert each promptI k(xi, yi)∈D probinto a collection of per-layer, pooled\nrepresentation features, and fit these features with simple, cross-validated linear probes. More ex-\nplanations could be found in Appendix B.",
+      "section": "3 METHODOLOGY",
+      "char_count": 1064,
+      "chunk_index": 17,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0018",
+      "source_id": "SLMasJudge_2026",
+      "text": "ptI k(xi, yi)∈D probinto a collection of per-layer, pooled\nrepresentation features, and fit these features with simple, cross-validated linear probes. More ex-\nplanations could be found in Appendix B.\n4\n\nExtraction and pooling.For a samplei, letS idenote the sequence length andt= 1, ..., S iindex\ntokens, we input promptI k(xi, yi)and runM smallin evaluation mode, obtaining per-layerℓhidden\nstatesH(ℓ)\niand attention weightsA(ℓ)\ni. FromH(ℓ)\niwe compute a small but expressive set of pooled\nvectors: mean, last, min, max, and concat. These pooling variants capture complementary token-\nlevel and global signals across layers. For example:\nr(ℓ)\ni,mean =1\nSiSiX\nt=1H(ℓ)\ni[t,:]∈Rd\nr(ℓ)\ni,last=H(ℓ)\ni[t∗\ni,:]∈Rd, t∗\ni= max{t:tokentnon-pad}(2)\nAttention and statistical features.For each headhof layerℓ, we compute an attention-entropy\nstatistice(ℓ)\ni,hand compress them into the number of attention headsRper layer:\nµ(ℓ)\ni=1\nRX\nhe(ℓ)\ni,h, σ(ℓ)\ni= std h\u0000\ne(ℓ)\ni,h\u0001\n,max\nhe(ℓ)\ni,h.(3)\nFor each pooled vectorrwe also compute compact statistics, including its norm norm(r), variance\nvar(r), and entropyE(r).",
+      "section": "3 METHODOLOGY",
+      "char_count": 1100,
+      "chunk_index": 18,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0019",
+      "source_id": "SLMasJudge_2026",
+      "text": "sRper layer:\nµ(ℓ)\ni=1\nRX\nhe(ℓ)\ni,h, σ(ℓ)\ni= std h\u0000\ne(ℓ)\ni,h\u0001\n,max\nhe(ℓ)\ni,h.(3)\nFor each pooled vectorrwe also compute compact statistics, including its norm norm(r), variance\nvar(r), and entropyE(r).\nFeature assembly.For each layerℓand pooling typep∈ {mean,last,min,max,concat}, we con-\nstruct a feature matrix by concatenating multiple components along the feature dimension:\nX(ℓ,p)=\u0002\nPCA d(r(ℓ)\ni,p)\f\f[norm,var, E(·)]| {z }\nstatistics\f\f[µ(ℓ)\ni, σ(ℓ)\ni,max\nhe(ℓ)\ni,h]\u0003N\ni=1(4)\nwherePCA ddenotes an optional dimensionality-reduction todcomponents. All transforms that\ndepend on the data (imputer, PCA, scaler) are applied inside a cross-validation pipeline to avoid\ninformation leakage.\nProbing and layer ranking.We treat gold labelss i,k∈ {1, . . . ,5}fromD probas both (i) a\nmulticlass prediction targetymulti\ni,k=si,kand (ii) a binary targetybin\ni,k=I[s i,k≥τ]with threshold\nτ(high vs. low quality). For eachX(ℓ,p)we fit a logistic probe and evaluate generalization with\nstratified cross-validation. Based on the fitting results, we rank layer–pool–feature configurations\nby a chosen criterion (binary or multiclass performance) for different downstream tasks.",
+      "section": "3 METHODOLOGY",
+      "char_count": 1164,
+      "chunk_index": 19,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0020",
+      "source_id": "SLMasJudge_2026",
+      "text": "ation with\nstratified cross-validation. Based on the fitting results, we rank layer–pool–feature configurations\nby a chosen criterion (binary or multiclass performance) for different downstream tasks.\nThe probing stage produces: (1) a ranked list of layer–pool–feature configurations with cross-\nvalidated predictive performance, (2) per-layer progression plots that visualize where evaluative\nsignal accumulates insideM small. These results inform the subsequent section, where we build final\nprobing classifiers using the selected features.\n3.3 BUILDING PROBING CLASSIFIERS\nThe probing stage produces a ranked list of layer–pool–feature configurations with predictive per-\nformance. In this section we describe how we use that ranked list to assemble multi-layer feature\nsets, train final probing classifiers, and select an optimal evaluator.\nFrom ranked configurations to candidate layer sets.Letπdenote the ranked list of\nlayer–pool–feature tuples produced after the previous probing stage. We take theTop-Kunique\nlayers inπand start from the highest-ranked single layer, iteratively adding the next-ranked layer\nonly if the addition improves performance.",
+      "section": "3 METHODOLOGY",
+      "char_count": 1159,
+      "chunk_index": 20,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0021",
+      "source_id": "SLMasJudge_2026",
+      "text": "d after the previous probing stage. We take theTop-Kunique\nlayers inπand start from the highest-ranked single layer, iteratively adding the next-ranked layer\nonly if the addition improves performance.\nFeature concatenation for multi-layer probes.For a chosen subset of layersS={ℓ 1, . . . , ℓ |S|}\nand a pooling methodp, we construct a multi-layer feature matrix by horizontally concatenating\nthe per-layer features defined in Eq. equation 4. Concretely, for sampleiwe form the concatenated\nfeature vector\n˜x(S,p)\ni =\u0002\nr(ℓ1)\ni,p;r(ℓ2)\ni,p;. . .;r(ℓ|S|)\ni,p\u0003\n∈R|S|·d p,(5)\nwhered pis the dimensionality of the pooled vector for poolingp. If attention summaries are in-\ncluded, we append the per-layer attention summaries to form the final feature vector. The assembled\ndataset forNexamples is eX(S,p)= [˜x(S,p)\n1, . . . , ˜x(S,p)\nN]⊤.\n5\n\nClassifier training and selection.For each candidate feature assembly eX(S,p), we train a family\nof simple, interpretable classifiers to predict both the multiclass targetymultiand the binary target\nybin. We select the final probing classifier by maximizing a task-specific performance criterion over\nthe candidate setSand probe families.",
+      "section": "3 METHODOLOGY",
+      "char_count": 1175,
+      "chunk_index": 21,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0022",
+      "source_id": "SLMasJudge_2026",
+      "text": "redict both the multiclass targetymultiand the binary target\nybin. We select the final probing classifier by maximizing a task-specific performance criterion over\nthe candidate setSand probe families. Formally, lettingCdenote the set of classifier hyperparame-\nterizations tested, we choose\n(S⋆, p⋆, θ⋆) = argmax\n(S,p,clf)¯a(S,p,clf)\nγ ,(S, p,clf)∈ S × P × C.(6)\nwhereγ∈ {bin,multi}denotes the classification task type (binary vs. multiclass), andθ⋆are the\nlearned classifier parameters for the selected configuration. In case of ties, we prefer the configura-\ntion with smallerσ(more stable performance) and with fewer layers.\nThis search yields a compact, high-performing probing classifier that uses a small subset of layers\nidentified by the probing stage, which is tuned for robust generalization via cross-validation and\ngrid search. It can serve as an efficient surrogate evaluator approximatingM largejudgments while\nremaining orders of magnitude cheaper at inference time.",
+      "section": "3 METHODOLOGY",
+      "char_count": 981,
+      "chunk_index": 22,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0023",
+      "source_id": "SLMasJudge_2026",
+      "text": "n via cross-validation and\ngrid search. It can serve as an efficient surrogate evaluator approximatingM largejudgments while\nremaining orders of magnitude cheaper at inference time.",
+      "section": "3 METHODOLOGY",
+      "char_count": 181,
+      "chunk_index": 23,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0024",
+      "source_id": "SLMasJudge_2026",
+      "text": "4 EXPERIMENTS\n4.1 EXPERIMENTAL SETUP\nDatasets.To prove the effectiveness on reasoning evaluation tasks, we picked three popular bench-\nmarks in Mathematics & Science Tasks: GSM8K (Cobbe et al., 2021), MATH (Hendrycks et al.,\n2021), and GPQA (Rein et al., 2024). Datasets statistics are shown in Appendix C.\nModels.In our experiments, we select Llama-3-8B-Instruct (Dubey et al., 2024) asM medfor re-\nsponse generation, as it achieves reasonable performance on the chosen benchmarks while produc-\ning diverse evaluation scores. For LLM-based evaluation annotation, we employ DeepSeek-V3 (Liu\net al., 2024) asM largeowing to its strong reasoning ability and relatively low cost. To validate\nthe effectiveness of our pipeline across different small LMs, we consider Qwen3-0.6B (Yang et al.,\n2025), Qwen3-1.7B (Yang et al., 2025), Llama-3.2-1B-Instruct (Dubey et al., 2024), and Llama-3.1-\n8B-Instruct (Dubey et al., 2024) asM small.\nBaselines.To the best of our knowledge, this is the first study to investigate LLM probing for\nevaluation tasks, and therefore related work is limited.",
+      "section": "4 EXPERIMENTS",
+      "char_count": 1081,
+      "chunk_index": 24,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0025",
+      "source_id": "SLMasJudge_2026",
+      "text": "3.1-\n8B-Instruct (Dubey et al., 2024) asM small.\nBaselines.To the best of our knowledge, this is the first study to investigate LLM probing for\nevaluation tasks, and therefore related work is limited. Accordingly, we compare our approach\nagainst three baselines: (1) direct prompt-based inference on small LMs, (2) fine-tuning small LMs\n(Qwen3-0.6B), and (3) RoBERTa (Liu et al., 2019) on probing datasets to fit the evaluation scores.\nImplementation Details.We set the score thresholdτ= 4, labeling samples with scores≥4as\nhigh-quality and those with scores<4as low-quality. For dimensionality reduction, we applyPCA\nwithd= 50in the probing process. We useK= 5for Top-Kaggregation and experiment with\na variety of classifiers, including Logistic Regression, Random Forests, small Multilayer Percep-\ntrons (MLPs), and linear Support Vector Machines (SVMs). Since all pooling, layer, and classifier\nvariants operate on cached hidden representations, exploring these configurations incurs negligible\ncomputational overhead. All test results are reported on the zero-shot prompt and weighted average\nF1 score. Additional implementations are provided in Appendix D.",
+      "section": "4 EXPERIMENTS",
+      "char_count": 1161,
+      "chunk_index": 25,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0026",
+      "source_id": "SLMasJudge_2026",
+      "text": "ese configurations incurs negligible\ncomputational overhead. All test results are reported on the zero-shot prompt and weighted average\nF1 score. Additional implementations are provided in Appendix D.\n4.2 PROBINGCLASSIFIERSRESULTS\nWe present the main results of our optimal probing classifiers across Mathematics & Science bench-\nmarks in Figure 3. Explicit statistics for the probing datasets and the numbers of main results can be\nfound in Appendix E, F. Notably, our strong results are obtained by only training on small probing\ndatasets (typically fewer than 100 samples per score) due to the downsampling strategy (3.1).\nProbing is much more effective than prompt-based inference.Figure 3 shows substantial im-\nprovements of our methods over baselines, with average F1 scores increasing by more than 20%\non most tasks. This suggests thatpoor outputs from LLMs do not necessarily imply that the\nmodels lack the underlying knowledge to solve the task. Instead,crucial information may be\n6\n\nFigure 3: Weighted average F1 score (%) across reasoning benchmarks with multiclass classification\nand binary classification tasks.",
+      "section": "4 EXPERIMENTS",
+      "char_count": 1124,
+      "chunk_index": 26,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0027",
+      "source_id": "SLMasJudge_2026",
+      "text": "g knowledge to solve the task. Instead,crucial information may be\n6\n\nFigure 3: Weighted average F1 score (%) across reasoning benchmarks with multiclass classification\nand binary classification tasks. Our probing method (colored bars with hatch marks) significantly\noutperforms prompting on the same models (colored bars without hatch marks) across all tasks.\nalready embedded in the internal representations, but remains hidden after the final decoding\nprocess. Probing allows us to uncover and leverage these latent understandings, whereas direct text\ngeneration can introduce noise and degrade human-interpretable performance. Importantly, the ef-\nfectiveness of our approach is consistently observed across all evaluation aspects and for different\nsizes ofM smallacross multiple model families, including results after fine-tuning. This provides a\nstrong indication that our method can be applied to more general scenarios.\nLarger LLMs do not necessarily provide stronger evaluation, either through inference or prob-\ning.Although Llama-3.1-8B-Instruct achieves the best results on several tasks, Qwen3-1.7B still\noutperforms it on certain benchmarks despite being much smaller.",
+      "section": "4 EXPERIMENTS",
+      "char_count": 1182,
+      "chunk_index": 27,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0028",
+      "source_id": "SLMasJudge_2026",
+      "text": "tion, either through inference or prob-\ning.Although Llama-3.1-8B-Instruct achieves the best results on several tasks, Qwen3-1.7B still\noutperforms it on certain benchmarks despite being much smaller. Within the same model family,\nboth the Qwen3 and Llama3 series demonstrate that larger models do not consistently surpass their\nsmaller counterparts across all aspects. For instance, on MATH, Qwen3-0.6B outperforms Qwen3-\n1.7B in prompt-based inference for logicality (18.18% vs. 15.06%), and Llama-3.2-1B-Instruct\nsurpasses Llama-3.1-8B-Instruct in binary probing for fluency (96.32% vs. 92.65%). These results\nhighlight that different models can exhibit distinct strengths across evaluation aspects, cautioning\nagainst a blind reliance on scaling laws.\nProbing classifiers for binary classification serve as highly reliable data filters.While the per-\nformance of probing classifiers on multiclass prediction remains modest (approximately 50–60%),\nthis is expected given the difficulty of approximating aM largethat is hundreds of times larger with\naM small.",
+      "section": "4 EXPERIMENTS",
+      "char_count": 1061,
+      "chunk_index": 28,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0029",
+      "source_id": "SLMasJudge_2026",
+      "text": "ce of probing classifiers on multiclass prediction remains modest (approximately 50–60%),\nthis is expected given the difficulty of approximating aM largethat is hundreds of times larger with\naM small. In contrast, binary classification performance reaches 80–90%, making it sufficiently reli-\nable to function as a reference-free coarse filtering mechanism. This capability is particularly valu-\nable for common NLP applications such as curating high-quality data for supervised fine-tuning,\nwhere the filter can efficiently separate high and low quality samples during initial screening and\nthereby reduce the cost of further fine-grained annotation.",
+      "section": "4 EXPERIMENTS",
+      "char_count": 651,
+      "chunk_index": 29,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0030",
+      "source_id": "SLMasJudge_2026",
+      "text": "5 ANALYSIS\n5.1 ABLATION STUDY OF POOLING AND CLASSIFIER METHODS\nFor each probing result in Figure 3, we don’t report the combinations of various pooling methods\n(r(ℓ)\niin Equation 2) and classifiers (clf in Equation 6). To better illustrate the effect of different\npooling and classifier choices, we conduct an ablation study on the Informativeness aspect of the\n7\n\nMATH dataset, using Qwen3-0.6B and Llama-3.2-1B-Instruct on binary classification, with results\nshown in Figure 4.\nThe results demonstrate that mean pooling consistently outperforms other strategies, which is intu-\nitive since averaging preserves critical information while producing compact feature representations.\nAmong classifiers, Logistic Regression achieves the best results. With limited data and potentially\nnoisy labels from LLMs scoring, calibrated probabilities and regularization from Logistic Regres-\nsion can lead to a better overall F1 score. These patterns match findings from recent studies: Kan-\ntamneni et al. (2025) show that complex probes often do not strongly outperform simpler pooling +\nlinear classifiers; Lee et al.",
+      "section": "5 ANALYSIS",
+      "char_count": 1109,
+      "chunk_index": 30,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0031",
+      "source_id": "SLMasJudge_2026",
+      "text": "erall F1 score. These patterns match findings from recent studies: Kan-\ntamneni et al. (2025) show that complex probes often do not strongly outperform simpler pooling +\nlinear classifiers; Lee et al. (2023) demonstrates that averaging over all token vectors can beat using\nonly CLS or last token embeddings. Finally, these findings are consistent with the detailed results\nshown in Table 11, where top-performing configurations most often involve mean pooling combined\nwith Logistic Regression classifiers.\nFigure 4: Ablation study of different pooling and classifier methods on binary classification tasks.\nLeft: logistic regression fixed. Right: mean pooling fixed.\n5.2 DATA FILTERING ANDSUPERVISEDFINE-TUNING(SFT)\nTo assess the effectiveness of our data filtering approach, we apply the trained probing classifiers\nof Qwen3-1.7B in a knowledge distillation setup, with Llama-3-8B-Instruct (Dubey et al., 2024)\nas the teacher and Llama-2-7B-Chat (Touvron et al., 2023) as the student. For each benchmark,\nthe classifiers assign binary scores (0 or 1) to every response across five aspects, which are then\nsummed to yield a total score between 0 and 5.",
+      "section": "5 ANALYSIS",
+      "char_count": 1154,
+      "chunk_index": 31,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0032",
+      "source_id": "SLMasJudge_2026",
+      "text": "ron et al., 2023) as the student. For each benchmark,\nthe classifiers assign binary scores (0 or 1) to every response across five aspects, which are then\nsummed to yield a total score between 0 and 5. Responses are ranked by this score from high to\nlow to construct the training set, and the student is trained on progressively larger subsets in 10%\nincrements. We directly compare our probing-based filtering against two baselines: (i) the gold\nDeepSeek-V3 filtering and (ii) random filtering. The result curves are summarized in Figure 5.\nFigure 5: Llama-2-7B-Chat SFT performance under different data filtering methods (probing clas-\nsifier, DeepSeek-V3, and random) with incremental training subsets.\nOur findings can be summarized as follows: (1) filtering training data with our probing classifiers\nyields SFT performance comparable to using powerful LLM as the filter, indicating that our ap-\nproach can approximate LLM-level data quality judgments; (2) both probing and DeepSeek-V3\nconsistent",
+      "section": "5 ANALYSIS",
+      "char_count": 1000,
+      "chunk_index": 32,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0033",
+      "source_id": "SLMasJudge_2026",
+      "text": "iers\nyields SFT performance comparable to using powerful LLM as the filter, indicating that our ap-\nproach can approximate LLM-level data quality judgments; (2) both probing and DeepSeek-V3\nconsistently outperform random filtering, despite occasional mid-range fluctuations where random\n8\n\nsampling may incidentally capture higher-quality data, reinforcing the importance of quality-aware\ndata selection for downstream training; and (3) the observedup–down–up trendsuggests that initial\ngains derive from training on high-quality data, performance then declines as lower-quality data is\nintroduced, and subsequently recovers once the volume of training data becomes sufficiently large.\nThis supports claims in prior studies (Sajith & Kathala, 2024; Iyer et al., 2024):data quality plays\nthe primary role in low-resource settings, whereas data quantity may become a dominant fac-\ntor as training data scales.\n6 SEMANTICCAPACITYASYMMETRY INEVALUATIVESIGNALS\n6.1 EVALUATIVESIGNALS ININTERMEDIATEREPRESENTATIONS\nTo better understand why small models can support accurate evaluation, we analyze the internal\nrepresentations used in our probing classifiers (§4).",
+      "section": "5 ANALYSIS",
+      "char_count": 1156,
+      "chunk_index": 33,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0034",
+      "source_id": "SLMasJudge_2026",
+      "text": "6.1 EVALUATIVESIGNALS ININTERMEDIATEREPRESENTATIONS\nTo better understand why small models can support accurate evaluation, we analyze the internal\nrepresentations used in our probing classifiers (§4). Specifically, we examine how evaluative signals\nvary across layers and what types of features most effectively capture them. We present representa-\ntive results in Figure 6, with additional analysis provided in Appendix I.\n(1) Representations Encode Strong Evaluative Signals.Across reasoning datasets, we observe\nthat hidden representations show substantial correlation with evaluation scores from the strong LLM\njudge. These signals are especially strong in mid-to-upper layers, indicating that evaluative infor-\nmation is embedded throughout intermediate layers, rather than being restricted to the output stage.\n(2) Evaluative Features Reside in Structured Feature Subspaces.Probing feature spaces derived\nfrom PCA-based subspaces often reveals evaluative signals more effectively than scalar or attention-\nderived features.",
+      "section": "5 ANALYSIS",
+      "char_count": 1029,
+      "chunk_index": 34,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0035",
+      "source_id": "SLMasJudge_2026",
+      "text": "ve Features Reside in Structured Feature Subspaces.Probing feature spaces derived\nfrom PCA-based subspaces often reveals evaluative signals more effectively than scalar or attention-\nderived features. These observations suggest that evaluative signals are present across structured\nfeature subspaces, with PCA-based projections revealing them more clearly than simpler features.\nFigure 6: Layer-wise probing accuracy forFactuality(left) andSemantic Consistency(right) using\nQwen3-1.7Bon theMATHdataset. PCA features perform best, peaking in upper layers.\n6.2 THESEMANTICCAPACITYASYMMETRYHYPOTHESIS\nThese patterns observed above support the hypothesis that accurate evaluation requires much less\ncapacity than generation and can rely on intermediate representations. This reflects an intrinsic\nasymmetry between the tasks: generation involves discourse planning and long dependencies that\ndemand substantial capacity and often require full decoding, while evaluation focuses on identifying\ninconsistencies or content errors, which are already accessible in intermediate model states.",
+      "section": "5 ANALYSIS",
+      "char_count": 1082,
+      "chunk_index": 35,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0036",
+      "source_id": "SLMasJudge_2026",
+      "text": "that\ndemand substantial capacity and often require full decoding, while evaluation focuses on identifying\ninconsistencies or content errors, which are already accessible in intermediate model states.\nPrior work has shown that internal representations often encode much richer and more reliable se-\nmantic information than what is reflected in surface outputs. Probing studies demonstrate that hid-\nden states capture fine-grained linguistic and semantic structure (Waldis et al., 2024; Rogers et al.,\n2020). Complementing this, latent-knowledge analyses reveal that task-relevant information can re-\nmain present in intermediate representations even when generated text is unreliable or intentionally\nmisled (Kadavath et al., 2022; Burns et al., 2023; Mallen et al., 2023). Building on these insights, we\nshow that intermediate representations not only encode general semantic structure but also contain\nevaluation-relevant signals that can be directly leveraged for effective reference-free assessment.",
+      "section": "5 ANALYSIS",
+      "char_count": 1003,
+      "chunk_index": 36,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0037",
+      "source_id": "SLMasJudge_2026",
+      "text": "e\nshow that intermediate representations not only encode general semantic structure but also contain\nevaluation-relevant signals that can be directly leveraged for effective reference-free assessment.\n9",
+      "section": "5 ANALYSIS",
+      "char_count": 202,
+      "chunk_index": 37,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0038",
+      "source_id": "SLMasJudge_2026",
+      "text": "7 CONCLUSION\nDespite suboptimal generation, small LMs retain strong evaluative signals in their internal repre-\nsentations. We validate the Semantic Capacity Asymmetry Hypothesis and introduce INSPECTOR,\na probing-based pipeline that extracts high-fidelity judgments from these latents. Experiments on\nvarious reasoning benchmarks show the capability of our method, suggesting that Representation-\nas-a-Judge can serve as a scalable and interpretable solution for evaluation and data curation.\nREPRODUCIBILITYSTATEMENT\nAll datasets and models used in our experiments are publicly accessible. We also provide additional\ndetails in the Appendix, including dataset statistics, model parameters, and training hyperparame-\nters. We believe that the information provided is sufficient to reproduce our methods and results.\nFurthermore, we will release all data and code in a public repository upon acceptance of the paper.\nUSE OFLARGELANGUAGEMODELS(LLMS)\nWe used large language models (LLMs) only for minor text polishing, such as grammar and phras-\ning. All ideas, experiments, analyses, and discussions were conducted solely by the authors.",
+      "section": "7 CONCLUSION",
+      "char_count": 1136,
+      "chunk_index": 38,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0039",
+      "source_id": "SLMasJudge_2026",
+      "text": "MODELS(LLMS)\nWe used large language models (LLMs) only for minor text polishing, such as grammar and phras-\ning. All ideas, experiments, analyses, and discussions were conducted solely by the authors. The\nLLM did not contribute to the design and interpretation of our research.",
+      "section": "7 CONCLUSION",
+      "char_count": 277,
+      "chunk_index": 39,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0040",
+      "source_id": "SLMasJudge_2026",
+      "text": "REFERENCES\nJosh Achiam, Steven Adler, Sandhini Agarwal, Lama Ahmad, Ilge Akkaya, Florencia Leoni Ale-\nman, Diogo Almeida, Janko Altenschmidt, Sam Altman, Shyamal Anadkat, et al. Gpt-4 technical\nreport.arXiv preprint arXiv:2303.08774, 2023.\nAlon Albalak, Yanai Elazar, Sang Michael Xie, Shayne Longpre, Nathan Lambert, Xinyi Wang,\nNiklas Muennighoff, Bairu Hou, Liangming Pan, Haewon Jeong, et al. A survey on data selection\nfor language models.arXiv preprint arXiv:2402.16827, 2024.\nCollin Burns, Haotian Ye, Dan Klein, and Jacob Steinhardt. Discovering latent knowledge in lan-\nguage models without supervision. InThe Eleventh International Conference on Learning Rep-\nresentations, 2023. URL\nYupeng Chang, Xu Wang, Jindong Wang, Yuan Wu, Linyi Yang, Kaijie Zhu, Hao Chen, Xiaoyuan\nYi, Cunxiang Wang, Yidong Wang, et al. A survey on evaluation of large language models.ACM\ntransactions on intelligent systems and technology, 15(3):1–45, 2024.\nKarl Cobbe, Vineet Kosaraju, Mohammad Bavarian, Mark Chen, Heewoo Jun, Lukasz Kaiser,\nMatthias Plappert, Jerry Tworek, Jacob Hilton, Reiichiro Nakano, Christopher Hesse, and John\nSchulman.",
+      "section": "REFERENCES",
+      "char_count": 1132,
+      "chunk_index": 40,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0041",
+      "source_id": "SLMasJudge_2026",
+      "text": "1–45, 2024.\nKarl Cobbe, Vineet Kosaraju, Mohammad Bavarian, Mark Chen, Heewoo Jun, Lukasz Kaiser,\nMatthias Plappert, Jerry Tworek, Jacob Hilton, Reiichiro Nakano, Christopher Hesse, and John\nSchulman. Training verifiers to solve math word problems.arXiv preprint arXiv:2110.14168,\n2021.\nDario Di Palma, Alessandro De Bellis, Giovanni Servedio, Vito Walter Anelli, Fedelucio Narducci,\nand Tommaso Di Noia. Llamas have feelings too: Unveiling sentiment and emotion representa-\ntions in llama models through probing.arXiv preprint arXiv:2505.16491, 2025.\nAbhimanyu Dubey, Abhinav Jauhri, Abhinav Pandey, Abhishek Kadian, Ahmad Al-Dahle, Aiesha\nLetman, Akhil Mathur, Alan Schelten, Amy Yang, Angela Fan, et al. The llama 3 herd of models.\narXiv e-prints, pp. arXiv–2407, 2024.\nYann Dubois, Bal ´azs Galambosi, Percy Liang, and Tatsunori B Hashimoto. Length-controlled al-\npacaeval: A simple way to debias automatic evaluators.arXiv preprint arXiv:2404.04475, 2024.\nOlga Golovneva, Moya Chen, Spencer Poff, Martin Corredor, Luke Zettlemoyer, Maryam Fazel-\nZarandi, and Asli Celikyilmaz. Roscoe: A suite of metrics for scoring step-by-step reasoning.\narXiv preprint arXiv:2212.07919, 2022.",
+      "section": "REFERENCES",
+      "char_count": 1183,
+      "chunk_index": 41,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0042",
+      "source_id": "SLMasJudge_2026",
+      "text": "hen, Spencer Poff, Martin Corredor, Luke Zettlemoyer, Maryam Fazel-\nZarandi, and Asli Celikyilmaz. Roscoe: A suite of metrics for scoring step-by-step reasoning.\narXiv preprint arXiv:2212.07919, 2022.\n10\n\nHangfeng He, Hongming Zhang, and Dan Roth. Socreval: Large language models with the socratic\nmethod for reference-free reasoning evaluation.arXiv preprint arXiv:2310.00074, 2023.\nDan Hendrycks, Collin Burns, Saurav Kadavath, Akul Arora, Steven Basart, Eric Tang, Dawn Song,\nand Jacob Steinhardt. Measuring mathematical problem solving with the math dataset.arXiv\npreprint arXiv:2103.03874, 2021.\nVivek Iyer, Bhavitvya Malik, Pavel Stepachev, Pinzhen Chen, Barry Haddow, and Alexandra Birch.\nQuality or quantity? on data scale and diversity in adapting large language models for low-\nresource translation.arXiv preprint arXiv:2408.12780, 2024.\nCharles Jin and Martin Rinard. Emergent representations of program semantics in language models\ntrained on programs. InForty-first International Conference on Machine Learning, 2024.\nSaurav Kadavath, Tom Conerly, Amanda Askell, Tom Henighan, Dawn Drain, Ethan Perez,\nNicholas Schiefer, Zac Hatfield-Dodds, Nova DasSarma, Eli Tran-Johnson, et al.",
+      "section": "REFERENCES",
+      "char_count": 1193,
+      "chunk_index": 42,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0043",
+      "source_id": "SLMasJudge_2026",
+      "text": "Conference on Machine Learning, 2024.\nSaurav Kadavath, Tom Conerly, Amanda Askell, Tom Henighan, Dawn Drain, Ethan Perez,\nNicholas Schiefer, Zac Hatfield-Dodds, Nova DasSarma, Eli Tran-Johnson, et al. Language mod-\nels (mostly) know what they know.arXiv preprint arXiv:2207.05221, 2022.\nSubhash Kantamneni, Joshua Engels, Senthooran Rajamanoharan, Max Tegmark, and Neel Nanda.\nAre sparse autoencoders useful? a case study in sparse probing.arXiv preprint arXiv:2502.16681,\n2025.\nKihoon Lee, Gyuho Choi, and Chang Choi. Use all tokens method to improve semantic relationship\nlearning.Expert Systems with Applications, 233:120911, 2023.\nKenneth Li, Aspen K Hopkins, David Bau, Fernanda Vi ´egas, Hanspeter Pfister, and Martin Watten-\nberg. Emergent world representations: Exploring a sequence model trained on a synthetic task.\nICLR, 2023.\nMing Li, Yong Zhang, Shwai He, Zhitao Li, Hongyu Zhao, Jianzong Wang, Ning Cheng, and Tianyi\nZhou. Superfiltering: Weak-to-strong data filtering for fast instruction-tuning. In Lun-Wei Ku,\nAndre Martins, and Vivek Srikumar (eds.),Proceedings of the 62nd Annual Meeting of the As-\nsociation for Computational Linguistics (Volume 1: Long Papers), pp.",
+      "section": "REFERENCES",
+      "char_count": 1186,
+      "chunk_index": 43,
+      "page_numbers": [
+        11
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0044",
+      "source_id": "SLMasJudge_2026",
+      "text": "fast instruction-tuning. In Lun-Wei Ku,\nAndre Martins, and Vivek Srikumar (eds.),Proceedings of the 62nd Annual Meeting of the As-\nsociation for Computational Linguistics (Volume 1: Long Papers), pp. 14255–14273, August\n2024a.\nMing Li, Yong Zhang, Zhitao Li, Jiuhai Chen, Lichang Chen, Ning Cheng, Jianzong Wang, Tianyi\nZhou, and Jing Xiao. From quantity to quality: Boosting LLM performance with self-guided\ndata selection for instruction tuning. In Kevin Duh, Helena Gomez, and Steven Bethard (eds.),\nProceedings of the 2024 Conference of the North American Chapter of the Association for Com-\nputational Linguistics: Human Language Technologies (Volume 1: Long Papers), pp. 7595–\n7628, Mexico City, Mexico, June 2024b. Association for Computational Linguistics. URL\n\nZhuochun Li, Yuelyu Ji, Rui Meng, and Daqing He. Learning from committee: Reasoning distilla-\ntion from a mixture of teachers with peer-review.arXiv preprint arXiv:2410.03663, 2024c.\nChin-Yew Lin. Rouge: A package for automatic evaluation of summaries. InText summarization\nbranches out, pp. 74–81, 2004.",
+      "section": "REFERENCES",
+      "char_count": 1074,
+      "chunk_index": 44,
+      "page_numbers": [
+        11
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0045",
+      "source_id": "SLMasJudge_2026",
+      "text": "a mixture of teachers with peer-review.arXiv preprint arXiv:2410.03663, 2024c.\nChin-Yew Lin. Rouge: A package for automatic evaluation of summaries. InText summarization\nbranches out, pp. 74–81, 2004.\nAixin Liu, Bei Feng, Bing Xue, Bingxuan Wang, Bochao Wu, Chengda Lu, Chenggang Zhao,\nChengqi Deng, Chenyu Zhang, Chong Ruan, et al. Deepseek-v3 technical report.arXiv preprint\narXiv:2412.19437, 2024.\nYang Liu, Dan Iter, Yichong Xu, Shuohang Wang, Ruochen Xu, and Chenguang Zhu. G-eval: Nlg\nevaluation using gpt-4 with better human alignment.arXiv preprint arXiv:2303.16634, 2023.\nYinhan Liu, Myle Ott, Naman Goyal, Jingfei Du, Mandar Joshi, Danqi Chen, Omer Levy, Mike\nLewis, Luke Zettlemoyer, and Veselin Stoyanov. Roberta: A robustly optimized bert pretraining\napproach.arXiv preprint arXiv:1907.11692, 2019.\nAlex Mallen, Madeline Brumley, Julia Kharchenko, and Nora Belrose. Eliciting latent knowledge\nfrom quirky language models.arXiv preprint arXiv:2312.01037, 2023.\n11\n\nMoran Mizrahi, Guy Kaplan, Dan Malkin, Rotem Dror, Dafna Shahaf, and Gabriel Stanovsky. State\nof what art?",
+      "section": "REFERENCES",
+      "char_count": 1083,
+      "chunk_index": 45,
+      "page_numbers": [
+        11
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0046",
+      "source_id": "SLMasJudge_2026",
+      "text": "iting latent knowledge\nfrom quirky language models.arXiv preprint arXiv:2312.01037, 2023.\n11\n\nMoran Mizrahi, Guy Kaplan, Dan Malkin, Rotem Dror, Dafna Shahaf, and Gabriel Stanovsky. State\nof what art? a call for multi-prompt LLM evaluation.Transactions of the Association for Com-\nputational Linguistics, 12:933–949, 2024.\nKishore Papineni, Salim Roukos, Todd Ward, and Wei-Jing Zhu. Bleu: a method for automatic\nevaluation of machine translation. InProceedings of the 40th annual meeting of the Association\nfor Computational Linguistics, pp. 311–318, 2002.\nFelipe Maia Polo, Ronald Xu, Lucas Weber, M ´ırian Silva, Onkar Bhardwaj, Leshem Choshen,\nAllysson Flavio Melo de Oliveira, Yuekai Sun, and Mikhail Yurochkin. Efficient multi-prompt\nevaluation of LLMs. InThe Thirty-eighth Annual Conference on Neural Information Processing\nSystems, 2024. URL\nArchiki Prasad, Swarnadeep Saha, Xiang Zhou, and Mohit Bansal. Receval: Evaluating reasoning\nchains via correctness and informativeness.arXiv preprint arXiv:2304.10703, 2023.\nDavid Rein, Betty Li Hou, Asa Cooper Stickland, Jackson Petty, Richard Yuanzhe Pang, Julien Di-\nrani, Julian Michael, and Samuel R Bowman.",
+      "section": "REFERENCES",
+      "char_count": 1163,
+      "chunk_index": 46,
+      "page_numbers": [
+        11
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0047",
+      "source_id": "SLMasJudge_2026",
+      "text": "ss and informativeness.arXiv preprint arXiv:2304.10703, 2023.\nDavid Rein, Betty Li Hou, Asa Cooper Stickland, Jackson Petty, Richard Yuanzhe Pang, Julien Di-\nrani, Julian Michael, and Samuel R Bowman. Gpqa: A graduate-level google-proof q&a bench-\nmark. InFirst Conference on Language Modeling, 2024.\nAnna Rogers, Olga Kovaleva, and Anna Rumshisky. A primer in BERTology: What we know about\nhow BERT works.Transactions of the Association for Computational Linguistics, 8:842–866,\n2020.\nAryan Sajith and Krishna Chaitanya Rao Kathala. Is training data quality or quantity more impactful\nto small language model performance?arXiv preprint arXiv:2411.15821, 2024.\nXing Shi, Inkit Padhi, and Kevin Knight. Does string-based neural mt learn source syntax? In\nProceedings of the 2016 conference on empirical methods in natural language processing, pp.\n1526–1534, 2016.\nGiulio Starace, Konstantinos Papakostas, Rochelle Choenni, Apostolos Panagiotopoulos, Matteo\nRosati, Alina Leidinger, and Ekaterina Shutova. Probing llms for joint encoding of linguistic\ncategories.arXiv preprint arXiv:2310.18696, 2023.",
+      "section": "REFERENCES",
+      "char_count": 1099,
+      "chunk_index": 47,
+      "page_numbers": [
+        12
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0048",
+      "source_id": "SLMasJudge_2026",
+      "text": "tas, Rochelle Choenni, Apostolos Panagiotopoulos, Matteo\nRosati, Alina Leidinger, and Ekaterina Shutova. Probing llms for joint encoding of linguistic\ncategories.arXiv preprint arXiv:2310.18696, 2023.\nHugo Touvron, Thibaut Lavril, Gautier Izacard, Xavier Martinet, Marie-Anne Lachaux, Timoth ´ee\nLacroix, Baptiste Rozi `ere, Naman Goyal, Eric Hambro, Faisal Azhar, et al. Llama: Open and\nefficient foundation language models.arXiv preprint arXiv:2302.13971, 2023.\nAnton V oronov, Lena Wolf, and Max Ryabinin. Mind your format: Towards consistent evaluation\nof in-context learning improvements. In Lun-Wei Ku, Andre Martins, and Vivek Srikumar (eds.),\nFindings of the Association for Computational Linguistics: ACL 2024, pp. 6287–6310, August\n2024.\nAndreas Waldis, Yotam Perlitz, Leshem Choshen, Yufang Hou, and Iryna Gurevych. HolmesΣa\nbenchmark to assess the linguistic competence of language models.Transactions of the Associa-\ntion for Computational Linguistics, 12:1616–1647, 2024.\nJason Wei, Xuezhi Wang, Dale Schuurmans, Maarten Bosma, Fei Xia, Ed Chi, Quoc V Le, Denny\nZhou, et al.",
+      "section": "REFERENCES",
+      "char_count": 1088,
+      "chunk_index": 48,
+      "page_numbers": [
+        12
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0049",
+      "source_id": "SLMasJudge_2026",
+      "text": "guage models.Transactions of the Associa-\ntion for Computational Linguistics, 12:1616–1647, 2024.\nJason Wei, Xuezhi Wang, Dale Schuurmans, Maarten Bosma, Fei Xia, Ed Chi, Quoc V Le, Denny\nZhou, et al. Chain-of-thought prompting elicits reasoning in large language models.Advances in\nneural information processing systems, 35:24824–24837, 2022.\nXiaohan Xu, Ming Li, Chongyang Tao, Tao Shen, Reynold Cheng, Jinyang Li, Can Xu, Dacheng\nTao, and Tianyi Zhou. A survey on knowledge distillation of large language models.arXiv\npreprint arXiv:2402.13116, 2024.\nAn Yang, Anfeng Li, Baosong Yang, Beichen Zhang, Binyuan Hui, Bo Zheng, Bowen Yu,\nChang Gao, Chengen Huang, Chenxu Lv, et al. Qwen3 technical report.arXiv preprint\narXiv:2505.09388, 2025.\nWeizhe Yuan, Graham Neubig, and Pengfei Liu. Bartscore: Evaluating generated text as text gener-\nation.Advances in neural information processing systems, 34:27263–27277, 2021.\n12\n\nQiyuan Zhang, Yufei Wang, Tiezheng Yu, Yuxin Jiang, Chuhan Wu, Liangyou Li, Yasheng Wang,\nXin Jiang, Lifeng Shang, Ruiming Tang, et al. Reviseval: Improving llm-as-a-judge via response-\nadapted references.arXiv preprint arXiv:2410.05193, 2024.",
+      "section": "REFERENCES",
+      "char_count": 1165,
+      "chunk_index": 49,
+      "page_numbers": [
+        12
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0050",
+      "source_id": "SLMasJudge_2026",
+      "text": "n Jiang, Chuhan Wu, Liangyou Li, Yasheng Wang,\nXin Jiang, Lifeng Shang, Ruiming Tang, et al. Reviseval: Improving llm-as-a-judge via response-\nadapted references.arXiv preprint arXiv:2410.05193, 2024.\nTianyi Zhang, Varsha Kishore, Felix Wu, Kilian Q Weinberger, and Yoav Artzi. Bertscore: Evaluat-\ning text generation with bert.arXiv preprint arXiv:1904.09675, 2019.\nYong Zhang, Yanwen Huang, Ning Cheng, Yang Guo, Yun Zhu, Yanmeng Wang, Shaojun Wang,\nand Jing Xiao. Sentinel: Attention probing of proxy models for llm context compression with an\nunderstanding perspective, 2025.\nLianmin Zheng, Wei-Lin Chiang, Ying Sheng, Siyuan Zhuang, Zhanghao Wu, Yonghao Zhuang,\nZi Lin, Zhuohan Li, Dacheng Li, Eric Xing, et al. Judging llm-as-a-judge with mt-bench and\nchatbot arena.Advances in neural information processing systems, 36:46595–46623, 2023.\nA LIMITATIONS\nWhile the proposed method demonstrates competitive performance compared to other baselines, we\nacknowledge that there are still potential limitations:\n• Following prior work, we adopt five evaluation aspects and construct corresponding prompt\ntemplates for our experiments.",
+      "section": "REFERENCES",
+      "char_count": 1132,
+      "chunk_index": 50,
+      "page_numbers": [
+        13
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0051",
+      "source_id": "SLMasJudge_2026",
+      "text": "o other baselines, we\nacknowledge that there are still potential limitations:\n• Following prior work, we adopt five evaluation aspects and construct corresponding prompt\ntemplates for our experiments. However, in the absence of standardized evaluation criteria,\nour chosen definitions may not represent the optimal formulation for all tasks. Furthermore,\nwe observe that the difficulty of the selected evaluation aspects varies. For instance, fluency\nappears to be the easiest, as the majority of responses consistently receive high scores\nrelative to other aspects. This suggests the need for further investigation into the design\nand selection of evaluation aspects.\n• Although we conducted experiments on various datasets, future work can explore more\ngeneral reasoning fields, such as commonsense and code generation tasks.\n• We only use the DeepSeek-V3 as our rating model, due to its cost and availability. How-\never, this may cause evaluation bias and affect our downstream probing classifier training\nprocess. Exploring diverse rating LLMs from different organizations could be a valuable\ndirection for future research.",
+      "section": "REFERENCES",
+      "char_count": 1127,
+      "chunk_index": 51,
+      "page_numbers": [
+        13
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0052",
+      "source_id": "SLMasJudge_2026",
+      "text": "s may cause evaluation bias and affect our downstream probing classifier training\nprocess. Exploring diverse rating LLMs from different organizations could be a valuable\ndirection for future research.\nB SMALLLMS PROBINGDETAILS\nNotation and extraction.For a samplei, we input promptI k(xi, yi)and runM smallin evaluation\nmode, obtaining\nH(ℓ)\ni∈RSi×d,A(ℓ)\ni∈RR×S i×Si,\nfor layersℓ= 1, . . . , L. HereS iis the token length,dthe hidden dimension, andRthe number of\nattention heads.\nPooling and representation.FromH(ℓ)\niwe compute a small but expressive set of pooled vectors.\nThese pooling variants capture complementary token-level and global signals across layers:\nr(ℓ)\ni,mean =1\nSiSiX\nt=1H(ℓ)\ni[t,:]∈Rd,\nr(ℓ)\ni,last=H(ℓ)\ni[t∗\ni,:]∈Rd, t∗\ni= max{t:tokentnon-pad},\nr(ℓ)\ni,min= min\ntH(ℓ)\ni[t,:],r(ℓ)\ni,max= max\ntH(ℓ)\ni[t,:],\nr(ℓ)\ni,concat =\u0002\nr(ℓ)\ni,min;r(ℓ)\ni,max;r(ℓ)\ni,mean\u0003\n∈R3d.\n13\n\nAttention and statistical features.For each headhof layerℓwe compute an attention-entropy\nstatistic (with small constantϵ >0for numerical stability):\ne(ℓ)\ni,h=−1\nSiSiX\ns=1SiX\nt=1A(ℓ)\ni,h,s,tlog\u0000\nA(ℓ)\ni,h,s,t+ϵ\u0001\n.",
+      "section": "REFERENCES",
+      "char_count": 1096,
+      "chunk_index": 52,
+      "page_numbers": [
+        13
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0053",
+      "source_id": "SLMasJudge_2026",
+      "text": "d statistical features.For each headhof layerℓwe compute an attention-entropy\nstatistic (with small constantϵ >0for numerical stability):\ne(ℓ)\ni,h=−1\nSiSiX\ns=1SiX\nt=1A(ℓ)\ni,h,s,tlog\u0000\nA(ℓ)\ni,h,s,t+ϵ\u0001\n.\nWe compress head-wise entropies into low-dimensional summaries per layer:\nµ(ℓ)\ni=1\nRX\nhe(ℓ)\ni,h, σ(ℓ)\ni= std h\u0000\ne(ℓ)\ni,h\u0001\n,max\nhe(ℓ)\ni,h.\nFor each pooled vectorrwe also compute compact statistics:\nnorm(r) =∥r∥ 2,var(r) = Var(r), E(r) =−X\nmsoftmax(r) mlog softmax(r) m,\nFeature assembly.For each layerℓand pooling typep∈ {mean,last,min,max,concat}we assem-\nble candidate feature matrices:\nX(ℓ,p)=\u0002\nPCA d(r(ℓ)\ni,p)\f\f[norm,var, E(·)]| {z }\nstatistics\f\f[µ(ℓ)\ni, σ(ℓ)\ni,max\nhe(ℓ)\ni,h]\u0003N\ni=1\nwherePCA ddenotes an optional dimensionality-reduction todcomponents. All transforms that\ndepend on the data (imputer, PCA, scaler) are applied inside a cross-validation pipeline to avoid\ninformation leakage.\nProbing and layer ranking.We treat gold labelss i,k∈ {1, . . . ,5}fromD probas both (i) a\nmulticlass prediction targetymulti\ni,k=si,kand (ii) a binary targetybin\ni,k=I[s i,k≥τ]with thresholdτ\n(high vs. low quality).",
+      "section": "REFERENCES",
+      "char_count": 1111,
+      "chunk_index": 53,
+      "page_numbers": [
+        14
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0054",
+      "source_id": "SLMasJudge_2026",
+      "text": "er ranking.We treat gold labelss i,k∈ {1, . . . ,5}fromD probas both (i) a\nmulticlass prediction targetymulti\ni,k=si,kand (ii) a binary targetybin\ni,k=I[s i,k≥τ]with thresholdτ\n(high vs. low quality). For eachX(ℓ,p)we fit a logistic probe (linear logistic regression; one-vs-rest\nfor multiclass) and evaluate generalization with stratified cross-validation.\nEach candidate probe yields a performance tuple\n\u0000\n¯a(ℓ,p)\nbin, σ(ℓ,p)\nbin,¯a(ℓ,p)\nmulti, σ(ℓ,p)\nmulti\u0001\nwhere¯a(ℓ,p)\nbin and¯a(ℓ,p)\nmulti denote the mean accuracies of the binary and multiclass probes, respectively,\nandσ(ℓ,p)\nbin, σ(ℓ,p)\nmulti their corresponding standard deviations across cross-validation folds. We rank\nlayer–pool–feature configurations by a chosen criterion (binary or multiclass accuracy mean) for\ndifferent downstream tasks.\nC DATASETSSTATISTICS\nWe download datasets GSM8K and GPQA from Huggingface, MATH from their official project\nwebsite: GSM8K dataset is split according to\nthe official original split ratio. We use the official training set for Math and MATH-500 for the test\nset due to its high representation and low cost.",
+      "section": "REFERENCES",
+      "char_count": 1109,
+      "chunk_index": 54,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0055",
+      "source_id": "SLMasJudge_2026",
+      "text": "ect\nwebsite: GSM8K dataset is split according to\nthe official original split ratio. We use the official training set for Math and MATH-500 for the test\nset due to its high representation and low cost. Since there is no official train/test split for GPQA, we\nuse gpqa main and gpqa extended as the training set, gpqa diamond as the test set. Table 1 shows\nthe statistics of all datasets.\nDataset Type #Train #Test\nGSM8K Mathematics 7473 1319\nMATH Mathematics 7500 500\nGPQA Science 994 198\nTable 1: Dataset statistics.\nD IMPLEMENTATIONDETAILS\nPrimary experiments are conducted on eight NVIDIA Quadro RTX 8000 and eight NVIDIA RTX\nA6000 GPUs.\n14\n\nD.1 SMALLLMSPARAMETERS\nThe parameter settings forM small: Qwen3-0.6B (Yang et al., 2025), Qwen3-1.7B (Yang et al., 2025),\nLlama-3.2-1B-Instruct (Dubey et al., 2024), and Llama-3.1-8B-Instruct (Dubey et al., 2024).\nParameter Value\ntemperature 0.6\nmax new tokens 256\ndo sample True\noutput hidden states True\noutput attentions True\ntorch dtype float16\nattnimplementation eager\nTable 2: Small LMs parameter settings.\nD.2 MEDIUMLMSPARAMETERS\nThe parameter settings forM med: Llama-3-8B-Instruct (Dubey et al., 2024).",
+      "section": "REFERENCES",
+      "char_count": 1155,
+      "chunk_index": 55,
+      "page_numbers": [
+        14
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0056",
+      "source_id": "SLMasJudge_2026",
+      "text": "t attentions True\ntorch dtype float16\nattnimplementation eager\nTable 2: Small LMs parameter settings.\nD.2 MEDIUMLMSPARAMETERS\nThe parameter settings forM med: Llama-3-8B-Instruct (Dubey et al., 2024).\nParameter Value\ntemperature 0\nmax new tokens 512\ndo sample True\ntorch dtype float16\ntopp 1.0\nTable 3: Medium LM parameter settings.\nD.3 LARGELMSPARAMETERS\nDeepSeek-V3 (Liu et al., 2024) is required by the official API:\ndeepseek.com.\nParameter Value\ntemperature 0\nmax new tokens 2048\ndo sample True\nmodel deepseek-chat\nresponse format{’type’: ’json object’}\nTable 4: Large LM parameter settings.\nD.4 MODELTUNINGHYPERPARAMETER\nWe list the training hyperparameters for Llama-2-7B-Chat (Touvron et al., 2023) in Section 6.4.\nD.5 PROBINGCLASSIFIERDETAILS\nWe train several probing classifiers on internal features to fit gold scores. All classifiers are imple-\nmented in scikit-learn pipelines with StandardScaler for feature normalization. We perform hyper-\nparameter search via 5-fold cross-validation using macro F1 as the scoring metric. Table 6 below\nsummarizes each classifier’s fixed parameters and the hyperparameter ranges considered in the grid\nsearch.",
+      "section": "REFERENCES",
+      "char_count": 1157,
+      "chunk_index": 56,
+      "page_numbers": [
+        15
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0057",
+      "source_id": "SLMasJudge_2026",
+      "text": "ameter search via 5-fold cross-validation using macro F1 as the scoring metric. Table 6 below\nsummarizes each classifier’s fixed parameters and the hyperparameter ranges considered in the grid\nsearch.\n15\n\nHyperparameter Value\nepoch 8\nbatch size 8\nlearning rate 1e-4\nwarmup steps 100\nmax seq length 1024\ngradient accumulation steps 4\nlora r 16\nlora alpha 32\nlora dropout 0.1\ntarget modules[\"q proj\", \"v proj\"]\nTable 5: Student LM training hyperparameter settings.\nClassifier Fixed Parameters Hyperparameter Grid\nLogistic Regressionmax iter=2000,\nclass weight=\"balanced\",\nsolver=\"lbfgs\"C: [0.001,0.01,0.1,1];\npenalty: [”l2”]\nRandom Forestclass weight=\"balanced\",\nrandom state=42nestimators:\n[100,300,500];\nmaxdepth: [None,10,20];\nminsamples leaf:\n[1,2,5]\nMulti-layer Percep-\ntronhidden layer sizes=(256,128),\nactivation=\"relu\",\nalpha=1e-4,\nlearning rate init=1e-3,\nmaxiter=1000,\nearly stopping=True,\nrandom state=42alpha: [1e-4,1e-3,1e-2];\nlearning rate init:\n[1e-4,1e-3,1e-2];\nhidden layer sizes:\n[(20",
+      "section": "REFERENCES",
+      "char_count": 1000,
+      "chunk_index": 57,
+      "page_numbers": [
+        15
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0058",
+      "source_id": "SLMasJudge_2026",
+      "text": ",128),\nactivation=\"relu\",\nalpha=1e-4,\nlearning rate init=1e-3,\nmaxiter=1000,\nearly stopping=True,\nrandom state=42alpha: [1e-4,1e-3,1e-2];\nlearning rate init:\n[1e-4,1e-3,1e-2];\nhidden layer sizes:\n[(200,100),(100,),(200,100,50)]\nLinear SVMkernel=\"linear\",\nclass weight=\"balanced\",\nprobability=True,\nrandom state=42C: [0.001,0.01,0.1,1,10,100]\nTable 6: Probing classifiers including fixed parameters and grid search ranges for hyperparameter\ntuning.\nE PROBINGDATASETSSTATISTICS\nAs explained in Section 4.1, we first determine the minimum number of samplesnamong the five\nscore levels (1–5), and then randomly downsample the other levels to this size. This ensures that\nthe multiclass probing tasks are balanced across labels and not dominated by frequent scores. Thus,\nafter downsampling,D prob contains a total of5×nsamples, and we split the dataset into training\nand test sets with an 80:20 ratio. In the following tables, we mark the minimum numbernof each\naspect inbold. These score distributions can reflect the difficulty evaluation levels among various\ndataset questions and aspects.",
+      "section": "REFERENCES",
+      "char_count": 1088,
+      "chunk_index": 58,
+      "page_numbers": [
+        16
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0059",
+      "source_id": "SLMasJudge_2026",
+      "text": "20 ratio. In the following tables, we mark the minimum numbernof each\naspect inbold. These score distributions can reflect the difficulty evaluation levels among various\ndataset questions and aspects.\nDprobstatistics for GSM8K:\nDprobstatistics for MATH:\nDprobstatistics for GPQA:\n16\n\n#score=1 #score=2 #score=3 #score=4 #score=5\nSemantic Consistency 184 491 369346435\nLogicality 118 842 174266353\nInformativeness4681 111 49 7226\nFluency1723 70 86 7317\nFactuality 377 300 479856272\nTable 7: Number of LLM-judge scores across five aspects of probing datasets on GSM8K.\n#score=1 #score=2 #score=3 #score=4 #score=5\nSemantic Consistency 441 467 18791214575\nLogicality 224 1288 1604984269\nInformativeness75180 748 2062 4418\nFluency 13227746 2857 3721\nFactuality 609 945 1818344077\nTable 8: Number of LLM-judge scores across five aspects of probing datasets on MATH.\n#score=1 #score=2 #score=3 #score=4 #score=5\nSemantic Consistency 257 529 6022125\nLogicality 267 463 1453187\nInformativeness 197 164 327 163142\nFluency 1352668 210 554\nFactuality 306 475 1194647\nTable 9: Number of LLM-judge scores across five aspects of probing datasets on GPQA.",
+      "section": "REFERENCES",
+      "char_count": 1140,
+      "chunk_index": 59,
+      "page_numbers": [
+        16
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0060",
+      "source_id": "SLMasJudge_2026",
+      "text": "25\nLogicality 267 463 1453187\nInformativeness 197 164 327 163142\nFluency 1352668 210 554\nFactuality 306 475 1194647\nTable 9: Number of LLM-judge scores across five aspects of probing datasets on GPQA.\nF DETAILEDMAINRESULTS\nWe show the specific numbers of results in Table 10.\nMethodSemantic Consistency Logicality Informativeness Fluency Factuality\nGSM8K MATH GPQA GSM8K MATH GPQA GSM8K MATH GPQA GSM8K MATH GPQA GSM8K MATH GPQA\nMulticlass Classification (score=1-5)\nRoBERTa (Liu et al., 2019) 7.03 28.34 5.59 8.65 26.18 17.18 6.40 11.65 28.14 8.96 8.08 8.65 6.73 7.03 8.50\nQwen3-0.6B(Yang et al., 2025)\nPrompt Inference 24.21 19.33 23.92 17.46 18.18 22.12 14.62 15.09 14.53 14.66 20.47 10.10 24.50 14.65 15.96\nTuning 16.38 24.76 16.00 16.64 17.68 29.03 14.63 16.01 28.14 18.18 21.91 19.84 29.35 15.23 15.16\nProbing Classifier 40.92 47.73 40.48 51.9352.00 64.23 45.18 61.07 57.97 51.46 60.9754.60 43.80 55.18 50.67\nLlama-3.2-1B-Instruct(Dubey et al., 2024)\nPrompt Inference 6.33 17.40 11.82 9.55 13.3",
+      "section": "REFERENCES",
+      "char_count": 1000,
+      "chunk_index": 60,
+      "page_numbers": [
+        17
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0061",
+      "source_id": "SLMasJudge_2026",
+      "text": "3 15.16\nProbing Classifier 40.92 47.73 40.48 51.9352.00 64.23 45.18 61.07 57.97 51.46 60.9754.60 43.80 55.18 50.67\nLlama-3.2-1B-Instruct(Dubey et al., 2024)\nPrompt Inference 6.33 17.40 11.82 9.55 13.32 11.73 23.54 12.34 12.12 17.11 17.52 8.45 11.76 10.74 12.83\nProbing Classifier 38.04 48.47 40.69 47.16 53.47 55.81 42.33 51.27 60.34 53.2955.16 50.13 43.29 47.80 49.21\nQwen3-1.7B(Yang et al., 2025)\nPrompt Inference 16.18 21.98 17.42 25.00 15.06 21.81 13.88 18.34 17.27 22.27 21.45 9.77 30.46 18.40 5.66\nProbing Classifier 42.98 58.45 40.93 49.86 59.0564.79 46.5151.42 59.79 47.3960.9745.02 48.8658.3454.37\nLlama-3.1-8B-Instruct(Dubey et al., 2024)\nPrompt Inference 14.72 27.97 20.78 12.75 26.04 25.34 30.20 37.21 27.35 19.33 48.94 12.69 14.07 9.63 22.53\nProbing Classifier 39.31 51.10 36.41 50.0059.6358.42 43.8561.78 62.28 42.56 56.15 45.36 44.0663.9449.56\nBinary-Classification (high vs low quality)\nRoBERTa (Liu et al., 2019) 43.57 45.40 43.90 46.89 45.25 46.58 46.06 45.00 44.83 43.57 44.10 46.8",
+      "section": "REFERENCES",
+      "char_count": 1000,
+      "chunk_index": 61,
+      "page_numbers": [
+        17
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0062",
+      "source_id": "SLMasJudge_2026",
+      "text": "6358.42 43.8561.78 62.28 42.56 56.15 45.36 44.0663.9449.56\nBinary-Classification (high vs low quality)\nRoBERTa (Liu et al., 2019) 43.57 45.40 43.90 46.89 45.25 46.58 46.06 45.00 44.83 43.57 44.10 46.89 45.00 43.57 46.06\nQwen3-0.6B(Yang et al., 2025)\nPrompt Inference 42.71 51.13 40.27 57.22 51.99 49.93 49.71 59.74 48.21 35.29 56.08 61.95 57.41 57.26 55.99\nTuning 42.71 45.40 45.45 65.85 45.25 64.75 38.98 45.00 44.83 47.43 50.73 53.85 45.00 57.26 63.21\nProbing Classifier 79.28 76.07 72.95 68.43 78.80 71.16 65.48 84.16 78.73 82.35 92.65 92.31 73.80 70.16 76.37\nLlama-3.2-1B-Instruct(Dubey et al., 2024)\nPrompt Inference 43.57 43.48 35.12 43.08 45.45 74.35 42.79 41.03 41.31 37.65 22.93 52.75 44.44 46.28 71.17\nProbing Classifier 82.3568.07 63.64 65.00 78.7980.85 72.08 86.80 76.93 82.3596.3287.94 71.42 73.36 80.52\nQwen3-1.7B(Yang et al., 2025)\nPrompt Inference 38.95 53.88 34.66 61.54 51.34 63.28 38.94 56.28 50.26 41.58 50.73 59.17 69.85 58.22 49.90\nProbing Classifier 76.1379.2168.38 72.78 83.67",
+      "section": "REFERENCES",
+      "char_count": 1000,
+      "chunk_index": 62,
+      "page_numbers": [
+        17
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0063",
+      "source_id": "SLMasJudge_2026",
+      "text": "1.42 73.36 80.52\nQwen3-1.7B(Yang et al., 2025)\nPrompt Inference 38.95 53.88 34.66 61.54 51.34 63.28 38.94 56.28 50.26 41.58 50.73 59.17 69.85 58.22 49.90\nProbing Classifier 76.1379.2168.38 72.78 83.6774.47 72.0885.4880.96 88.3292.6596.11 81.2673.3687.11\nLlama-3.1-8B-Instruct(Dubey et al., 2024)\nPrompt Inference 34.02 58.01 45.10 29.22 64.80 58.81 42.32 86.67 65.63 69.56 85.27 84.80 38.02 52.26 58.12\nProbing Classifier 76.13 75.1177.42 68.43 79.77 80.65 69.9188.1280.41 76.63 92.65 88.33 70.5176.4774.21\nTable 10: Average F1 score (%) across various reasoning benchmarks with multiclass classification\nand binary classification tasks. The best performance among different classification tasks in each\nbenchmark is marked inbold.\nWe also report the specific layers, pooling, and classifier methods that achieve the best probing\nperformance, as summarized in Table 10, across different benchmarks in Table 11.",
+      "section": "REFERENCES",
+      "char_count": 910,
+      "chunk_index": 63,
+      "page_numbers": [
+        17
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0064",
+      "source_id": "SLMasJudge_2026",
+      "text": "ark is marked inbold.\nWe also report the specific layers, pooling, and classifier methods that achieve the best probing\nperformance, as summarized in Table 10, across different benchmarks in Table 11.\n17\n\nGSM8K MATH GPQA\nMulticlass Classification (score=1-5)\nSemantic Consistency Qwen3-1.7B, layers=[14,25],\npool=”mean”, LRQwen3-1.7B, layers=[15],\npool=”mean”, LSQwen3-1.7B, layers=[2],\npool=”mean”, LS\nLogicality Qwen3-0.6B, layers=[17],\npool=”mean”, LRLlama-3.1-8B-Instruct, lay-\ners=[17], pool=”last”, LRQwen3-1.7B, layers=[13],\npool=”mean”, LS\nInformativeness Qwen3-1.7B, layers=[16,17],\npool=”mean”, LSLlama-3.1-8B-Instruct, lay-\ners=[10], pool=”mean”, LSLlama-3.1-8B-Instruct, lay-\ners=[12], pool=”mean”, LS\nFluency Llama-3.2-1B-Instruct, lay-\ners=[1], pool=”last”, LSQwen3-1.7B, layers=[18],\npool=”mean”, LSQwen3-0.6B, layers=[18],\npool=”last”, LR\nFactuality Qwen3-1.7B, layers=[14,18],\npool=”mean”, LRLlama-3.1-8B-Instruct, lay-\ners=[21], pool=”mean”, LRQwen3-1.7B, layers=[15],\npool=”last”,",
+      "section": "REFERENCES",
+      "char_count": 999,
+      "chunk_index": 64,
+      "page_numbers": [
+        17
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0065",
+      "source_id": "SLMasJudge_2026",
+      "text": "ool=”mean”, LSQwen3-0.6B, layers=[18],\npool=”last”, LR\nFactuality Qwen3-1.7B, layers=[14,18],\npool=”mean”, LRLlama-3.1-8B-Instruct, lay-\ners=[21], pool=”mean”, LRQwen3-1.7B, layers=[15],\npool=”last”, LR\nBinary-Classification (high vs low quality)\nSemantic Consistency Llama-3.2-1B-Instruct, lay-\ners=[3], pool=”last”, LSQwen3-1.7B, layers=[15],\npool=”mean”, LRLlama-3.1-8B-Instruct, lay-\ners=[16], pool=”last”, LR\nLogicality Qwen3-1.7B, layers=[24],\npool=”last”, LRQwen3-1.7B, layers=[18],\npool=”last”, LRLlama-3.2-1B-Instruct, lay-\ners=[3], pool=”last”, LR\nInformativeness Qwen3-1.7B, layers=[21],\npool=”mean”, LSLlama-3.1-8B-Instruct, lay-\ners=[20], pool=”last”, LSQwen3-1.7B, layers=[17],\npool=”mean”, LR\nFluency Qwen3-1.7B, layers=[1,11],\npool=”last”, LSLlama-3.2-1B-Instruct, lay-\ners=[13], pool=”last”, LRQwen3-1.7B, layers=[14],\npool=”mean”, LR\nFactuality Qwen3-1.7B, layers=[16],\npool=”mean”, LRLlama-3.1-8B-Instruct, lay-\ners=[28], pool=”mean”, LRQwen3-1.7B, layers=[18],\npool=”last”, LS\nTable 11: Detailed layers, pooling and classifiers selection for best probing performances. ”pool”\ndenotes different pooling methods in Equation 2.",
+      "section": "REFERENCES",
+      "char_count": 1144,
+      "chunk_index": 65,
+      "page_numbers": [
+        18
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0066",
+      "source_id": "SLMasJudge_2026",
+      "text": "l=”mean”, LRQwen3-1.7B, layers=[18],\npool=”last”, LS\nTable 11: Detailed layers, pooling and classifiers selection for best probing performances. ”pool”\ndenotes different pooling methods in Equation 2. ”LR” denotes Logistic Regression and ”LS” de-\nnotes linear SVM.\nG OUT-OF-DISTRIBUTION(OOD)PROBING\nTo evaluate the generalization abilities of our probing methods on Out-of-Distribution (OOD) data,\nwe conducted experiments using one mathematical reasoning dataset as the training set and another\ndataset as the test set. Table 12 highlights the probing performance with Qwen3-1.7B as theM small\nin OOD scenarios. Our analysis reveals two complementary patterns. First, multiclass (1–5) prob-\ning demonstrates limited transferability, with F1 scores dropping to approximately 10–25%, sug-\ngesting that fine-grained score prediction is dataset-specific. In particular, transferring from more\nchallenging datasets (MATH) to simpler ones (GSM8K) proves more difficult than the reverse. Sec-\nond, binary probing demonstrates substantially greater robustness under distribution shift: out-of-\ndistribution F1 scores range from∼35–62%, comparable to in-distribution results in Table 10.",
+      "section": "REFERENCES",
+      "char_count": 1179,
+      "chunk_index": 66,
+      "page_numbers": [
+        18
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0067",
+      "source_id": "SLMasJudge_2026",
+      "text": "e. Sec-\nond, binary probing demonstrates substantially greater robustness under distribution shift: out-of-\ndistribution F1 scores range from∼35–62%, comparable to in-distribution results in Table 10. These\nfindings suggest that PCA-based linear probing reliably captures coarse, domain-general quality sig-\nnals, whereas fine-grained distinctions are too difficult to transfer. Consequently, for claims of OOD\nrobustness, we emphasize binary evaluations and recommend controlling probe capacity when re-\nporting cross-dataset transfer.\nMethodSemantic Consistency Logicality Informativeness Fluency Factuality\nGSM8K MATH GSM8K MATH GSM8K MATH GSM8K MATH GSM8K MATH\nMulticlass Classification (score=1-5)\nQwen3-1.7B\nProbing Classifier 10.31 14.26 10.19 23.50 16.47 11.65 13.35 11.60 16.63 27.57\nBinary-Classification (high vs low quality)\nQwen3-1.7B\nProbing Classifier 35.76 61.04 27.20 62.90 60.39 45.00 41.58 23.59 36.70 62.19\nTable 12: Average F1 score (%) of test results across mathematics reasoning benchmarks in Out-\nof-Distribution (OOD) scenarios. Specifically, we conducted experiments by training on GSM8K\nand testing on MATH, as well as training on MATH and testing on GSM8K.",
+      "section": "REFERENCES",
+      "char_count": 1185,
+      "chunk_index": 67,
+      "page_numbers": [
+        18
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0068",
+      "source_id": "SLMasJudge_2026",
+      "text": "ematics reasoning benchmarks in Out-\nof-Distribution (OOD) scenarios. Specifically, we conducted experiments by training on GSM8K\nand testing on MATH, as well as training on MATH and testing on GSM8K.\nH EXTENDED RESULTS ON OPEN-ENDED BENCHMARK\nWhile our primary focus is on reasoning evaluation, we additionally evaluated our approach on the\nopen-ended generation benchmark AlpacaEval 2.0 (Dubois et al., 2024), using the same experi-\nmental settings as the three reasoning benchmarks in Table 10. The results of AlpacaEval 2.0 are\nshown in Table 13. The results further supports the effectiveness and robustness of our approach on\na broader range of domains and tasks, including reference-free open-ended benchmarks.\n18\n\nMethod Semantic Consistency Logicality Informativeness Fluency Factuality\nMulticlass Classification (score=1-5)\nRoBERTa (Liu et al., 2019) 7.56 8.08 8.32 11.69 8.08\nQwen3-0.6B(Yang et al., 2025)\nPrompt Inference 22.40 11.11 16.94 11.82 8.89\nTuning 14.29 11.11 9.93 10.61 12.70\nP",
+      "section": "REFERENCES",
+      "char_count": 1000,
+      "chunk_index": 68,
+      "page_numbers": [
+        18
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0069",
+      "source_id": "SLMasJudge_2026",
+      "text": "iclass Classification (score=1-5)\nRoBERTa (Liu et al., 2019) 7.56 8.08 8.32 11.69 8.08\nQwen3-0.6B(Yang et al., 2025)\nPrompt Inference 22.40 11.11 16.94 11.82 8.89\nTuning 14.29 11.11 9.93 10.61 12.70\nProbing Classifier 36.84 42.59 46.71 61.21 23.33\nLlama-3.2-1B-Instruct(Dubey et al., 2024)\nPrompt Inference 12.50 13.33 8.37 16.97 0.20\nProbing Classifier 35.71 55.56 46.08 61.21 28.57\nQwen3-1.7B(Yang et al., 2025)\nPrompt Inference 7.14 20.11 22.70 25.19 20.00\nProbing Classifier 35.12 45.93 42.01 65.10 23.70\nLlama-3.1-8B-Instruct(Dubey et al., 2024)\nPrompt Inference 14.92 17.99 18.34 23.38 14.29\nProbing Classifier 34.69 53.70 45.90 57.32 22.96\nBinary-Classification (high vs low quality)\nRoBERTa (Liu et al., 2019) 41.56 39.68 46.58 49.49 39.68\nQwen3-0.6B(Yang et al., 2025)\nPrompt Inference 55.24 43.00 49.93 46.36 44.44\nTuning 35.24 43.00 45.41 28.48 27.78\nProbing Classifier 61.42 55.56 62.76 91.06 55.56\nLlama-3.2-1B-Instruct(Dubey et al., 2024)\nPrompt Inference 49.20 34.19 59.26 64.24 39.68",
+      "section": "REFERENCES",
+      "char_count": 999,
+      "chunk_index": 69,
+      "page_numbers": [
+        19
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0070",
+      "source_id": "SLMasJudge_2026",
+      "text": "43.00 49.93 46.36 44.44\nTuning 35.24 43.00 45.41 28.48 27.78\nProbing Classifier 61.42 55.56 62.76 91.06 55.56\nLlama-3.2-1B-Instruct(Dubey et al., 2024)\nPrompt Inference 49.20 34.19 59.26 64.24 39.68\nProbing Classifier 67.14 70.42 67.44 81.82 65.80\nQwen3-1.7B(Yang et al., 2025)\nPrompt Inference 50.24 65.80 45.03 45.45 55.56\nProbing Classifier 67.14 75.93 70.71 91.06 77.78\nLlama-3.1-8B-Instruct(Dubey et al., 2024)\nPrompt Inference 39.77 48.15 58.34 62.42 27.35\nProbing Classifier 70.16 77.78 69.96 82.12 64.07\nTable 13: Average F1 score (%) on AlpacaEval 2.0 with multiclass classification and binary classi-\nfication tasks.\nI ADDITIONALANALYSIS OFEVALUATIVESIGNALS\nTo complement the main findings in Figure 6, we include detailed layer-wise analyses for additional\nevaluation dimensions:Factuality,Informativeness,Logicality, andSemantic Consistency. These\nresults are based onQwen3-1.7Bevaluated on theMATHdataset. Each figure reports probing\naccuracy across layers using three feature types: PCA-projected embeddings, statistical summaries,\nand attention-derived vectors.\nFigure 7: Layer-wise diagnostic results forInformativeness. Peak correlation appears near Layer\n25.",
+      "section": "REFERENCES",
+      "char_count": 1176,
+      "chunk_index": 70,
+      "page_numbers": [
+        19
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0071",
+      "source_id": "SLMasJudge_2026",
+      "text": "three feature types: PCA-projected embeddings, statistical summaries,\nand attention-derived vectors.\nFigure 7: Layer-wise diagnostic results forInformativeness. Peak correlation appears near Layer\n25. PCA accuracy increases steadily, while stats features decline in upper layers.\n19\n\nFigure 8: Layer-wise diagnostic results forLogicality. Signals concentrate around Layers 17 and\n27. PCA features show rising accuracy toward the upper layers.\nFigure 9: Layer-wise diagnostic results forFluency. Evaluative signals show local peaks at Layer\n17.\nJ CASEANALYSIS\nThis case compares three evaluators scoring the same model-generated response: a strong LLM\njudge (DeepSeek-V3), a probing-based judge that accesses intermediate representations of Qwen3-\n1.7B, and a prompt-based judge that relies on the same model’s generated evaluation text. Consistent\nwith our main hypothesis, the probing-based scores closely match the strong judge, indicating that\nthe semantic and factual signals required for accurate evaluation are already encoded in the small\nmodel’s latent states.",
+      "section": "REFERENCES",
+      "char_count": 1068,
+      "chunk_index": 71,
+      "page_numbers": [
+        19
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0072",
+      "source_id": "SLMasJudge_2026",
+      "text": "esis, the probing-based scores closely match the strong judge, indicating that\nthe semantic and factual signals required for accurate evaluation are already encoded in the small\nmodel’s latent states.\nIn contrast, the prompt-based evaluation from the same small model diverges: although its numeric\nscores remain plausible, the generated justifications introduce spurious concerns, overinterpret mi-\nnor details, or provide unreliable reasoning. These deviations reflect the higher capacity demands\nof generating a coherent evaluation explanation. The pattern illustrates a core capacity asymme-\ntry—evaluation depends on localized semantic cues accessible from intermediate representations,\nwhereas producing well-formed meta-evaluative text requires long-range structuring and discourse\nplanning that small models struggle to express reliably.\nGSM8K EXAMPLE\nQuestion:\nKeaton climbed a 30 feet ladder twenty times while working at the construction site. Reece, also working\nat the same site, climbed a ladder 4 feet shorter than Keaton ´s ladder 15 times.",
+      "section": "REFERENCES",
+      "char_count": 1056,
+      "chunk_index": 72,
+      "page_numbers": [
+        20
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0073",
+      "source_id": "SLMasJudge_2026",
+      "text": "PLE\nQuestion:\nKeaton climbed a 30 feet ladder twenty times while working at the construction site. Reece, also working\nat the same site, climbed a ladder 4 feet shorter than Keaton ´s ladder 15 times. What ´s the total length of\nthe ladders that both workers climbed in inches?\n20\n\nGold Answer:11880\nModel Prediction:\nLet’s break it down step by step.\nKeaton climbed a 30 feet ladder 20 times. To find the total length of the ladder he climbed, we\nneed to multiply the height of the ladder by the number of times he climbed it:\n30 feet/ladder × 20 times = 600 feet\nSince there are 12 inches in 1 foot, we can convert the total length from feet to inches:\n600 feet × 12 inches/foot = 7200 inches\nNow, let ´s calculate the total length of the ladder Reece climbed. Reece climbed a ladder that was\n4 feet shorter than Keaton ´s ladder, which means Reece ´s ladder was:\n30 feet - 4 feet = 26 feet\nReece climbed the ladder 15 times, so the total length of the ladder he climbed is:\n26 feet/ladder × 15 tim",
+      "section": "REFERENCES",
+      "char_count": 1000,
+      "chunk_index": 73,
+      "page_numbers": [
+        20
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0074",
+      "source_id": "SLMasJudge_2026",
+      "text": "t shorter than Keaton ´s ladder, which means Reece ´s ladder was:\n30 feet - 4 feet = 26 feet\nReece climbed the ladder 15 times, so the total length of the ladder he climbed is:\n26 feet/ladder × 15 times = 390 feet\nConverting this to inches:\n390 feet × 12 inches/foot = 4680 inches\nNow, let ´s add the total length of the ladders climbed by both workers:\n7200 inches (Keaton) + 4680 inches (Reece) = 11,880 inches\nSo, the total length of the ladders that both workers climbed is 11,880 inches.\nDEEPSEEK-V3 OUTPUT\nSemantic Consistency (score 5):Every step strictly follows the problem facts without inventing events,\ndropping givens, or adding unstated assumptions. The response correctly processes Keaton ´s 30-foot lad-\nder climbed 20 times, calculates Reece ´s ladder as 4 feet shorter (26 feet) climbed 15 times, converts both\ntotals from feet to inches using the standard conversion (12 inches per foot), and sums the results accu-\nrately. The final answer is fully grounded in the given problem.\nLogicality (score 5):All inferences and arithmetic are valid; each step follows logically from prior steps.",
+      "section": "REFERENCES",
+      "char_count": 1107,
+      "chunk_index": 74,
+      "page_numbers": [
+        21
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0075",
+      "source_id": "SLMasJudge_2026",
+      "text": "and sums the results accu-\nrately. The final answer is fully grounded in the given problem.\nLogicality (score 5):All inferences and arithmetic are valid; each step follows logically from prior steps.\nThe response correctly interprets the problem, performs accurate calculations for both workers (including\nthe conversion from feet to inches), and sums the results appropriately.\nInformativeness (score 5):Full, verifiable step-by-step derivation showing all essential calculations:\nKeaton ´s total feet (30 × 20 = 600), conversion to inches (600 × 12 = 7200), Reece ´s ladder height (30 - 4\n= 26), Reece ´s total feet (26 × 15 = 390), conversion to inches (390 × 12 = 4680), and final sum (7200 +\n4680 = 11880). Anyone can re-check the answer from these clear, complete steps.\nFluency (score 5):Clear, grammatical, well-punctuated, and easy to follow; uses readable notation and\nstep-by-step presentation that flows logically from one calculation to the next.",
+      "section": "REFERENCES",
+      "char_count": 959,
+      "chunk_index": 75,
+      "page_numbers": [
+        21
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0076",
+      "source_id": "SLMasJudge_2026",
+      "text": ", complete steps.\nFluency (score 5):Clear, grammatical, well-punctuated, and easy to follow; uses readable notation and\nstep-by-step presentation that flows logically from one calculation to the next.\nFactuality (score 5):All factual claims are correct and well-supported: accurate arithmetic (30×20=600,\n30-4=26, 26×15=390, 600×12=7200, 390×12=4680, 7200+4680=11880), correct unit conversion (12\ninches per foot), and proper application of the problem ´s conditions. No errors, hallucinations, or unsup-\nported assertions.\nQWEN3-1.7B PROBINGEVALUATION\nPredicted scores:\nSemantic Consistency: 4\nLogicality: 5\nInformativeness: 5\nFluency: 5\nFactuality: 5\n21\n\nQWEN3-1.7B PROMPT-BASEDEVALUATIONOUTPUT\nSemantic Consistency (score 3):Solution follows the problem facts. Minor consistency lapse: the\nrationale never states the tacit assumption that each ’climb’ is a single ascent. Also, unit management is\ndone per person instead of showing a single feet-to-inches conversion. These are small omissions that do\nnot change the numeric result, so mid-level credit is appropriate.\nLogicality (score 3):Arithmetic steps are correct.",
+      "section": "REFERENCES",
+      "char_count": 1122,
+      "chunk_index": 76,
+      "page_numbers": [
+        21
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0077",
+      "source_id": "SLMasJudge_2026",
+      "text": "d of showing a single feet-to-inches conversion. These are small omissions that do\nnot change the numeric result, so mid-level credit is appropriate.\nLogicality (score 3):Arithmetic steps are correct. Logical inefficiency exists: the chain converts each\nperson to inches separately rather than adding feet then converting once — a harmless but unnecessary\ndetour. Because all inferences are valid but the chain is slightly untidy, a middle score fits.\nInformativeness (score 3):Key calculations are present. However, the explanation omits one explicit\ngrouped intermediate (explicitly writing ’total = 990 ft’ before conversion is not shown in every version),\nand some steps are shown only implicitly. Enough detail to verify the answer, but not fully exhaustive —\nhence partial credit.\nFluency (score 4):Language is clear, grammatical, and easy to follow. Sentences read naturally and\nnumeric steps are separated. Minor repetition and slightly verbose conversion phrasing prevent a perfect\nscore, but overall readability is high.",
+      "section": "REFERENCES",
+      "char_count": 1030,
+      "chunk_index": 77,
+      "page_numbers": [
+        22
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0078",
+      "source_id": "SLMasJudge_2026",
+      "text": "tical, and easy to follow. Sentences read naturally and\nnumeric steps are separated. Minor repetition and slightly verbose conversion phrasing prevent a perfect\nscore, but overall readability is high.\nFactuality (score 2):While the final numeric answer is correct, there are factual/imprecision concerns\nthat lower confidence: (1) the rationale implicitly assumes ’climb’ means one ascent and does not state\nthis, which could be misread in other contexts; (2) converting per-person instead of converting total feet\nintroduces an avoidable chance for unit-handling mistakes in variants of the problem. These represent\nmultiple factual/imprecision issues significant enough to warrant a low factuality rating.\nFigure: Complete evaluation outputs for the GSM8K case across three judges: DeepSeek-V3, Qwen3-1.7B\n(probing), and Qwen3-1.7B (prompting).\nK PROMPT TEMPLATES\nWe provide the one-shot evaluation prompt templates for five aspects defined in Section 4.1 across\nthree selected benchmarks: GSM8K, MATH, and GPQA. We use these prompts to get LLM evalu-\nation results. Some parts of the prompt design are inspired by SOCREV AL(He et al., 2023).",
+      "section": "REFERENCES",
+      "char_count": 1144,
+      "chunk_index": 78,
+      "page_numbers": [
+        22
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0079",
+      "source_id": "SLMasJudge_2026",
+      "text": "n Section 4.1 across\nthree selected benchmarks: GSM8K, MATH, and GPQA. We use these prompts to get LLM evalu-\nation results. Some parts of the prompt design are inspired by SOCREV AL(He et al., 2023).\nIt’s noticeable that when we use these same prompts to prob small LMs, we found the prompts\nare too complex for small LMs to understand, which makes it difficult to acquire accurate probing\nresults. Thus, for probing prompts, we remove the one-shot example and ask it to directly output\nthe score, instead of JSON output. Specifically, for the probing evaluation prompt, we remove\nthe ”Example question”, ”Example generated response”, and ”Example representation”. We also\nchange the final output requirement to: ”Now evaluate the Question and Generated response above\nbased on the instruction. Return only the score.”\n22\n\nFigure 10: Evaluation prompt of Semantic Consistency on GSM8K and MATH.\nFigure 11: Evaluation prompt of Logicality on GSM8K and MATH.\n23\n\nFigure 12: Evaluation prompt of Logicality on GPQA.\nFigure 13: Evaluation prompt of Informativeness on GSM8K and MATH.\n24\n\nFigure 14: Evaluation prompt of Informativeness on GPQA.",
+      "section": "REFERENCES",
+      "char_count": 1141,
+      "chunk_index": 79,
+      "page_numbers": [
+        22
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    },
+    {
+      "chunk_id": "SLMasJudge_2026_chunk_0080",
+      "source_id": "SLMasJudge_2026",
+      "text": "GSM8K and MATH.\n23\n\nFigure 12: Evaluation prompt of Logicality on GPQA.\nFigure 13: Evaluation prompt of Informativeness on GSM8K and MATH.\n24\n\nFigure 14: Evaluation prompt of Informativeness on GPQA.\nFigure 15: Evaluation prompt of Fluency on GSM8K and MATH.\n25\n\nFigure 16: Evaluation prompt of Fluency on GPQA.\nFigure 17: Evaluation prompt of Factuality on GSM8K and MATH.\n26\n\nFigure 18: Evaluation prompt of Factuality on GPQA.\n27",
+      "section": "REFERENCES",
+      "char_count": 432,
+      "chunk_index": 80,
+      "page_numbers": [
+        23
+      ],
+      "source_file": "SLMasJudge_2026_2601_22588.pdf",
+      "total_source_pages": 27
+    }
+  ]
+}

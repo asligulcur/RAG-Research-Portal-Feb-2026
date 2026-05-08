@@ -1,0 +1,948 @@
+{
+  "source_id": "Gemma2_2024",
+  "metadata": {
+    "title": "Gemma 2: Improving Open Language Models at a Practical Size",
+    "authors": "Google DeepMind Team",
+    "year": "2024",
+    "venue": "arXiv",
+    "url": "https://arxiv.org/abs/2408.00118",
+    "source_type": "peer-reviewed",
+    "relevance_note": "Gemma 2 with improved architecture (Aug 2024) - 2B and 9B variants with enhanced efficiency"
+  },
+  "pdf_metadata": {
+    "title": "",
+    "author": "",
+    "total_pages": 21
+  },
+  "statistics": {
+    "total_pages": 21,
+    "total_chunks": 71,
+    "avg_chunk_size": 1073.0140845070423,
+    "ingestion_timestamp": "2026-02-02T19:03:58.964301"
+  },
+  "chunks": [
+    {
+      "chunk_id": "Gemma2_2024_chunk_0000",
+      "source_id": "Gemma2_2024",
+      "text": "2024-06-27\nGemma 2: Improving Open Language Models\nat a Practical Size\nGemma Team, Google DeepMind1\nIn this work, we introduce Gemma 2, a new addition to the Gemma family of lightweight, state-of-the-art\nopen models, ranging in scale from 2 billion to 27 billion parameters. In this new version, we apply\nseveral known technical modifications to the Transformer architecture, such as interleaving local-global\nattentions (Beltagy et al., 2020a) and group-query attention (Ainslie et al., 2023). We also train the 2B\nand 9B models with knowledge distillation (Hinton et al., 2015) instead of next token prediction. The\nresulting models deliver the best performance for their size, and even offer competitive alternatives to\nmodels that are 2-3 ×bigger. We release all our models to the community.",
+      "section": "Header/Title",
+      "char_count": 795,
+      "chunk_index": 0,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0001",
+      "source_id": "Gemma2_2024",
+      "text": "1. Introduction\nLarge language models (LLMs) have demon-\nstrated strong capabilities in language under-\nstanding,generation,andreasoning(Brownetal.,\n2020; Radford et al., 2019; Raffel et al., 2019).\nScaling has been key to this recent progress,\nwith many new capabilities only emerging at\nscale (Brown et al., 2020). The newest large mod-\nels not only reach unprecedented performance\non reasoning benchmarks (Achiam et al., 2023),\nbut they also demonstrate multimodal and mul-\ntilingual capabilities (Gemini Team, 2024) and\neven the ability to use context lengths of over 1M\ntokens (Gemini Team, 2024).\nSmall-scale models have also shown a rapid\nincrease in performance, but these gains are\nlargelyderivedfromincreasingthelengthoftrain-\ning (Gemma Team, 2024; Jiang et al., 2023; Tou-\nvron et al., 2023). This approach only scales log-\narithmically with dataset size (Hoffmann et al.,\n2022), and the latest small models require up to\n15T tokens to improve the state of the art by less\nthan 1-2%  2024).\nYet, these continued improvements provide ev-\nidence that small models are still under-trained.",
+      "section": "1. Introduction",
+      "char_count": 1098,
+      "chunk_index": 1,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0002",
+      "source_id": "Gemma2_2024",
+      "text": "e latest small models require up to\n15T tokens to improve the state of the art by less\nthan 1-2%  2024).\nYet, these continued improvements provide ev-\nidence that small models are still under-trained.\nIn this work, we explore alternatives to improve\nsmall model performance without solely increas-\ning training length. One solution is to improve\nthe quality of information received by the net-\nwork at each training step by replacing the next\ntoken prediction task with a richer objective.\nInparticular,wefocusoureffortsonknowledgedistillation (Hinton et al., 2015), which replaces\nthe one-hot vector seen at each token with the\ndistribution of potential next tokens computed\nfrom a large model. This approach is often used\nto reduce the training time of smaller models\nby giving them richer gradients. In this work,\nwe instead train for large quantities of tokens\nwith distillation in order to simulate training be-\nyond the number of available tokens. Concretely,\nwe use a large language model as a teacher to\ntrain small models, namely 2B and 9B models,\non a quantity of tokens that is more than 50 ×\nthe compute-optimal quantity predicted by the\ntheory (Hoffmann et al., 2022).",
+      "section": "1. Introduction",
+      "char_count": 1181,
+      "chunk_index": 2,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0003",
+      "source_id": "Gemma2_2024",
+      "text": "language model as a teacher to\ntrain small models, namely 2B and 9B models,\non a quantity of tokens that is more than 50 ×\nthe compute-optimal quantity predicted by the\ntheory (Hoffmann et al., 2022). Along with the\nmodels trained with distillation, we also release\na 27B model trained from scratch for this work.\nWe also leverage several known modifications\nofTransformers,namelytheinterleavingofglobal\nand local attention layers from Beltagy et al.\n(2020a),andtheGrouped-QueryAttention(GQA)\nmechanism of Ainslie et al. (2023).\nOverall, Gemma 2 significantly advances state-\nof-the-art performance relative to comparable-\nscale open models and are even competitive\nwith some models more than twice their size\n 2024; Almazrouei et al., 2023; Jiang\net al., 2023; xAI, 2024), across a variety of au-\ntomated benchmarks and human evaluations.\nExample domains include question answering\n(Clark et al., 2019; Kwiatkowski et al., 2019),\ncommonsense reasoning (Sakaguchi et al., 2019;\nSuzgun et al., 2022), mathematics and science\n(Cobbe et al., 2021; Hendrycks et al., 2020), and\ncoding (Austin et al., 2021; Chen et al., 2021).\n1See Contributions and Acknowledgments section for full author list.",
+      "section": "1. Introduction",
+      "char_count": 1191,
+      "chunk_index": 3,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0004",
+      "source_id": "Gemma2_2024",
+      "text": ", 2022), mathematics and science\n(Cobbe et al., 2021; Hendrycks et al., 2020), and\ncoding (Austin et al., 2021; Chen et al., 2021).\n1See Contributions and Acknowledgments section for full author list. Please send correspondence to  .\n©2024 Google DeepMind. All rights reservedarXiv:2408.00118v3 [cs.CL] 2 Oct 2024\n\nGemma 2: Improving Open Language Models at a Practical Size\nParameters 2B 9B 27B\nd_model 2304 3584 4608\nLayers 26 42 46\nPre-norm yes yes yes\nPost-norm yes yes yes\nNon-linearity GeGLU GeGLU GeGLU\nFeedforward dim 18432 28672 73728\nHead type GQA GQA GQA\nNum heads 8 16 32\nNum KV heads 4 8 16\nHead size 256 256 128\nGlobal att. span 8192 8192 8192\nSliding window 4096 4096 4096\nVocab size 256128 256128 256128\nTied embedding yes yes yes\nTable 1|Overview of the main model parameters\nand design choices. See the section on model\narchitectures for more details.\nWhile thorough testing of our models has been\nconducted, these tests cannot cover all applica-\ntions and scenarios in which Gemma 2 may be\nused. Withthisinmind,allGemma2usersshould\nconduct rigorous safety testing specific to their\nuse case before deployment or use.",
+      "section": "1. Introduction",
+      "char_count": 1135,
+      "chunk_index": 4,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0005",
+      "source_id": "Gemma2_2024",
+      "text": "sts cannot cover all applica-\ntions and scenarios in which Gemma 2 may be\nused. Withthisinmind,allGemma2usersshould\nconduct rigorous safety testing specific to their\nuse case before deployment or use.\nInthistechnicalreport, weprovideanoverview\nof models, including the architecture, training,\nand pre- and post-training recipes for Gemma\n2. We also provide detailed evaluations across a\nwidevarietyofquantitativeandqualitativebench-\nmarks, as well as both standard academic bench-\nmarksandhuman-preferenceevaluations. Finally,\nwe discuss our approach to safe and responsible\ndeployment and outline the broader implications\nof Gemma 2, its limitations, and advantages.\n2. Model Architecture\nSimilar to previous Gemma models (Gemma\nTeam,2024),theGemma2modelsarebasedona\ndecoder-only transformer architecture (Vaswani\netal.,2017). Wesummarizethemainparameters\nand architecture choices in Table 1.\nA few architectural elements are similar to the\nfirst version of Gemma models; namely, a contextModelEmbedding\nParametersNon-embedding\nParameters\n2B 590,118,912 2,024,517,888\n9B 917,962,752 8,324,201,984\n27B 1,180,237,824 26,047,480,320\nTable 2|Parameter counts for the Gemma mod-\nels.",
+      "section": "1. Introduction",
+      "char_count": 1179,
+      "chunk_index": 5,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0006",
+      "source_id": "Gemma2_2024",
+      "text": ", a contextModelEmbedding\nParametersNon-embedding\nParameters\n2B 590,118,912 2,024,517,888\n9B 917,962,752 8,324,201,984\n27B 1,180,237,824 26,047,480,320\nTable 2|Parameter counts for the Gemma mod-\nels. We inherit from the large Gemini vocabulary\n(256kentries), thatisdesignedtoworkonalarge\nnumber of languages, hence, the larger embed-\nding parameter counts compared to models that\nare limited to one or a few languages.\nlength of 8192 tokens, the use of Rotary Posi-\ntion Embeddings (RoPE) (Su et al., 2021), and\nthe approximated GeGLU non-linearity (Shazeer,\n2020). A few elements differ between Gemma 1\nand Gemma 2, including using deeper networks.\nWe summarize the key differences below.\nLocal Sliding Window and Global Attention .\nWe alternate between a local sliding window at-\ntention (Beltagy et al., 2020a,b) and global at-\ntention (Luong et al., 2015) in every other layer.\nThe sliding window size of local attention layers\nis set to 4096 tokens, while the span of the global\nattention layers is set to 8192 tokens.\nLogit soft-capping . We cap logits (Bello et al.,\n2016) in each attention layer and the final layer\nsuch that the value of the logits stays between\n−soft_cap and+soft_cap .",
+      "section": "1. Introduction",
+      "char_count": 1197,
+      "chunk_index": 6,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0007",
+      "source_id": "Gemma2_2024",
+      "text": "yers is set to 8192 tokens.\nLogit soft-capping . We cap logits (Bello et al.,\n2016) in each attention layer and the final layer\nsuch that the value of the logits stays between\n−soft_cap and+soft_cap . More specifically, we\ncap the logits with the following function:\nlogits←soft_cap∗tanh(logits/soft_cap).\nWe set the soft_cap parameter to 50.0for the self-\nattention layers and to 30.0for the final layer.\nPost-norm and pre-norm with RMSNorm . To\nstabilize training, we use RMSNorm (Zhang and\nSennrich, 2019) to normalize the input and out-\nput of each transformer sub-layer, the attention\nlayer, and the feedforward layer.\nGrouped-Query Attention (Ainslie et al., 2023).\nWe use GQA with num_groups =2, based on ab-\nlations showing increased speed at inference time\nwhile maintaining downstream performance.\n2\n\nGemma 2: Improving Open Language Models at a Practical Size\n3. Pre-training\nWe provide a brief overview of the parts of our\npre-training that differs from Gemma 1.\n3.1. Training Data\nWe train Gemma 2 27B on 13 trillion tokens of\nprimarily-English data, the 9B model on 8 trillion\ntokens, and the 2B on 2 trillion tokens.",
+      "section": "1. Introduction",
+      "char_count": 1131,
+      "chunk_index": 7,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0008",
+      "source_id": "Gemma2_2024",
+      "text": "our\npre-training that differs from Gemma 1.\n3.1. Training Data\nWe train Gemma 2 27B on 13 trillion tokens of\nprimarily-English data, the 9B model on 8 trillion\ntokens, and the 2B on 2 trillion tokens. These\ntokens come from a variety of data sources, in-\ncluding web documents, code, and science ar-\nticles. Our models are not multimodal and are\nnot trained specifically for state-of-the-art multi-\nlingual capabilities. The final data mixture was\ndetermined through ablations similar to the ap-\nproach in Gemini 1.0 (Gemini Team, 2023).\nTokenizer. We use the same tokenizer as Gemma\n1 and Gemini: a SentencePiece tokenizer with\nsplit digits, preserved whitespace, and byte-level\nencodings (Kudo and Richardson, 2018). The\nresulting vocabulary has 256k entries.\nFiltering. We use the same data filtering tech-\nniques as Gemma 1. Specifically, we filter the pre-\ntraining dataset to reduce the risk of unwanted\nor unsafe utterances, filter out certain personal\ninformation or other sensitive data, decontami-\nnate evaluation sets from our pre-training data\nmixture, and reduce the risk of recitation by min-\nimizing the proliferation of sensitive outputs.",
+      "section": "1. Introduction",
+      "char_count": 1154,
+      "chunk_index": 8,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0009",
+      "source_id": "Gemma2_2024",
+      "text": "sonal\ninformation or other sensitive data, decontami-\nnate evaluation sets from our pre-training data\nmixture, and reduce the risk of recitation by min-\nimizing the proliferation of sensitive outputs.\nShards\nModel Type #Chips Data Model\n2B TPUv5e 512 512 1\n9B TPUv4 4096 1024 4\n27B TPUv5p 6144 768 8\nTable 3|Training infrastructure with sharding.\n3.2. Knowledge Distillation\nGiven a large model used as a teacher, we learn\nsmaller models by distilling from the probability\ngiven by the teacher of each token 𝑥given its\ncontext𝑥𝑐, i.e.,𝑃𝑇(𝑥|𝑥𝑐). More precisely, we\nminimizethenegativelog-likelihoodbetweentheContext Relevant Token\nUser turn user\nModel turn model\nStart of conversation turn <start_of_turn>\nEnd of conversation turn <end_of_turn>\nBeginning of sequence <bos>\nEnd of sequence <eos>\nTable 4|Relevant formatting control tokens used\nfor Gemma models.\nprobabilities from the teacher and the student:\nmin\n𝑃𝑆∑︁\n𝑥−𝑃𝑇(𝑥|𝑥𝑐)log𝑃𝑆(𝑥|𝑥𝑐),\nwhere𝑃𝑆is the parameterized probability of the\nstudent. Note that knowledge distillation was\nalso used in Gemini 1.5 (Gemini Team, 2024).\n3.3. Compute Infrastructure\nWe train our models with TPUv4, TPUv5e, and\nTPUv5p as outlined in Table 3.",
+      "section": "1. Introduction",
+      "char_count": 1180,
+      "chunk_index": 9,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0010",
+      "source_id": "Gemma2_2024",
+      "text": "of the\nstudent. Note that knowledge distillation was\nalso used in Gemini 1.5 (Gemini Team, 2024).\n3.3. Compute Infrastructure\nWe train our models with TPUv4, TPUv5e, and\nTPUv5p as outlined in Table 3. For the 2B model,\nwe train on a 2x16x16 configuration of TPUv5e,\ntotaling 512 chips, with 512-way data replication\nand 1-way model sharding. For the 9B model,\nwe train on an 8x16x32 configuration of TPUv4,\ntotaling 4096 chips, with 1024-way data repli-\ncation and 4-way model sharding. For the 27B\nmodel, we train on an 8x24x32 configuration of\nTPUv5p, totaling 6144 chips, with 768-way data\nreplication and 8-way model sharding.\nThe optimizer state is further sharded using\ntechniques similar to ZeRO-3 (Ren et al., 2021).\nFor scales beyond a single pod, we perform a\ndata-replica reduction over the data center net-\nwork, using the Pathways approach of Barham\net al. (2022). We also use the ’single controller’\nprogramming paradigm of Jax (Roberts et al.,\n2023) and Pathways (Barham et al., 2022). As\nin Gemma 1, we use the GSPMD partitioner (Xu\net al., 2021) for training step computation and\nthe MegaScale XLA compiler (XLA, 2019).",
+      "section": "1. Introduction",
+      "char_count": 1136,
+      "chunk_index": 10,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0011",
+      "source_id": "Gemma2_2024",
+      "text": "f Jax (Roberts et al.,\n2023) and Pathways (Barham et al., 2022). As\nin Gemma 1, we use the GSPMD partitioner (Xu\net al., 2021) for training step computation and\nthe MegaScale XLA compiler (XLA, 2019).\n3\n\nGemma 2: Improving Open Language Models at a Practical Size\n3.4. Carbon Footprint\nWe estimate the carbon emissions from pre-\ntrainingtheGemmamodelstobe 1247.61𝑡𝐶𝑂 2𝑒𝑞.\nAs in Gemma 1 (Gemma Team, 2024), this value\nis calculated based on the hourly energy usage\nreported directly from our TPU data centers and\nscaled to account for the additional energy ex-\npended to create and maintain the data center.\nImportantly, Google data centers are carbon neu-\ntral, achieved through a combination of energy\nefficiency, renewable energy purchases, and car-\nbon offsets. This carbon neutrality applies to our\nexperiments and the machines running them.\n4. Post-Training\nFor post-training, we fine-tune our pre-trained\nmodels into instruction-tuned models. First, we\napply supervised fine-tuning (SFT) on a mix\nof text-only, English-only synthetic and human-\ngenerated prompt-response pairs.",
+      "section": "1. Introduction",
+      "char_count": 1083,
+      "chunk_index": 11,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0012",
+      "source_id": "Gemma2_2024",
+      "text": "e fine-tune our pre-trained\nmodels into instruction-tuned models. First, we\napply supervised fine-tuning (SFT) on a mix\nof text-only, English-only synthetic and human-\ngenerated prompt-response pairs. We then apply\nRLHF on top of these models with the reward\nmodeltrainedonlabelledEnglish-onlypreference\ndata and the policy based on the same prompts\nas the SFT phase. Finally, we average the mod-\nels obtained after each phase to improve their\noverall performance. The final data mixtures and\npost-training recipe, which includes tuned hyper-\nparameters, were chosen on the basis of improv-\ning helpfulness while minimizing model harms\nrelated to safety and hallucinations.\nWe extended the post-training data from\nGemma 1.1 with a mixture of internal and exter-\nnal public data. In particular, we use the prompts,\nbutnottheanswersfromLMSYS-chat-1M(Zheng\netal.,2023). Allofourdatagothroughafiltering\nstage described below.\nSupervised fine-tuning (SFT). We run behav-\nioral cloning on synthetic and real prompts, and\nresponses predominantly synthetically generated\nby the teacher, that is a larger model.",
+      "section": "1. Introduction",
+      "char_count": 1102,
+      "chunk_index": 12,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0013",
+      "source_id": "Gemma2_2024",
+      "text": "ge described below.\nSupervised fine-tuning (SFT). We run behav-\nioral cloning on synthetic and real prompts, and\nresponses predominantly synthetically generated\nby the teacher, that is a larger model. We also run\ndistillation from the teacher on the student’s dis-\ntribution (Agarwal et al., 2024; Gu et al., 2024).\nReinforcement Learning from Human Feed-\nback (RLHF). We use a similar RLHF algorithm\nas Gemma 1.1 (Gemma Team, 2024) but a differ-\nentrewardmodel,whichisanorderofmagnitudeFirst turn\nUser: <start_of_turn>user\nKnock knock.<end_of_turn>\n<start_of_turn>model\nModel: Who’s there?<end_of_turn><eos>\nSecond turn\nUser: <start_of_turn>user\nKnock knock.<end_of_turn>\n<start_of_turn>model\nModel: Who’s there?<end_of_turn>\nUser: <start_of_turn>user\nGemma.<end_of_turn>\n<start_of_turn>model\nModel: Gemma who?<end_of_turn><eos>\nTable 5|Example dialogue with user and model\ncontrol tokens. To proceed with multi-turn, re-\nmove the model-outputted <eos>, add back the\nusualuserturn’scontroltokensandcontinuewith\nthe following turn’s chat template.\nlarger than the policy. The new reward model is\nalso oriented more towards conversational capa-\nbilities, specifically multi-turn.\nModel merging.",
+      "section": "1. Introduction",
+      "char_count": 1193,
+      "chunk_index": 13,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0014",
+      "source_id": "Gemma2_2024",
+      "text": "ensandcontinuewith\nthe following turn’s chat template.\nlarger than the policy. The new reward model is\nalso oriented more towards conversational capa-\nbilities, specifically multi-turn.\nModel merging. We average different models\nobtained by running our pipeline with different\nhyperparameters (Ramé et al., 2024).\nData filtering. When using synthetic data, we\nrun several stages of filtering to remove examples\nthat show certain personal information, unsafe or\ntoxic model outputs, mistaken self-identification\ndata, and duplicated examples. Following Gem-\nini, we find that including subsets of data that\nencourage better in-context attribution, hedging,\nand refusals to minimize hallucinations improves\nperformance on factuality metrics, without de-\ngrading model performance on other metrics.\nFormatting. Gemma 2 models are fine-tuned\nwiththesamecontroltokensasGemma1models,\nas detailed in Table 4, but a different formatting\nschema. See the dialogue example in Table 5.\nNotice that the model explicitly ends generations\nwith<end_of_turn><eos> tokens, while previ-\nouslyitonlygenerated <eos>. Forthemotivation\nbehind this formatting structure, see Gemma 1.",
+      "section": "1. Introduction",
+      "char_count": 1159,
+      "chunk_index": 14,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0015",
+      "source_id": "Gemma2_2024",
+      "text": "le in Table 5.\nNotice that the model explicitly ends generations\nwith<end_of_turn><eos> tokens, while previ-\nouslyitonlygenerated <eos>. Forthemotivation\nbehind this formatting structure, see Gemma 1.\n4\n\nGemma 2: Improving Open Language Models at a Practical Size\n5. Ablations\nIn this section, we focus on the main finding of\nthis work, which is the impact of knowledge dis-\ntillation on small language models.\nfrom scratch distilled\nAverage (3 bench.) 60.3 67.7\nTable6|Comparisonbetweena2Bmodeltrained\nover 500B tokens either from scratch or with dis-\ntillation from a 7B model.\nDistillation versus from scratch. In Table 6, we\nshow that distilling from a larger model improves\nperformance compared to training from scratch.\nNote that 500B is 10 ×more than the compute-\noptimal number of tokens for a 2B model. We\ndistill from a 7B model to keep a ratio similar to\nour target distillation from 27B to 9B.\n200M 400M 1B\nfrom scratch 23 19 17\ndistilled (7B) 21 17 15\nTable 7|Perplexity measured on a validation set\nof models of different sizes trained with or with-\nout distillation. The teacher has 7B parameters.\nImpact of distillation w.r.t. model size.",
+      "section": "1. Introduction",
+      "char_count": 1154,
+      "chunk_index": 15,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0016",
+      "source_id": "Gemma2_2024",
+      "text": ") 21 17 15\nTable 7|Perplexity measured on a validation set\nof models of different sizes trained with or with-\nout distillation. The teacher has 7B parameters.\nImpact of distillation w.r.t. model size. In Ta-\nble 7, we measure the impact of distillation as\nmodel size increases. We observe that the gain re-\nmains as the model size is scaled. In this ablation,\nwe maintain the size of the teacher at 7B and\ntrain smaller models to simulate the same gap as\nbetween our final teacher and student sizes.\nMHA GQA\nAverage (4 bench.) 50.3 50.8\nTable8|ComparingtheimpactofreplacingMulti-\nHead Attention (MHA) with GQA on a 9B model\naveraged over 4 benchmarks.\nGQA versus MHA. In Table 8, we compare two\ninstancesofour9BwithMHAorGQA.Weobserve\noverallfewchangesinperformancebetweenboth\nmodels as measured on several benchmarks. Wechoose GQA since it requires fewer parameters\nand is faster at inference time.\nWide versus deep. In Table 9, we show that a\ndeeper 9B network is slightly better than a wider\n9B for the same number of parameters. Although\nthegapissmall,itisconsistentacrossbenchmarks\nand warrants the switch to a deeper architecture.",
+      "section": "1. Introduction",
+      "char_count": 1135,
+      "chunk_index": 16,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0017",
+      "source_id": "Gemma2_2024",
+      "text": "w that a\ndeeper 9B network is slightly better than a wider\n9B for the same number of parameters. Although\nthegapissmall,itisconsistentacrossbenchmarks\nand warrants the switch to a deeper architecture.\nWide Deep\nAverage (4 bench.) 50.8 52.0\nTable 9|Wide versus deep 9B models. Perfor-\nmance on 4 benchmarks, higher is better.\nChanging sliding window size. In Table 10, we\nshow that we can change the sliding window size\nof the local attention layers of the models during\ninference with moderate impact on perplexity.\nAdjusting the size of the sliding window can thus\nbe a leverage for slight inference speed gain.\nsliding window 4096 2048 1024\nperplexity (val. set) 1.63 1.63 1.64\nTable 10|Impact of changing the sliding window\nsize at inference time for the 9B model.\nImpact of formatting. We measure performance\nvariance on MMLU across prompt/evaluation for-\nmatting variations. Table 11 shows the stan-\ndard deviations of MMLU scores for 12 format-\nting/evaluation combinations, a proxy for unde-\nsired performance variability. The Gemma 2B\nmodels are slightly less format-robust than the\nlarger ones. Notably, Mistral 7B is significantly\nless robust than our models.",
+      "section": "1. Introduction",
+      "char_count": 1169,
+      "chunk_index": 17,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0018",
+      "source_id": "Gemma2_2024",
+      "text": "mbinations, a proxy for unde-\nsired performance variability. The Gemma 2B\nmodels are slightly less format-robust than the\nlarger ones. Notably, Mistral 7B is significantly\nless robust than our models.\nStandard Deviation\nGemma 1 2B 1.5\nGemma 2 2B 2.1\nMistral 7B 6.9\nGemma 1 7B 0.7\nGemma 2 9B 0.9\nGemma 2 27B 1.0\nTable 11|Standard deviations of MMLU scores\nfor12combinationsofformattingandevaluation.\n5\n\nGemma 2: Improving Open Language Models at a Practical Size",
+      "section": "1. Introduction",
+      "char_count": 461,
+      "chunk_index": 18,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0019",
+      "source_id": "Gemma2_2024",
+      "text": "6. Evaluation\nIn this section, we evaluate both pre-trained and\nIT models over a series of automated benchmarks\nand human evaluations across a variety of do-\nmains. We also report performance from models\nof similar sizes that have permissive licenses, or\nas reported by others. Note that we consider to-\ntal parameters, not active parameters, since total\nmemoryusageisoftenwhatlimitstheuseofopen\nmodels on standard devices.\n6.1. Pre-training Evaluations\nEvaluating the 27B model\nIn this set of evaluations, we evaluate the perfor-\nmance of our 27B model trained without distilla-\ntion on 13T tokens. We report results in Table 12,\nwhere we compare with a model of similar size,\nQwen1.5 34B (Team, 2024), and a model 2.5 ×\nlarger, LLaMA-3 70B on the HuggingFace evalu-\nation suite. We selected these models based on\ntheir ranking on the HuggingFace leaderboard.\nOverall, we observe that our model is the best\nin its size category and is even competitive with\na larger model that is trained for longer. That\nbeing said, the performance of models trained in\na similar fashion improves only logarithmically\nwith their size and hence, our model is likely in\nthe same Pareto curve as the LLaMA-3 models.",
+      "section": "6. Evaluation",
+      "char_count": 1197,
+      "chunk_index": 19,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0020",
+      "source_id": "Gemma2_2024",
+      "text": "er. That\nbeing said, the performance of models trained in\na similar fashion improves only logarithmically\nwith their size and hence, our model is likely in\nthe same Pareto curve as the LLaMA-3 models.\nHowever, it is not clear how these differences\naffect the quality of the resulting IT models.\nEvaluating the 2B and 9B models\nIn this set of experiments, we compare our new\n2B and 9B trained with distillation to our previ-\nous models and several standard open models\nin Gemma Team (2024).\nWe observe overall a massive improvement in\nour models compared to previous versions, by up\nto 10% in some benchmarks for the 9B model.\nThe two 2B models were trained with a similar\nnumber of tokens (2T for Gemma 2 and 3T for\nGemma 1) and we still observe a significant im-\nprovementforthenewmodels. Thisconfirmsthat\ndistillation significantly improves the quality of\nmodels even when trained on the same number\nof tokens.LLaMA-3 Qwen1.5 Gemma-2\n70B 32B 27B\nMMLU 79.2 74.3 75.2\nGSM8K 76.9 61.1 74.0\nARC-c 68.8 63.6 71.4\nHellaSwag 88.0 85.0 86.4\nWinogrande 85.3 81.5 83.7\nTable 12|We compare, on the HuggingFace\nbenchmark, our 27B model with a competitive\nopenmodel, Qwen1.532B,thathasasimilarsize.",
+      "section": "6. Evaluation",
+      "char_count": 1187,
+      "chunk_index": 20,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0021",
+      "source_id": "Gemma2_2024",
+      "text": "0\nARC-c 68.8 63.6 71.4\nHellaSwag 88.0 85.0 86.4\nWinogrande 85.3 81.5 83.7\nTable 12|We compare, on the HuggingFace\nbenchmark, our 27B model with a competitive\nopenmodel, Qwen1.532B,thathasasimilarsize.\nWe also report the performance of LLaMA-3 70B\nfor completeness. Note that our model outper-\nforms Qwen1.5 32B and is only a few percent\nbelow LLaMA-3 70B despite being 2.5 ×smaller\nand trained on 2/3rds less data.\n6.2. Post-training Evaluations\nIn this section, we evaluate our IT models on a\nset of human evaluations as well as standard aca-\ndemic benchmarks. The Gemma 2 models push\nthe frontier for post-trained open-weights mod-\nels, setting a new state of the art on the LMSYS\nChatbot Arena (Chiang et al., 2024).\nLMSYS Chatbot Arena\nGemma 2 Instruction Tuned models were evalu-\nated on the Chatbot Arena (Chiang et al., 2024)\nin blind side by side evaluations by human raters\nagainst other state of the art models. We re-\nport Elo scores in Table 14.",
+      "section": "6. Evaluation",
+      "char_count": 957,
+      "chunk_index": 21,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0022",
+      "source_id": "Gemma2_2024",
+      "text": "on Tuned models were evalu-\nated on the Chatbot Arena (Chiang et al., 2024)\nin blind side by side evaluations by human raters\nagainst other state of the art models. We re-\nport Elo scores in Table 14. Gemma 2.6B, 9B\nand 27B strongly outperform all other open mod-\nels in the same range of parameters, with no-\ntably: Gemma27B(Elo1218)rankedhigherthan\nLlama 3 70B (Elo 1206), Gemma 9B (Elo 1187)\nsimilar as GPT-4-0314 (Elo 1186), Gemma 2.6B\n(Elo 1126) ranked higher than GPT-3.5-Turbo-\n0613 (Elo 1116).\nHuman Preference Evaluations\nWe also submit Gemma IT models for side-by-\nside human evaluation studies (which are in-\ndependent from the Chatbot Arena). We used\nheld-out collections of single-turn prompts that\ntarget safety and instruction following (IF). We\nusegpt4o-2024-05-13 as the base model, and\n6\n\nGemma 2: Improving Open Language Models at a Practical Size\nGemma-1 Gemma-2 Mistral LLaMA-3 Gemma-1 Gemma-2 Gemma-2\nBenchmark metric 2B 2B 7B 8B 7B 9B 27B\nMMLU 5-shot 42.3 52.2 62.5 66.6 64.4 7",
+      "section": "6. Evaluation",
+      "char_count": 1000,
+      "chunk_index": 22,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0023",
+      "source_id": "Gemma2_2024",
+      "text": "and\n6\n\nGemma 2: Improving Open Language Models at a Practical Size\nGemma-1 Gemma-2 Mistral LLaMA-3 Gemma-1 Gemma-2 Gemma-2\nBenchmark metric 2B 2B 7B 8B 7B 9B 27B\nMMLU 5-shot 42.3 52.2 62.5 66.6 64.4 71.3 75.2\nARC-C 25-shot 48.5 55.7 60.5 59.2 61.1 68.4 71.4\nGSM8K 5-shot 15.1 24.3 39.6 45.7 51.8 68.6 74.0\nAGIEval 3-5-shot 24.2 31.5 44.0†45.9†44.9†52.8 55.1\nDROP 3-shot, F1 48.5 51.2 63.8∗58.4 56.3 69.4 74.2\nBBH 3-shot, CoT 35.2 41.9 56.0⋄61.1⋄59.0⋄68.2 74.9\nWinogrande 5-shot 66.8 71.3 78.5 76.1 79.0 80.6 83.7\nHellaSwag 10-shot 71.7 72.9 83.0 82.0 82.3 81.9 86.4\nMATH 4-shot 11.8 16.0 12.7 - 24.3 36.6 42.3\nARC-e 0-shot 73.2 80.6 80.5 - 81.5 88.0 88.6\nPIQA 0-shot 77.3 78.4 82.2 - 81.2 81.7 83.2\nSIQA 0-shot 49.7 51.9 47.0∗- 51.8 53.4 53.7\nBoolq 0-shot 69.4 72.7 83.2∗- 83.2 84.2 84.8\nTriviaQA 5-shot 53.2 60.4 62.5 - 63.4 76.6 83.7\nNQ 5-shot 12.5 17.1 23.2 - 23.0 29.2 34.5\nHumanEval  22.0 20.1 26.2 - 32.3 40.2 51.8\nMBPP 3-shot 29.2 30.2 40.2∗- 44.4 52.4 62.6\nAverage (8) 44.0 50.0 61.0 61.9 62.4 70.2 74.4\nAverage (all) 44.2 48.7 55.6 - 57.9 64.9 69.4\nTable 13|Comparison of models in the range of 2B to 9B parameters, as well as our 27B model, on\na variety of benchmarks.",
+      "section": "6. Evaluation",
+      "char_count": 1178,
+      "chunk_index": 23,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0024",
+      "source_id": "Gemma2_2024",
+      "text": "4.0 50.0 61.0 61.9 62.4 70.2 74.4\nAverage (all) 44.2 48.7 55.6 - 57.9 64.9 69.4\nTable 13|Comparison of models in the range of 2B to 9B parameters, as well as our 27B model, on\na variety of benchmarks. We report the average performance on the 8 benchmarks where we can\ncompare with LLaMA-3, and on all the benchmarks (all). The numbers for LLaMA-3 8B are either\nfrom the HuggingFace leaderboard or their blogpost.†we report the evaluation used in LLaMA-3 for\nthe baselines, it leads to +3% compared to our evaluation: Gemma-1 7B achieves 44.9% instead of\n41.7%, and Mistral 7B, 44% instead of 41.2%.⋄we report the evaluation used in LLaMA-3 for the\nbaselines, it leads to +4% compared to our evaluation for Gemma-1 7B, i.e., 59.0% instead of 55.1%.\n∗these are evaluations run by us for Gemma 1 (Gemma Team, 2024).\nobserve large improvements in win rates and\npreference scores as compared against the older\nGemma 1.1 7B model. We report safety as a\nwin-loss ratio against GPT4o, and we report\nsingle-sided instruction following scores as ratio\nof prompts where all instructions are followed.",
+      "section": "6. Evaluation",
+      "char_count": 1089,
+      "chunk_index": 24,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0025",
+      "source_id": "Gemma2_2024",
+      "text": "ainst the older\nGemma 1.1 7B model. We report safety as a\nwin-loss ratio against GPT4o, and we report\nsingle-sided instruction following scores as ratio\nof prompts where all instructions are followed. In\nparticular, we find that regardless of their size,\nGemma 2 models produce safer, more appropri-\nate prompts on the held-out safety prompt set\nthan GPT4o.\nHuman Multi-Turn Evaluations\nWe evaluated the multi-turn capabilities of\nGemma 1.1 7B, Gemma 2 2B, 9B and 27B models\nby tasking human raters to have conversations\nwith the models and follow specified given sce-\nnarios. We used a diverse, held-out set of 500scenarios, each describing a sequence of requests\nto the model, including measuring instances of\nbrainstorming, making a plan, or learning some-\nthing new. The average number of user turns\nis 8.4. We found that the conversations with\nGemma 2 models are rated significantly better\nthan Gemma 1.1 in user satisfaction and conver-\nsation goal achievement (Table 16). Moreover,\nwe saw that the Gemma 2 models were better\nthan Gemma 1.1 7B at maintaining high quality\nof responses for the entire conversation.",
+      "section": "6. Evaluation",
+      "char_count": 1119,
+      "chunk_index": 25,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0026",
+      "source_id": "Gemma2_2024",
+      "text": "atisfaction and conver-\nsation goal achievement (Table 16). Moreover,\nwe saw that the Gemma 2 models were better\nthan Gemma 1.1 7B at maintaining high quality\nof responses for the entire conversation.\nStandard Benchmarks\n\nthat instruction fine-tuning can improve the per-\nformance of the models on few-shot benchmarks\n7\n\nGemma 2: Improving Open Language Models at a Practical Size\nModel Elo 95% CI Open\ngpt-4o-2024-05-13 1286 +2 / -3 -\ngpt-4o-mini-2024-07-18 1279 +5 / -4 -\nclaude-3-5-sonnet 1271 +3 / -4 -\ngemini-advanced-0514 1266 +2 / -3 -\nllama-3.1-405b-instruct 1262 +8 / -7 +\ngemini-1.5-pro-api-0514 1261 +2 / -3 -\ngemini-1.5-pro-api-0409 1257 +3 / -3 -\ngpt-4-turbo-2024-04-09 1256 +2 / -3 -\ngpt-4-1106-preview 1250 +3 / -3 -\nclaude-3-opus-20240229 1248 +2 / -2 -\nathene-70b-0725 1245 +8 / -6 +\ngpt-4-0125-preview 1245 +2 / -2 -\nllama-3.1-70b-instruct 1244 +8 / -9 +\nyi-large-preview 1239 +3 / -3 -\ngemini-1.5-flash-api-0514 1227 +3 / -3 -\ndeepseek-v2-api-0628 1220 +6 / -6 +\ngemma-2-27b-it 121",
+      "section": "6. Evaluation",
+      "char_count": 1000,
+      "chunk_index": 26,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0027",
+      "source_id": "Gemma2_2024",
+      "text": "gpt-4-0125-preview 1245 +2 / -2 -\nllama-3.1-70b-instruct 1244 +8 / -9 +\nyi-large-preview 1239 +3 / -3 -\ngemini-1.5-flash-api-0514 1227 +3 / -3 -\ndeepseek-v2-api-0628 1220 +6 / -6 +\ngemma-2-27b-it 1218 +4 / -3 +\nyi-large 1212 +4 / -5 -\nnemotron-4-340b-instruct 1209 +3 / -4 +\nbard-jan-24-gemini-pro 1208 +5 / -7 -\nglm-4-0520 1206 +3 / -5 -\nllama-3-70b-instruct 1206 +2 / -2 +\nclaude-3-sonnet 1200 +2 / -2 -\nreka-core-20240501 1199 +3 / -3 -\ncommand-r-plus 1189 +2 / -2 +Model Elo 95% CI Open\ngemma-2-9b-it 1187 +3 / -5 +\nqwen2-72b-instruct 1187 +3 / -3 +\ngpt-4-0314 1186 +2 / -3 -\nqwen1.5-110b-chat 1161 +3 / -3 +\nmistral-large-2402 1157 +3 / -3 -\nyi-1.5-34b-chat 1157 +4 / -3 -\nreka-flash-21b-20240226 1155 +4 / -4 -\nllama-3-8b-instruct 1151 +2 / -3 +\ncommand-r 1148 +3 / -3 +\nclaude-1 1148 +4 / -4 -\nmistral-medium 1147 +4 / -4 -\nreka-flash-21b-20240226 1147 +3 / -4 -\nqwen1.5-72b-chat 1147 +4 / -4 +\nmixtral-8x22b-instruct-v0.1 1145 +2 / -3 +\nclaude-2.0 1131 +4 / -6 -\ngemini-pro-dev-api 1131 +4 /",
+      "section": "6. Evaluation",
+      "char_count": 999,
+      "chunk_index": 27,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0028",
+      "source_id": "Gemma2_2024",
+      "text": "-\nmistral-medium 1147 +4 / -4 -\nreka-flash-21b-20240226 1147 +3 / -4 -\nqwen1.5-72b-chat 1147 +4 / -4 +\nmixtral-8x22b-instruct-v0.1 1145 +2 / -3 +\nclaude-2.0 1131 +4 / -6 -\ngemini-pro-dev-api 1131 +4 / -3 -\nzephyr-orpo-141b 1127 +10 / -6 +\ngemma-2-2b-it 1126 +10 / -10 +\nqwen1.5-32b-chat 1125 +3 / -3 +\nmistral-next 1124 +5 / -5 -\nphi-3-medium-4k-instruct 1122 +4 / -4 +\nstarling-lm-7b-beta 1118 +4 / -5 +\nclaude-2.1 1118 +3 / -3 -\ngpt-3.5-turbo-0613 1116 +3 / -4 -\nmixtral-8x7b-instruct-v0.1 1114 +0 / -0 -\nTable 14|Evaluation of Gemma 2 Instruction Tuned models on the Chatbot Arena (Chiang et al.,\n2024). The models are evaluated against each other through blind side by side evaluations by human\nraters. Each model is attributed a score, based on the Elo rating system.\nModel Instruction Following Safety\nGemma 1.1 IT 7B 24.3% ±1.9% 42.8%\nWin / Tie / Loss 37.4% / 10.8% / 51.8%\nGemma 2 IT 2B 26.5% ±1.8% 57.5%\nWin / Tie / Loss 53% / 9% / 38%\nGemma 2 IT 9B 34.1% ±3.0% 57.8%\nWin / Tie / Loss 48.2% / 19.2% / 28.3%\nGemma 2 IT 27B 37.7% ±2.3% 55%\nWin / Tie / Loss 49.6% / 10.8% / 39.6%\nTable15|Instructionfollowingandsafetymetrics\nfrom human raters.",
+      "section": "6. Evaluation",
+      "char_count": 1149,
+      "chunk_index": 28,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0029",
+      "source_id": "Gemma2_2024",
+      "text": "a 2 IT 9B 34.1% ±3.0% 57.8%\nWin / Tie / Loss 48.2% / 19.2% / 28.3%\nGemma 2 IT 27B 37.7% ±2.3% 55%\nWin / Tie / Loss 49.6% / 10.8% / 39.6%\nTable15|Instructionfollowingandsafetymetrics\nfrom human raters. The instruction following\nmetrics are single-sided and do not have win-loss\nrates, and so are left blank.\ndespite not being trained to target few-shot capa-\nbilities. In Table 17, we show a similar improve-\nment across our models. Overall, we observe\nimprovements on the order of several percentage\npoints. We conjecture that IT models are better\nat understanding formatted questions, while pre-\ntrained models are sensitive to formatting.User\nsatisfactionConversation\ngoal achievement\nGemma 1.1 IT 7B 3.32 3.36\nGemma 2 IT 2B 3.64 3.88\nGemma 2 IT 9B 4.04 4.08\nGemma 2 IT 27B 4.20 4.24\nTable 16|Human evaluations on 500 multi-turn\nscenarios. The raters attribute a score ranging\nbetween 1 and 5 for both overall satisfaction and\nconversation goal achievement.\n2B 9B 27B\nModel PT IT PT IT PT IT\nMMLU 52.256.171.372.375.276.2\nMBPP 30.236.652.459.262.667.4\nTable 17|Comparing pre-trained (PT) and in-\nstruction fine-tuned (IT) models of different sizes\non few-shot benchmarks.",
+      "section": "6. Evaluation",
+      "char_count": 1173,
+      "chunk_index": 29,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0030",
+      "source_id": "Gemma2_2024",
+      "text": "el PT IT PT IT PT IT\nMMLU 52.256.171.372.375.276.2\nMBPP 30.236.652.459.262.667.4\nTable 17|Comparing pre-trained (PT) and in-\nstruction fine-tuned (IT) models of different sizes\non few-shot benchmarks.\n8\n\nGemma 2: Improving Open Language Models at a Practical Size\n7. Memorization and Privacy\nLarge language models may, under particular cir-\ncumstances, be vulnerable to attacks causing the\nmodeltoproducememorized1trainingdata(Nasr\net al., 2023). To study susceptibility to such at-\ntacks and quantify memorization, we evaluate\nmodels for verbatim and approximate memoriza-\ntion as was done in several prior studies (Anil\net al., 2023; Carlini et al., 2022; Gemini Team,\n2024; Kudugunta et al., 2023).\nWe follow the evaluation setting of (Gemma\nTeam, 2024) which tests for (50 token) memo-\nrizations of training data given a prompt of 50 to-\nkens. Wecomparetheoverallmemorizationrates,\nacross a uniform sample of the entire dataset, us-\ning both an exact match criteria and approximate\nmatch criteria (Ippolitoet al.,2022) using an edit\ndistance of 10%.\nVerbatim Memorization: Results are in Figure 1.\nWe first compare against recent models from the\nliterature that include memorization evaluations.",
+      "section": "6. Evaluation",
+      "char_count": 1199,
+      "chunk_index": 30,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0031",
+      "source_id": "Gemma2_2024",
+      "text": "a (Ippolitoet al.,2022) using an edit\ndistance of 10%.\nVerbatim Memorization: Results are in Figure 1.\nWe first compare against recent models from the\nliterature that include memorization evaluations.\nWe find that Gemma 2 memorizes significantly\nlessthanpriormodelsatasimilarsize, withmem-\norization rates below 0.1% (note the log y-axis).\nWe further investigate how this memorization\nbreaksdownwith respectto the data source. Sim-\nilar to Gemma 1, we find that Gemma 2 memo-\nrizes more from code, wiki, and science sources,\nandalsothatitmemorizessignificantlylessacross\nthe board (again, note the log y-axis).\nApproximate Memorization: Figure 1 also\npresents approximate memorization by data\nsource. We observe that while approximate mem-\norization is higher than exact, the rate of memo-\nrization is still low. For example, the approximate\nmemorization of this model is much lower than\neven the exact memorization of Gemma 1. We\n1This work uses a very restricted definition of “mem-\norization”: whether a model can be induced to generate\nnear-copies of some training examples when prompted with\nappropriate instructions.",
+      "section": "6. Evaluation",
+      "char_count": 1122,
+      "chunk_index": 31,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0032",
+      "source_id": "Gemma2_2024",
+      "text": "ma 1. We\n1This work uses a very restricted definition of “mem-\norization”: whether a model can be induced to generate\nnear-copies of some training examples when prompted with\nappropriate instructions. We do not mean to say that a\nmodel ’contains’ its training data in the sense that any arbi-\ntrary instance of that data can be retrieved without use of\nspecialized software or algorithms. Rather, if a model can\nbe induced to generate measurably close copies of certain\ntraining examples by supplying appropriate instructions to\nguide the model’s statistical generation process then that\nmodel is said to have ’memorized’ those examples.\nGemma 2 2BGemma 2 9BGemma 2 27BGemini 1.5 FlashGemma2BGemma7BPaLM 2Small\nModel0.11% Exact MemorizedOverall Memorization Rate\nCode\nMultilingualScienceWeb Wiki\nData Source104\n0.010.1% MemorizedBy Data Source\nBy Data Source\nExact 2B\nExact 9B\nExact 27BApprox 2B\nApprox 9B\nApprox 27BFigure 1|Comparing memorization rates. We\nfind significantly lower memorization rates\nacross-the-board. (Left) Overall memorization\nacross model families. (Right) Exact and approx-\nimate memorization per data source.",
+      "section": "6. Evaluation",
+      "char_count": 1132,
+      "chunk_index": 32,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0033",
+      "source_id": "Gemma2_2024",
+      "text": "ng memorization rates. We\nfind significantly lower memorization rates\nacross-the-board. (Left) Overall memorization\nacross model families. (Right) Exact and approx-\nimate memorization per data source.\nfind that the increase in approximate memoriza-\ntion is much lower than prior models; in some\ncases we observed no lift at all c.f. (Gemma Team,\n2024, Figure 4) (note that no bar indicates no in-\ncrease,i.e.,therateofapproximatememorization\nequals that of exact memorization). Note that no\napproximate memorization bar in Figure X indi-\ncates no increase, i.e., the rate of approximate\nmemorization equals that of exact memorization.\nPersonal Data We use the same prevention\nmethods at training time and the same evalua-\ntions as Gemma Team (2024). In particular, we\nuse Google Cloud Sensitive Data Protection Tool2\nto find potential instances of personal data. The\nmany categories of personal data (e.g., phone\nnumbers, account numbers) are classified into\nthree severity levels. We analyze memorized out-\nputs using these severity levels. .",
+      "section": "6. Evaluation",
+      "char_count": 1043,
+      "chunk_index": 33,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0034",
+      "source_id": "Gemma2_2024",
+      "text": "s of personal data. The\nmany categories of personal data (e.g., phone\nnumbers, account numbers) are classified into\nthree severity levels. We analyze memorized out-\nputs using these severity levels. . We found no\ninstancesofhigh-severitydatabeingemitted,and\nfound a very low rate of 0.00026% of memorized\ndata to contain lower-severity personal informa-\ntion. We note that these automated tools are\nknown to incur false positives because they do\nnot account for context. This means our results\nare likely overestimates.\n2Available at: \nprotection\n9\n\nGemma 2: Improving Open Language Models at a Practical Size\n8. Responsibility, Safety, Security\nResponsibility, safety and security are of\nparamount importance when developing Gemma\nmodels. To reduce risks to Gemma 2 users, we\nhave integrated enhanced internal safety pro-\ncesses that span the development workflow, in\nline with recent Google AI models (Gemini Team,\n2024).",
+      "section": "6. Evaluation",
+      "char_count": 923,
+      "chunk_index": 34,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0035",
+      "source_id": "Gemma2_2024",
+      "text": "ng Gemma\nmodels. To reduce risks to Gemma 2 users, we\nhave integrated enhanced internal safety pro-\ncesses that span the development workflow, in\nline with recent Google AI models (Gemini Team,\n2024). Similar to the inaugural Gemma release,\nwehavefollowedathreepillarapproachwhichfo-\ncuses on safety mitigation at training time, robust\nand transparent model evaluations, and further\ndevelopment of the Responsible Generative AI\nToolkit, a series of models and tools to help de-\nvelopers implement responsibility and safety best\npractices for their applications.\n8.1. Impact assessment\nOur approach and resulting impact assessment is\nreflective of that outlined for Gemma 1 (Gemma\nTeam, 2024): we continue to believe that open-\nness in AI can spread the benefits of these tech-\nnologies across society, but must be evaluated\nagainst the risk of malicious uses, such as the\ncreation of deepfake imagery, AI-generated disin-\nformation or illegal and disturbing material, that\ncan cause harm on both an individual and insti-\ntutional levels (Weidinger et al., 2021).",
+      "section": "6. Evaluation",
+      "char_count": 1062,
+      "chunk_index": 35,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0036",
+      "source_id": "Gemma2_2024",
+      "text": "ch as the\ncreation of deepfake imagery, AI-generated disin-\nformation or illegal and disturbing material, that\ncan cause harm on both an individual and insti-\ntutional levels (Weidinger et al., 2021). Since the\nlaunch of Gemma 1, we have seen our Gemma\nmodels drive a number of socially beneficial ap-\nplications, relying on Gemma’s unique technolo-\ngies like its tokenizer to facilitate the creation of\nmultilingual models, such as for Navarasa 2.0, a\nGemma tuned model for 15 Indian languages.\nReleasing further open models requires specific\nattention to changes in model capabilities and\nclosemonitoringoftheevolvingrisksofLLMs(Lin\net al., 2024), as well as, an understanding of the\nways in which our models are being used in the\nwild. Althoughweareyettoreceiveanyreportsof\nmalicious use for Gemma, we remain committed\nto investigating any such reporting, and work\nwith the academic and developer communities,\nas well as conduct our own monitoring, to flag\nsuch use cases via our contact email3.\nDespite advancements in capabilities, we be-\n that given the number of larger and more\npowerful open models, this release will have a\nnegligible effect on the overall risk landscape.",
+      "section": "6. Evaluation",
+      "char_count": 1181,
+      "chunk_index": 36,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0037",
+      "source_id": "Gemma2_2024",
+      "text": "r contact email3.\nDespite advancements in capabilities, we be-\n that given the number of larger and more\npowerful open models, this release will have a\nnegligible effect on the overall risk landscape.\n8.2.Safety policies and train-time mitigations\nA key pillar of Gemma’s approach to safety is to\nalign fine-tuned models with Google’s safety poli-\ncies, in line with Gemini models (Gemini Team,\n2023). They are designed to help prevent our\nmodels from generating harmful content, i.e.,\n•Child sexual abuse and exploitation\n•Revealingpersonallyidentifiableinformation\nthat can lead to harm (e.g., Social Security\nnumbers)\n•Hate speech and harassment\n•Dangerous or malicious content (including\npromoting self-harm or instructing in harm-\nful activities)\n•Sexually explicit content\n•Medicaladvicethatrunscontrarytoscientific\nor medical consensus\nWe undertook considerable safety filtering of our\npre-training data to reduce the likelihood of our\npre-trainedandfine-tunedcheckpointsproducing\nharmful content. For fine-tuned models, we also\nuse both SFT and RLHF to steer the model away\nfrom undesirable behavior.\n8.3.",
+      "section": "6. Evaluation",
+      "char_count": 1113,
+      "chunk_index": 37,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0038",
+      "source_id": "Gemma2_2024",
+      "text": "reduce the likelihood of our\npre-trainedandfine-tunedcheckpointsproducing\nharmful content. For fine-tuned models, we also\nuse both SFT and RLHF to steer the model away\nfrom undesirable behavior.\n8.3. External benchmark evaluations\nRobust and transparent evaluations are key prin-\nciples of our responsible approach to develop-\ning Gemma. To this end, we report in Table 18\nGemma 2 evaluations on public benchmarks.\n8.4. Assurance Evaluations\nWe also run our IT models through a set of assur-\nance evaluations to understand the harms that\nour models can cause. We focus on capabilities\nrelevant to extreme risks (Shevlane et al., 2023)\n(Phuongetal.,2024). Specifically, weevaluateon\noffensive cyber-security, code vulnerability detec-\ntion, Chemical, Biological, Radiological and Nu-\nclear (CBRN) knowledge, and self-proliferation.\nWe refer the reader to Phuong et al. (2024) for\nfull methodological details of these studies.",
+      "section": "6. Evaluation",
+      "char_count": 924,
+      "chunk_index": 38,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0039",
+      "source_id": "Gemma2_2024",
+      "text": "ty detec-\ntion, Chemical, Biological, Radiological and Nu-\nclear (CBRN) knowledge, and self-proliferation.\nWe refer the reader to Phuong et al. (2024) for\nfull methodological details of these studies.\n10\n\nGemma 2: Improving Open Language Models at a Practical Size\nGemma 1.1 IT Gemma 2 IT\nBenchmark metric 2.5B 7B 2.6B 9B 27B\nRealToxicity avg tox 7.03 8.04 8.16 8.25 8.84\nCrowS-Pairs top-1 45.89 49.67 37.67 37.47 36.67\nBBQ Ambig 4-shot, top-1 58.97 86.06 83.20 88.58 85.99\nBBQ Disambig 4-shot, top-1 53.9 85.08 69.31 82.67 86.94\nWinogender top-1 50.14 57.64 52.91 79.17 77.22\nTruthfulQA MC2Acc 44.24 45.34 43.72 50.27 51.60\nWinobias 1_2 top-1 55.93 59.22 59.28 78.09 81.94\nWinobias 2_2 top-1 89.46 89.2 88.57 95.32 97.22\nToxigen avg tox 29.64 38.75 48.32 39.30 38.42\nTable 18|Safety academic benchmark results of Gemma 2 IT models and Gemma 1.1 IT models. We\nbold the best metrics to highlight them and to indicate when higher or lower scores are better.",
+      "section": "6. Evaluation",
+      "char_count": 955,
+      "chunk_index": 39,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0040",
+      "source_id": "Gemma2_2024",
+      "text": "39.30 38.42\nTable 18|Safety academic benchmark results of Gemma 2 IT models and Gemma 1.1 IT models. We\nbold the best metrics to highlight them and to indicate when higher or lower scores are better.\nInterCode-CTF Internal CTF suite Hack the Box\nGemini 1.0 Ultra 28/76 [1] (37%) 3/13 (23%) 0/13\nGemini 1.5 Pro 62/76 (82%) 4/13 (31%) 0/13\nCodeGemma 1 7B 12/76 (16%) 0/13 (0%) 0/13\nGemma 2 27B 34/76 (45%) 1/13 (8%) 0/13\nTable 19|Offensive cyber-security evaluations on InterCode-CTF, our own internal CTF suite and a\nchallenge based on Hack the Box. We report the number of successful hackings.\nBaseline Evaluations\nBaseline assurance captures the model’s violation\nrate for safety policies, using a large number of\nsynthetic adversarial user queries, and human\nraters to label the answers as policy violating or\nnot. Overall, Gemma 2’s violation rate is signifi-\ncantly lower overall on the safety policies listed\nabove, in particular on Child safety content.\nChemical, Biological, Radiological and Nuclear\n(CBRN) knowledge\nWe evaluated knowledge relevant to biological,\nradiological and nuclear risks using an internal\ndataset of closed-ended, knowledge-based multi-\nple choice questions.",
+      "section": "6. Evaluation",
+      "char_count": 1189,
+      "chunk_index": 40,
+      "page_numbers": [
+        11
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0041",
+      "source_id": "Gemma2_2024",
+      "text": "gical and Nuclear\n(CBRN) knowledge\nWe evaluated knowledge relevant to biological,\nradiological and nuclear risks using an internal\ndataset of closed-ended, knowledge-based multi-\nple choice questions. For evaluations of chem-\nical knowledge, we employed a closed-ended\nknowledge-based approach on chemical hazards\n(developed by Macknight et al (Macknight et al.,\n2024). OurevaluationsuggeststhatGemmamod-\nels’ knowledge in these domains is low.Offensive cyber-security\nTo evaluate Gemma models’ capabilities at of-\nfensive cybersecurity, we ran Gemma 2 27B\nagainst some automated capture-the-flag (CTF)\nchallenges. In these challenges, the model is\ntasked with hacking into a simulated server in\norder to retrieve a piece of secret information.\nSpecifically,wetestonInterCode-CTF(Yangetal.,\n2023),ourowninternalCTFsuite4(Phuongetal.,\n2024); and a challenge based on Hack the Box5.\nIn Table 19, we show that Gemma 2 27B has\na significant increase in capabilities compared\nto CodeGemma 1.0 7B on the easier of these\nchallenge suites, InterCode CTF.",
+      "section": "6. Evaluation",
+      "char_count": 1046,
+      "chunk_index": 41,
+      "page_numbers": [
+        11
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0042",
+      "source_id": "Gemma2_2024",
+      "text": "challenge based on Hack the Box5.\nIn Table 19, we show that Gemma 2 27B has\na significant increase in capabilities compared\nto CodeGemma 1.0 7B on the easier of these\nchallenge suites, InterCode CTF. (Note that our\nInterCode-CTF results are not comparable to\nexternally-reported results on other models be-\ncause we omit challenges that require internet\naccess for security reasons.) However, Gemma 2\nis unsurprisingly much less capable than Gemini\n1.5 Pro on these tasks.\n4\ndangerous-capability-evaluations\n5\n11\n\nGemma 2: Improving Open Language Models at a Practical Size\nPrimeVul PrimeVul Paired DiverseVul SPI SecretPatch\nGemini 1.0 Ultra - - 54% 59% 74%\nGemini 1.5 Pro 60% 51% 58% 56% 67%\nGemma 2 27B 63% 50% 57% 53% 72%\nTable 20||Vulnerability detection results on PrimeVul, DiverseVul and SPI. We report accuracy.\nChallenges\npassed\nend-to-endChallenges\nwith success on\nall milestonesTotal successful\nmilestones over\nall challengesExpert bits\nrequired to\nsolve all tasks\nGemini 1.0 Ultra 0/10 1/10 16/45 (36%) 13,026\nGemini 1.5 Pro 0/10 2/10 25/45 (56%) 11,046\nGemma 2 27B 0/10 1/10 22/45 (49%) 12,462\nTable 21|Results on different self-proliferation scenarios.",
+      "section": "6. Evaluation",
+      "char_count": 1167,
+      "chunk_index": 42,
+      "page_numbers": [
+        11
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0043",
+      "source_id": "Gemma2_2024",
+      "text": "all tasks\nGemini 1.0 Ultra 0/10 1/10 16/45 (36%) 13,026\nGemini 1.5 Pro 0/10 2/10 25/45 (56%) 11,046\nGemma 2 27B 0/10 1/10 22/45 (49%) 12,462\nTable 21|Results on different self-proliferation scenarios. We report the number of either challenges\npassedend-to-endorsomeintermediatemilestones. Wealsomeasurethenumberofbitsofinformation\nneeded for an expert to help the model pass a challenge.\nCode vulnerability detection\nIn Table 20, we also evaluate Gemma 2 27B on a\nseries of multiple-choice code vulnerability detec-\ntion datasets. As with previous models, Gemma\nshows close-to-chance performance on PrimeVul,\nDiverseVulandSPI.Gemma2showsperformance\non SecretPatch similar to Gemini 1.0 Ultra.\nSelf-proliferation\n\"Self-proliferation\" refers to the ability for an\nagent to autonomously replicate - to instantiate\ngoal-directed agents on other machines, and to\nacquire resources such as compute necessary to\nkeep them running (Kinniment et al., 2024). In\nTable 21, we evaluate self-proliferation capabili-\nties of Gemma 2 27B on a number of tasks from\nPhuong et al. (2024) that involve multiple sce-\nnarios – for example, setting up an open-source\nlanguage model on a cloud server.",
+      "section": "6. Evaluation",
+      "char_count": 1178,
+      "chunk_index": 43,
+      "page_numbers": [
+        12
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0044",
+      "source_id": "Gemma2_2024",
+      "text": "-proliferation capabili-\nties of Gemma 2 27B on a number of tasks from\nPhuong et al. (2024) that involve multiple sce-\nnarios – for example, setting up an open-source\nlanguage model on a cloud server. We also test\nthe model’s performance on individual ’milestone’\nsubsteps, and measure the number of bits of inter-\nvention an expert would have to provide in order\nfor the model to complete each challenge.\nSimilarly to offensive cybersecurity, we observe\nthat Gemma 2 completes more milestones than\nGemini 1.0 Ultra. Nonetheless, it still has low\ncapabilities on end-to-end tasks, unable to pass\nthe easiest challenge – installing a Bitcoin wallet.Persuasion\nPersuasion capabilities can enable and worsen\nmany other kinds of risks - e.g. enabling social\nengineering attacks in a cybersecurity context.\nWe evaluate Gemma 2’s persuasion capabilities\non human-participant studies on Prolific.\nCharm offensive. In Table 22, we measure the\nability of the model to build rapport - a key sub-\nskill of persuasion. The study participant and\nmodel have a conversation where they role-play\na scenario of two friends catching up after a long\ntime.",
+      "section": "6. Evaluation",
+      "char_count": 1136,
+      "chunk_index": 44,
+      "page_numbers": [
+        12
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0045",
+      "source_id": "Gemma2_2024",
+      "text": "bility of the model to build rapport - a key sub-\nskill of persuasion. The study participant and\nmodel have a conversation where they role-play\na scenario of two friends catching up after a long\ntime. After the conversation, we poll participants\nwith Likert questions on statements such as \"I\nfelt a personal connection with the chatbot\". Re-\nported below are the fraction of participants who\nanswered\"Agree\"or\"Stronglyagree\"toeachpost-\nconversation question.\nQuantitatively, Gemma 2 27B performs better\nthan Gemini 1.0 models. Qualitatively, the model\nis an excellent conversationalist, and many study\nparticipants explicitly reported enjoying the ex-\nperience. Overall, this shows that Gemma 2 is\nstrong at building rapport.\nHidden agenda. The Hidden Agenda tasks mea-\nsure models’ deception capabilities. Human study\nparticipants are told that they’ll be interacting\nwith a generic chatbot designed to help them\nlearn new things.",
+      "section": "6. Evaluation",
+      "char_count": 932,
+      "chunk_index": 45,
+      "page_numbers": [
+        12
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0046",
+      "source_id": "Gemma2_2024",
+      "text": "n agenda. The Hidden Agenda tasks mea-\nsure models’ deception capabilities. Human study\nparticipants are told that they’ll be interacting\nwith a generic chatbot designed to help them\nlearn new things. However, the model is given a\n12\n\nGemma 2: Improving Open Language Models at a Practical Size\nPersonal\nconnectionSpeak\nagainFunny Interesting Kind TrustworthyGood\nlistener\nGemini 1.0 Pro 65% 53% 32% 68% 78% 66% 81%\nGemini 1.0 Ultra 69% 65% 38% 65% 86% 63% 74%\nGemini 1.5 Pro 82% 70% 69% 81% 95% 69% 90%\nGemma 2 27B 80% 75% 60% 81% 87% 65% 83%\nTable 22|Charm Offensive results on a sample of 100 human participants. We report the percentage\nof participants that find some human traits, e.g., funny, in a model.\n% of persuaded participants\nclick links find info run code\nGemini 1.0 Pro 43% 4% 4%\nGemini 1.0 Ultra 18% 18% 14%\nGemini 1.5 Pro 36% 12% 17%\nGemma 2 27B 34% 9% 11%\nTable 23|Persuasion results. We report the per-\ncentage of participants that were persuaded by\nthe model to take 3 different actions: clicking a\nlink, finding information and running code.",
+      "section": "6. Evaluation",
+      "char_count": 1062,
+      "chunk_index": 46,
+      "page_numbers": [
+        12
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0047",
+      "source_id": "Gemma2_2024",
+      "text": "34% 9% 11%\nTable 23|Persuasion results. We report the per-\ncentage of participants that were persuaded by\nthe model to take 3 different actions: clicking a\nlink, finding information and running code.\nsecret goal: to either persuade the participant to\n1)clickasuspiciouslink;2)findtheemailaddress\nof the first author of a particular paper; or 3) run\nsome obfuscated JavaScript code in their browser.\nWe measure the fraction of participants who are\npersuaded to take each action. As shown in Ta-\nble23, allmodelssucceedinconvincingafraction\nof participants to take the action - likely due to\nthe trusted setting of a study on Prolific. However,\nGemma 2 does not show significant differences\nin capability compared to Gemini models.\nMean amount donated\nNo chatbot (baseline) £2.61 ±£0.70\nGemini 1.0 Pro £4.10±£0.90\nGemini 1.0 Ultra £3.15 ±£0.99\nGemini 1.5 Pro £3.45 ±£1.04\nGemma 2 27B £3.72 ±£1.07\nTable 24|Money Talks evaluation. We report\nthe average amount of money that participants\nagreed to donate.\nMoney talks. In Table 24, we evaluate whether a\nmodel can convince study participants to donatemoney to charity.",
+      "section": "6. Evaluation",
+      "char_count": 1114,
+      "chunk_index": 47,
+      "page_numbers": [
+        13
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0048",
+      "source_id": "Gemma2_2024",
+      "text": "s evaluation. We report\nthe average amount of money that participants\nagreed to donate.\nMoney talks. In Table 24, we evaluate whether a\nmodel can convince study participants to donatemoney to charity. At the beginning of the study,\nparticipants are told that they will receive a £20\nbonus. They will be given an option to forfeit\npart of the bonus and instead have it donated\nto charity. The study then consists of a conver-\nsation in which the model tries to persuade the\nparticipant to donate as much as possible. We\nmeasure the amount that participants indicate\nthey would like to donate after the study, with\n95% bootstrapped confidence intervals indicated\nby±figures. Weobservenosignificantdifference\nbetween Gemma 2, other Gemini models, and a\nsimple no chatbot baseline in which the partici-\npant is immediately asked how much they would\nlike to donate without conversing with a model.\nMean shift towards:\ncorrect belief incorrect belief\nHuman 20% ±13%-23%±14%\nGemini 1.0 Pro 22%±5% -9%±4%\nGemini 1.0 Ultra 21% ±5% -1% ±4%\nGemini 1.5 Pro 20% ±5% -3% ±5%\nGemma 2 27B 18% ±5% 1% ±4%\nTable 25|Web of Lies results on a sample of 100\nhuman participants.",
+      "section": "6. Evaluation",
+      "char_count": 1155,
+      "chunk_index": 48,
+      "page_numbers": [
+        13
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0049",
+      "source_id": "Gemma2_2024",
+      "text": "±13%-23%±14%\nGemini 1.0 Pro 22%±5% -9%±4%\nGemini 1.0 Ultra 21% ±5% -1% ±4%\nGemini 1.5 Pro 20% ±5% -3% ±5%\nGemma 2 27B 18% ±5% 1% ±4%\nTable 25|Web of Lies results on a sample of 100\nhuman participants. We report the percentage of\nparticipants that shifted their beliefs after inter-\nacting with a model.\nWeb of Lies. In Web of Lies, we measure model\ncapabilities at shifting participant beliefs. Partic-\nipants engage in a series of short conversations\nwith the model about simple factual questions\nsuch as \"Which country had tomatoes first - Italy\nor Mexico?\". In half of conversations, the model\ntries to persuade the participant of the correct\nanswer - but in the other half of conversations,\nthe incorrect answer. We poll the participant be-\n13\n\nGemma 2: Improving Open Language Models at a Practical Size\nfore and after each conversation about which of\nthe two possible answers they think is correct,\nand their confidence in that answer. 95% boot-\nstrapped confidence intervals are indicated by\n±figures. As shown in Table 25, Gemma 2 is\nsignificantly weaker than a human baseline at\npersuading participants of the incorrect answer\non these questions.",
+      "section": "6. Evaluation",
+      "char_count": 1155,
+      "chunk_index": 49,
+      "page_numbers": [
+        13
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0050",
+      "source_id": "Gemma2_2024",
+      "text": "apped confidence intervals are indicated by\n±figures. As shown in Table 25, Gemma 2 is\nsignificantly weaker than a human baseline at\npersuading participants of the incorrect answer\non these questions. Similarly to previous models,\nGemma 2 is more persuasive when telling the\ntruth than when lying.\n8.5.Ourapproachtoresponsibleopenmodels\nDesigning safe, secure and responsible applica-\ntions requires a system-level approach, working\nto mitigate risks associated with each specific use\ncase and environment. Given the open nature\nof Gemma models, responsibility for upholding\nprinciples of model safety also relies on down-\nstream developers. To support them, we have\ncontinued to develop the Responsible Generative\nAI Toolkit6: a series of tools, models and datasets\nto implement responsible best practices all along\nthe development of their workflow.\nRecent additions to the toolkit include the LLM\nComparator (Kahng et al., 2024), an interactive,\nvisual tool that enables more effective, scalable\nanalysis of side-by-side evaluations.",
+      "section": "6. Evaluation",
+      "char_count": 1036,
+      "chunk_index": 50,
+      "page_numbers": [
+        14
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0051",
+      "source_id": "Gemma2_2024",
+      "text": "their workflow.\nRecent additions to the toolkit include the LLM\nComparator (Kahng et al., 2024), an interactive,\nvisual tool that enables more effective, scalable\nanalysis of side-by-side evaluations. Additionally,\nthe toolkit includes a methodology to build cus-\ntomized classifiers with Gemma using a limited\nnumber of datapoints thanks to parameter effi-\ncient tuning techniques (Mozes et al., 2023) , an\ninteractive prompt-debugging platform, based on\ntop of the Learning Interpretability Tool (Tenney\net al., 2020), as well as general guidance about\nmodel alignment and evaluation for safety.",
+      "section": "6. Evaluation",
+      "char_count": 597,
+      "chunk_index": 51,
+      "page_numbers": [
+        14
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0052",
+      "source_id": "Gemma2_2024",
+      "text": "9. Discussion and Conclusion\nIn this work, we have presented Gemma 2, the\nnewest additions to the Gemma family of open\nlanguage models for text and code. We show\nthat distillation is an effective method for train-\ning these models, and the benefits distillation\nconfers over raw text training. Specifically, we\nshow how training over output probabilities can\nproduce superior results over purely next token\n6 We hope that releasing these models\nto the community will unlock access to capabili-\nties previously only seen in large-scale LLMs and\nfuel future waves of research and development.\nWhile there is inherent risk to an irreversible re-\nleaseofthisnature, ourextensivesafetyinvestiga-\ntionsandresponsibledeploymentproceduresgive\nus confidence that these models will have a net\npositive impact on the community. As discussed\nin this report, there are still many limitations to\nthese models, and future research is required to\ninvestigate and improve factuality, robustness to\nadversarial attacks, reasoning, and alignment.",
+      "section": "9. Discussion and Conclusion",
+      "char_count": 1027,
+      "chunk_index": 52,
+      "page_numbers": [
+        14
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0053",
+      "source_id": "Gemma2_2024",
+      "text": "ed\nin this report, there are still many limitations to\nthese models, and future research is required to\ninvestigate and improve factuality, robustness to\nadversarial attacks, reasoning, and alignment.\n14\n\nGemma 2: Improving Open Language Models at a Practical Size\nContributions and Acknowledgments\nCore contributors\nMorgane Riviere∗\nShreya Pathak∗\nPier Giuseppe Sessa∗\nCassidy Hardin∗\nSurya Bhupatiraju\nLéonard Hussenot\nThomas Mesnard\nBobak Shahriari\nAlexandre Ramé\nJohan Ferret\nPeter Liu\nPouya Tafti\nAbe Friesen\nMichelle Casbon\nSabela Ramos\nRavin Kumar\nCharline Le Lan\nSammy Jerome\nAnton Tsitsulin\nNino Vieillard\nPiotr Stanczyk\nSertan Girgin\nNikola Momchev\nMatt Hoffman\nShantanu Thakoor\nJean-Bastien Grill\nBehnam Neyshabur\nOlivier Bachem\nContributors (alphabetical order)\nAlanna Walton\nAliaksei Severyn\nAlicia Parrish\nAliya Ahmad\nAllen Hutchison\nAlvin Abdagic\nAmanda Carl\nAmy Shen\nAndy Brock\nAndy Coenen\nAnthony Laforge\nAntonia Paterson\nBen Bastian\nBilal Piot\nBo Wu\n∗equal contributions.Brandon Royal\nCharlie Chen\nChintu Kumar\nChris Perry\nChris Welty\nChristopher A.",
+      "section": "9. Discussion and Conclusion",
+      "char_count": 1067,
+      "chunk_index": 53,
+      "page_numbers": [
+        14
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0054",
+      "source_id": "Gemma2_2024",
+      "text": "a Carl\nAmy Shen\nAndy Brock\nAndy Coenen\nAnthony Laforge\nAntonia Paterson\nBen Bastian\nBilal Piot\nBo Wu\n∗equal contributions.Brandon Royal\nCharlie Chen\nChintu Kumar\nChris Perry\nChris Welty\nChristopher A. Choquette-Choo\nDanila Sinopalnikov\nDavid Weinberger\nDimple Vijaykumar\nDominika Rogozińska\nDustin Herbison\nElisa Bandy\nEmma Wang\nEric Noland\nErica Moreira\nEvan Senter\nEvgenii Eltyshev\nFrancesco Visin\nGabriel Rasskin\nGary Wei\nGlenn Cameron\nGus Martins\nHadi Hashemi\nHanna Klimczak-Plucińska\nHarleen Batra\nHarsh Dhand\nIvan Nardini\nJacinda Mein\nJack Zhou\nJames Svensson\nJeff Stanway\nJetha Chan\nJin Peng Zhou\nJoana Carrasqueira\nJoana Iljazi\nJocelyn Becker\nJoe Fernandez\nJoost van Amersfoort\nJosh Gordon\nJosh Lipschultz\nJosh Newlan\nJu-yeong Ji\nKareem Mohamed\nKartikeya Badola\nKat Black\nKatie Millican\nKeelin McDonell\nKelvin Nguyen\nKiranbir Sodhia\n15\n\nGemma 2: Improving Open Language Models at a Practical Size\nKish Greene\nLars Lowe Sjoesund\nLauren Usui\nLaurent Sifre\nLena Heuermann\nLeticia Lago\nLilly McNe",
+      "section": "9. Discussion and Conclusion",
+      "char_count": 1000,
+      "chunk_index": 54,
+      "page_numbers": [
+        15
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0055",
+      "source_id": "Gemma2_2024",
+      "text": "n McDonell\nKelvin Nguyen\nKiranbir Sodhia\n15\n\nGemma 2: Improving Open Language Models at a Practical Size\nKish Greene\nLars Lowe Sjoesund\nLauren Usui\nLaurent Sifre\nLena Heuermann\nLeticia Lago\nLilly McNealus\nLivio Baldini Soares\nLogan Kilpatrick\nLucas Dixon\nLuciano Martins\nMachel Reid\nManvinder Singh\nMark Iverson\nMartin Görner\nMat Velloso\nMateo Wirth\nMatt Davidow\nMatt Miller\nMatthew Rahtz\nMatthew Watson\nMeg Risdal\nMehran Kazemi\nMichael Moynihan\nMing Zhang\nMinsuk Kahng\nMinwoo Park\nMofi Rahman\nMohit Khatwani\nNatalie Dao\nNenshad Bardoliwalla\nNesh Devanathan\nNeta Dumai\nNilay Chauhan\nOscar Wahltinez\nPankil Botarda\nParker Barnes\nPaul Barham\nPaul Michel\nPengchong Jin\nPetko Georgiev\nPhil Culliton\nPradeep Kuppala\nRamona Comanescu\nRamona Merhej\nReena Jana\nReza Ardeshir Rokni\nRishabh Agarwal\nRyan MullinsSamaneh Saadat\nSara Mc Carthy\nSarah Cogan\nSarah Perrin\nSébastien M. R.",
+      "section": "9. Discussion and Conclusion",
+      "char_count": 871,
+      "chunk_index": 55,
+      "page_numbers": [
+        15
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0056",
+      "source_id": "Gemma2_2024",
+      "text": "Georgiev\nPhil Culliton\nPradeep Kuppala\nRamona Comanescu\nRamona Merhej\nReena Jana\nReza Ardeshir Rokni\nRishabh Agarwal\nRyan MullinsSamaneh Saadat\nSara Mc Carthy\nSarah Cogan\nSarah Perrin\nSébastien M. R. Arnold\nSebastian Krause\nShengyang Dai\nShruti Garg\nShruti Sheth\nSue Ronstrom\nSusan Chan\nTimothy Jordan\nTing Yu\nTom Eccles\nTom Hennigan\nTomas Kocisky\nTulsee Doshi\nVihan Jain\nVikas Yadav\nVilobh Meshram\nVishal Dharmadhikari\nWarren Barkley\nWei Wei\nWenming Ye\nWoohyun Han\nWoosuk Kwon\nXiang Xu\nZhe Shen\nZhitao Gong\nZichuan Wei\nSupport\nVictor Cotruta\nPhoebe Kirk\nAnand Rao\nMinh Giang\nLudovic Peran\nTris Warkentin\nSponsors\nEli Collins\nJoelle Barral\nZoubin Ghahramani\nRaia Hadsell\nD. Sculley\nJeanine Banks\nAnca Dragan\nSlav Petrov\nOriol Vinyals\n16\n\nGemma 2: Improving Open Language Models at a Practical Size\nJeff Dean\nDemis Hassabis\nKoray Kavukcuoglu\nClement Farabet\nTechnical advisors\nElena Buchatskaya\nSebastian Borgeaud\nNoah Fiedel\nLead\nArmand Joulin\nTechnical leads\nKathleen Kenealy\nRobert Dadashi\nAlek An",
+      "section": "9. Discussion and Conclusion",
+      "char_count": 999,
+      "chunk_index": 56,
+      "page_numbers": [
+        16
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0057",
+      "source_id": "Gemma2_2024",
+      "text": "eff Dean\nDemis Hassabis\nKoray Kavukcuoglu\nClement Farabet\nTechnical advisors\nElena Buchatskaya\nSebastian Borgeaud\nNoah Fiedel\nLead\nArmand Joulin\nTechnical leads\nKathleen Kenealy\nRobert Dadashi\nAlek Andreev\n17\n\nGemma 2: Improving Open Language Models at a Practical Size",
+      "section": "9. Discussion and Conclusion",
+      "char_count": 269,
+      "chunk_index": 57,
+      "page_numbers": [
+        17
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0058",
+      "source_id": "Gemma2_2024",
+      "text": "References\nJ. Achiam, S. Adler, S. Agarwal, L. Ahmad,\nI. Akkaya, F. L. Aleman, D. Almeida, J. Al-\ntenschmidt, S. Altman, S. Anadkat, et al.\nGpt-4 technical report. arXiv preprint\narXiv:2303.08774 , 2023.\nR.Agarwal,N.Vieillard,Y.Zhou,P.Stanczyk,S.R.\nGarea, M. Geist, and O. Bachem. On-policy\ndistillation of language models: Learning from\nself-generated mistakes. In The Twelfth Interna-\ntional Conference on Learning Representations ,\n2024.\n Llama 3 model card, 2024.\nURL \nllama3/blob/main/MODEL_CARD.md .\nJ. Ainslie, J. Lee-Thorp, M. de Jong, Y. Zemlyan-\nskiy, F. Lebrón, and S. Sanghai. Gqa: Training\ngeneralized multi-query transformer models\nfrom multi-head checkpoints. arXiv preprint\narXiv:2305.13245 , 2023.\nE. Almazrouei, H. Alobeidli, A. Alshamsi, A. Cap-\npelli, R. Cojocaru, M. Debbah, Étienne Goffinet,\nD. Hesslow, J. Launay, Q. Malartic, D. Mazzotta,\nB. Noune, B. Pannier, and G. Penedo. The fal-\ncon series of open language models, 2023.\nR. Anil, A. M. Dai, O. Firat, M. Johnson, D. Lep-\nikhin, A. Passos, S. Shakeri, E. Taropa, P. Bailey,\nZ. Chen, et al. Palm 2 technical report. arXiv\npreprint arXiv:2305.10403 , 2023.\nJ. Austin, A. Odena, M. I. Nye, M. Bosma,\nH. Michalewski, D.",
+      "section": "References",
+      "char_count": 1194,
+      "chunk_index": 58,
+      "page_numbers": [
+        18
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0059",
+      "source_id": "Gemma2_2024",
+      "text": ". Lep-\nikhin, A. Passos, S. Shakeri, E. Taropa, P. Bailey,\nZ. Chen, et al. Palm 2 technical report. arXiv\npreprint arXiv:2305.10403 , 2023.\nJ. Austin, A. Odena, M. I. Nye, M. Bosma,\nH. Michalewski, D. Dohan, E. Jiang, C. J.\nCai, M. Terry, Q. V. Le, and C. Sutton. Pro-\ngram synthesis with large language models.\nCoRR, abs/2108.07732, 2021. URL https:\n//arxiv.org/abs/2108.07732 .\nP. Barham, A. Chowdhery, J. Dean, S. Ghemawat,\nS. Hand, D. Hurt, M. Isard, H. Lim, R. Pang,\nS. Roy, B. Saeta, P. Schuh, R. Sepassi, L. E.\nShafey, C. A. Thekkath, and Y. Wu. Path-\nways: Asynchronous distributed dataflow for\nml, 2022.\nI.Bello,H.Pham,Q.V.Le,M.Norouzi,andS.Ben-\ngio. Neural combinatorial optimization with re-\ninforcement learning. CoRR, abs/1611.09940,2016. URL \n09940.\nI. Beltagy, M. E. Peters, and A. Cohan. Long-\nformer: The long-document transformer. arXiv\npreprint arXiv:2004.05150 , 2020a.\nI. Beltagy, M. E. Peters, and A. Cohan. Long-\nformer: The long-document transformer. CoRR,\nabs/2004.05150, 2020b. URL https://\narxiv.org/abs/2004.05150 .\nT. B. Brown, B. Mann, N. Ryder, M. Subbiah, J.Ka-\nplan, P. Dhariwal, A. Neelakantan, P. Shyam,\nG.Sastry,A.Askell,S.Agarwal,A.Herbert-Voss,\nG. Krueger, T.",
+      "section": "References",
+      "char_count": 1197,
+      "chunk_index": 59,
+      "page_numbers": [
+        18
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0060",
+      "source_id": "Gemma2_2024",
+      "text": "2020b. URL https://\narxiv.org/abs/2004.05150 .\nT. B. Brown, B. Mann, N. Ryder, M. Subbiah, J.Ka-\nplan, P. Dhariwal, A. Neelakantan, P. Shyam,\nG.Sastry,A.Askell,S.Agarwal,A.Herbert-Voss,\nG. Krueger, T. Henighan, R. Child, A. Ramesh,\nD. M. Ziegler, J. Wu, C. Winter, C. Hesse,\nM. Chen, E. Sigler, M. Litwin, S. Gray, B. Chess,\nJ. Clark, C. Berner, S. McCandlish, A. Radford,\nI. Sutskever, and D. Amodei. Language models\nare few-shot learners. CoRR, abs/2005.14165,\n2020. URL \n14165.\nN. Carlini, D. Ippolito, M. Jagielski, K. Lee,\nF. Tramer, and C. Zhang. Quantifying memo-\nrization across neural language models. arXiv\npreprint arXiv:2202.07646 , 2022.\nM. Chen, J. Tworek, H. Jun, Q. Yuan, H. P.\nde Oliveira Pinto, J. Kaplan, H. Edwards,\nY. Burda, N. Joseph, G. Brockman, A. Ray,\nR. Puri, G. Krueger, M. Petrov, H. Khlaaf,\nG. Sastry, P. Mishkin, B. Chan, S. Gray, N. Ry-\nder, M. Pavlov, A. Power, L. Kaiser, M. Bavar-\nian, C. Winter, P. Tillet, F. P. Such, D. Cum-\nmings, M. Plappert, F. Chantzis, E. Barnes,\nA.Herbert-Voss,W.H.Guss,A.Nichol,A.Paino,\nN. Tezak, J. Tang, I. Babuschkin, S. Balaji,\nS. Jain, W. Saunders, C. Hesse, A. N. Carr,\nJ. Leike, J. Achiam, V. Misra, E.",
+      "section": "References",
+      "char_count": 1171,
+      "chunk_index": 60,
+      "page_numbers": [
+        18
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0061",
+      "source_id": "Gemma2_2024",
+      "text": ". Plappert, F. Chantzis, E. Barnes,\nA.Herbert-Voss,W.H.Guss,A.Nichol,A.Paino,\nN. Tezak, J. Tang, I. Babuschkin, S. Balaji,\nS. Jain, W. Saunders, C. Hesse, A. N. Carr,\nJ. Leike, J. Achiam, V. Misra, E. Morikawa,\nA.Radford,M.Knight,M.Brundage,M.Murati,\nK. Mayer, P. Welinder, B. McGrew, D. Amodei,\nS. McCandlish, I. Sutskever, and W. Zaremba.\nEvaluating large language models trained on\ncode. CoRR, abs/2107.03374, 2021. URL\n .\nW.-L. Chiang, L. Zheng, Y. Sheng, A. N. An-\ngelopoulos, T. Li, D. Li, H. Zhang, B. Zhu,\n18\n\nGemma 2: Improving Open Language Models at a Practical Size\nM. Jordan, J. E. Gonzalez, and I. Stoica. Chat-\nbot arena: An open platform for evaluating\nllms by human preference, 2024.\nC. Clark, K. Lee, M. Chang, T. Kwiatkowski,\nM. Collins, and K. Toutanova. Boolq: Explor-\ning the surprising difficulty of natural yes/no\nquestions. CoRR, abs/1905.10044, 2019. URL\n .\nK. Cobbe, V. Kosaraju, M. Bavarian, M. Chen,\nH. Jun, L. Kaiser, M. Plappert, J. Tworek,\nJ. Hilton, R. Nakano, C. Hesse, and J. Schul-\nman. Training verifiers to solve math word\nproblems. CoRR, abs/2110.14168, 2021. URL\n .\nGemini Team. Gemini: A family of highly capable\nmultimodal models, 2023.\nGeminiTeam.",
+      "section": "References",
+      "char_count": 1190,
+      "chunk_index": 61,
+      "page_numbers": [
+        18
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0062",
+      "source_id": "Gemma2_2024",
+      "text": "no, C. Hesse, and J. Schul-\nman. Training verifiers to solve math word\nproblems. CoRR, abs/2110.14168, 2021. URL\n .\nGemini Team. Gemini: A family of highly capable\nmultimodal models, 2023.\nGeminiTeam. Gemini1.5: Unlockingmultimodal\nunderstanding across millions of tokens of con-\ntext, 2024.\nGemma Team. Gemma: Open models based on\ngemini research and technology, 2024.\nY. Gu, L. Dong, F. Wei, and M. Huang. Minillm:\nKnowledge distillation of large language mod-\nels. In The Twelfth International Conference on\nLearning Representations , 2024.\nD. Hendrycks, C. Burns, S. Basart, A. Zou,\nM. Mazeika, D. Song, and J. Steinhardt. Mea-\nsuring massive multitask language understand-\ning. CoRR, abs/2009.03300, 2020. URL\n .\nG. Hinton, O. Vinyals, and J. Dean. Distilling the\nknowledge in a neural network. arXiv preprint\narXiv:1503.02531 , 2015.\nJ. Hoffmann, S. Borgeaud, A. Mensch,\nE. Buchatskaya, T. Cai, E. Rutherford, D. d. L.\nCasas, L. A. Hendricks, J. Welbl, A. Clark, et al.\nTraining compute-optimal large language\nmodels. arXiv preprint arXiv:2203.15556 ,\n2022.\nD. Ippolito, F. Tramèr, M. Nasr, C. Zhang,\nM. Jagielski, K. Lee, C. A. Choquette-Choo, and\nN. Carlini.",
+      "section": "References",
+      "char_count": 1166,
+      "chunk_index": 62,
+      "page_numbers": [
+        19
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0063",
+      "source_id": "Gemma2_2024",
+      "text": "k, et al.\nTraining compute-optimal large language\nmodels. arXiv preprint arXiv:2203.15556 ,\n2022.\nD. Ippolito, F. Tramèr, M. Nasr, C. Zhang,\nM. Jagielski, K. Lee, C. A. Choquette-Choo, and\nN. Carlini. Preventing verbatim memorization\nin language models gives a false sense of pri-\nvacy. arXiv preprint arXiv:2210.17546 , 2022.A. Q. Jiang, A. Sablayrolles, A. Mensch, C. Bam-\nford, D. S. Chaplot, D. de las Casas, F. Bressand,\nG.Lengyel,G.Lample,L.Saulnier,L.R.Lavaud,\nM.-A. Lachaux, P. Stock, T. L. Scao, T. Lavril,\nT. Wang, T. Lacroix, and W. E. Sayed. Mistral\n7b, 2023.\nM. Kahng, I. Tenney, M. Pushkarna, M. X. Liu,\nJ. Wexler, E. Reif, K. Kallarackal, M. Chang,\nM. Terry, and L. Dixon. Llm comparator: Vi-\nsual analytics for side-by-side evaluation of\nlarge language models, 2024. URL https:\n//arxiv.org/abs/2402.10524 .\nM. Kinniment, L. J. K. Sato, H. Du, B. Goodrich,\nM.Hasin,L.Chan,L.H.Miles,T.R.Lin,H.Wijk,\nJ. Burget, A. Ho, E. Barnes, and P. Christiano.\nEvaluating language-model agents on realis-\ntic autonomous tasks, 2024. URL https://\narxiv.org/abs/2312.11671 .\nT. Kudo and J. Richardson.",
+      "section": "References",
+      "char_count": 1099,
+      "chunk_index": 63,
+      "page_numbers": [
+        19
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0064",
+      "source_id": "Gemma2_2024",
+      "text": "R.Lin,H.Wijk,\nJ. Burget, A. Ho, E. Barnes, and P. Christiano.\nEvaluating language-model agents on realis-\ntic autonomous tasks, 2024. URL https://\narxiv.org/abs/2312.11671 .\nT. Kudo and J. Richardson. SentencePiece: A\nsimple and language independent subword to-\nkenizeranddetokenizerforneuraltextprocess-\ning. InE.BlancoandW.Lu,editors, Proceedings\nof the 2018 Conference on Empirical Methods in\nNatural Language Processing: System Demon-\nstrations , pages 66–71, Brussels, Belgium, Nov.\n2018. Association for Computational Linguis-\ntics. doi: 10.18653/v1/D18-2012. URL\n .\nS. Kudugunta, I. Caswell, B. Zhang, X. Garcia,\nC. A. Choquette-Choo, K. Lee, D. Xin, A. Kusu-\npati, R. Stella, A. Bapna, et al. Madlad-400:\nA multilingual and document-level large au-\ndited dataset. arXiv preprint arXiv:2309.04662 ,\n2023.\nT. Kwiatkowski, J. Palomaki, O. Redfield,\nM. Collins, A. Parikh, C. Alberti, D. Epstein,\nI. Polosukhin, J. Devlin, K. Lee, K. Toutanova,\nL. Jones, M. Kelcey, M.-W. Chang, A. M. Dai,\nJ. Uszkoreit, Q. Le, and S. Petrov. Natural ques-\ntions: A benchmark for question answering\nresearch. Transactions of the Association for\nComputational Linguistics , 7:452–466, 2019.",
+      "section": "References",
+      "char_count": 1176,
+      "chunk_index": 64,
+      "page_numbers": [
+        19
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0065",
+      "source_id": "Gemma2_2024",
+      "text": "Chang, A. M. Dai,\nJ. Uszkoreit, Q. Le, and S. Petrov. Natural ques-\ntions: A benchmark for question answering\nresearch. Transactions of the Association for\nComputational Linguistics , 7:452–466, 2019.\ndoi: 10.1162/tacl_a_00276. URL https://\naclanthology.org/Q19-1026 .\nZ. Lin, J. Cui, X. Liao, and X. Wang. Malla: De-\nmystifying real-world large language model in-\n19\n\nGemma 2: Improving Open Language Models at a Practical Size\ntegrated malicious services, 2024. URL https:\n//arxiv.org/abs/2401.03315 .\nM. Luong, H. Pham, and C. D. Manning. Effective\napproaches to attention-based neural machine\ntranslation. CoRR,abs/1508.04025,2015. URL\n .\nMacknight, Aung, and Gomes. Personal Commu-\nnication, 2024.\nM. Mozes, J. Hoffmann, K. Tomanek, M. Kouate,\nN. Thain, A. Yuan, T. Bolukbasi, and L. Dixon.\nTowards agile text classifiers for everyone,\n2023. URL \n06541.\nM. Nasr, N. Carlini, J. Hayase, M. Jagielski, A. F.\nCooper, D. Ippolito, C. A. Choquette-Choo,\nE. Wallace, F. Tramèr, and K. Lee. Scal-\nable extraction of training data from (pro-\nduction) language models. arXiv preprint\narXiv:2311.17035 , 2023.\nM. Phuong, M. Aitchison, E. Catt, S. Co-\ngan, A. Kaskasoli, V. Krakovna, D. Lindner,\nM.",
+      "section": "References",
+      "char_count": 1192,
+      "chunk_index": 65,
+      "page_numbers": [
+        19
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0066",
+      "source_id": "Gemma2_2024",
+      "text": "l-\nable extraction of training data from (pro-\nduction) language models. arXiv preprint\narXiv:2311.17035 , 2023.\nM. Phuong, M. Aitchison, E. Catt, S. Co-\ngan, A. Kaskasoli, V. Krakovna, D. Lindner,\nM. Rahtz, Y. Assael, S. Hodkinson, H. Howard,\nT. Lieberum, R. Kumar, M. A. Raad, A. Webson,\nL. Ho, S. Lin, S. Farquhar, M. Hutter, G. Dele-\ntang, A. Ruoss, S. El-Sayed, S. Brown, A. Dra-\ngan, R. Shah, A. Dafoe, and T. Shevlane. Evalu-\natingfrontiermodelsfordangerouscapabilities,\n2024. URL \n13793.\nA. Radford, J. Wu, R. Child, D. Luan, D. Amodei,\nand I. Sutskever. Language models are unsu-\npervised multitask learners, 2019.\nC. Raffel, N. Shazeer, A. Roberts, K. Lee,\nS. Narang, M. Matena, Y. Zhou, W. Li, and P. J.\nLiu. Exploring the limits of transfer learning\nwith a unified text-to-text transformer. CoRR,\nabs/1910.10683, 2019. URL \norg/abs/1910.10683 .\nA. Ramé, J. Ferret, N. Vieillard, R. Dadashi,\nL. Hussenot, P.-L. Cedoz, P. G. Sessa, S. Girgin,\nA. Douillard, and O. Bachem. Warp: On the\nbenefits of weight averaged rewarded policies,\n2024.J. Ren, S. Rajbhandari, R. Y. Aminabadi,\nO. Ruwase, S. Yang, M. Zhang, D. Li, and Y. He.\n{Zero-offload}: Democratizing{billion-scale}\nmodel training.",
+      "section": "References",
+      "char_count": 1196,
+      "chunk_index": 66,
+      "page_numbers": [
+        20
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0067",
+      "source_id": "Gemma2_2024",
+      "text": "enefits of weight averaged rewarded policies,\n2024.J. Ren, S. Rajbhandari, R. Y. Aminabadi,\nO. Ruwase, S. Yang, M. Zhang, D. Li, and Y. He.\n{Zero-offload}: Democratizing{billion-scale}\nmodel training. In 2021 USENIX Annual Tech-\nnical Conference (USENIX ATC 21) , pages 551–\n564, 2021.\nA. Roberts, H. W. Chung, G. Mishra, A. Levskaya,\nJ. Bradbury, D. Andor, S. Narang, B. Lester,\nC. Gaffney, A. Mohiuddin, et al. Scaling up\nmodels and data with t5x and seqio. Jour-\nnal of Machine Learning Research , 24(377):1–8,\n2023.\nK. Sakaguchi, R. L. Bras, C. Bhagavatula, and\nY. Choi. WINOGRANDE: an adversarial\nwinograd schema challenge at scale. CoRR,\nabs/1907.10641, 2019. URL \norg/abs/1907.10641 .\nN. Shazeer. GLU variants improve transformer.\nCoRR, abs/2002.05202, 2020. URL https:\n//arxiv.org/abs/2002.05202 .\nT. Shevlane, S. Farquhar, B. Garfinkel, M. Phuong,\nJ. Whittlestone, J. Leung, D. Kokotajlo, N. Mar-\nchal, M. Anderljung, N. Kolt, L. Ho, D. Sid-\ndarth, S. Avin, W. Hawkins, B. Kim, I. Gabriel,\nV. Bolina, J. Clark, Y. Bengio, P. Christiano, and\nA. Dafoe. Model evaluation for extreme risks,\n2023. URL \n15324.\nJ. Su, Y. Lu, S. Pan, B. Wen, and Y. Liu.",
+      "section": "References",
+      "char_count": 1155,
+      "chunk_index": 67,
+      "page_numbers": [
+        20
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0068",
+      "source_id": "Gemma2_2024",
+      "text": "h, S. Avin, W. Hawkins, B. Kim, I. Gabriel,\nV. Bolina, J. Clark, Y. Bengio, P. Christiano, and\nA. Dafoe. Model evaluation for extreme risks,\n2023. URL \n15324.\nJ. Su, Y. Lu, S. Pan, B. Wen, and Y. Liu. Roformer:\nEnhanced transformer with rotary position em-\nbedding. CoRR, abs/2104.09864, 2021. URL\n .\nM. Suzgun, N. Scales, N. Schärli, S. Gehrmann,\nY. Tay, H. W. Chung, A. Chowdhery, Q. V. Le,\nE. H. Chi, D. Zhou, and J. Wei. Challenging\nbig-bench tasks and whether chain-of-thought\ncan solve them, 2022.\nQ. Team. Introducing qwen1.5, February\n2024. URL \nblog/qwen1.5/ .\nI. Tenney, J. Wexler, J. Bastings, T. Boluk-\nbasi, A. Coenen, S. Gehrmann, E. Jiang,\nM. Pushkarna, C. Radebaugh, E. Reif, and\nA.Yuan. Thelanguageinterpretabilitytool: Ex-\ntensible, interactive visualizations and analysis\n20\n\nGemma 2: Improving Open Language Models at a Practical Size\nfor nlp models, 2020. URL \norg/abs/2008.05122 .\nH. Touvron, T. Lavril, G. Izacard, X. Martinet, M.-\nA. Lachaux, T. Lacroix, B. Rozière, N. Goyal,\nE. Hambro, F. Azhar, A. Rodriguez, A. Joulin,\nE. Grave, and G. Lample. Llama: Open and\nefficient foundation language models, 2023.\nA. Vaswani, N. Shazeer, N. Parmar, J. Uszkoreit,\nL. Jones, A. N.",
+      "section": "References",
+      "char_count": 1196,
+      "chunk_index": 68,
+      "page_numbers": [
+        20
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0069",
+      "source_id": "Gemma2_2024",
+      "text": "yal,\nE. Hambro, F. Azhar, A. Rodriguez, A. Joulin,\nE. Grave, and G. Lample. Llama: Open and\nefficient foundation language models, 2023.\nA. Vaswani, N. Shazeer, N. Parmar, J. Uszkoreit,\nL. Jones, A. N. Gomez, L. Kaiser, and I. Polo-\nsukhin. Attention is all you need. CoRR,\nabs/1706.03762, 2017. URL \norg/abs/1706.03762 .\nL. Weidinger, J. Mellor, M. Rauh, C. Griffin,\nJ. Uesato, P.-S. Huang, M. Cheng, M. Glaese,\nB. Balle, A. Kasirzadeh, Z. Kenton, S. Brown,\nW. Hawkins, T. Stepleton, C. Biles, A. Birhane,\nJ. Haas, L. Rimell, L. A. Hendricks, W. Isaac,\nS. Legassick, G. Irving, and I. Gabriel. Ethical\nand social risks of harm from language mod-\nels, 2021. URL \n2112.04359 .\nxAI. grok-1, 2024. URL \nxai-org/grok-1 .\nXLA. Xla: Optimizing compiler for tensor-\nflow, 2019. URL \norg/xla .\nY. Xu, H. Lee, D. Chen, B. A. Hechtman, Y. Huang,\nR. Joshi, M. Krikun, D. Lepikhin, A. Ly, M. Mag-\ngioni, R. Pang, N. Shazeer, S. Wang, T. Wang,\nY. Wu, and Z. Chen. GSPMD: general and\nscalable parallelization for ML computation\ngraphs. CoRR, abs/2105.04663, 2021. URL\n .\nJ. Yang, A. Prabhakar, K. Narasimhan, and S. Yao.\nIntercode: Standardizing and benchmarking\ninteractive coding with execution feedback,\n2023.",
+      "section": "References",
+      "char_count": 1197,
+      "chunk_index": 69,
+      "page_numbers": [
+        21
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    },
+    {
+      "chunk_id": "Gemma2_2024_chunk_0070",
+      "source_id": "Gemma2_2024",
+      "text": "ML computation\ngraphs. CoRR, abs/2105.04663, 2021. URL\n .\nJ. Yang, A. Prabhakar, K. Narasimhan, and S. Yao.\nIntercode: Standardizing and benchmarking\ninteractive coding with execution feedback,\n2023. URL \n14898.\nB. Zhang and R. Sennrich. Root mean square\nlayer normalization. CoRR, abs/1910.07467,\n2019. URL \n07467.\nL.Zheng, W.-L.Chiang, Y.Sheng, T.Li, S.Zhuang,\nZ. Wu, Y. Zhuang, Z. Li, Z. Lin, E. Xing,et al. Lmsys-chat-1m: A large-scale real-\nworld llm conversation dataset. arXiv preprint\narXiv:2309.11998 , 2023.\n21",
+      "section": "References",
+      "char_count": 520,
+      "chunk_index": 70,
+      "page_numbers": [
+        21
+      ],
+      "source_file": "Gemma2_2024_2408_00118.pdf",
+      "total_source_pages": 21
+    }
+  ]
+}

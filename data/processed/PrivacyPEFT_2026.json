@@ -1,0 +1,1143 @@
+{
+  "source_id": "PrivacyPEFT_2026",
+  "metadata": {
+    "title": "Privacy Enhanced PEFT: Tensor Train Decomposition Improves Privacy Utility Trade-off",
+    "authors": "Research Team",
+    "year": "2026",
+    "venue": "arXiv",
+    "url": "https://arxiv.org/abs/2601.10045",
+    "source_type": "peer-reviewed",
+    "relevance_note": "Privacy-preserving efficient fine-tuning for SLMs (Jan 15, 2026)"
+  },
+  "pdf_metadata": {
+    "title": "Privacy Enhanced PEFT: Tensor Train Decomposition Improves Privacy Utility Tradeoffs under DP-SGD",
+    "author": "Pradip Kunwar; Minh Vu; Maanak Gupta; Manish Bhattarai",
+    "total_pages": 15
+  },
+  "statistics": {
+    "total_pages": 15,
+    "total_chunks": 86,
+    "avg_chunk_size": 1015.8139534883721,
+    "ingestion_timestamp": "2026-02-02T19:04:01.610750"
+  },
+  "chunks": [
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0000",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "Privacy Enhanced PEFT: Tensor Train Decomposition Improves\nPrivacy Utility Tradeoffs under DP-SGD\nPradip Kunwar\nTennessee Tech University,\nLos Alamos National Laboratory\nCookeville, Tennessee, USA\n N. Vu\nLos Alamos National Laboratory\nLos Alamos, New Mexico, USA\n\nMaanak Gupta\nTennessee Tech University\nCookeville, Tennessee, USA\n Bhattarai\nLos Alamos National Laboratory\nLos Alamos, New Mexico, USA",
+      "section": "Header/Title",
+      "char_count": 399,
+      "chunk_index": 0,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0001",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "Abstract\nFine-tuning large language models on sensitive data poses signif-\nicant privacy risks, as membership inference attacks can reveal\nwhether individual records were used during training. While Dif-\nferential Privacy (DP) provides formal protection, applying DP\nto conventional Parameter-Efficient Fine-Tuning (PEFT) methods\nsuch as Low-Rank Adaptation (LoRA) often incurs substantial util-\nity loss. In this work, we show that amore structurally constrained\nPEFT architecture, Tensor Train Low-Rank Adaptation (TTLoRA),\ncan improve the privacy–utility tradeoff by shrinking the effective\nparameter space while preserving expressivity. To this end, we de-\nvelop TTLoRA-DP, a differentially private training framework for\nTTLoRA. Specifically, we extend the ghost clipping algorithm to\nTensor Train cores via cached contraction states, enabling efficient\nDifferentially Private Stochastic Gradient Descent (DP-SGD) with\nexact per-example gradient norm computation without materializ-\ning full per-example gradients.",
+      "section": "Abstract",
+      "char_count": 1019,
+      "chunk_index": 1,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0002",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "contraction states, enabling efficient\nDifferentially Private Stochastic Gradient Descent (DP-SGD) with\nexact per-example gradient norm computation without materializ-\ning full per-example gradients. Experiments on GPT-2 fine-tuning\nover the Enron and Penn Treebank datasets show that TTLoRA-DP\nconsistently strengthens privacy protection relative to LoRA-DP\nwhile maintaining comparable or better downstream utility. More-\nover, TTLoRA exhibits lower membership leakage even without\nDP training, using substantially smaller adapters and requiring\non average7 .6×fewer parameters than LoRA. Overall, our results\ndemonstrate that TTLoRA offers a practical path to improving\nthe privacy–utility tradeoff in parameter-efficient language model\nadaptation.\nCCS Concepts\n•Security and privacy →Privacy protections;Privacy-preserving\nprotocols.\nPermission to make digital or hard copies of all or part of this work for personal or\nclassroom use is granted without fee provided that copies are not made or distributed\nfor profit or commercial advantage and that copies bear this notice and the full citation\non the first page.",
+      "section": "Abstract",
+      "char_count": 1118,
+      "chunk_index": 2,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0003",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "al or\nclassroom use is granted without fee provided that copies are not made or distributed\nfor profit or commercial advantage and that copies bear this notice and the full citation\non the first page. Copyrights for components of this work owned by others than the\nauthor(s) must be honored. Abstracting with credit is permitted. To copy otherwise, or\nrepublish, to post on servers or to redistribute to lists, requires prior specific permission\nand/or a fee. Request permissions from \nCCS ’26, The Hague, The Netherlands\n©2026 Copyright held by the owner/author(s). Publication rights licensed to ACM.\nACM ISBN 978-x-xxxx-xxxx-x/YYYY/MM\n\nDifferential Privacy, Privacy Utility Tradeoff, Tensor Train Decom-\nposition, Parameter Efficient Fine Tuning (PEFT)\nACM Reference Format:\nPradip Kunwar, Minh N. Vu, Maanak Gupta, and Manish Bhattarai. 2026.\nPrivacy Enhanced PEFT: Tensor Train Decomposition Improves Privacy\nUtility Tradeoffs under DP-SGD.",
+      "section": "Abstract",
+      "char_count": 945,
+      "chunk_index": 3,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0004",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "ing (PEFT)\nACM Reference Format:\nPradip Kunwar, Minh N. Vu, Maanak Gupta, and Manish Bhattarai. 2026.\nPrivacy Enhanced PEFT: Tensor Train Decomposition Improves Privacy\nUtility Tradeoffs under DP-SGD. InProceedings of ACM Conference on Com-\nputer and Communications Security (CCS ’26).ACM, New York, NY, USA,\n15 pages.",
+      "section": "Abstract",
+      "char_count": 318,
+      "chunk_index": 4,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0005",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "1 Introduction\nThe deployment of Large Language Models (LLMs) in privacy-\nsensitive settings—such as healthcare, finance, and legal services\noften requires fine-tuning on confidential corpora [ 5,8]. While Full\nFine-Tuning (FFT) achieves high utility, its massive parameter count\nposes significant challenge for computational efficiency [ 12,13]. Pa-\nrameter -Efficient Fine-Tuning (PEFT) methods, most notably LoRA,\naddress the challenge by adapting only a small subset of parameters,\nsignificantly reducing memory and computation requirements [ 13].\nHowever, LoRA’s two-factor matrix design imposes a fundamental\nparameter floor, restricting how lightweight the adapters can be\nwithout degrading performance. Tensor Train Low-Rank Adapta-\ntion (TTLoRA) [2], a structurally constrained PEFT that leverages\nTensor Train (TT) decomposition [ 26,27], overcomes this limitation.\nIt organizes the adaptation into a 3rd-order chain of tensor cores,\nenabling an ultra-low-parameter regime that maintains expressivity\nand competitive task performance [15].\nBeyond parameter efficiency, how PEFT architectures shape\nmodel privacy leakage remains underexplored.",
+      "section": "1 Introduction",
+      "char_count": 1152,
+      "chunk_index": 5,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0006",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "an ultra-low-parameter regime that maintains expressivity\nand competitive task performance [15].\nBeyond parameter efficiency, how PEFT architectures shape\nmodel privacy leakage remains underexplored. Fine-tuning on\nsensitive datasets raises risks of Membership Inference Attacks\n(MIA) [ 20,30,37]. While LoRA exhibits some inherent privacy\nbenefits—due to implicit regularization and noise-like optimiza-\ntion dynamics [ 9,23]—these effects are often insufficient, leaving\nmodels vulnerable [ 20,28]. Differential Privacy (DP) can mitigate\nthe leakage [ 22,28], but applying DP to LoRA typically comes\nat a substantial utility cost [ 9,31,33]. This raises a key question:\nCan a more structurally constrained PEFT method like TTLoRA yield\nstronger inherent privacy and more favorable DP utility trade-offs\nwhile operating in an ultra-low parameter regime?\nIn this work, we show that TTLoRA empirically delivers a more\nfavorable privacy–utility tradeoff than LoRA, both with and withoutarXiv:2601.10045v1 [cs.CR] 15 Jan 2026\n\nCCS ’26, November 15-19, 2026, The Hague, The Netherlands Kunwar et al.\nDP training.",
+      "section": "1 Introduction",
+      "char_count": 1108,
+      "chunk_index": 6,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0007",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "s a more\nfavorable privacy–utility tradeoff than LoRA, both with and withoutarXiv:2601.10045v1 [cs.CR] 15 Jan 2026\n\nCCS ’26, November 15-19, 2026, The Hague, The Netherlands Kunwar et al.\nDP training. The tensor train structure enables adapters that are\nsimultaneously smaller, expressive [ 15], and implicitly regularized\n[29], reducing sample-specific memorization. Building on this, we\ndevelopTTLoRA-DP, the first Differentially Private Stochastic\nGradient Descent (DP-SGD) pipeline for TTLoRA, and demonstrate\nthat it consistently improves empirical privacy (MIA robustness)\nand retains competitive utility under both DP and non-DP training.\nWe evaluate the impact of TTLoRA’s tensor train structure along\ntwo axes that are critical in practice: (i)DP utility—measuring task\nperformance across different privacy budgets 𝜀(smaller𝜀indicates\nstronger privacy), and (ii)empirical leakage under DP—tracking\nperformance versus membership leakage MIA AUC (lower is better)\nacross the same privacy budgets. We further investigate whether the\nobserved effects persistwithout DP, measuring membership leak-\nage against performance.",
+      "section": "1 Introduction",
+      "char_count": 1126,
+      "chunk_index": 7,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0008",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "membership leakage MIA AUC (lower is better)\nacross the same privacy budgets. We further investigate whether the\nobserved effects persistwithout DP, measuring membership leak-\nage against performance. To quantify leakage, we implement the\nstate-of-the-art loss-based attack protocol PreCurious1[20]. For DP\nevaluation, we consider multiple privacy budgets, 𝜀={ 0.5,1,3,5},\nusing RDP accounting [ 25] with𝛿=8×10−6or𝑁1.1(where𝑁=\nnumber of samples). Specifically, our contributions are as follows:\n•Higher Utility under Private Training: TTLoRA consis-\ntently achieves stronger utility under DP compared to LoRA\nacross all𝜀budgets. For example, on the Enron dataset at a\nstrict privacy budget of 𝜀=0.5, TTLoRA achieves an average\nperplexity of 27.52 (lower is better), outperforming LoRA’s\n29.29 (see Table 2).\n•Robustness against MIA Leakage under DP: When tested\nunder PreCurious attack protocol, TTLoRA fundamentally\nalters how membership leakage scales with the privacy bud-\nget.",
+      "section": "1 Introduction",
+      "char_count": 980,
+      "chunk_index": 8,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0009",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "LoRA’s\n29.29 (see Table 2).\n•Robustness against MIA Leakage under DP: When tested\nunder PreCurious attack protocol, TTLoRA fundamentally\nalters how membership leakage scales with the privacy bud-\nget. On Enron, as 𝜀increases, LoRA exhibits a significant\nrise in vulnerability, with average attack AUC (MIA leakage)\nincreasing from 52.49% to 58.43%, whereas TTLoRA remains\nnearly stable, changing only from 51.36% to 52.04% (see Fig.\n1 and Table 3). Importantly, these privacy gains incur neg-\nligible utility loss, with perplexity differences consistently\nlimited to 0.01.\n•Stronger Inherent Privacy Without DP: Beyond DP, TT-\nLoRA exhibits substantially lower membership leakage even\nwithout DP-SGD. On Enron, TTLoRA reduces average at-\ntack AUC (MIA leakage) to 88.68% and  to 16.19%,\ncompared to 94.91% and 33.47% for LoRA, while maintaining\ncomparable perplexity (18.05 vs. 17.46). Calibrated loss distri-\nbutions (Fig. 2) show significantly greater overlap between\nmember and non-member losses, indicating reduced sample-\nspecific memorization due to the tensor train structure.",
+      "section": "1 Introduction",
+      "char_count": 1083,
+      "chunk_index": 9,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0010",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "). Calibrated loss distri-\nbutions (Fig. 2) show significantly greater overlap between\nmember and non-member losses, indicating reduced sample-\nspecific memorization due to the tensor train structure.\nTaken together, these results indicate that privacy-preserving adap-\ntation of LLMs need not rely solely on stronger DP mechanisms or\ntighter privacy budgets. Instead, the structured tensor train decom-\nposition in TTLoRA—which imposes a compositional constraint\nwhile reducing the effective parameter space—significantly shapes\nboth utility and privacy leakage. By operating well below the practi-\ncal parameter floor of conventional LoRA, TTLoRA enables effective\nprivate fine-tuning with ultra-low-parameter adapters.\nThe remainder of this paper is organized as follows. Section 2\nprovides overview of the related work. In Section 3, we establish the\n1\nEpsilon\n0.5135non\nlog10(Params)4.04.55.05.56.0ROC AUC\n0.500.550.600.650.700.75\nEpsilon0.5135nonlog10(Params)4.04.55.05.56.0ROC AUC\n0.500.550.600.650.700.75LoRA TTLoRAFigure 1: Attack AUC 3D surface on Enron dataset (two views).",
+      "section": "1 Introduction",
+      "char_count": 1084,
+      "chunk_index": 10,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0011",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "ams)4.04.55.05.56.0ROC AUC\n0.500.550.600.650.700.75\nEpsilon0.5135nonlog10(Params)4.04.55.05.56.0ROC AUC\n0.500.550.600.650.700.75LoRA TTLoRAFigure 1: Attack AUC 3D surface on Enron dataset (two views).\nLoRA shows significant variation in attack AUC (lower is\nbetter) across epsilon whereas TTLoRA maintains a relatively\nflat surface near the 50% random-guess baseline in private\nsetting (non here means non-private setting).\nnecessary preliminaries by reviewing Tensor Train (TT) decomposi-\ntion, detailing how TTLoRA employs TT factorization to construct\nparameter-efficient adapters, and the challenge of per-example gra-\ndient computation of TTLoRA in Differential Privacy. In Section 4,\nwe introduce TTLoRA-DP framework; here, we describe our pri-\nmary technical contribution: an extension of the ghost clipping\nalgorithm to TT-cores. Section 5 provides a rigorous empirical anal-\nysis of TTLoRA-DP, evaluating its resilience against membership\ninference attacks and its utility-privacy trade-offs. Finally, Section 6\nand 7 highlights the discussion of broader impacts and concluding\nremarks.\n0.3\n 0.2\n 0.1\n 0.00.000.050.100.15Norm.",
+      "section": "1 Introduction",
+      "char_count": 1135,
+      "chunk_index": 11,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0012",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "t membership\ninference attacks and its utility-privacy trade-offs. Finally, Section 6\nand 7 highlights the discussion of broader impacts and concluding\nremarks.\n0.3\n 0.2\n 0.1\n 0.00.000.050.100.15Norm. FrequencyAUC: 0.922 Rank 2\n0.2\n 0.0AUC: 0.947 Rank 4\n0.4\n 0.2\n 0.0AUC: 0.954 Rank 6\n0.10\n 0.05\n 0.00\nCalibrated losses IIref\n0.000.050.100.15Norm. FrequencyAUC: 0.715 Rank 2\n0.1\n 0.0\nCalibrated losses IIref\nAUC: 0.843 Rank 4\n0.2\n 0.1\n 0.0\nCalibrated losses IIref\nAUC: 0.887 Rank 6Non-Member LoRA Member TTLoRA Member Non-Mem 10% Quantile\nFigure 2: Calibrated loss distributions for MIA leakage (En-\nron) under non-private setting. Histograms show L(𝑥;𝜃peft)−\nL(𝑥;𝜃ref)for members and non-members at ranks 2/4/6 for\nLoRA and TTLoRA; dashed line marks the 10% non-member\nquantile used for fixed-FPR evaluation. Larger separation\nimplies higher AUROC and stronger leakage.",
+      "section": "1 Introduction",
+      "char_count": 870,
+      "chunk_index": 12,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0013",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "or members and non-members at ranks 2/4/6 for\nLoRA and TTLoRA; dashed line marks the 10% non-member\nquantile used for fixed-FPR evaluation. Larger separation\nimplies higher AUROC and stronger leakage.\n\nPrivacy Enhanced PEFT: Tensor Train Decomposition Improves Privacy Utility Tradeoffs under DP-SGD CCS ’26, November 15-19, 2026, The Hague, The Netherlands",
+      "section": "1 Introduction",
+      "char_count": 357,
+      "chunk_index": 13,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0014",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "2 Related Work\nParameter-Efficient Fine-Tuning (PEFT).PEFT methods adapt\nlarge pretrained models by updating only a small subset of parame-\nters, reducing training and deployment costs. Among these methods\n[12,17,19], LoRA has become the widely adopted standard due to\nits simplicity, factorizing weight updates into two low-rank matri-\nces [ 13]. However, LoRA imposes a fundamentalparameter floor:\nthe two-factor matrix structure enforces a minimum parameter\ncount per adapted layer, limiting scalability in ultra-low-parameter\nregimes.\nThis has motivatedstructuredPEFT parameterizations that fur-\nther constrain the update space while retaining expressivity. Tensor-\nbased approaches address this limitation by introducing stronger\nstructural constraints. LoRETTA uses tensor-train (TT) decompo-\nsition [ 27] to reduce trainable parameters beyond conventional\nlow-rank designs [ 34]. Closely related, TTLoRA and follow-up\nwork explore TT-based parameterizations for fast, compressed fine-\ntuning and extensions to sparse MoE variants [ 2,15]. Prior works\nestablish tensor train’s parameter compression capabilities but do\nnot study its privacy implications.",
+      "section": "2 Related Work",
+      "char_count": 1160,
+      "chunk_index": 14,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0015",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "ions for fast, compressed fine-\ntuning and extensions to sparse MoE variants [ 2,15]. Prior works\nestablish tensor train’s parameter compression capabilities but do\nnot study its privacy implications. Our work focuses on an under-\nexplored dimension: how TT structure (using TTLoRA), impacts\nprivacy leakageand theprivacy–utilityfrontier.\nPrivacy Leakage and Membership Inference.Fine-tuned lan-\nguage models are vulnerable to membership inference attacks\n(MIA), which infer whether a data point was used during train-\ning [ 30,35]. A particularly relevant recent direction identifies new\nfine-tuning attack surfaces that exploit thepretrained checkpoint.\nPreCuriousshows that an adversary can publish a crafted pre-\ntrained model that later amplifies privacy leakage during a vic-\ntim’s fine-tuning, enabling strong black-box MIAs via calibrated\nlosses [ 20].",
+      "section": "2 Related Work",
+      "char_count": 860,
+      "chunk_index": 15,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0016",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "uriousshows that an adversary can publish a crafted pre-\ntrained model that later amplifies privacy leakage during a vic-\ntim’s fine-tuning, enabling strong black-box MIAs via calibrated\nlosses [ 20]. Relatedly,Privacy Backdoorsdemonstrates that poi-\nsoning pretrained models can significantly increase membership\nleakage after fine-tuning, underscoring the risks of untrusted ini-\ntialization checkpoints [ 32].Robust membership inference attack\n(RMIA)models the null hypothesis in likelihood-ratio testing and\nleverages both reference models and population data to achieve\nhigh test power across the TPR–FPR curve [ 37]. Besides, our work\nstudies PEFT privacy leakage and DP defenses in a fine-tuning\npipeline, PreCurious provides a strong and practically motivated\nthreat model for our evaluation.\nDifferential Privacy for Fine-Tuning LLM.Differential pri-\nvacy (DP) [ 10] limits how much any single training example can\ninfluence a model’s outputs, and in deep learning this is typically\nenforced by DP-SGD [ 1]. Despite its formal guarantees, the stan-\ndard DP-SGD mechanism remains difficult to deploy for LLM.",
+      "section": "2 Related Work",
+      "char_count": 1116,
+      "chunk_index": 16,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0017",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "ple can\ninfluence a model’s outputs, and in deep learning this is typically\nenforced by DP-SGD [ 1]. Despite its formal guarantees, the stan-\ndard DP-SGD mechanism remains difficult to deploy for LLM. DP-\nSGD requires per-example gradient norm computation for clipping,\nwhich is memory and compute-intensive at LLM scale and has mo-\ntivated specialized implementations such as ghost clipping and fast\nper-example clipping [1, 6, 11, 16, 18].\nEven when training is made computationally feasible, the chal-\nlenges arise from the fact that the magnitude of DP noise scales\nwith the dimensionality of the trainable parameter space [ 1,3,7].\nReducing the number of parameters involved in training therefore\ndirectly improves both computational overhead and noise-induced\nutility degradation [ 22,36]. PEFT methods address this issue byrestricting learning to a small subset of parameters, making them a\nnatural substrate for private fine-tuning.\nDifferential Privacy Meets PEFT.Because PEFT restricts the\ntrainable parameter space, this raises the question of whether PEFT\nreduces privacy leakageand whether it can improve DP utility. Re-\ncent works provide mixed but increasingly nuanced answers.",
+      "section": "2 Related Work",
+      "char_count": 1192,
+      "chunk_index": 17,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0018",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "cts the\ntrainable parameter space, this raises the question of whether PEFT\nreduces privacy leakageand whether it can improve DP utility. Re-\ncent works provide mixed but increasingly nuanced answers. On\none hand, theoretical and empirical studies suggest that LoRA in-\nherently acts like it injects noise-like effects into optimization and\nmay partially resemble DP-SGD dynamics, with privacy behavior\ndepending on rank and model dimensions [ 9,23]. On the other\nhand, recent attacks specifically targeting LoRA fine-tuning show\nthat LoRA-adapted models can remain largely vulnerable to MIAs\n[28], especially when the attacker leverages the publicly available\npretrained model as a reference [20].\nSeveral works explicitly study DP with PEFT and/or federated\nlearning, proposing private low-rank adaptation mechanisms or im-\nproving LoRA-based federated training under privacy constraints\n[21,31,33]. Closest to our motivation, Ma et al. investigate memo-\nrization under DP parameter-efficient fine-tuning and show that\nPEFT can reduce leakage while retaining performance, but the role\nofPEFT structureis still not fully characterized [ 22].",
+      "section": "2 Related Work",
+      "char_count": 1142,
+      "chunk_index": 18,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0019",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "estigate memo-\nrization under DP parameter-efficient fine-tuning and show that\nPEFT can reduce leakage while retaining performance, but the role\nofPEFT structureis still not fully characterized [ 22]. In contrast to\nprior DP-PEFT studies that primarily focus on conventional LoRA,\nour work investigates whethermore structurally constrainedTT\nparameterized TTLoRA architecture can deliver stronger privacy–\nutility behavior and provides the first DP-SGD pipeline for TTLoRA.\n3 Preliminaries\n3.1 Tensor Train Decomposition\nThe Tensor Train (TT) decomposition [ 26,27] compresses a high\norder𝑛-dimensional tensor T∈R𝐼1×𝐼2×···×𝐼𝑛by factorizing it into\na sequence of 3rd-order tensors called TT-cores. Specifically, each\nelement ofTis computed by multiplying the corresponding slices\nof these cores as:\nT(𝑖 1,𝑖2,...,𝑖𝑛)=𝐺 1[:,𝑖1,:]·𝐺 2[:,𝑖2,:]···𝐺𝑛[:,𝑖𝑛,:](1)\nwhere𝐺𝑘∈R𝑟𝑘−1×𝐼𝑘×𝑟𝑘are the TT-cores and 𝑟0,𝑟1,...,𝑟𝑛are the\nTT-ranks (with 𝑟0=𝑟𝑛=1). This reduces storage complexity from\nO(Î𝐼𝑘)toO(Í𝑟𝑘−1𝐼𝑘𝑟𝑘), enabling extremely compact parameter-\nization.\n3.2 TTLoRA Architecture\nTTLoRA is fine-tuning method based on TT decomposition.",
+      "section": "2 Related Work",
+      "char_count": 1125,
+      "chunk_index": 19,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0020",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "with 𝑟0=𝑟𝑛=1). This reduces storage complexity from\nO(Î𝐼𝑘)toO(Í𝑟𝑘−1𝐼𝑘𝑟𝑘), enabling extremely compact parameter-\nization.\n3.2 TTLoRA Architecture\nTTLoRA is fine-tuning method based on TT decomposition. TT-\nLoRA applies TT decomposition directly to the weight update\nΔ𝑊∈R𝑑out×𝑑in. By representing Δ𝑊 as a chain of tensor cores,\nit achieves two key goals: (i) drastically reduces the number of\ntrainable parameters, thereby breaking the LoRA parameter floor\n[15], and (ii) introduces a structured compositional constraint that\nimplicitly regularizes the adaptation [ 29], which we hypothesize\ncontributes to improved privacy and robustness.\nFactorization.The weight update Δ𝑊∈R𝑑out×𝑑inis factorized\nalong both input and output dimensions as:\n𝑑in=𝑝Ö\n𝑘=1𝑚𝑘, 𝑑 out=𝑞Ö\nℓ=1𝑛ℓ (2)\n\nCCS ’26, November 15-19, 2026, The Hague, The Netherlands Kunwar et al.\nThe adapter is then represented using (𝑝+𝑞) TT-cores: input cores\n𝐺𝑘∈R𝑟𝑘−1×𝑚𝑘×𝑟𝑘and output cores e𝐺ℓ∈R𝑟𝑝+ℓ−1×𝑛ℓ×𝑟𝑝+ℓ, with\nboundary ranks 𝑟0=𝑟𝑝+𝑞=1and internal ranks typically set\nuniformly to 𝑟. To illustrate, consider GPT-2’s attention weight of\nsize768(𝑑𝑜𝑢𝑡)×2304(𝑑𝑖𝑛), which can be factorized into [64,4,3]×\n[3,3,4,64].",
+      "section": "2 Related Work",
+      "char_count": 1168,
+      "chunk_index": 20,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0021",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "boundary ranks 𝑟0=𝑟𝑝+𝑞=1and internal ranks typically set\nuniformly to 𝑟. To illustrate, consider GPT-2’s attention weight of\nsize768(𝑑𝑜𝑢𝑡)×2304(𝑑𝑖𝑛), which can be factorized into [64,4,3]×\n[3,3,4,64]. With TT-rank 𝑟=2, the output TT-cores can be rep-\nresented as[1,64,2],[2,4,2], and[2,3,2]whereas the input cores\nas[2,3,2],[2,3,2],[2,4,2], and[2,64,1]. In practice, the key hy-\nperparameters controlling TTLoRA are the TT-rank 𝑟, the chosen\nfactorization (TT-shape) of input and output dimensions, and the\nscaling factor 𝛼. During the forward pass, the input activation ten-\nsor is sequentially contracted with the input cores (compressing\ninformation into the rank dimension) and then expanded through\nthe output cores. More details about tensor operations can be found\nin Section 4.1–4.4.\n3.3 Differential Privacy and Challenges\nDifferential Privacy (DP) [ 10] provides a rigorous framework to\nbound privacy leakage from training data. A randomized mecha-\nnismMsatisfies(𝜀,𝛿) -DP if, for any two adjacent datasets 𝐷and\n𝐷′differing in a single record, and any measurable set𝑆:\nPr[M(𝐷)∈𝑆]≤𝑒𝜀Pr[M(𝐷′)∈𝑆]+𝛿(3)\nWhile DP offers formal privacy guarantees, applying it to LLM fine-\ntuning is challenging.",
+      "section": "2 Related Work",
+      "char_count": 1199,
+      "chunk_index": 21,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0022",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "adjacent datasets 𝐷and\n𝐷′differing in a single record, and any measurable set𝑆:\nPr[M(𝐷)∈𝑆]≤𝑒𝜀Pr[M(𝐷′)∈𝑆]+𝛿(3)\nWhile DP offers formal privacy guarantees, applying it to LLM fine-\ntuning is challenging. Standard DP-SGD requires three key steps: (i)\ncomputing per-example gradient norms, (ii) clipping each gradient\nto a fixed norm to bound sensitivity, and (iii) adding calibrated noise\nto the aggregated gradients before updating the model. Computing\nexact per-example gradient norms for clipping is memory and\ncompute intensive at LLM scale, especially for structured adapters.\nGhost clipping [ 18] addresses the computational bottleneck by\navoiding materialization of full per-example gradients, enabling\nefficient DP-SGD.\nThe Challenge for TTLoRA:Existing ghost clipping imple-\nmentations2support standard layers (e.g., linear, convolutional,\nembeddings) and LoRA-style adaptation, but do not handle TT-\nLoRA’s chained TT-core parameterization. In TTLoRA, the weight\nupdate is represented implicitly as a product of small TT-cores and\napplied to an input via sequential core contractions.",
+      "section": "2 Related Work",
+      "char_count": 1090,
+      "chunk_index": 22,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0023",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "not handle TT-\nLoRA’s chained TT-core parameterization. In TTLoRA, the weight\nupdate is represented implicitly as a product of small TT-cores and\napplied to an input via sequential core contractions. As a result,\napplying standard ghost clipping would require explicitly forming\nΔ𝑊(or full per-example gradients), which is memory-prohibitive\nand negates the efficiency benefits of PEFT. The core mismatch is\ntherefore structural: the per-example Jacobians needed for clipping\nare distributed across the TT-cores rather than associated with a\nsingle matrix parameter. To resolve this, we extend ghost clipping\nto TTLoRA by performing sequential contraction/expansion with\ncached states, enabling exact per-example gradient norm computa-\ntion without exploding memory (more details in Section 4).\n4 Extending Ghost Clipping for TTLoRA-DP\nThis section presents our extension of ghost clipping to enable\nefficient DP-SGD for TTLoRA.",
+      "section": "2 Related Work",
+      "char_count": 928,
+      "chunk_index": 23,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0024",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "omputa-\ntion without exploding memory (more details in Section 4).\n4 Extending Ghost Clipping for TTLoRA-DP\nThis section presents our extension of ghost clipping to enable\nefficient DP-SGD for TTLoRA. The central challenge is comput-\ning per-example gradient norms ∥∇𝜃ℓ𝑖∥2(whereℓ𝑖is per-example\n2\nn₂m₁\nm₂m₃\n2\n 4\n6\nr₁\nr₂\nr₃m₁\nm₂\nm₃ n₁n₂n₃\nr₄r₅r₆\nn₁n₃\nTensor Contraction and Expansionr₀\n''\n''Figure 3: TTLoRA Architecture: Forward Pass Tensor Con-\ntraction and Expansion with Input tensor. Red arrow indi-\ncates the contraction while green arrow indicates the expan-\nsion of the intermediate input activation\nloss)—required for gradient clipping—when the trainable parame-\nters are not a single linear weight matrix but a sequence of Tensor\nTrain (TT) cores.\nTo address this, we express the TTLoRA forward and backward\npasses as structured tensor contractions, cache intermediate con-\ntraction states, and reuse them to computeexactper-example gra-\ndient norms without materializing per-example gradient tensors.\nThis preserves DP-SGD privacy guarantees while retaining the\ncomputational advantages of ghost clipping.\nWe proceed in stages.",
+      "section": "2 Related Work",
+      "char_count": 1137,
+      "chunk_index": 24,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0025",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "mple gra-\ndient norms without materializing per-example gradient tensors.\nThis preserves DP-SGD privacy guarantees while retaining the\ncomputational advantages of ghost clipping.\nWe proceed in stages. Section 4.1 introduces notation for TTLoRA-\nadapted layers and the forward computation. Section 4.2 describes\nreshaping input activation to match the TT factorization. Sec-\ntions 4.3 and 4.4 detail the TTLoRA forward pass as a sequence of\ninput contractions and output expansions, during which we cache\nintermediate states. Section 4.5 then shows how these cached states\nenable efficient per-example gradient norm calculation across TT-\ncores. Finally, Section 4.6 integrates the resulting norms into the\nghost clipping and gradient update passes, enabling DP-SGD for\nTTLoRA without excessive memory overhead.\n4.1 Notation\nHere, we introduce the notation for TTLoRA-adapted layers and\nthe overall forward computation. Let 𝑥∈R𝐵×𝑆×𝑑 inbe a mini-batch\ninput activation of 𝐵sequences of length 𝑆. A frozen base linear\nlayer interacting with the input𝑥produces:\n𝑦base(𝑥)=𝑥𝑊⊤, 𝑊∈R𝑑out×𝑑in.",
+      "section": "2 Related Work",
+      "char_count": 1084,
+      "chunk_index": 25,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0026",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "d\nthe overall forward computation. Let 𝑥∈R𝐵×𝑆×𝑑 inbe a mini-batch\ninput activation of 𝐵sequences of length 𝑆. A frozen base linear\nlayer interacting with the input𝑥produces:\n𝑦base(𝑥)=𝑥𝑊⊤, 𝑊∈R𝑑out×𝑑in.\nTTLoRA augments this frozen base layer with a trainable TT adapter\n𝑓TT:R𝑑in→R𝑑out, while all base model parameters remain fixed.\n𝑦(𝑥)=𝑦 base(𝑥) +𝛼𝑓 TT(𝑥).(4)\n4.2 Input Reshaping\nTTLoRA parameterizes the weight update using TT decomposition,\nwhich operates over 3rd-order tensor cores rather than flat vectors.\nTo align the input activations with this structured parameteriza-\ntion, each input vector must first be reshaped into a tensor whose\ndimensions match the TT factorization of the input cores. This\nreshaping step is purely structural—it does not change the input\n\nPrivacy Enhanced PEFT: Tensor Train Decomposition Improves Privacy Utility Tradeoffs under DP-SGD CCS ’26, November 15-19, 2026, The Hague, The Netherlands\nvalues—but enables efficient tensor contractions with TT-cores in\nthe subsequent forward and backward passes.\nLetX∈R𝐵×𝑆×𝑑 indenote a mini-batch of 𝐵sequences of length\n𝑆, and let𝑥𝑏,𝑡∈R𝑑indenote the input vector at batch index 𝑏and\ntoken position 𝑡.",
+      "section": "2 Related Work",
+      "char_count": 1177,
+      "chunk_index": 26,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0027",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "with TT-cores in\nthe subsequent forward and backward passes.\nLetX∈R𝐵×𝑆×𝑑 indenote a mini-batch of 𝐵sequences of length\n𝑆, and let𝑥𝑏,𝑡∈R𝑑indenote the input vector at batch index 𝑏and\ntoken position 𝑡. Each input vector is reshaped into a 𝑝-way tensor\nmatching the factorization𝑑 in=Î𝑝\n𝑘=1𝑚𝑘. Formally,\n𝑋tensor∈R𝐵×𝑆×𝑚 1×···×𝑚𝑝,(5)\nwhere the slice 𝑋tensor(𝑏,𝑡, :,:,...) corresponds to the tensorized\nform of𝑥𝑏,𝑡. This reshaping aligns the input activations with the\nTT factorization of the adapted weight in TTLoRA.\n4.3 Contracting Input Factors\nWe next contract the reshaped input activation with the TT input\ncores. This step progressively aggregates input dimensions (see\nFig.3) while introducing TT rank dimensions, and critically, allows\nus to cache intermediate activation states for further steps.\nWe now describe the forward pass for a single token 𝑥𝑏,𝑡∈R𝑑in\nfrom batch index 𝑏and sequence position 𝑡. After reshaping 𝑥𝑏,𝑡\ninto a𝑝-way tensor with dimensions (𝑚1,...,𝑚𝑝), we initialize the\ncontraction state:\nS0(𝑏,𝑡)=𝑥𝑏,𝑡∈R𝑟0×𝑚𝑝×···×𝑚 1, 𝑟 0=1.\nWe include the trivial rank dimension 𝑟0=1to simplify nota-\ntion for the subsequent contractions.",
+      "section": "2 Related Work",
+      "char_count": 1146,
+      "chunk_index": 27,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0028",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "with dimensions (𝑚1,...,𝑚𝑝), we initialize the\ncontraction state:\nS0(𝑏,𝑡)=𝑥𝑏,𝑡∈R𝑟0×𝑚𝑝×···×𝑚 1, 𝑟 0=1.\nWe include the trivial rank dimension 𝑟0=1to simplify nota-\ntion for the subsequent contractions. For 𝑘= 1,...,𝑝 , the input\ncontraction between input activation with input TT-cores proceeds\nsequentially as:\nS𝑘(𝑏,𝑡)=𝑟𝑘−1∑︁\n𝑎=1𝑚𝑘∑︁\n𝑚=1S𝑘−1(𝑏,𝑡)(𝑎,...,𝑚)×𝐺 𝑘(𝑎,𝑚,·) (6)\nwhere𝐺𝑘∈R𝑟𝑘−1×𝑚𝑘×𝑟𝑘denotes the𝑘-th input TT-core and 𝑆𝑘(𝑏,𝑡)∈\nR𝑟𝑘×𝑚𝑘−1×···×𝑚 1denotes the 𝑘-th intermediate activation state. We\ncache each pre-core stateS 𝑘−1(𝑏,𝑡) , which is later reused during\nper-example backpropagation to compute gradient norms. After\ncontracting all 𝑝input cores, the resulting stateS 𝑝(𝑏,𝑡)∈R𝑟𝑝pro-\nvides a compact representation of the input under the TTLoRA\nadapter.\n4.4 Expanding Output Factors\nAfter contracting all input factors, we expand the representation\nthrough the output TT-cores to generate the output dimensions\n(see Fig. 3). This mirrors the input contraction process and similarly\nstores intermediate states needed for per-example gradient compu-\ntation. The contracted stateS 𝑝(𝑏,𝑡) is mapped to the output space\nusing the𝑞output TT-cores e𝐺ℓ∈R𝑟𝑝+ℓ−1×𝑛ℓ×𝑟𝑝+ℓ.",
+      "section": "2 Related Work",
+      "char_count": 1170,
+      "chunk_index": 28,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0029",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "rocess and similarly\nstores intermediate states needed for per-example gradient compu-\ntation. The contracted stateS 𝑝(𝑏,𝑡) is mapped to the output space\nusing the𝑞output TT-cores e𝐺ℓ∈R𝑟𝑝+ℓ−1×𝑛ℓ×𝑟𝑝+ℓ. We initialize\nT0(𝑏,𝑡)=S𝑝(𝑏,𝑡)∈R𝑟𝑝.\nForℓ=1,...,𝑞, the expansion proceeds sequentially as\nTℓ(𝑏,𝑡)=𝑟𝑝+ℓ−1∑︁\n𝑎=1Tℓ−1(𝑏,𝑡)(𝑎,...) e𝐺ℓ(𝑎,·,·)(7)\nwhereTℓ(𝑏,𝑡)∈R𝑟𝑝+ℓ×𝑛1×···×𝑛ℓ, and we again cache each pre-\ncore stateT ℓ−1(𝑏,𝑡) . After processing all output cores, the final TT\nrank satisfies𝑟 𝑝+𝑞=1, yielding\nT𝑞(𝑏,𝑡)∈R𝑛1×···×𝑛𝑞Algorithm 1Ghost Clipping for TTLoRA\nRequire:Batch{𝑥 𝑏}𝐵\n𝑏=1, clipping threshold𝐶, noise multiplier𝜎\n1:Forward Pass:Compute outputs{𝑦 𝑏}, cache states{𝑆 (𝑘)}\n2:Loss Computation:ComputeL, get upstream{Δ 𝑏}\n3:First Backward (Norm) Pass:\n4:for𝑏=1to𝐵do\n5:Compute per-example gradients via equations (8), (10)\n6:Accumulate∥𝑔 𝑏∥2\n2(discard individual gradients)\n7:end for\n8:Compute Clipping Coefficients:𝑐 𝑏=min(1,𝐶/∥𝑔 𝑏∥2)\n9:Reweight Loss: eℓ𝑏=𝑐𝑏·ℓ𝑏\n10:Second Backward (Gradient) Pass:",
+      "section": "2 Related Work",
+      "char_count": 1000,
+      "chunk_index": 29,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0030",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "via equations (8), (10)\n6:Accumulate∥𝑔 𝑏∥2\n2(discard individual gradients)\n7:end for\n8:Compute Clipping Coefficients:𝑐 𝑏=min(1,𝐶/∥𝑔 𝑏∥2)\n9:Reweight Loss: eℓ𝑏=𝑐𝑏·ℓ𝑏\n10:Second Backward (Gradient) Pass:\n11:Loss backwardassigns clipped gradients to parameters\n12:foreach TT-core parameter tensor𝜃∈{𝐺 𝑘,e𝐺ℓ}do\n13: ¯𝑔𝜃←Í𝐵\n𝑏=1𝑐𝑏𝑔𝜃,𝑏\n14: ˜𝑔𝜃←¯𝑔𝜃+N(0,𝜎2𝐶2𝐼)\n15:end for\n16:returnNoisy gradients{ ˜𝑔𝜃}\nFlattening the output modes produces the adapter output 𝑓TT(𝑥𝑏,𝑡)∈\nR𝑑out, which is combined with the frozen base layer as\n𝑦(𝑥𝑏,𝑡)=𝑥𝑏,𝑡𝑊⊤+𝛼𝑓 TT(𝑥𝑏,𝑡)\n4.5 Per-Sample Backpropagation in TT-Cores\nHaving expanded the input through the output TT-cores, we now\ncompute per-sample gradients with respect to each TT-core entry.\nLetL=1\n𝐵𝑆Í\n𝑏,𝑡ℓ(𝑦𝑏,𝑡,label𝑏,𝑡)denote the training loss. Autograd\nprovides the upstream gradient for each token:\nΔ(𝑏,𝑡)=𝜕L\n𝜕𝑦𝑏,𝑡∈R𝑑out\nOnly the TT-adapter path receives the scaled gradient 𝛼Δ, which is\nreshaped to match the output tensor form:\n𝛼Δ(𝑏,𝑡)reshape−−−−−→C 𝑞(𝑏,𝑡)∈R𝑟𝑝+𝑞×𝑛1×···×𝑛𝑞, 𝑟𝑝+𝑞=1\nwhich matchesT 𝑞. We now propagate per-example gradients\nright-to-left through the output cores and then through the input\ncores, reusing cached forward states.",
+      "section": "2 Related Work",
+      "char_count": 1166,
+      "chunk_index": 30,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0031",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "e−−−−−→C 𝑞(𝑏,𝑡)∈R𝑟𝑝+𝑞×𝑛1×···×𝑛𝑞, 𝑟𝑝+𝑞=1\nwhich matchesT 𝑞. We now propagate per-example gradients\nright-to-left through the output cores and then through the input\ncores, reusing cached forward states. Following fast per-example\ngradient clipping [ 16], we compute per-token gradients in factored\nform as (upstream) ×(activation), and then apply this principle to\nTT-core contractions using cached states.\n\u0012𝜕𝐿\n𝜕𝑊𝑖,𝑗\u0013\n=𝜕𝐿\n𝜕𝑌𝑖·𝑋𝑗\n4.5.1Gradients w.r.t. output cores e𝐺ℓ.LetTℓ−1(𝑏,𝑡) be the pre-\ncore state stored in the forward pass before contracting it with e𝐺ℓ.\nThe per-sample, per-token gradient is:\n𝜕ℓ𝑏,𝑡\n𝜕e𝐺ℓ(𝑎,𝑛,𝑏′)=∑︁\ncontext𝐶ℓ(𝑏,𝑡)[𝑏′,...,𝑛,...]·𝑇 ℓ−1(𝑏,𝑡)[𝑎,...](8)\nwhich has shape 𝑟𝑝+ℓ−1×𝑛ℓ×𝑟𝑝+ℓ. Here,contextdenotes the product\nof all remaining indices in 𝑛1,...,𝑛𝑞except𝑛ℓ(and any rank indices\nimplied by the current state). Backpropagating to the input of core\n\nCCS ’26, November 15-19, 2026, The Hague, The Netherlands Kunwar et al.\nℓ, which we store as the upstream gradient for the next core, yields:\n𝐶ℓ−1(𝑏,𝑡)[𝑎,...]=∑︁\n𝑛,𝑏′𝐶ℓ(𝑏,𝑡)[𝑏′,...,𝑛,...]· e𝐺ℓ(𝑎,𝑛,𝑏′)(9)\n4.5.2Gradients w.r.t.",
+      "section": "2 Related Work",
+      "char_count": 1097,
+      "chunk_index": 31,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0032",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "2026, The Hague, The Netherlands Kunwar et al.\nℓ, which we store as the upstream gradient for the next core, yields:\n𝐶ℓ−1(𝑏,𝑡)[𝑎,...]=∑︁\n𝑛,𝑏′𝐶ℓ(𝑏,𝑡)[𝑏′,...,𝑛,...]· e𝐺ℓ(𝑎,𝑛,𝑏′)(9)\n4.5.2Gradients w.r.t. input cores 𝐺𝑘.After processing all out-\nput cores, we obtainC 0(𝑏,𝑡)∈R𝑟𝑝, the upstream for the input\ncores. For𝑘=𝑝,𝑝− 1,..., 1, let the forward pre-core state be\nS𝑘−1(𝑏,𝑡) andU𝑘(𝑏,𝑡) be the current upstream (gradient w.r.t.S 𝑘).\nThen per-sample, per-token gradient is,\n𝜕ℓ𝑏,𝑡\n𝜕𝐺𝑘(𝑎,𝑚,𝑏′)=∑︁\n𝑧𝑈𝑘(𝑏,𝑡)[𝑏′,𝑧]·𝑆𝑘−1(𝑏,𝑡)[𝑎,𝑧,𝑚](10)\nand the upstream for the next core, which we store for the up-\ncoming core, is:\nU𝑘−1(𝑏,𝑡)[𝑎,𝑧,𝑚]=𝑟𝑘∑︁\n𝑏′=1U𝑘(𝑏,𝑡)[𝑏′,𝑧]\n×𝐺𝑘(𝑎,𝑚,𝑏′)(11)\nFor𝑘>1,U𝑘−1matches the shape ofS 𝑘−1and becomes the next\nupstream.\n4.6 Ghost Clipping on Per-Sample Gradients\nTo efficiently enforce per-example ℓ2clipping while keeping mem-\nory usage manageable, we implement a two-pass procedure from\nGhost Clipping. Algorithm 1 summarizes this procedure, showing\nhow forward caching, per-example norm computation, and a sec-\nond backward pass with gradient scaling and noise addition are\norchestrated.",
+      "section": "2 Related Work",
+      "char_count": 1101,
+      "chunk_index": 32,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0033",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "host Clipping. Algorithm 1 summarizes this procedure, showing\nhow forward caching, per-example norm computation, and a sec-\nond backward pass with gradient scaling and noise addition are\norchestrated.\nWith per-sample gradients for all TT-core parameters computed\nin above sections, we now enforce ℓ2-norm bounds for DP. This\nensures that each example contributes at most 𝐶to the gradient,\nwhich is critical for differential privacy and for preventing outlier\ngradients from destabilizing training. Let 𝜃be any trainable param-\neter (a TT-core entry). For example (𝑏,𝑡) the per-sample gradient is\n∇𝜃ℓ𝑏,𝑡computed by (8)and(10). For each parameter, we accumulate\neach parameter’s per example norm contribution across tokens and\ncores as:\n𝑔(𝑏)\n𝜃=\r\r\r\u0000∇𝜃ℓ𝑏,1,...,∇𝜃ℓ𝑏,𝑆\u0001\r\r\r\n2(aggregated over tokens)\nand combine all parameters to form a per-example global norm:\n∥𝑔𝑏∥2= ∑︁\n𝜃\u0000𝑔(𝑏)\n𝜃\u00012!1/2\nClipping coefficients are then applied in a second backward pass,\nscaling each example’s contribution so that the overa",
+      "section": "2 Related Work",
+      "char_count": 1000,
+      "chunk_index": 33,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0034",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "mbine all parameters to form a per-example global norm:\n∥𝑔𝑏∥2= ∑︁\n𝜃\u0000𝑔(𝑏)\n𝜃\u00012!1/2\nClipping coefficients are then applied in a second backward pass,\nscaling each example’s contribution so that the overall per-example\ngradient isℓ2-bounded by 𝐶as (small value 𝜏∼10−6is added to\navoid division by 0):\n𝑐𝑏=minn\n1,𝐶\n∥𝑔𝑏∥2+𝜏o\nMemory Complexity:Materializing per-example gradients re-\nquiresO(𝐵·|𝜃|) memory where|𝜃|is the parameter count. Our\nghost clipping implementation avoids storing per-example gradi-\nents and instead caches only TT contraction states requiring only\nO(𝐵𝑆·𝑟2·(𝑝+𝑞)) memory for cached states plus O(𝐵) for per-\nexample norms. In particular, memory does not scale with the size\nof the implicit matrixΔ𝑊∈R𝑑out×𝑑in.5 Analysis of Privacy–Utility Trade-offs in\nTT-LoRA\nIn this section, we evaluate TTLoRA’s privacy–utility profile rel-\native to LoRA and full fine-tuning (FFT) under both DP-SGD and\nnon-private training. We first describe the model, datasets, PEFT\nconfigurations, and evaluation setup (Section 5.1), followed by the\nthe details about PreCurious attack protocol (Section 5.2).",
+      "section": "2 Related Work",
+      "char_count": 1099,
+      "chunk_index": 34,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0035",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "GD and\nnon-private training. We first describe the model, datasets, PEFT\nconfigurations, and evaluation setup (Section 5.1), followed by the\nthe details about PreCurious attack protocol (Section 5.2). Further-\nmore, we systematically study TTLoRA’s privacy–utility properties\nalong three complementary dimensions:\n(1)Utility under Differential Privacy:We evaluate how DP-\nSGD affects language-modeling performance across privacy\nbudgets, comparing privately trained TTLoRA, LoRA, and\nFFT (Sec. 5.3, Table 2, Fig. 4, 5).\n(2)Membership Inference Vulnerability under DP:We an-\nalyze how DP budgets influence susceptibility to PreCurious\nmembership inference attack, highlighting TTLoRA’s robust-\nness relative to LoRA and FFT (Sec. 5.4, Table 3, Fig. 1, 6).\n(3)Inherent Privacy Resilience without DP:We examine\nTTLoRA’s intrinsic privacy properties in a non-private set-\nting, showing that even without DP, TTLoRA substantially\nreduces membership leakage while maintaining competitive\nutility (Sec. 5.5, Table 4, Fig. 2, 7).",
+      "section": "2 Related Work",
+      "char_count": 1021,
+      "chunk_index": 35,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0036",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "insic privacy properties in a non-private set-\nting, showing that even without DP, TTLoRA substantially\nreduces membership leakage while maintaining competitive\nutility (Sec. 5.5, Table 4, Fig. 2, 7).\nOur experiments reveal three key insights: (1) under identical DP\nconstraints, TTLoRA matches or improves utility relative to LoRA\nwhile using an order-of-magnitude fewer trainable parameters;\n(2) TTLoRA exhibits lower membership leakage preserving utility\nunder DP training, remaining nearly flat as 𝜀increases, whereas\nLoRA’s leakage grows substantially; (3) under non-private train-\ning, TTLoRA exhibits substantially lower membership leakage in\nexchange of less utility cost; these findings suggest that TTLoRA’s\ntensor-train structure can materially reduce the membership signal\nexploited by loss-based attacks.\n5.1 Model and Dataset\nFollowing prior works [ 20,23], we fine-tune GPT-2 (124M) on two\nbenchmark datasets containing confidential or sensitive content:\n•Enron Email Corpus[ 14]: Corporate email communica-\ntions released during the Enron investigation, containing\nsensitive business discussions.",
+      "section": "2 Related Work",
+      "char_count": 1112,
+      "chunk_index": 36,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0037",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "rk datasets containing confidential or sensitive content:\n•Enron Email Corpus[ 14]: Corporate email communica-\ntions released during the Enron investigation, containing\nsensitive business discussions.\n•Penn Treebank (PTB)[ 24]: Wall Street Journal articles\ncovering business and financial news.\nWe evaluate utility using validation perplexity (PPL; lower is better)\nand privacy leakage using attack AUC-ROC (lower is better) along\nwith different recall rates at variable False Positive Rates (FPR)\n(lower is better).\nFine-Tuning Methods:We compare three approaches:\n•Full Fine-Tuning (FFT):All 124M parameters trainable;\nLearning rate1𝑒−4\n•LoRA:Adapted on attention weights (c_attn) and projection\nweights (c_proj) of all 12 layers with ranks 𝑟∈{ 2,4,6,8,10,12,14,16},\nyielding 110.6K–884.7K trainable parameters; Learning rate\n5𝑒−4\n•TTLoRA:Tensor train adapters on the same weights as\nLoRA adaptation with matching ranks, yielding 7.6K–144.4K\ntrainable parameters.",
+      "section": "2 Related Work",
+      "char_count": 965,
+      "chunk_index": 37,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0038",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "6},\nyielding 110.6K–884.7K trainable parameters; Learning rate\n5𝑒−4\n•TTLoRA:Tensor train adapters on the same weights as\nLoRA adaptation with matching ranks, yielding 7.6K–144.4K\ntrainable parameters. The TT-factorization uses [64,4,3]\n\nPrivacy Enhanced PEFT: Tensor Train Decomposition Improves Privacy Utility Tradeoffs under DP-SGD CCS ’26, November 15-19, 2026, The Hague, The Netherlands\nfactors for 768 and [64,4,3,3]factors for 2304 and factorize\nc_attn with dimension 768 ×2304 and c_proj with dimension\n768×768; Learning rate5𝑒−3\nPrivacy Configurations:We train under four privacy budgets\n𝜀∈{ 0.5,1.0,3.0,5.0}and report a non-private baseline (DP dis-\nabled). For DP runs, we use 𝛿=𝑁−1.1where𝑁is the number of\ntraining samples, consistent with prior practice. For DP training,\nwe use private-transformers3[18] with our TTLoRA ghost clipping\nextension with effective batch size 32, and tune the noise multi-\nplier to achieve the target 𝜀over the training steps using Renyi DP\naccounting method [25].",
+      "section": "2 Related Work",
+      "char_count": 1007,
+      "chunk_index": 38,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0039",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "ormers3[18] with our TTLoRA ghost clipping\nextension with effective batch size 32, and tune the noise multi-\nplier to achieve the target 𝜀over the training steps using Renyi DP\naccounting method [25].\nEvaluation Metrics:We measure privacy and utility metrics:\n•Utility:Validation perplexity (PPL, lower is better),\n•Privacy Leakage:We evaluate membership inference attack\nsuccess using the calibrated loss-threshold method PreCuri-\nous (more details in section 5.2) [ 20]. We measure: (1)Attack\nAUC: area under the ROC curve (50% = random guess), (2)\n True Positive Rate at False Positive Rate of\n0.01,  True Positive Rate at False Positive\nRate of 0.001,  True Positive Rate at False\nPositive Rate of 0.0001.\nRanks Configuration:All experiments for both LoRA and TT-\nLoRA are conducted using even ranks 𝑟∈{ 2,4,..., 16}, and we\nreport rank-averaged results in Tables 2, 3, and 4. This range cor-\nresponds to the low to moderate rank regime commonly explored\nin prior PEFT studies [ 4,13,15,22], where adapters provide sub-\nstantial parameter efficiency without approaching the behavior of\nfull fine-tuning.",
+      "section": "2 Related Work",
+      "char_count": 1107,
+      "chunk_index": 39,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0040",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "o the low to moderate rank regime commonly explored\nin prior PEFT studies [ 4,13,15,22], where adapters provide sub-\nstantial parameter efficiency without approaching the behavior of\nfull fine-tuning. Larger ranks increasingly saturate utility while\nsubstantially increasing the number of trainable parameters and\nexhibit increasing vulnerability towards MIA leakage (see Table 1),\nwhereas very small ranks often suffer from unstable training and\ndegraded performance.\nTo ensure that our conclusions are not sensitive to a particular\nrank choice, we average results across this range. This reporting\nstrategy mitigates variance due to rank-specific effects and enables\na robust comparison between LoRA and TTLoRA. Full rank-wise\nresults for Section 5.3, 5.4, 5.5 are provided in the appendix due to\nspace constraints.\n5.2 PreCurious Membership Inference Attack\nFollowing thePreCuriousthreat model [ 20], we consider a promi-\nnent black-box adversary who (i) publishes a crafted pre-trained\ncheckpoint (ii) later queries the victim’s released fine-tuned model.",
+      "section": "2 Related Work",
+      "char_count": 1059,
+      "chunk_index": 40,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0041",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "k\nFollowing thePreCuriousthreat model [ 20], we consider a promi-\nnent black-box adversary who (i) publishes a crafted pre-trained\ncheckpoint (ii) later queries the victim’s released fine-tuned model.\nThe attack can be viewed in three stages:\nCrafting:The adversarywarms-upa benign pre-trained model\n𝜃benign (fully fine-tune for some epochs) on an auxiliary corpus\n(𝐷aux: drawn from the same distribution as the victim’s private\nfine-tuning data but disjoint from it) to obtain an adversarial ini-\ntialization and later uses as a reference model𝜃 ref.\nFine-tuning:The victim downloads the released checkpoint\n𝜃ref, attaches PEFT modules, fine-tunes on private data 𝐷𝑡𝑟𝑎𝑖𝑛 and\nreleases𝜃 peftmodel,\n3 1:Comparison of attack metrics (AUC,  \nand utility (PPL) for LoRA, TTLoRA, and FFT on the Enron dataset\nunder non-private (no DP) setting. Lower ↓is better. Bold orange\n(LoRA) and blue (TTLoRA) indicate best individual performance;\nbold black indicates best average performance; gray highlighted\nrows correspond to equivalent parameter count configurations.",
+      "section": "2 Related Work",
+      "char_count": 1056,
+      "chunk_index": 41,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0042",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "Bold orange\n(LoRA) and blue (TTLoRA) indicate best individual performance;\nbold black indicates best average performance; gray highlighted\nrows correspond to equivalent parameter count configurations.\nMethod Rank Params PPL AUC  \n2 110.6k 17.74 92.23% 25.34% 0.45%\n4 221.2k 17.59 94.71% 35.23% 0.90%\n6 331.8k 17.41 95.41% 36.28% 0.75%\n8 442.4k 17.62 93.89% 37.33% 1.95%\nLoRA10 553.0k 17.36 96.04% 27.29% 1.65%\n12 663.6k 17.38 95.70% 37.78% 2.40%\n14 774.1k17.2995.95% 28.49% 1.35%\n16 884.7k 17.32 95.35% 40.03% 1.50%\nAvg.– 497.7k17.4694.91% 33.47% 1.37%\n2 7.6k 18.3571.49% 4.20%0.45%\n4 18.2k 18.23 84.35% 5.25% 1.65%\n6 31.8k 18.11 88.72% 13.94% 1.80%\n8 48.4k 17.97 92.99% 21.59% 0.75%\nTTLoRA 10 67.9k 18.04 92.30% 18.74% 1.95%\n12 90.4k 17.90 93.85% 19.94% 0.30%\n14 115.9k 17.97 91.65% 22.04% 1.65%\n16 144.4k17.8394.10% 23.84%0.30%\nAvg.–65.6k18.0588.68% 16.19% 1.11%\nFFT– 124.04M 16.45 96.63% 26.24% 4.35%\nInferring:The adversary performs membership inference us-\ning only loss queries. We split the original training corpus into\nthree equal partitions (𝐷aux,𝐷train,𝐷non)to mimic the real-world\nscenario, where 𝐷nonserves as a non-member calibration set.",
+      "section": "2 Related Work",
+      "char_count": 1152,
+      "chunk_index": 42,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0043",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "rence us-\ning only loss queries. We split the original training corpus into\nthree equal partitions (𝐷aux,𝐷train,𝐷non)to mimic the real-world\nscenario, where 𝐷nonserves as a non-member calibration set. At\ninference time, we compute a calibrated membership score using\nthe crafted reference model𝜃 reftrained on𝐷 auxas:\n𝑠ref(𝑥)=L(𝑥;𝜃 peft)−L(𝑥;𝜃 ref),(12)\nwhereLis the per-sample loss. Given a target false-positive rate 𝛼,\nwe set the threshold 𝜏𝛼as the largest value that keeps the FPR on\n𝐷nonbelow𝛼such that Pr𝑥∼𝐷 non[𝑠ref(𝑥)≤𝜏𝛼]=𝛼andTPR(𝛼)=\nPr𝑥∼𝐷 train[𝑠ref(𝑥)≤𝜏𝛼]. We summarize attack effectiveness using\nROC-AUC by treating members as label 1 and non-members as label\n0, and using scores−𝑠ref(𝑥)so that lower calibrated loss corresponds\nto higher membership likelihood.\n5.3 Differentially Private (DP) Training:\nPrivacy–Utility Trade-offs\nWe evaluate the utility of DP fine-tuning under DP-SGD on Enron\nand PTB datasets. Unlike our attack evaluation protocol (which\nsplits the corpus into 𝐷aux,𝐷train,𝐷non), here we fine-tune on the\nfulltraining set to isolate the privacy–utility impact of DP-SGD.",
+      "section": "2 Related Work",
+      "char_count": 1101,
+      "chunk_index": 43,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0044",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "nron\nand PTB datasets. Unlike our attack evaluation protocol (which\nsplits the corpus into 𝐷aux,𝐷train,𝐷non), here we fine-tune on the\nfulltraining set to isolate the privacy–utility impact of DP-SGD. We\nadapt a pretrained GPT-2 checkpoint using either LoRA or TTLoRA\nand train for 15 epochs under privacy budgets 𝜀∈{ 0.5,1.0,3.0,5.0},\nselecting the best validation checkpoint (by validation PPL) for each\n\nCCS ’26, November 15-19, 2026, The Hague, The Netherlands Kunwar et al.\n0.51.0 3.0 5.0\nPrivacy Budget ()\n25262728293031Perplexity (lower the better)\n(a) Enron: Utility under DP\nMethod\nFFT\nLoRA\nTTLoRA\n0.51.0 3.0 5.0\nPrivacy Budget ()\n48505254565860Perplexity (lower the better)\n(b) PTB: Utility under DP\nMethod\nFFT\nLoRA\nTTLoRA\nFigure 4: Pareto Frontier: Best utility extracted among mul-\ntiple configurations under differential privacy. TTLoRA\nachieves better perplexity than LoRA at all privacy budgets,\nwith the advantage strongest at stricter (lower𝜀) settings.\n𝜀for reporting. For LoRA and TTLoRA, we extract results for even\nranks𝑟∈{ 2,4,..., 16}; Table 2 reports results averaged over ranks,\nwhile Table 6 in appendix provides the full rank-wise breakdown.",
+      "section": "2 Related Work",
+      "char_count": 1168,
+      "chunk_index": 44,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0045",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "s.\n𝜀for reporting. For LoRA and TTLoRA, we extract results for even\nranks𝑟∈{ 2,4,..., 16}; Table 2 reports results averaged over ranks,\nwhile Table 6 in appendix provides the full rank-wise breakdown.\nThe non-private column in Table 2 is obtained by running the DP\ntraining pipeline with DP disabled, and is not directly comparable\nto the non-private column of Table 4 which is measured under\nthe attack pipeline and uses a different data split and warm-start\nprocedure following the PreCurious protocol.\nTable 2: Perplexity (lower is better) under DP averaged\nover performance at even ranks spanning 2 to 16. TTLoRA\nachieves better utility than LoRA at all privacy budgets.\nMethod Params Privacy Budget (𝜀) Non-Priv.\n0.5 1.0 3.0 5.0\nEnron Dataset\nFFT 124.0M 28.81 27.05 25.38 24.9214.31\nLoRA (avg.) 497.7K 29.29 27.62 26.64 26.44 18.79\nTTLoRA (avg.) 65.6K27.52 26.55 25.37 24.9920.14\nPTB Dataset\nFFT 124.0M56.18 53.38 49.23 47.79 19.75\nLoRA (Avg.) 497.7K 60.41 58.59 54.75 53.81 28.86\nTTLoRA (Avg.)",
+      "section": "2 Related Work",
+      "char_count": 999,
+      "chunk_index": 45,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0046",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "497.7K 29.29 27.62 26.64 26.44 18.79\nTTLoRA (avg.) 65.6K27.52 26.55 25.37 24.9920.14\nPTB Dataset\nFFT 124.0M56.18 53.38 49.23 47.79 19.75\nLoRA (Avg.) 497.7K 60.41 58.59 54.75 53.81 28.86\nTTLoRA (Avg.) 65.6K 58.47 55.39 50.61 48.71 31.45\nWe observe thatTTLoRA improves DP utility despite fewer\nparameters.Across all privacy budgets, TTLoRA achieves lower\n(better) perplexity than LoRA on both datasets while using sub-\nstantially fewer trainable parameters (65.6K vs. 497.7K on average).\nOn Enron, TTLoRA improves over LoRA at every 𝜀: e.g., at𝜀=0.5,\nTTLoRA attains 27.52 PPL vs. 29.29 for LoRA, and at 𝜀=3.0it attains\n25.37 vs. 26.64. On PTB, the gap is even larger: at 𝜀=5.0, TTLoRA\nachieves 48.71 vs. 53.81 for LoRA. Figure 4 (which plots the best\nutility among 16 ranks configurations) visualizes the same trend\nas a function of 𝜀: utility improves monotonically as the privacy\nbudget increases (less noise), and TTLoRA consistently traces a\ncurve closer to or even better than FFT than LoRA.",
+      "section": "2 Related Work",
+      "char_count": 994,
+      "chunk_index": 46,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0047",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "izes the same trend\nas a function of 𝜀: utility improves monotonically as the privacy\nbudget increases (less noise), and TTLoRA consistently traces a\ncurve closer to or even better than FFT than LoRA.\nFFT LoRA TTLoRA\nMethod2224262830Eval Perplexity(a) Enron Dataset\nFFT LoRA TTLoRA\nMethod4045505560Eval Perplexity(b) PTB DatasetFigure 5: Overall utility comparison over different rank con-\nfigurations for LoRA and TTLoRA along with FFT under DP\ntraining with Enron and PTB datasets\nRelationship to full fine-tuning (FFT).FFT remains the strongest\nnon-private baseline in perplexity, but under DP-SGD its advan-\ntage narrows substantially. On Enron, TTLoRA matches or slightly\nexceeds FFT at moderate privacy (25.37 vs. 25.38 at 𝜀=3.0), and\noutperforms FFT at strict privacy (27.52 vs. 28.81 at 𝜀=0.5), despite\nusing orders of magnitude fewer trainable parameters. On PTB,\nFFT yields the best perplexity across budgets, but TTLoRA closes\nmost of the gap relative to LoRA (e.g., at 𝜀=5.0, TTLoRA is within\n≈0.92 PPL of FFT, whereas LoRA is ≈6.02 PPL worse).",
+      "section": "2 Related Work",
+      "char_count": 1056,
+      "chunk_index": 47,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0048",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "ameters. On PTB,\nFFT yields the best perplexity across budgets, but TTLoRA closes\nmost of the gap relative to LoRA (e.g., at 𝜀=5.0, TTLoRA is within\n≈0.92 PPL of FFT, whereas LoRA is ≈6.02 PPL worse). The box-plot\nsummary in Figure 5 further corroborates this: TTLoRA exhibits\nconsistently lower median perplexity and reduced dispersion com-\npared to LoRA under DP.\n5.4 DP Training under Attack: MIA at Varying\nPrivacy Budgets\nWe evaluate privacy leakage under differentially private (DP) fine-\ntuning using thePreCuriousmembership inference attack [ 20]. For\neach dataset, we partition the original training split into three equal\nparts: an auxiliary subset 𝐷auxfor warm-up, a member subset 𝐷train\nused for DP fine-tuning, and a disjoint non-member subset 𝐷non\nused only for attack calibration. We warm up a GPT-2 base model for\n2 epochs on 𝐷auxto obtain an adversarially-initialized checkpoint,\nand set the resulting model as the reference 𝜃ref. We then adapt\nthe model with either LoRA or TTLoRA and fine-tune the PEFT\nparameters on 𝐷trainfor 15 epochs with DP-SGD, targeting privacy\nbudgets𝜀∈{ 0.5,1.0,3.0,5.0}(fixed𝛿and clipping configuration\nacross methods).",
+      "section": "2 Related Work",
+      "char_count": 1164,
+      "chunk_index": 48,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0049",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "e model with either LoRA or TTLoRA and fine-tune the PEFT\nparameters on 𝐷trainfor 15 epochs with DP-SGD, targeting privacy\nbudgets𝜀∈{ 0.5,1.0,3.0,5.0}(fixed𝛿and clipping configuration\nacross methods).\nFollowing PreCurious, we compute calibrated membership scores\nbased on reference vs. adapted losses using equation 12 and sum-\nmarize attack strength using ROC-AUC and fixed-FPR operating\npoints (here reported as  For each (method,rank,𝜀) con-\nfiguration, we report thebest epoch(based on validation perplexity\nand extract the result for all 𝜀for the same epoch) and aggregate\nresults over even ranks 𝑟∈{ 2,4,..., 16}as presented in Table 3\nwhile Table 7 and 8 in appendix present the detailed rank-wise\nperformance for Enron and PTB datasets.\nTTLoRA is consistently harder to infer under DP, and the\nadvantage widens as 𝜀increases.Across both Enron and PTB,\nTTLoRA yields uniformly lower attack AUC than LoRA at the same\nprivacy budget.",
+      "section": "2 Related Work",
+      "char_count": 938,
+      "chunk_index": 49,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0050",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "asets.\nTTLoRA is consistently harder to infer under DP, and the\nadvantage widens as 𝜀increases.Across both Enron and PTB,\nTTLoRA yields uniformly lower attack AUC than LoRA at the same\nprivacy budget. On Enron, LoRA’s rank-averaged AUC increases\nsharply as the privacy constraint relaxes (52.49% →58.43% from\n\nPrivacy Enhanced PEFT: Tensor Train Decomposition Improves Privacy Utility Tradeoffs under DP-SGD CCS ’26, November 15-19, 2026, The Hague, The Netherlands\nTable 3: Comparison of attack metrics (AUC ↓and  ↓) and utility (PPL↓) for LoRA, TTLoRA (averaged over ranks\n2–16), and FFT across Enron and PTB datasets under DP-SGD. Lower is better for AUC,  and PPL.\n𝜀=0.5𝜀=1.0𝜀=3.0𝜀=5.0\nMethodAUC PPL  AUC PPL  AUC PPL  AUC PPL \nEnron Dataset\nFFT 54.00% 21.48 11.24% 55.06% 21.25 11.84% 57.66% 20.99 15.29% 59.04% 20.90 15.74%\nLoRA (avg.) 52.49%20.7211.14% 53.72%20.7212.11% 56.99%20.7114.91% 58.43%20.7115.89%\nTTLoRA (avg.)51.36% 20.72 10.66% 51.48% 20.72 10.87% 51.76%20.7211.19% 52.04%20.7211.2",
+      "section": "2 Related Work",
+      "char_count": 1000,
+      "chunk_index": 50,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0051",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "99 15.29% 59.04% 20.90 15.74%\nLoRA (avg.) 52.49%20.7211.14% 53.72%20.7212.11% 56.99%20.7114.91% 58.43%20.7115.89%\nTTLoRA (avg.)51.36% 20.72 10.66% 51.48% 20.72 10.87% 51.76%20.7211.19% 52.04%20.7211.23%\nPTB Dataset\nFFT 50.09% 32.52 10.63% 51.74% 32.36 11.49% 56.32% 32.05 15.23% 59.28% 31.90 19.25%\nLoRA (avg.) 52.62%31.5110.88% 53.57%31.5112.18% 56.55%31.5115.27% 58.58%31.5118.14%\nTTLoRA (avg.)51.62%31.529.41% 51.65%31.529.34% 51.82% 31.51 9.45% 52.19% 31.51 9.84%\n𝜀= 0.5to 5), while TTLoRA remains close to the 50% random-\nguess baseline and changes only marginally (51.36% →52.04%).\nThis produces a growing AUC gap from 1.13 points at 𝜀=0.5to\n6.39 points at 𝜀=5. A similar trend holds on PTB, where LoRA\nrises from 52.62% to 58.58%, whereas TTLoRA stays near 51.62–\n52.19%. Figure 6 visualizes this effect and reports the average AUC\nreduction achieved by TTLoRA across 𝜀(3.7 points on Enron and\n3.5 points on PTB).\nFixed-FPR operating points show increasing separabil-\nity for LoRA but near-constant leakage for TTLoRA.The\nsame widening pattern appears under  10%. On Enron,\nLoRA’s  from 11.14% to 15.89% as 𝜀increases,\nwhereas TTLoRA remains nearly flat (10.66% to 11.23%).",
+      "section": "2 Related Work",
+      "char_count": 1180,
+      "chunk_index": 51,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0052",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "or LoRA but near-constant leakage for TTLoRA.The\nsame widening pattern appears under  10%. On Enron,\nLoRA’s  from 11.14% to 15.89% as 𝜀increases,\nwhereas TTLoRA remains nearly flat (10.66% to 11.23%). On PTB,\nLoRA reaches 18.14% at 𝜀= 5, while TTLoRA stays below 10%\nacross all budgets (9.34–9.84%). These results indicate that relax-\ning the privacy budget (adding less noise) significantly increases\nmembership distinguishability for LoRA, but has limited effect for\nTTLoRA.\nUtility is essentially matched in the attack-evaluation\npipeline, so privacy gains are not driven by degraded accu-\nracy.In the PreCurious setting, LoRA and TTLoRA achieve nearly\nidentical rank-averaged perplexity and exhibit minimal sensitivity\nto𝜀(e.g., Enron≈20.71–20.72; PTB≈31.51–31.52 in Table 3). There-\nfore, the improved privacy of TTLoRA is not explained by a utility\ndrop, but rather by reduced member/non-member separability in\nthe calibrated loss space that the attacker exploits.\nOverall, under identical DP budgets and the same attack protocol,\nTTLoRA provides a strictly improved privacy profile over LoRA\nwhile preserving essentially the same perplexity in this attack-\nevaluation regime.",
+      "section": "2 Related Work",
+      "char_count": 1182,
+      "chunk_index": 52,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0053",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "der identical DP budgets and the same attack protocol,\nTTLoRA provides a strictly improved privacy profile over LoRA\nwhile preserving essentially the same perplexity in this attack-\nevaluation regime.\n5.5 Non-Private Baseline: Utility and MIA\nVulnerability\nWe establish a non-private baseline by evaluating standard fine-\ntuning and PEFT adaptation under the PreCurious MIA protocol.\nStarting from a pretrained GPT-2 checkpoint, we warm-start the\nreference model on the auxiliary split 𝐷auxfor 5 epochs and then\nattach a PEFT module (LoRA or TTLoRA) to obtain the adapted\nmodel. The adapted model is fine-tuned on 𝐷trainfor up to 200\nFigure 6: MIA AUC under PreCurious (rank-averaged). TT-\nLoRA remains near the random-guess baseline (50%) across\nall𝜀, while LoRA becomes increasingly vulnerable as 𝜀in-\ncreases. Shaded region denotes the AUC gap (mean privacy\ngain: 3.7 points on Enron, 3.5 points on PTB).\nepochs with early stopping (patience = 5) to get the stable and\nconverged model for privacy anaylsis.\nAfter convergence, we compute per-example losses on mem-\nbers (𝐷train) and non-members ( 𝐷non) and evaluate membership\ninference using the calibrated loss-gap score using equation 12.",
+      "section": "2 Related Work",
+      "char_count": 1193,
+      "chunk_index": 53,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0054",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "rivacy anaylsis.\nAfter convergence, we compute per-example losses on mem-\nbers (𝐷train) and non-members ( 𝐷non) and evaluate membership\ninference using the calibrated loss-gap score using equation 12.\nTable 4 summarizes average utility and attack metrics over even\nranks𝑟∈{ 2,4,..., 16}whereas Table 1 details the rank-wise per-\nformance and privacy analysis for Enron dataset (detailed table for\nPTB in appendix Table 5). Figure 7 visualizes the privacy–utility\nfrontier. Complementarily, Figure 2 shows the calibrated loss distri-\nbutions for members vs. non-members, where larger distributional\ngaps correspond to stronger membership signals and thus higher\nattack success.\nOur results indicate thatTTLoRA attains a distinctly im-\nproved privacy–efficiency trade-off compared to LoRA, achiev-\ning comparable language-modeling utility while substantially re-\nducing membership leakage with substantially fewer trainable pa-\nrameters. On Enron at rank 𝑟=2, TTLoRA uses only 7.6K trainable\nparameters (vs. 110.6K for LoRA;14 .5×fewer) and reaches a per-\nplexity of 18.35 compared to 17.74 for LoRA, corresponding to only\na 3.4% relative difference in PPL (see Table 1).",
+      "section": "2 Related Work",
+      "char_count": 1169,
+      "chunk_index": 54,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0055",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "only 7.6K trainable\nparameters (vs. 110.6K for LoRA;14 .5×fewer) and reaches a per-\nplexity of 18.35 compared to 17.74 for LoRA, corresponding to only\na 3.4% relative difference in PPL (see Table 1). At this compara-\nble utility, TTLoRA substantially decreases attack effectiveness,\n\nCCS ’26, November 15-19, 2026, The Hague, The Netherlands Kunwar et al.\nreducing attack ROC-AUC by 20.74 percentage points (92.23% for\nLoRA vs. 71.49% for TTLoRA) and reducing TPR at FPR= 1%by\n21.14 percentage points (25.34% for LoRA vs. 4.20% for TTLoRA).\nAggregated over even ranks 𝑟∈{ 2,4,..., 16}, TTLoRA achieves\na lower mean attack AUC-ROC than LoRA (88.68% vs. 94.91%),\ni.e., a 6.2 percentage-point reduction. The low-FPR operating-point\nmetric highlights an even larger privacy gain:  1%de-\ncreases from 33.47% (LoRA) to 16.19% (TTLoRA), an absolute reduc-\ntion of 17.28 percentage points. Consistent with these quantitative\nimprovements, Figure 2 shows that TTLoRA yields substantially\ngreater overlap between member and non-member calibrated loss\ndistributions than LoRA, thereby weakening the separability signal\nexploited by membership inference attacks.",
+      "section": "2 Related Work",
+      "char_count": 1150,
+      "chunk_index": 55,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0056",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "TTLoRA yields substantially\ngreater overlap between member and non-member calibrated loss\ndistributions than LoRA, thereby weakening the separability signal\nexploited by membership inference attacks.\nTable 4: Non-private fine-tuning: Utility (PPL ↓) and MIA vul-\nnerability (AUC↓and FPR↓) averaged over even ranks (2-16)\nfor LoRA and TTLoRA;↓means lower is better.\nMethod Params \nEnron Dataset\nFFT 124.0M 16.45 96.63% 26.24%\nLoRA (avg.) 497.7K17.4694.91% 33.47%\nTTLoRA (avg.)65.6K18.0588.68%16.19%\nPTB Dataset\nFFT 124.0M 23.15 99.15% 64.94%\nLoRA (avg.) 497.7K25.4998.85% 32.51%\nTTLoRA (avg.)65.6K26.6697.17%29.67%\n17 18\nPerplexity (lower the better)0.80.9ROC AUC (lower the better)(a) Enron Dataset\nFFT\nLoRA\nTTLoRA\n24 26 28\nPerplexity (lower the better)0.9000.9250.9500.975ROC AUC (lower the better)(b) PTB Dataset\nFFT\nLoRA\nTTLoRA\nFigure 7: Privacy-utility tradeoff in non-private fine-tuning.\nEach point represents a rank configuration; marker size pro-\nportional to parameter count.",
+      "section": "2 Related Work",
+      "char_count": 984,
+      "chunk_index": 56,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0057",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "wer the better)(b) PTB Dataset\nFFT\nLoRA\nTTLoRA\nFigure 7: Privacy-utility tradeoff in non-private fine-tuning.\nEach point represents a rank configuration; marker size pro-\nportional to parameter count. TTLoRA achieves lower attack\nAUC (better privacy) with modest perplexity increase.",
+      "section": "2 Related Work",
+      "char_count": 283,
+      "chunk_index": 57,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0058",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "6 Discussion\nOur results indicate that PEFTarchitecturenot just can lower the\nparameter count but also can substantially shape the privacy–utility\ntrade-off in LLM adaptation. Across Enron and PTB, TTLoRA con-\nsistently reduces membership inference vulnerability relative to\nLoRA, and this advantage persists both without DP and under\nDP-SGD across the evaluated privacy budgets and TT-ranks. Im-\nportantly, these privacy gains are achieved in a markedly smaller\nadapter regime: TTLoRA operates with roughly 10K–150K trainableparameters, whereas LoRA requires roughly 100K–1,000K parame-\nters over comparable rank ranges. A key takeaway is that TTLoRA\nappears to suppress the membership signal exploited by calibrated\nloss-based attacks. The tensor-train parameterization restricts the\nupdate space through a chained, compositional structure, which\ncan act as a stronger inductive bias than a single low-rank fac-\ntorization in LoRA. Empirically, this manifests as greater overlap\nbetween member and non-member calibrated loss distributions and\nnear-random-guess attack AUC under DP for TTLoRA, even as 𝜀\nincreases.",
+      "section": "6 Discussion",
+      "char_count": 1115,
+      "chunk_index": 58,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0059",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "orization in LoRA. Empirically, this manifests as greater overlap\nbetween member and non-member calibrated loss distributions and\nnear-random-guess attack AUC under DP for TTLoRA, even as 𝜀\nincreases. In contrast, LoRA’s leakage rises noticeably as the privacy\nbudget relaxes, suggesting that additional capacity in a less con-\nstrained update space translates more directly into example-specific\nfitting. Under DP-SGD, TTLoRA’s structure may provide a second\nbenefit: improved robustness to optimization noise. Because the\nupdate is distributed across multiple small cores, each constrained\nby TT-ranks and sequential contractions, the effective degrees of\nfreedom are reduced and gradients are implicitly regularized. This\ncan make the learning dynamics less sensitive to the perturbations\nintroduced by clipping and Gaussian noise, helping TTLoRA retain\n(and in some settings improve) perplexity relative to LoRA at the\nsame(𝜀,𝛿).\nPractical implications.These findings suggest that privacy pre-\nserving adaptation need not rely solely on tighter privacy budgets\nor stronger noise multipliers.",
+      "section": "6 Discussion",
+      "char_count": 1095,
+      "chunk_index": 59,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0060",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "ity relative to LoRA at the\nsame(𝜀,𝛿).\nPractical implications.These findings suggest that privacy pre-\nserving adaptation need not rely solely on tighter privacy budgets\nor stronger noise multipliers. Instead, selecting a PEFT parame-\nterization with an appropriate structural constraint can materially\nreduce empirical leakage while maintaining competitive utility, and\ncan do so in an ultra-low-parameter regime that is attractive for\ndeployment.\nLimitations.Our evaluation focuses on GPT-2 (124M), two\nlanguage modeling datasets, and a strong loss-based black-box MIA\n(PreCurious). While PreCurious captures an important and practical\nthreat model, it does not cover the full spectrum of privacy risks (e.g.,\ndata extraction or broader memorization behaviors). In addition,\nour utility metric is perplexity; downstream task performance and\ninstruction-following behaviors may exhibit different trade-offs.",
+      "section": "6 Discussion",
+      "char_count": 908,
+      "chunk_index": 60,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0061",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "g.,\ndata extraction or broader memorization behaviors). In addition,\nour utility metric is perplexity; downstream task performance and\ninstruction-following behaviors may exhibit different trade-offs.\nFuture work.Several directions follow naturally from this study:\n(1) scaling TTLoRA-DP to larger modern LLMs (e.g., LLaMA-family\nand GPT-style models), where the adapter parameter savings and\ntraining-time efficiencies are even more consequential; (2) expand-\ning evaluation beyond perplexity to downstream tasks and training\nregimes (instruction tuning, supervised fine-tuning, RLHF-style\nsettings); (3) testing stronger and complementary privacy evalu-\nations, including alternative MIAs, data extraction attacks, and\nmemorization-oriented benchmarks; (4) combining TTLoRA-DP\nwith orthogonal privacy techniques (e.g., federated learning or\nsecure aggregation) to study end-to-end privacy in distributed set-\ntings; and (5) developing privacy accounting and algorithmic refine-\nments that leverage",
+      "section": "6 Discussion",
+      "char_count": 999,
+      "chunk_index": 61,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0062",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "cy techniques (e.g., federated learning or\nsecure aggregation) to study end-to-end privacy in distributed set-\ntings; and (5) developing privacy accounting and algorithmic refine-\nments that leverage TT structure—e.g., layer-wise clipping, struc-\ntured noise, or tighter accounting under structural constraints—to\nfurther improve the privacy–utility frontier.",
+      "section": "6 Discussion",
+      "char_count": 359,
+      "chunk_index": 62,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0063",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "7 Conclusion\nThis work studies how PEFT architecture influences privacy leak-\nage and utility under differentially private fine-tuning of language\nmodels. We establish TTLoRA as a structurally constrained PEFT ap-\nproach and address the core systems challenge of enabling DP-SGD\n\nPrivacy Enhanced PEFT: Tensor Train Decomposition Improves Privacy Utility Tradeoffs under DP-SGD CCS ’26, November 15-19, 2026, The Hague, The Netherlands\nfor TT-adapters by extending ghost clipping with cached contrac-\ntion states, making exact per-example norm computation practical\nfor TT-core backpropagation.\nEmpirically, TTLoRA improves the privacy–utility trade-off across\ntwo datasets and multiple privacy budgets. Under DP training, TT-\nLoRA achieves consistently improved perplexity than LoRA at all\nevaluated𝜀values while using substantially fewer trainable param-\neters.\nUnder the PreCurious membership inference attack protocol,\nTTLoRA stays close to the random-guess baseline across privacy\nbudgets and ranks, whereas LoRA becomes increasingly vulnerable\nas the privacy budget relaxes. These privacy gains are not driven\nby degraded utility in the attack-evaluation pipeline.",
+      "section": "7 Conclusion",
+      "char_count": 1170,
+      "chunk_index": 63,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0064",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "across privacy\nbudgets and ranks, whereas LoRA becomes increasingly vulnerable\nas the privacy budget relaxes. These privacy gains are not driven\nby degraded utility in the attack-evaluation pipeline.\nOverall, our results suggest that TT decomposition is not only a\ncompression mechanism but also a principled architectural bias for\nprivacy-preserving LLM adaptation. TTLoRA provides a practical\nroute to improving DP utility while reducing empirical membership\nleakage relative to widely used PEFT baselines under comparable\nprivacy constraints.\nAcknowledgments\nThis research was funded by the Los Alamos National Laboratory\n(LANL) Laboratory Directed Research and Development (LDRD)\nprogram under grants 20250850ECR and 20240868PRD3 and sup-\nported by LANL’s Institutional Computing Program, and by the U.S.\nDepartment of Energy National Nuclear Security Administration\nunder Contract No. 89233218CNA000001.",
+      "section": "7 Conclusion",
+      "char_count": 908,
+      "chunk_index": 64,
+      "page_numbers": [
+        11
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0065",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "the U.S.\nDepartment of Energy National Nuclear Security Administration\nunder Contract No. 89233218CNA000001.",
+      "section": "7 Conclusion",
+      "char_count": 108,
+      "chunk_index": 65,
+      "page_numbers": [
+        11
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0066",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "References\n[1]Martin Abadi, Andy Chu, Ian Goodfellow, H Brendan McMahan, Ilya Mironov,\nKunal Talwar, and Li Zhang. 2016. Deep learning with differential privacy. In\nProceedings of the 2016 ACM SIGSAC conference on computer and communications\nsecurity. 308–318.\n[2]Afia Anjum, Maksim E Eren, Ismael Boureima, Boian Alexandrov, and Manish\nBhattarai. 2024. Tensor train low-rank approximation (tt-lora): Democratizing ai\nwith accelerated llms. In2024 International Conference on Machine Learning and\nApplications (ICMLA). IEEE, 583–590.\n[3]Raef Bassily, Adam Smith, and Abhradeep Thakurta. 2014. Private empirical\nrisk minimization: Efficient algorithms and tight error bounds. In2014 IEEE 55th\nannual symposium on foundations of computer science. IEEE, 464–473.\n[4]Dan Biderman, Jacob Portes, Jose Javier Gonzalez Ortiz, Mansheej Paul, Philip\nGreengard, Connor Jennings, Daniel King, Sam Havens, Vitaliy Chiley, Jonathan\nFrankle, et al .2024. Lora learns less and forgets less.arXiv preprint\narXiv:2405.09673(2024).\n[5]Hannah Brown, Katherine Lee, Fatemehsadat Mireshghallah, Reza Shokri, and\nFlorian Tramèr. 2022. What does it mean for a language model to preserve\nprivacy?.",
+      "section": "References",
+      "char_count": 1173,
+      "chunk_index": 66,
+      "page_numbers": [
+        11
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0067",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "s.arXiv preprint\narXiv:2405.09673(2024).\n[5]Hannah Brown, Katherine Lee, Fatemehsadat Mireshghallah, Reza Shokri, and\nFlorian Tramèr. 2022. What does it mean for a language model to preserve\nprivacy?. InProceedings of the 2022 ACM conference on fairness, accountability,\nand transparency. 2280–2292.\n[6]Zhiqi Bu, Jialin Mao, and Shiyun Xu. 2022. Scalable and efficient training of large\nconvolutional neural networks with differential privacy.Advances in Neural\nInformation Processing Systems35 (2022), 38305–38318.\n[7]Mark Bun, Jonathan Ullman, and Salil Vadhan. 2014. Fingerprinting codes and\nthe price of approximate differential privacy. InProceedings of the forty-sixth\nannual ACM symposium on Theory of computing. 1–10.\n[8]Nicholas Carlini, Florian Tramer, Eric Wallace, Matthew Jagielski, Ariel Herbert-\nVoss, Katherine Lee, Adam Roberts, Tom Brown, Dawn Song, Ulfar Erlingsson,\net al.2021. Extracting training data from large language models. In30th USENIX\nsecurity symposium (USENIX Security 21). 2633–2650.\n[9]Soumi Das, Camila Kolling, Mohammad Aflah Khan, Mahsa Amani, Bishwamittra\nGhosh, Qinyuan Wu, Till Speicher, and Krishna P Gummadi. 2025.",
+      "section": "References",
+      "char_count": 1156,
+      "chunk_index": 67,
+      "page_numbers": [
+        11
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0068",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "h USENIX\nsecurity symposium (USENIX Security 21). 2633–2650.\n[9]Soumi Das, Camila Kolling, Mohammad Aflah Khan, Mahsa Amani, Bishwamittra\nGhosh, Qinyuan Wu, Till Speicher, and Krishna P Gummadi. 2025. Revisiting\nPrivacy, Utility, and Efficiency Trade-offs when Fine-Tuning Large Language\nModels.arXiv preprint arXiv:2502.13313(2025).\n[10] Cynthia Dwork, Frank McSherry, Kobbi Nissim, and Adam Smith. 2006. Cali-\nbrating noise to sensitivity in private data analysis. InTheory of cryptography\nconference. Springer, 265–284.\n[11] Ian Goodfellow. 2015. Efficient per-example gradient computations.arXiv preprint\narXiv:1510.01799(2015).[12] Neil Houlsby, Andrei Giurgiu, Stanislaw Jastrzebski, Bruna Morrone, Quentin\nDe Laroussilhe, Andrea Gesmundo, Mona Attariyan, and Sylvain Gelly. 2019.\nParameter-efficient transfer learning for NLP. InInternational conference on\nmachine learning. PMLR, 2790–2799.\n[13] Edward J Hu, Yelong Shen, Phillip Wallis, Zeyuan Allen-Zhu, Yuanzhi Li, Shean\nWang, Lu Wang, Weizhu Chen, et al .2022. Lora: Low-rank adaptation of large\nlanguage models.ICLR1, 2 (2022), 3.\n[14] Bryan Klimt and Yiming Yang. 2004.",
+      "section": "References",
+      "char_count": 1133,
+      "chunk_index": 68,
+      "page_numbers": [
+        11
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0069",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "llip Wallis, Zeyuan Allen-Zhu, Yuanzhi Li, Shean\nWang, Lu Wang, Weizhu Chen, et al .2022. Lora: Low-rank adaptation of large\nlanguage models.ICLR1, 2 (2022), 3.\n[14] Bryan Klimt and Yiming Yang. 2004. The enron corpus: A new dataset for email\nclassification research. InEuropean conference on machine learning. Springer,\n217–226.\n[15] Pradip Kunwar, Minh N Vu, Maanak Gupta, Mahmoud Abdelsalam, and Manish\nBhattarai. 2025. TT-LoRA MoE: Using Parameter-Efficient Fine-Tuning and\nSparse Mixture-Of-Experts. InProceedings of the International Conference for High\nPerformance Computing, Networking, Storage and Analysis. 1332–1350.\n[16] Jaewoo Lee and Daniel Kifer. 2021. Scaling up differentially private deep learn-\ning with fast per-example gradient clipping.Proceedings on Privacy Enhancing\nTechnologies(2021).\n[17] Brian Lester, Rami Al-Rfou, and Noah Constant. 2021. The power of scale for\nparameter-efficient prompt tuning.arXiv preprint arXiv:2104.08691(2021).\n[18] Xuechen Li, Florian Tramer, Percy Liang, and Tatsunori Hashimoto. 2021. Large\nlanguage models can be strong differentially private learners.arXiv preprint\narXiv:2110.05679(2021).\n[19] Xiang Lisa Li and Percy Liang. 2021.",
+      "section": "References",
+      "char_count": 1190,
+      "chunk_index": 69,
+      "page_numbers": [
+        11
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0070",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "Tramer, Percy Liang, and Tatsunori Hashimoto. 2021. Large\nlanguage models can be strong differentially private learners.arXiv preprint\narXiv:2110.05679(2021).\n[19] Xiang Lisa Li and Percy Liang. 2021. Prefix-tuning: Optimizing continuous\nprompts for generation.arXiv preprint arXiv:2101.00190(2021).\n[20] Ruixuan Liu, Tianhao Wang, Yang Cao, and Li Xiong. 2024. Precurious: How\ninnocent pre-trained language models turn into privacy traps. InProceedings of\nthe 2024 on ACM SIGSAC Conference on Computer and Communications Security.\n3511–3524.\n[21] Xiao-Yang Liu, Rongyi Zhu, Daochen Zha, Jiechao Gao, Shan Zhong, Matt White,\nand Meikang Qiu. 2025. Differentially private low-rank adaptation of large\nlanguage model using federated learning.ACM Transactions on Management\nInformation Systems16, 2 (2025), 1–24.\n[22] Olivia Ma, Jonathan Passerat-Palmbach, and Dmitrii Usynin. 2024. Efficient and\nPrivate: Memorisation under differentially private parameter-efficient fine-tuning\nin language models.arXiv preprint arXiv:2411.15831(2024).\n[23] Saber Malekmohammadi and Golnoosh Farnadi. 2024. Low-Rank Adaptation\nSecretly Imitates Differentially Private SGD.arXiv preprint arXiv:2409.17538\n(2024).",
+      "section": "References",
+      "char_count": 1193,
+      "chunk_index": 70,
+      "page_numbers": [
+        11
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0071",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "ls.arXiv preprint arXiv:2411.15831(2024).\n[23] Saber Malekmohammadi and Golnoosh Farnadi. 2024. Low-Rank Adaptation\nSecretly Imitates Differentially Private SGD.arXiv preprint arXiv:2409.17538\n(2024).\n[24] Mitch Marcus, Beatrice Santorini, and Mary Ann Marcinkiewicz. 1993. Building a\nlarge annotated corpus of English: The Penn Treebank.Computational linguistics\n19, 2 (1993), 313–330.\n[25] Ilya Mironov. 2017. Rényi differential privacy. In2017 IEEE 30th computer security\nfoundations symposium (CSF). IEEE, 263–275.\n[26] Alexander Novikov, Dmitrii Podoprikhin, Anton Osokin, and Dmitry P Vetrov.\n2015. Tensorizing neural networks.Advances in neural information processing\nsystems28 (2015).\n[27] Ivan V Oseledets. 2011. Tensor-train decomposition.SIAM Journal on Scientific\nComputing33, 5 (2011), 2295–2317.\n[28] Delong Ran, Xinlei He, Tianshuo Cong, Anyu Wang, Qi Li, and Xiaoyun Wang.\n2025. Lora-leak: Membership inference attacks against lora fine-tuned language\nmodels.arXiv preprint arXiv:2507.18302(2025).\n[29] Noam Razin, Asaf Maman, and Nadav Cohen. 2021. Implicit regularization in\ntensor factorization. InInternational Conference on Machine Learning. PMLR,\n8913–8924.",
+      "section": "References",
+      "char_count": 1179,
+      "chunk_index": 71,
+      "page_numbers": [
+        11
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0072",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "v preprint arXiv:2507.18302(2025).\n[29] Noam Razin, Asaf Maman, and Nadav Cohen. 2021. Implicit regularization in\ntensor factorization. InInternational Conference on Machine Learning. PMLR,\n8913–8924.\n[30] Reza Shokri, Marco Stronati, Congzheng Song, and Vitaly Shmatikov. 2017. Mem-\nbership inference attacks against machine learning models. In2017 IEEE sympo-\nsium on security and privacy (SP). IEEE, 3–18.\n[31] Youbang Sun, Zitao Li, Yaliang Li, and Bolin Ding. 2024. Improving lora in\nprivacy-preserving federated learning.arXiv preprint arXiv:2403.12313(2024).\n[32] Yuxin Wen, Leo Marchyok, Sanghyun Hong, Jonas Geiping, Tom Goldstein, and\nNicholas Carlini. 2024. Privacy Backdoors: Enhancing Membership Inference\nthrough Poisoning Pre-trained Models. InAdvances in Neural Information Pro-\ncessing Systems (NeurIPS).\n[33] Jie Xu, Karthikeyan Saravanan, Rogier van Dalen, Haaris Mehmood, David\nTuckey, and Mete Ozay. 2024. Dp-dylora: Fine-tuning transformer-based models\non-device under differentially private federated learning using dynamic low-rank\nadaptation.arXiv preprint arXiv:2405.06368(2024).\n[34] Yifan Yang, Jiajun Zhou, Ngai Wong, and Zheng Zhang. 2024.",
+      "section": "References",
+      "char_count": 1169,
+      "chunk_index": 72,
+      "page_numbers": [
+        11
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0073",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "odels\non-device under differentially private federated learning using dynamic low-rank\nadaptation.arXiv preprint arXiv:2405.06368(2024).\n[34] Yifan Yang, Jiajun Zhou, Ngai Wong, and Zheng Zhang. 2024. LoRETTA: Low-\nRank Economic Tensor-Train Adaptation for Ultra-Low-Parameter Fine-Tuning\nof Large Language Models. InProceedings of NAACL 2024.\n[35] Samuel Yeom, Irene Giacomelli, Matt Fredrikson, and Somesh Jha. 2018. Privacy\nrisk in machine learning: Analyzing the connection to overfitting. In2018 IEEE\n31st computer security foundations symposium (CSF). IEEE, 268–282.\n[36] Da Yu, Saurabh Naik, Arturs Backurs, Sivakanth Gopi, Huseyin A Inan, Gautam\nKamath, Janardhan Kulkarni, Yin Tat Lee, Andre Manoel, Lukas Wutschitz, et al .\n2021. Differentially private fine-tuning of language models.arXiv preprint\narXiv:2110.06500(2021).\n\nCCS ’26, November 15-19, 2026, The Hague, The Netherlands Kunwar et al.\n[37] Sajjad Zarifzadeh, Philippe Liu, and Reza Shokri. 2023. Low-cost high-power\nmembership inference attacks.arXiv preprint arXiv:2312.03262(2023).",
+      "section": "References",
+      "char_count": 1054,
+      "chunk_index": 73,
+      "page_numbers": [
+        11
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0074",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "-19, 2026, The Hague, The Netherlands Kunwar et al.\n[37] Sajjad Zarifzadeh, Philippe Liu, and Reza Shokri. 2023. Low-cost high-power\nmembership inference attacks.arXiv preprint arXiv:2312.03262(2023).\n\nPrivacy Enhanced PEFT: Tensor Train Decomposition Improves Privacy Utility Tradeoffs under DP-SGD CCS ’26, November 15-19, 2026, The Hague, The Netherlands\nA Appendix A: Rank-wise Results and\nExtended Tables\nThis appendix reports additional results that are omitted from the\nmain paper due to space constraints. In the main paper, we primar-\nily presentrank-averagedmetrics to reduce sensitivity to any single\nadapter rank choice and to provide a robust comparison between\nLoRA and TTLoRA under differential privacy (DP). Here, we pro-\nvide thefull rank-wise breakdownfor (i) validation perplexity (PPL)\nacross privacy budgets and (ii) membership inference attack (MIA)\nmetrics for each rank and𝜀.\nHow to read the tables.Across all appendix tables, lower ↓is\nbetter for utility PPL and for attack metrics (AUC and FPR variants).",
+      "section": "References",
+      "char_count": 1030,
+      "chunk_index": 74,
+      "page_numbers": [
+        12
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0075",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "nd (ii) membership inference attack (MIA)\nmetrics for each rank and𝜀.\nHow to read the tables.Across all appendix tables, lower ↓is\nbetter for utility PPL and for attack metrics (AUC and FPR variants).\nOrange/blue highlights denote the bestindividualconfiguration\nwithin LoRA/TTLoRA respectively, while bold black indicates the\nbestaveragebetween LoRA and TTLoRA (when an average row is\npresent). Gray shading marks approximately parameter-matched\nconfigurations (to support controlled comparisons under compara-\nble trainable parameter counts).\nNon-private rank-wise reference on PTB.Finally, Table 5 pro-\nvides non-private results on PTB across ranks. This table serves as\na reference to interpret rank effects without DP noise and clipping.\nIt also contextualizes the parameter–utility tradeoff across ranks:\nwhile larger ranks may yield diminishing improvements in PPL,\nthey substantially increase trainable parameter counts, motivating\nthe paper’s focus on the parameter-efficient regime and the use of\nrank-averaged reporting in the main sections.\nRank-wise DP perplexity trends.Table 6 reports validation\nPPL for all even ranks 𝑟∈{ 2,4,..., 16}across privacy budgets\nfor Enron and PTB.",
+      "section": "References",
+      "char_count": 1191,
+      "chunk_index": 75,
+      "page_numbers": [
+        13
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0076",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "and the use of\nrank-averaged reporting in the main sections.\nRank-wise DP perplexity trends.Table 6 reports validation\nPPL for all even ranks 𝑟∈{ 2,4,..., 16}across privacy budgets\nfor Enron and PTB. These rank-wise results complement the rank-\naveraged trends in the main paper by showing that (1) PPL changes\nacross ranks are typically modest within a fixed DP budget, and (2)\nthe ordering across privacy budgets is consistent with the expected\nprivacy–utility behavior (tighter privacy budgets generally yield\nhigher PPL). This table also supports the interpretation that report-\ning rank-averaged PPL in the main paper is representative of the\noverall trend rather than dominated by a single rank.\nRank-wise DP attack trends on Enron and PTB.Tables 7\nand 8 report rank-wise MIA results under DP for Enron and PTB\nrespectively. For each 𝜀, we report the attack AUC,  and\nutility PPL.",
+      "section": "References",
+      "char_count": 886,
+      "chunk_index": 76,
+      "page_numbers": [
+        13
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0077",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "a single rank.\nRank-wise DP attack trends on Enron and PTB.Tables 7\nand 8 report rank-wise MIA results under DP for Enron and PTB\nrespectively. For each 𝜀, we report the attack AUC,  and\nutility PPL. These tables make two points explicit: (i) attack success\ngenerally increases as privacy becomes weaker (larger 𝜀), consistent\nwith standard DP expectations; and (ii) TTLoRA exhibits systemat-\nically reduced attack success compared to LoRA on average, while\nmaintaining comparable utility, aligning with the privacy–utility\ntrends reported in the main paper.Table 5:Comparison of attack metrics (AUC,  \nand utility (PPL) for LoRA, TTLoRA, and FFT on the PTB dataset.\nMethod Rank Params PPL AUC  \n2 110.6k 25.95 98.55% 33.33% 0.57%\n4 221.2k 25.67 98.87% 44.54%0.57%\n6 331.8k 25.46 98.81% 24.43%0.57%\n8 442.4k 25.45 98.78%23.56% 0.57%\nLoRA10 553.0k 25.42 98.87% 27.30%0.57%\n12 663.6k 25.32 98.93% 28.45%0.57%\n14 774.1k25.2999.00% 39.08%0.57%\n16 884.7k 25.34 98.97% 39.37%0.57%\nAvg.– 497.7k25.4998.85%",
+      "section": "References",
+      "char_count": 998,
+      "chunk_index": 77,
+      "page_numbers": [
+        13
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0078",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "8 442.4k 25.45 98.78%23.56% 0.57%\nLoRA10 553.0k 25.42 98.87% 27.30%0.57%\n12 663.6k 25.32 98.93% 28.45%0.57%\n14 774.1k25.2999.00% 39.08%0.57%\n16 884.7k 25.34 98.97% 39.37%0.57%\nAvg.– 497.7k25.4998.85% 32.51% 0.57%\n2 7.6k 27.8189.81% 22.13%1.15%\n4 18.2k 27.12 96.35% 39.66%0.57%\n6 31.8k 26.69 97.80% 22.99%0.57%\n8 48.4k 26.49 98.60% 34.20%0.57%\nTTLoRA 10 67.9k 26.38 98.74% 54.60% 0.86%\n12 90.4k 26.39 98.61% 27.01% 0.57%\n14 115.9k 26.26 98.69% 14.08% 0.57%\n16 144.4k26.1498.73% 22.70%0.57%\nAvg.–65.6k26.6697.17% 29.67% 0.68%\nFFT– 124.04M 23.15 99.15% 64.94% 0.86%\n\nCCS ’26, November 15-19, 2026, The Hague, The Netherlands Kunwar et al.\nTable 6: Comparison of Perplexity (Lower ↓the better) on Enron and PTB datasets across different privacy budgets ( 𝜀) for\ndifferent ranks.\nMethod ParamsEnron (𝜀) PTB (𝜀)\n0.5↓1.0↓3.0↓5.0↓Non-Priv.↓0.5↓1.0↓3.0↓5.0↓Non-Priv.↓\nLoRA\nRank 2 110.59K 27.95 26.88 25.65 25.27 19.40 59.13 56.04 51.60 49.74 29.92\nRank 4 221.18K 28.38 27.11 25.98 25.64 18.95 59.54 57.14 53.1",
+      "section": "References",
+      "char_count": 1000,
+      "chunk_index": 78,
+      "page_numbers": [
+        13
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0079",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "B (𝜀)\n0.5↓1.0↓3.0↓5.0↓Non-Priv.↓0.5↓1.0↓3.0↓5.0↓Non-Priv.↓\nLoRA\nRank 2 110.59K 27.95 26.88 25.65 25.27 19.40 59.13 56.04 51.60 49.74 29.92\nRank 4 221.18K 28.38 27.11 25.98 25.64 18.95 59.54 57.14 53.19 51.70 29.22\nRank 6 331.78K 28.79 27.41 26.28 25.95 18.78 60.36 58.25 54.26 52.90 28.84\nRank 8 442.37K 29.05 27.68 26.58 26.25 18.73 60.32 58.68 54.89 53.56 28.64\nRank 10 552.96K 29.46 27.86 26.66 26.34 18.65 60.59 59.18 55.33 53.97 28.60\nRank 12 663.55K 29.89 28.09 26.81 26.47 18.63 60.65 59.62 55.84 54.42 28.61\nRank 14 774.14K 29.97 28.30 26.95 26.6118.5860.62 59.72 56.26 54.93 28.53\nRank 16 884.74K 30.84 28.51 28.18 27.9618.5860.76 60.10 56.64 55.1928.51\nAvg. 497.7K 29.29 27.62 26.64 26.4418.7960.41 58.59 54.75 53.8128.86\nTTLoRA\nRank 2 7.63K 27.71 26.51 24.6924.3422.2557.56 54.03 49.6648.25 37.32\nRank 4 18.24K27.28 25.92 24.6524.40 21.08 58.25 54.71 49.5947.5933.58\nRank 6 31.82K 27.62 26.52 24.92 24.51 20.42 57.60 54.89 50.35 48.45 32.04\nRank 8 48.38K 27.63 26.90 25.57 25.11 19.97 58.0",
+      "section": "References",
+      "char_count": 1000,
+      "chunk_index": 79,
+      "page_numbers": [
+        14
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0080",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "5 37.32\nRank 4 18.24K27.28 25.92 24.6524.40 21.08 58.25 54.71 49.5947.5933.58\nRank 6 31.82K 27.62 26.52 24.92 24.51 20.42 57.60 54.89 50.35 48.45 32.04\nRank 8 48.38K 27.63 26.90 25.57 25.11 19.97 58.05 55.77 51.82 50.03 30.84\nRank 10 67.92K 27.29 26.44 25.20 24.75 19.65 58.58 55.47 50.01 48.00 30.09\nRank 12 90.43K 27.47 26.74 25.92 25.45 19.40 58.92 55.91 50.54 48.47 29.58\nRank 14 115.92K 27.44 26.67 25.94 25.58 19.17 58.77 55.60 50.96 48.96 29.25\nRank 16 144.38K 27.84 27.04 26.27 25.9319.0260.02 56.77 51.96 49.9128.91\nAvg. 65.6K 27.52 26.55 25.37 24.9920.1458.47 55.39 50.61 48.7131.45\nFFT 124.04M 28.81 27.05 25.38 24.92 14.31 56.18 53.38 49.23 47.79 19.75\nTable 7: Comparison of Attack Metrics (AUC and  and utility (PPL) for LoRA and TTLoRA across Enron dataset for 𝜀\nvalues. Lower↓is better for AUC,  and PPL.",
+      "section": "References",
+      "char_count": 820,
+      "chunk_index": 80,
+      "page_numbers": [
+        14
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0081",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "38 24.92 14.31 56.18 53.38 49.23 47.79 19.75\nTable 7: Comparison of Attack Metrics (AUC and  and utility (PPL) for LoRA and TTLoRA across Enron dataset for 𝜀\nvalues. Lower↓is better for AUC,  and PPL.\nMethod Epsilon(𝜀)\n0.5 1.0 3.0 5.0\nAUC PPL  AUC PPL  AUC PPL  AUC PPL \nLoRA\nRank2 54.79% 20.72 11.69% 56.91% 20.72 12.89% 61.14% 20.71 17.24% 62.32% 20.70 19.49%\nRank454.33% 20.72 12.59% 56.44% 20.72 14.69% 60.57% 20.71 17.00% 61.99% 20.70 18.14%\nRank652.25% 20.72 12.74% 54.11% 20.72 13.19% 57.86% 20.71 17.84% 59.36% 20.71 16.34%\nRank850.06%20.72 9.90% 50.79% 20.72 10.49% 52.76% 20.72 11.99%53.94%20.7211.69%\nRank1051.14% 20.72 10.04% 53.08% 20.72 11.69% 57.30% 20.71 15.89% 58.94% 20.71 16.79%\nRank1251.91% 20.71 11.00%50.72%20.71 10.94%52.67%20.7111.84%54.44% 20.71 13.34%\nRank1453.27% 20.71 11.39% 54.71% 20.71 12.89% 58.25% 20.71 13.49% 59.74% 20.71 16.64%\nRank1652.15% 20.729.75%52.99% 20.7210.04%55.36% 20.72 13.94% 56.72% 20.72 14.69%\nAvg.52.49% 20.72 11.14% 53.72% 20.72 12.10% 56.99% 20.7",
+      "section": "References",
+      "char_count": 1000,
+      "chunk_index": 81,
+      "page_numbers": [
+        14
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0082",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "39% 54.71% 20.71 12.89% 58.25% 20.71 13.49% 59.74% 20.71 16.64%\nRank1652.15% 20.729.75%52.99% 20.7210.04%55.36% 20.72 13.94% 56.72% 20.72 14.69%\nAvg.52.49% 20.72 11.14% 53.72% 20.72 12.10% 56.99% 20.71 14.90% 58.43% 20.71 15.89%\nTTLoRA\nRank252.87% 20.78 12.44% 53.65% 20.75 13.19% 55.54% 20.73 14.39% 56.46% 20.72 14.54%\nRank452.37% 20.73 9.45% 52.12% 20.72 9.15% 51.27% 20.72 9.00% 50.84% 20.72 9.00%\nRank650.75% 20.72 10.64% 51.05% 20.72 10.94% 51.79% 20.72 11.39% 52.19% 20.72 11.09%\nRank850.77% 20.71 9.00% 51.13% 20.71 9.00% 51.88% 20.71 9.90% 52.47% 20.71 10.04%\nRank1050.74% 20.72 13.49% 50.94% 20.72 13.64% 51.27% 20.72 12.74% 51.51% 20.72 13.04%\nRank12 51.10% 20.72 11.54% 50.67% 20.72 12.44% 50.23% 20.72 13.19% 50.63% 20.72 13.49%\nRank14 50.39% 20.72 8.40% 50.27% 20.72 8.25% 50.06% 20.72 8.10% 50.07% 20.72 7.80%\nRank1651.91% 20.72 10.34% 51.97% 20.72 10.34% 52.05% 20.72 10.79% 52.10% 20.72 10.79%\nAvg.",
+      "section": "References",
+      "char_count": 915,
+      "chunk_index": 82,
+      "page_numbers": [
+        14
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0083",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "13.19% 50.63% 20.72 13.49%\nRank14 50.39% 20.72 8.40% 50.27% 20.72 8.25% 50.06% 20.72 8.10% 50.07% 20.72 7.80%\nRank1651.91% 20.72 10.34% 51.97% 20.72 10.34% 52.05% 20.72 10.79% 52.10% 20.72 10.79%\nAvg. 51.36%20.7210.66% 51.48%20.7210.87% 51.76%20.7211.19% 52.03%20.7211.22%\nFFT54.38% 20.96 13.04% 55.22% 20.88 13.04% 56.85% 20.76 13.34% 57.72% 20.72 13.49%\n\nPrivacy Enhanced PEFT: Tensor Train Decomposition Improves Privacy Utility Tradeoffs under DP-SGD CCS ’26, November 15-19, 2026, The Hague, The Netherlands\nTable 8: Comparison of Attack Metrics (AUC and  and utility (PPL) for LoRA and TTLoRA across PTB dataset for 𝜀\nvalues. Lower↓is better for AUC,  and PPL.\nMethod Epsilon(𝜀)\n0.5 1.0 3.0 5.0\nAUC% PPL  AUC% PPL  AUC% PPL  AUC% PPL \nLoRA\nRank2 53.90% 32.32 11.21% 55.02% 31.91 12.07% 58.41% 31.42 16.67% 60.18% 31.25 18.39%\nRank451.35%32.317.76%52.69% 31.90 10.06% 56.75% 31.4011.49%58.88% 31.23 16.38%\nRank6 52.14% 32.35 13.22% 53.53% 31.94 15.23% 57.47% 31.43 19.83% 59.78% 31.27 21.26%\nRan",
+      "section": "References",
+      "char_count": 1000,
+      "chunk_index": 83,
+      "page_numbers": [
+        14
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0084",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "1.42 16.67% 60.18% 31.25 18.39%\nRank451.35%32.317.76%52.69% 31.90 10.06% 56.75% 31.4011.49%58.88% 31.23 16.38%\nRank6 52.14% 32.35 13.22% 53.53% 31.94 15.23% 57.47% 31.43 19.83% 59.78% 31.27 21.26%\nRank8 52.89% 32.34 10.92%51.96%31.93 12.07%50.77%31.4211.49% 52.66%31.2613.51%\nRank10 53.02% 32.36 12.93% 54.22% 31.95 15.23% 57.70% 31.45 19.25% 59.70% 31.29 22.41%\nRank12 52.30% 32.32 8.91% 53.37% 31.91 9.77% 56.29% 31.41 12.36% 58.13% 31.25 15.80%\nRank14 53.88% 32.38 13.51% 55.17% 31.97 13.79% 58.96% 31.46 18.68% 61.16% 31.31 21.84%\nRank16 51.49% 32.34 8.62% 52.61% 31.939.20%56.06% 31.43 12.36% 58.11% 31.26 15.52%\nAvg.52.62% 32.34 10.88% 53.57% 31.93 12.18% 56.55% 31.43 15.27% 58.58% 31.27 18.14%\nTTLoRA\nRank2 52.00% 32.31 8.91% 51.55% 31.91 8.62%50.03%31.416.90%51.05% 31.25 6.90%\nRank4 52.52% 32.32 8.05% 52.97% 31.91 7.18% 53.55% 31.42 8.62% 53.87% 31.25 10.63%\nRank6 52.98% 32.326.03%52.91% 31.926.32%52.70% 31.43 7.76% 52.49% 31.266.61%\nRank8 50.83% 32.35 12.07% 51.05% 31.94 11.78% 51.75%",
+      "section": "References",
+      "char_count": 999,
+      "chunk_index": 84,
+      "page_numbers": [
+        15
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    },
+    {
+      "chunk_id": "PrivacyPEFT_2026_chunk_0085",
+      "source_id": "PrivacyPEFT_2026",
+      "text": "32.32 8.05% 52.97% 31.91 7.18% 53.55% 31.42 8.62% 53.87% 31.25 10.63%\nRank6 52.98% 32.326.03%52.91% 31.926.32%52.70% 31.43 7.76% 52.49% 31.266.61%\nRank8 50.83% 32.35 12.07% 51.05% 31.94 11.78% 51.75% 31.45 11.21% 52.17% 31.28 10.34%\nRank10 50.90% 32.36 12.07% 50.81% 31.96 12.07% 50.67% 31.46 12.36%50.58%31.30 12.93%\nRank12 52.03% 32.35 9.48% 52.31% 31.95 9.77% 53.24% 31.45 9.48% 53.89% 31.28 10.92%\nRank14 51.46% 32.35 8.62% 51.58% 31.95 8.62% 51.96% 31.44 8.05% 52.26% 31.28 8.05%\nRank1650.25%32.38 10.06%50.02%31.98 10.34% 50.66% 31.48 11.21% 51.18% 31.31 12.36%\nAvg. 51.62%32.349.41% 51.65%31.949.34% 51.82%31.449.45% 52.19%31.289.84%\nFFT51.21% 31.74 8.33% 50.94% 31.70 8.33% 50.69% 31.61 13.79% 52.23% 31.57 14.37%",
+      "section": "References",
+      "char_count": 721,
+      "chunk_index": 85,
+      "page_numbers": [
+        15
+      ],
+      "source_file": "PrivacyPEFT_2026_2601_10045.pdf",
+      "total_source_pages": 15
+    }
+  ]
+}

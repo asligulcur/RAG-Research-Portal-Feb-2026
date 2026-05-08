@@ -1,0 +1,1772 @@
+{
+  "metadata": {
+    "timestamp": "20260203_215544",
+    "model": "gpt-3.5-turbo",
+    "prompt_version": "v2.0_trust_behavior_enhanced",
+    "total_queries": 25,
+    "query_set_version": "v1.0"
+  },
+  "aggregate_metrics": {
+    "total_queries": 25,
+    "successful_queries": 25,
+    "failed_queries": 0,
+    "groundedness": {
+      "total_citations": 16,
+      "avg_citation_density": 0.22399999999999998,
+      "pct_with_citations": 40.0,
+      "pct_properly_flags_missing": 0.0
+    },
+    "answer_relevance": {
+      "avg_term_coverage": 0.3971240981240981,
+      "avg_length_score": 0.5015999999999999,
+      "avg_directness": 1.0
+    },
+    "by_query_type": {
+      "direct": {
+        "count": 10,
+        "avg_citation_density": 0.37,
+        "avg_term_coverage": 0.46571428571428575
+      },
+      "synthesis": {
+        "count": 8,
+        "avg_citation_density": 0.2375,
+        "avg_term_coverage": 0.5442866161616161
+      },
+      "edge_case": {
+        "count": 7,
+        "avg_citation_density": 0.0,
+        "avg_term_coverage": 0.13095238095238096
+      }
+    }
+  },
+  "individual_results": [
+    {
+      "query_id": "direct_001",
+      "query": "What is Phi-3's performance on the MMLU benchmark?",
+      "query_type": "direct",
+      "expected_answer_type": "specific_metric",
+      "answer": "The provided excerpts do not contain sufficient information to answer this question.",
+      "citations": [],
+      "num_retrieved_chunks": 5,
+      "retrieved_chunks": [
+        {
+          "chunk_id": "Phi3_2024_chunk_0014",
+          "source_id": "Phi3_2024",
+          "similarity_score": 0.5923154354095459,
+          "section": "1 Introduction",
+          "text_preview": "models, and in particular we did no optimization to the pipeline for the phi-3\nmodels.4The number of k\u2013shot examples is listed per-benchmark. An example of a 2-shot prompt is\ndescribed in Appendix A.\n4For example, we found that using ## before the Question can lead to a noticeable improvement to phi"
+        },
+        {
+          "chunk_id": "Phi3_2024_chunk_0019",
+          "source_id": "Phi3_2024",
+          "similarity_score": 0.5767547488212585,
+          "section": "1 Introduction",
+          "text_preview": "of the phi-3.5-mini andphi-3.5-MoE models\ncompared with recent SoTA pretrained language models, such as GPT-4o-mini, Gemini-1.5 Flash, and\nopen-source models like Llama-3.1-8B and the Mistral models. The results show that phi-3.5-mini\nachieves performance comparable to much larger models like Mistra"
+        },
+        {
+          "chunk_id": "Phi3_2024_chunk_0018",
+          "source_id": "Phi3_2024",
+          "similarity_score": 0.575918436050415,
+          "section": "1 Introduction",
+          "text_preview": "on of phi-3-mini ,phi-3.5-mini andphi-3.5-MoE on MMLU-Multilingual tasks\nWe evaluate the phi-3.5-mini andphi-3.5-MoE models on two long-context understanding tasks:\nRULER [HSK+24] and RepoQA [LTD+24]. As shown in Tables 1 and 2, both phi-3.5-MoE andphi-\n3.5-mini outperform other open-source models w"
+        },
+        {
+          "chunk_id": "DistillSLM_2023_chunk_0083",
+          "source_id": "DistillSLM_2023",
+          "similarity_score": 0.5428401827812195,
+          "section": "7 Discussion",
+          "text_preview": "edictors. The sparsity pattern of Phi-2 is dif-\nferent than other models. As you can see in figure\n9c the sparsity of the middle layers is less than other\nlayers for a random sample of the C4 dataset. As a\ngeneral rule of thumb, we trained larger predictors\nfor the less sparse layers. If layers are "
+        },
+        {
+          "chunk_id": "TextbooksAllYouNeed_2023_chunk_0010",
+          "source_id": "TextbooksAllYouNeed_2023",
+          "similarity_score": 0.5426186323165894,
+          "section": "1 Introduction",
+          "text_preview": "our new CodeExercises dataset. For the 1.3B models, phi-1 andphi-1-base are checkpoints\nafter training on 51B tokens (770 GPU hours) and The Stack+ model was trained for 76B tokens and 1090 GPU\nhours. We highlight that even without any finetuning, our phi-1-base model trained on CodeTextbook dataset"
+        }
+      ],
+      "generation_config": {
+        "model": "gpt-3.5-turbo",
+        "temperature": 0.1,
+        "max_tokens": 1000,
+        "prompt_version": "v2.0_trust_behavior_enhanced"
+      },
+      "metrics": {
+        "groundedness": {
+          "citation_count": 0,
+          "citation_density": 0.0,
+          "has_citations": 0.0,
+          "properly_flags_missing": 0.0,
+          "num_sentences": 1
+        },
+        "answer_relevance": {
+          "term_coverage": 0.0,
+          "length_score": 0.24,
+          "directness": 1.0,
+          "word_count": 12
+        }
+      },
+      "success": true,
+      "error": null
+    },
+    {
+      "query_id": "direct_002",
+      "query": "What are the known failure modes or limitations of the MMLU benchmark?",
+      "query_type": "direct",
+      "expected_answer_type": "list_of_limitations",
+      "answer": "The provided excerpts do not contain sufficient information to answer this question.",
+      "citations": [],
+      "num_retrieved_chunks": 5,
+      "retrieved_chunks": [
+        {
+          "chunk_id": "Llama2_2023_chunk_0183",
+          "source_id": "Llama2_2023",
+          "similarity_score": 0.5024691820144653,
+          "section": "References",
+          "text_preview": ".3 48.2 75.1 71.2 43.012.4 44.7 28.0 4.9 7.9\nMQA 70.6 79.0 47.9 74.5 71.6 41.9 14.542.8 26.5 4.8 7.3\nGQA 69.4 78.8 48.6 75.4 72.1 42.5 14.0 46.226.9 5.3 7.9\nTable 18: Attention architecture ablations. We report 0-shot results for all tasks except MMLU(5-shot) and\nGSM8K(8-shot). For GSM8K and Human-E"
+        },
+        {
+          "chunk_id": "Gemma_2024_chunk_0018",
+          "source_id": "Gemma_2024",
+          "similarity_score": 0.5000916719436646,
+          "section": "unknown",
+          "text_preview": "closely as possible. These specific benchmarks\nare: ARC (Clark et al., 2018), CommonsenseQA\n(Talmor et al., 2019), Big Bench Hard (Suzgun\net al., 2022), and AGI Eval (English-only) (Zhong\netal.,2023). Duetorestrictivelicensing, wewere\nunable to run any evaluations on LLaMA-2 and\ncite only those metr"
+        },
+        {
+          "chunk_id": "Llama2_2023_chunk_0022",
+          "source_id": "Llama2_2023",
+          "similarity_score": 0.4908175468444824,
+          "section": "1 Introduction",
+          "text_preview": "ted results.\nInTable3,wesummarizetheoverallperformanceacrossasuiteofpopularbenchmarks. Notethatsafety\nbenchmarks are shared in Section 4.1. The benchmarks are grouped into the categories listed below. The\nresults for all the individual benchmarks are available in Section A.2.2.\n\nMBPP (Austin et al.,"
+        },
+        {
+          "chunk_id": "DynamicGameContent_2026_chunk_0062",
+          "source_id": "DynamicGameContent_2026",
+          "similarity_score": 0.48866063356399536,
+          "section": "6 Conclusion",
+          "text_preview": "d93 %. The 4-bit model performed significantly worse at78 %.\nPer-prompt success rate (for fixed temperature) varied significantly\nacross the prompts for all models, ranging from approximately0 .2\nto1. However, Spearman\u2019s correlation ( \ud835\udf0c>0.82for all pairs) shows\nthat difficulty rankings remain largel"
+        },
+        {
+          "chunk_id": "DynamicGameContent_2026_chunk_0033",
+          "source_id": "DynamicGameContent_2026",
+          "similarity_score": 0.4867403507232666,
+          "section": "1 Introduction",
+          "text_preview": "since they contain\nthe most creatively challenging and widely scoped tasks. We used\nChatGPT-4o for judging these, and found that switching to a smaller\nmodel led to overlooking some borderline cases. On the other hand,\nusing ChatGPT-4o for these metrics gave us a strict measure, con-\nfirmed by manua"
+        }
+      ],
+      "generation_config": {
+        "model": "gpt-3.5-turbo",
+        "temperature": 0.1,
+        "max_tokens": 1000,
+        "prompt_version": "v2.0_trust_behavior_enhanced"
+      },
+      "metrics": {
+        "groundedness": {
+          "citation_count": 0,
+          "citation_density": 0.0,
+          "has_citations": 0.0,
+          "properly_flags_missing": 0.0,
+          "num_sentences": 1
+        },
+        "answer_relevance": {
+          "term_coverage": 0.0,
+          "length_score": 0.24,
+          "directness": 1.0,
+          "word_count": 12
+        }
+      },
+      "success": true,
+      "error": null
+    },
+    {
+      "query_id": "direct_003",
+      "query": "What training data was used for Phi-3-mini?",
+      "query_type": "direct",
+      "expected_answer_type": "dataset_description",
+      "answer": "The provided excerpts do not contain sufficient information to answer this question.",
+      "citations": [],
+      "num_retrieved_chunks": 5,
+      "retrieved_chunks": [
+        {
+          "chunk_id": "TextbooksAllYouNeed_2023_chunk_0010",
+          "source_id": "TextbooksAllYouNeed_2023",
+          "similarity_score": 0.535117506980896,
+          "section": "1 Introduction",
+          "text_preview": "our new CodeExercises dataset. For the 1.3B models, phi-1 andphi-1-base are checkpoints\nafter training on 51B tokens (770 GPU hours) and The Stack+ model was trained for 76B tokens and 1090 GPU\nhours. We highlight that even without any finetuning, our phi-1-base model trained on CodeTextbook dataset"
+        },
+        {
+          "chunk_id": "Phi3_2024_chunk_0014",
+          "source_id": "Phi3_2024",
+          "similarity_score": 0.5299220085144043,
+          "section": "1 Introduction",
+          "text_preview": "models, and in particular we did no optimization to the pipeline for the phi-3\nmodels.4The number of k\u2013shot examples is listed per-benchmark. An example of a 2-shot prompt is\ndescribed in Appendix A.\n4For example, we found that using ## before the Question can lead to a noticeable improvement to phi"
+        },
+        {
+          "chunk_id": "Phi3_2024_chunk_0019",
+          "source_id": "Phi3_2024",
+          "similarity_score": 0.5283277034759521,
+          "section": "1 Introduction",
+          "text_preview": "of the phi-3.5-mini andphi-3.5-MoE models\ncompared with recent SoTA pretrained language models, such as GPT-4o-mini, Gemini-1.5 Flash, and\nopen-source models like Llama-3.1-8B and the Mistral models. The results show that phi-3.5-mini\nachieves performance comparable to much larger models like Mistra"
+        },
+        {
+          "chunk_id": "Phi4_2025_chunk_0030",
+          "source_id": "Phi4_2025",
+          "similarity_score": 0.5151553153991699,
+          "section": "5 Experiment",
+          "text_preview": "hereas in the second stage the sequence length is extended to 20K without packing. For the\nRollout DPO phase, we use a learning rate of 5e-7 for a single training epoch, with a sequence length of\n16K. During the RL stage, a learning rate of 5e-7 and a sequence length of 25k are used to encourage\nmod"
+        },
+        {
+          "chunk_id": "Phi3_2024_chunk_0011",
+          "source_id": "Phi3_2024",
+          "similarity_score": 0.5084444880485535,
+          "section": "1 Introduction",
+          "text_preview": "good training data for frontier models,\nbut we need to remove such information to leave more model capacity for \u201creasoning\u201d for the mini size\nmodels. We compare our approach with Llama-2 in Figure 3.\nTo test our data on larger size of models, we also trained phi-3-medium , a model with 14B pa-\nramet"
+        }
+      ],
+      "generation_config": {
+        "model": "gpt-3.5-turbo",
+        "temperature": 0.1,
+        "max_tokens": 1000,
+        "prompt_version": "v2.0_trust_behavior_enhanced"
+      },
+      "metrics": {
+        "groundedness": {
+          "citation_count": 0,
+          "citation_density": 0.0,
+          "has_citations": 0.0,
+          "properly_flags_missing": 0.0,
+          "num_sentences": 1
+        },
+        "answer_relevance": {
+          "term_coverage": 0.0,
+          "length_score": 0.24,
+          "directness": 1.0,
+          "word_count": 12
+        }
+      },
+      "success": true,
+      "error": null
+    },
+    {
+      "query_id": "direct_004",
+      "query": "What is the parameter count of Gemma 2B?",
+      "query_type": "direct",
+      "expected_answer_type": "numeric_value",
+      "answer": "The parameter count of Gemma 2B is not explicitly mentioned in the provided excerpts. [Source: Gemma2_2024, Chunk: Gemma2_2024_chunk_0023] The provided excerpts do not contain sufficient information to answer this question.",
+      "citations": [
+        {
+          "source_id": "Gemma2_2024",
+          "chunk_id": "Gemma2_2024_chunk_0023"
+        }
+      ],
+      "num_retrieved_chunks": 5,
+      "retrieved_chunks": [
+        {
+          "chunk_id": "Gemma_2024_chunk_0026",
+          "source_id": "Gemma_2024",
+          "similarity_score": 0.5472057461738586,
+          "section": "unknown",
+          "text_preview": "n\n7\n\nGemma: Open Models Based on Gemini Research and Technology\nMistral v0.2 Gemma 1.1 IT\nBenchmark metric 7B* 2B 7B\nRealToxicity avg 8.44 7.03 8.04\nBOLD 46.0 47.76 45.2\nCrowS-Pairs top-1 32.76 45.89 49.67\nBBQ Ambig 1-shot, top-1 97.53 58.97 86.06\nBBQ Disambig top-1 84.45 53.9 85.08\nWinogender top-1"
+        },
+        {
+          "chunk_id": "Gemma2_2024_chunk_0023",
+          "source_id": "Gemma2_2024",
+          "similarity_score": 0.5083367824554443,
+          "section": "6. Evaluation",
+          "text_preview": "and\n6\n\nGemma 2: Improving Open Language Models at a Practical Size\nGemma-1 Gemma-2 Mistral LLaMA-3 Gemma-1 Gemma-2 Gemma-2\nBenchmark metric 2B 2B 7B 8B 7B 9B 27B\nMMLU 5-shot 42.3 52.2 62.5 66.6 64.4 71.3 75.2\nARC-C 25-shot 48.5 55.7 60.5 59.2 61.1 68.4 71.4\nGSM8K 5-shot 15.1 24.3 39.6 45.7 51.8 68.6"
+        },
+        {
+          "chunk_id": "Gemma_2024_chunk_0055",
+          "source_id": "Gemma_2024",
+          "similarity_score": 0.48922139406204224,
+          "section": "unknown",
+          "text_preview": "Campbell, P. Guo,\nR. Ren, A. Pan, X. Yin, M. Mazeika, A.-K. Dom-\nbrowski, S. Goel, N. Li, M. J. Byun, Z. Wang,\nA. Mallen, S. Basart, S. Koyejo, D. Song,\nM. Fredrikson, J. Z. Kolter, and D. Hendrycks.\nRepresentation engineering: A top-down ap-\nproach to ai transparency, 2023.\n16\n\nGemma: Open Models B"
+        },
+        {
+          "chunk_id": "Gemma_2024_chunk_0004",
+          "source_id": "Gemma_2024",
+          "similarity_score": 0.48283544182777405,
+          "section": "unknown",
+          "text_preview": "urrent techniques, and for enabling\nthe development of the next wave of innovations.\nWhile thorough testing of all Gemma models has\n1See Contributions and Acknowledgments section for full author list. Please send correspondence to  .\n\u00a92024 Google DeepMind. All rights reservedarXiv:2403.08295v4 [cs.C"
+        },
+        {
+          "chunk_id": "Gemma_2024_chunk_0056",
+          "source_id": "Gemma_2024",
+          "similarity_score": 0.46166688203811646,
+          "section": "unknown",
+          "text_preview": ".5%\nTable 9|Win rate of Gemma 1.0 IT models versus Mistral 7B v0.2 Instruct with 95% confidence\nintervals. We report breakdowns of wins, ties, and losses. Ties are broken evenly in the final win rate.\nMistral v0.2 Gemma IT\nBenchmark metric 7B* 2B 7B\nRealToxicity avg 8.44 6.86 7.90\nBOLD 46.0 45.57 49"
+        }
+      ],
+      "generation_config": {
+        "model": "gpt-3.5-turbo",
+        "temperature": 0.1,
+        "max_tokens": 1000,
+        "prompt_version": "v2.0_trust_behavior_enhanced"
+      },
+      "metrics": {
+        "groundedness": {
+          "citation_count": 1,
+          "citation_density": 0.5,
+          "has_citations": 1.0,
+          "properly_flags_missing": 0.0,
+          "num_sentences": 2
+        },
+        "answer_relevance": {
+          "term_coverage": 0.8,
+          "length_score": 0.6,
+          "directness": 1.0,
+          "word_count": 30
+        }
+      },
+      "success": true,
+      "error": null
+    },
+    {
+      "query_id": "direct_005",
+      "query": "What quantization techniques are discussed in GPTQ?",
+      "query_type": "direct",
+      "expected_answer_type": "technical_methods",
+      "answer": "The quantization techniques discussed in GPTQ include row-wise quantization and the ability to be combined with standard grouping for independent quantization to groups of consecutive weights [Source: GPTQ_2022, Chunk: GPTQ_2022_chunk_0039]. Additionally, GPTQ performs quantization layer-by-layer, solving a corresponding reconstruction problem for each layer [Source: GPTQ_2022, Chunk: GPTQ_2022_chunk_0013].",
+      "citations": [
+        {
+          "source_id": "GPTQ_2022",
+          "chunk_id": "GPTQ_2022_chunk_0039"
+        },
+        {
+          "source_id": "GPTQ_2022",
+          "chunk_id": "GPTQ_2022_chunk_0013"
+        }
+      ],
+      "num_retrieved_chunks": 5,
+      "retrieved_chunks": [
+        {
+          "chunk_id": "GPTQ_2022_chunk_0027",
+          "source_id": "GPTQ_2022",
+          "similarity_score": 0.6221948266029358,
+          "section": "ABSTRACT",
+          "text_preview": "model, some care must be taken. Specif-\nically, we always load one Transformer block, consisting of 6 layers, at a time into GPU memory\nand then accumulate the layer-Hessians and perform quantization. Finally, the current block inputs\nare sent through the fully quantized block again to produce the n"
+        },
+        {
+          "chunk_id": "GPTQ_2022_chunk_0039",
+          "source_id": "GPTQ_2022",
+          "similarity_score": 0.6153156757354736,
+          "section": "ABSTRACT",
+          "text_preview": "AMBADA\nOPT Family\n100101102\n#params in billions\nBLOOM FamilyFP16 4bit GPTQ 4bit RTN 3bit GPTQ 3bit RTN\nFigure 3: The accuracy of OPT and BLOOM models post-GPTQ, measured on LAMBADA.\nAdditional Tricks. While our experiments so far have focused exclusively on vanilla row-wise\nquantization, we want to "
+        },
+        {
+          "chunk_id": "MiniCPM_2024_chunk_0108",
+          "source_id": "MiniCPM_2024",
+          "similarity_score": 0.6028355360031128,
+          "section": "References",
+          "text_preview": "ximately the reverse of the quantization method, which is\ndequant (\u02c6w) =scale(\u02c6w\u2212zero).\nFinally, matrix W\u2208Rdout\u00d7dinis quantized to int4 \u02c6W\u2208Rdout\u00d7din, float scale\u2208Rdout\u00d7din\nGand\nfloat zero\u2208Rdout\u00d7din\nG.\nTo reduce the quantization loss, we adopt GPTQ (Frantar et al., 2022) to apply weight\ncalibration. "
+        },
+        {
+          "chunk_id": "GPTQ_2022_chunk_0026",
+          "source_id": "GPTQ_2022",
+          "similarity_score": 0.591910719871521,
+          "section": "ABSTRACT",
+          "text_preview": "ive tasks.\nSetup. We implemented GPTQ in PyTorch (Paszke et al., 2019) and worked with the HuggingFace\nintegrations of the BLOOM (Laurenc \u00b8on et al., 2022) and OPT (Zhang et al., 2022) model families.\nWe quantized all models (including the 175 billion parameter variants) using a single NVIDIA A100\nG"
+        },
+        {
+          "chunk_id": "GPTQ_2022_chunk_0013",
+          "source_id": "GPTQ_2022",
+          "similarity_score": 0.5828043222427368,
+          "section": "ABSTRACT",
+          "text_preview": "larger models, and proposes to fix this problem by keeping those dimensions in higher preci-\nsion. Lastly, nuQmm develops efficient GPU kernels for a specific binary-coding based quantization\nscheme.\nRelative to this line of work, we show that a significantly more complex and accurate quantizer can\n"
+        }
+      ],
+      "generation_config": {
+        "model": "gpt-3.5-turbo",
+        "temperature": 0.1,
+        "max_tokens": 1000,
+        "prompt_version": "v2.0_trust_behavior_enhanced"
+      },
+      "metrics": {
+        "groundedness": {
+          "citation_count": 2,
+          "citation_density": 1.0,
+          "has_citations": 1.0,
+          "properly_flags_missing": 0.0,
+          "num_sentences": 2
+        },
+        "answer_relevance": {
+          "term_coverage": 0.8,
+          "length_score": 0.94,
+          "directness": 1.0,
+          "word_count": 47
+        }
+      },
+      "success": true,
+      "error": null
+    },
+    {
+      "query_id": "direct_006",
+      "query": "What is the main architectural innovation in MobileLLM?",
+      "query_type": "direct",
+      "expected_answer_type": "architectural_feature",
+      "answer": "The main architectural innovation in MobileLLM is the adoption of four model design techniques beneficial for sub-billion scale LLMs, which include:\n1. Adopting SwiGLU FFN\n2. Forcing lanky (deep and thin) architectures\n3. Revisiting embedding sharing method\n4. Utilizing grouped query attention [Source: MobileLLM_2024, Chunk: MobileLLM_2024_chunk_0012]",
+      "citations": [
+        {
+          "source_id": "MobileLLM_2024",
+          "chunk_id": "MobileLLM_2024_chunk_0012"
+        }
+      ],
+      "num_retrieved_chunks": 5,
+      "retrieved_chunks": [
+        {
+          "chunk_id": "MobileLLM_2024_chunk_0012",
+          "source_id": "MobileLLM_2024",
+          "similarity_score": 0.4567006826400757,
+          "section": "1. Introduction",
+          "text_preview": "g,\nMobileLLM model family significantly outperforms\nequivalently-sized models. In an API calling task,\nMobileLLM -350M even achieves a comparable exact-\nmatch score as a much larger LLaMA-v2 7B model.\n\u2022We further demonstrate that our design philosophy\nscales effectively to larger models, with result"
+        },
+        {
+          "chunk_id": "SLMEval_2023_chunk_0009",
+          "source_id": "SLMEval_2023",
+          "similarity_score": 0.44305163621902466,
+          "section": "7 Conclusion 22",
+          "text_preview": "list agent (Reed et al.,\n2022; Bai et al., 2022a; Wang et al., 2023a; AutoGPT, 2023; Hong et al., 2023), collaborating with\nexternal systems, tools, and models to achieve the objectives set by humans. For example, LLMs\ncan understand multimodal instructions (OpenAI, 2023; Bai et al., 2023; Liu et al"
+        },
+        {
+          "chunk_id": "SLMEval_2023_chunk_0083",
+          "source_id": "SLMEval_2023",
+          "similarity_score": 0.4358868896961212,
+          "section": "7 Conclusion 22",
+          "text_preview": "023b) or search\nengines (Nakano et al., 2021; Liu et al., 2023b) to generate more accurate and informative answers.\nThis has led to the popularity of frameworks like LangChain (LangChain, Inc., 2023). The research on\nLLMs for tool use has also sparked interest in building agents with LLM capabilitie"
+        },
+        {
+          "chunk_id": "MobileLLM_2024_chunk_0040",
+          "source_id": "MobileLLM_2024",
+          "similarity_score": 0.42812520265579224,
+          "section": "3. Experiments",
+          "text_preview": "increase in loading and initialization time com-\npared to MobileLLM , attributable to their similar model\nsizes. Execution time also experiences a mere 2.6% over-\nhead, benefitting from data locality. In contrast, a model\nwith a doubled number of layers without weight sharing\nexhibits a substantial "
+        },
+        {
+          "chunk_id": "MobileLLM_2024_chunk_0064",
+          "source_id": "MobileLLM_2024",
+          "similarity_score": 0.4123777449131012,
+          "section": "Appendix",
+          "text_preview": "2023) as well as a recent model\nMobiLlama (Thawakar et al., 2024) released after MobileLLM .\nThe results in Table 8 demonstrate that MobileLLM consistently surpasses previous models of similar scale. Notably,\nMobileLLM -1.5B achieves an average accuracy of 59.4 points on zero-shot commonsense reason"
+        }
+      ],
+      "generation_config": {
+        "model": "gpt-3.5-turbo",
+        "temperature": 0.1,
+        "max_tokens": 1000,
+        "prompt_version": "v2.0_trust_behavior_enhanced"
+      },
+      "metrics": {
+        "groundedness": {
+          "citation_count": 1,
+          "citation_density": 0.2,
+          "has_citations": 1.0,
+          "properly_flags_missing": 0.0,
+          "num_sentences": 5
+        },
+        "answer_relevance": {
+          "term_coverage": 0.8,
+          "length_score": 0.92,
+          "directness": 1.0,
+          "word_count": 46
+        }
+      },
+      "success": true,
+      "error": null
+    },
+    {
+      "query_id": "direct_007",
+      "query": "What datasets are used to evaluate small language models in the SLMEval paper?",
+      "query_type": "direct",
+      "expected_answer_type": "list_of_datasets",
+      "answer": "The datasets used to evaluate small language models in the SLMEval paper include TinyStories. [Source: TinyLlama_2023, Chunk: TinyLlama_2023_chunk_0010]",
+      "citations": [
+        {
+          "source_id": "TinyLlama_2023",
+          "chunk_id": "TinyLlama_2023_chunk_0010"
+        }
+      ],
+      "num_retrieved_chunks": 5,
+      "retrieved_chunks": [
+        {
+          "chunk_id": "Farseer_2025_chunk_0047",
+          "source_id": "Farseer_2025",
+          "similarity_score": 0.6277515888214111,
+          "section": "7 Conclusions",
+          "text_preview": "7 Conclusions\nWe propose Farseer , a refined scaling law and methodology for Large Language Models. By\naccurately modeling the loss surface L(N, D )through a novel fitting approach, Farseer provides\nsignificantly better empirical fit and superior extrapolation capabilities compared to prior scaling\n"
+        },
+        {
+          "chunk_id": "TinyLlama_2023_chunk_0010",
+          "source_id": "TinyLlama_2023",
+          "similarity_score": 0.6249191761016846,
+          "section": "1 Introduction",
+          "text_preview": "consistent theme, while the whole dataset aims to span\nthe vocabulary and the factual knowledge base of a 3-4 year old child\nBased on this dataset, our paper makes several main contributions:\n\u2022Our main contribution is that we show TinyStories can be used to train and evaluate SLMs2that are\nmuch smal"
+        },
+        {
+          "chunk_id": "DataQuality_2024_chunk_0123",
+          "source_id": "DataQuality_2024",
+          "similarity_score": 0.618738055229187,
+          "section": "References",
+          "text_preview": "ft reddit dataset,\u201d in Proceedings of the international\nAAAI conference on web and social media , vol. 14, 2020, pp. 830\u2013839.\n[75] \u201cWikipedia.\u201d [Online]. Available: \n[76] \u201cBigquery dataset.\u201d [Online]. Available: \n[77] L.Gao,S.Biderman,S.Black,L.Golding,T.Hoppe,C.Foster,J.Phang,H.He,A.Thite,N.Nabeshi"
+        },
+        {
+          "chunk_id": "MiniCPM_2024_chunk_0009",
+          "source_id": "MiniCPM_2024",
+          "similarity_score": 0.6121137142181396,
+          "section": "2 Related Work",
+          "text_preview": "2 Related Work\nSmall Language Models. \u201cSmall Language Models\u201d (SLMs) is an evolving concept that has\nundergone significant transformations over time. Presently, SLMs are generally construed as\nmodels that are smaller in scale compared to the well-known LLMs, typically not exceeding\n7 billion paramet"
+        },
+        {
+          "chunk_id": "TinyLlama_2023_chunk_0111",
+          "source_id": "TinyLlama_2023",
+          "similarity_score": 0.6100760698318481,
+          "section": "8 Conclusion",
+          "text_preview": "le, in terms of the size of both\nmodel and dataset. By training SLMs on our dataset, we have also observed many behaviors similar to LLMs such\nas scaling laws, trade-offs between width and depth, etc. Moreover, we have shown that the trained SLMs have\nmuch higher interpretability than larger ones, a"
+        }
+      ],
+      "generation_config": {
+        "model": "gpt-3.5-turbo",
+        "temperature": 0.1,
+        "max_tokens": 1000,
+        "prompt_version": "v2.0_trust_behavior_enhanced"
+      },
+      "metrics": {
+        "groundedness": {
+          "citation_count": 1,
+          "citation_density": 0.5,
+          "has_citations": 1.0,
+          "properly_flags_missing": 0.0,
+          "num_sentences": 2
+        },
+        "answer_relevance": {
+          "term_coverage": 0.9,
+          "length_score": 0.36,
+          "directness": 1.0,
+          "word_count": 18
+        }
+      },
+      "success": true,
+      "error": null
+    },
+    {
+      "query_id": "direct_008",
+      "query": "What is the context window size of Llama 2 7B?",
+      "query_type": "direct",
+      "expected_answer_type": "numeric_value",
+      "answer": "The context window size of Llama 2 7B is 4096 tokens, which is an expansion from the previous 2048 tokens used in Llama 1. This change allows the model to process more information, particularly beneficial for supporting longer histories in chat applications, various summarization tasks, and understanding longer documents [Source: Llama2_2023, Chunk: Llama2_2023_chunk_0179].",
+      "citations": [
+        {
+          "source_id": "Llama2_2023",
+          "chunk_id": "Llama2_2023_chunk_0179"
+        }
+      ],
+      "num_retrieved_chunks": 5,
+      "retrieved_chunks": [
+        {
+          "chunk_id": "Llama2_2023_chunk_0179",
+          "source_id": "Llama2_2023",
+          "similarity_score": 0.5340997576713562,
+          "section": "References",
+          "text_preview": "ed helpful product and technical organiza-\ntion support.\n46\n\n\u2022Armand Joulin, Edouard Grave, Guillaume Lample, and Timothee Lacroix, members of the original\nLlama team who helped get this work started.\n\u2022Drew Hamlin, Chantal Mora, and Aran Mun, who gave us some design input on the figures in the\npaper"
+        },
+        {
+          "chunk_id": "Mistral_2023_chunk_0011",
+          "source_id": "Mistral_2023",
+          "similarity_score": 0.4779971241950989,
+          "section": "3 Results",
+          "text_preview": "% 62.3% 72.8% 59.4% 34.5% 11.0% 34.9% 31.1% 52.5% 5.2% 20.8%\nMistral 7B Pretrained 60.1% 81.3% 75.3% 83.0% 80.0% 55.5% 28.8% 69.9% 30.5% 47.5% 13.1% 52.2%\nTable 2: Comparison of Mistral 7B with Llama. Mistral 7B outperforms Llama 2 13B on all metrics, and\napproaches the code performance of Code-Llam"
+        },
+        {
+          "chunk_id": "MiniCPM_2024_chunk_0064",
+          "source_id": "MiniCPM_2024",
+          "similarity_score": 0.451332688331604,
+          "section": "Appendix A.1.",
+          "text_preview": "aluation results of\nLlama2-34B and Qwen1.5-7B are taken from their technical reports."
+        },
+        {
+          "chunk_id": "MiniCPM_2024_chunk_0071",
+          "source_id": "MiniCPM_2024",
+          "similarity_score": 0.4455927610397339,
+          "section": "References",
+          "text_preview": "ucing new state-of-the-art open models.\n , 2024. Accessed:\ndate-of-access.\nXiao Bi, Deli Chen, Guanting Chen, Shanhuang Chen, Damai Dai, Chengqi Deng, Honghui\nDing, Kai Dong, Qiushi Du, Zhe Fu, et al. Deepseek llm: Scaling open-source language\nmodels with longtermism. arXiv preprint arXiv:2401.02954"
+        },
+        {
+          "chunk_id": "Llama2_2023_chunk_0013",
+          "source_id": "Llama2_2023",
+          "similarity_score": 0.44143733382225037,
+          "section": "1 Introduction",
+          "text_preview": "ealso\nincreasedthesizeofthepretrainingcorpusby40%,doubledthecontextlengthofthemodel,and\nadoptedgrouped-queryattention(Ainslieetal.,2023). Wearereleasingvariantsof Llama 2 with\n7B,13B,and70Bparameters. Wehavealsotrained34Bvariants,whichwereportoninthispaper\nbut are not releasing.\u00a7\n2.Llama 2-Chat , a "
+        }
+      ],
+      "generation_config": {
+        "model": "gpt-3.5-turbo",
+        "temperature": 0.1,
+        "max_tokens": 1000,
+        "prompt_version": "v2.0_trust_behavior_enhanced"
+      },
+      "metrics": {
+        "groundedness": {
+          "citation_count": 1,
+          "citation_density": 0.5,
+          "has_citations": 1.0,
+          "properly_flags_missing": 0.0,
+          "num_sentences": 2
+        },
+        "answer_relevance": {
+          "term_coverage": 0.8571428571428571,
+          "length_score": 1.0,
+          "directness": 1.0,
+          "word_count": 53
+        }
+      },
+      "success": true,
+      "error": null
+    },
+    {
+      "query_id": "direct_009",
+      "query": "What privacy-preserving techniques are discussed in the PrivacyPEFT paper?",
+      "query_type": "direct",
+      "expected_answer_type": "technical_methods",
+      "answer": "The PrivacyPEFT paper discusses privacy-preserving techniques such as federated learning, secure aggregation, privacy accounting, and algorithmic refinements like layer-wise clipping, structured noise, and tighter accounting under structural constraints to improve the privacy-utility frontier [Source: PrivacyPEFT_2026, Chunk: PrivacyPEFT_2026_chunk_0062].",
+      "citations": [
+        {
+          "source_id": "PrivacyPEFT_2026",
+          "chunk_id": "PrivacyPEFT_2026_chunk_0062"
+        }
+      ],
+      "num_retrieved_chunks": 5,
+      "retrieved_chunks": [
+        {
+          "chunk_id": "PrivacyPEFT_2026_chunk_0062",
+          "source_id": "PrivacyPEFT_2026",
+          "similarity_score": 0.6294353008270264,
+          "section": "6 Discussion",
+          "text_preview": "cy techniques (e.g., federated learning or\nsecure aggregation) to study end-to-end privacy in distributed set-\ntings; and (5) developing privacy accounting and algorithmic refine-\nments that leverage TT structure\u2014e.g., layer-wise clipping, struc-\ntured noise, or tighter accounting under structural c"
+        },
+        {
+          "chunk_id": "PrivacyPEFT_2026_chunk_0067",
+          "source_id": "PrivacyPEFT_2026",
+          "similarity_score": 0.6210622191429138,
+          "section": "References",
+          "text_preview": "s.arXiv preprint\narXiv:2405.09673(2024).\n[5]Hannah Brown, Katherine Lee, Fatemehsadat Mireshghallah, Reza Shokri, and\nFlorian Tram\u00e8r. 2022. What does it mean for a language model to preserve\nprivacy?. InProceedings of the 2022 ACM conference on fairness, accountability,\nand transparency. 2280\u20132292.\n"
+        },
+        {
+          "chunk_id": "PrivacyPEFT_2026_chunk_0064",
+          "source_id": "PrivacyPEFT_2026",
+          "similarity_score": 0.555634617805481,
+          "section": "7 Conclusion",
+          "text_preview": "across privacy\nbudgets and ranks, whereas LoRA becomes increasingly vulnerable\nas the privacy budget relaxes. These privacy gains are not driven\nby degraded utility in the attack-evaluation pipeline.\nOverall, our results suggest that TT decomposition is not only a\ncompression mechanism but also a pr"
+        },
+        {
+          "chunk_id": "PrivacyPEFT_2026_chunk_0006",
+          "source_id": "PrivacyPEFT_2026",
+          "similarity_score": 0.5519142150878906,
+          "section": "1 Introduction",
+          "text_preview": "an ultra-low-parameter regime that maintains expressivity\nand competitive task performance [15].\nBeyond parameter efficiency, how PEFT architectures shape\nmodel privacy leakage remains underexplored. Fine-tuning on\nsensitive datasets raises risks of Membership Inference Attacks\n(MIA) [ 20,30,37]. Wh"
+        },
+        {
+          "chunk_id": "PrivacyPEFT_2026_chunk_0002",
+          "source_id": "PrivacyPEFT_2026",
+          "similarity_score": 0.5506814122200012,
+          "section": "Abstract",
+          "text_preview": "contraction states, enabling efficient\nDifferentially Private Stochastic Gradient Descent (DP-SGD) with\nexact per-example gradient norm computation without materializ-\ning full per-example gradients. Experiments on GPT-2 fine-tuning\nover the Enron and Penn Treebank datasets show that TTLoRA-DP\nconsi"
+        }
+      ],
+      "generation_config": {
+        "model": "gpt-3.5-turbo",
+        "temperature": 0.1,
+        "max_tokens": 1000,
+        "prompt_version": "v2.0_trust_behavior_enhanced"
+      },
+      "metrics": {
+        "groundedness": {
+          "citation_count": 1,
+          "citation_density": 1.0,
+          "has_citations": 1.0,
+          "properly_flags_missing": 0.0,
+          "num_sentences": 1
+        },
+        "answer_relevance": {
+          "term_coverage": 0.5,
+          "length_score": 0.74,
+          "directness": 1.0,
+          "word_count": 37
+        }
+      },
+      "success": true,
+      "error": null
+    },
+    {
+      "query_id": "direct_010",
+      "query": "What is the main finding about data quality in the DataQuality paper?",
+      "query_type": "direct",
+      "expected_answer_type": "key_finding",
+      "answer": "The provided excerpts do not contain sufficient information to answer this question.",
+      "citations": [],
+      "num_retrieved_chunks": 0,
+      "retrieved_chunks": [],
+      "generation_config": {
+        "model": "gpt-3.5-turbo",
+        "temperature": 0.1,
+        "max_tokens": 1000,
+        "prompt_version": "v2.0_trust_behavior_enhanced"
+      },
+      "metrics": {
+        "groundedness": {
+          "citation_count": 0,
+          "citation_density": 0.0,
+          "has_citations": 0.0,
+          "properly_flags_missing": 0.0,
+          "num_sentences": 1
+        },
+        "answer_relevance": {
+          "term_coverage": 0.0,
+          "length_score": 0.24,
+          "directness": 1.0,
+          "word_count": 12
+        }
+      },
+      "success": true,
+      "error": null
+    },
+    {
+      "query_id": "synthesis_001",
+      "query": "Compare Phi-3 and Gemma 2B on benchmark performance. Where do they agree and disagree?",
+      "query_type": "synthesis",
+      "expected_answer_type": "comparative_analysis",
+      "answer": "The provided excerpts do not contain sufficient information to compare Phi-3 and Gemma 2B on benchmark performance and determine where they agree and disagree.",
+      "citations": [],
+      "num_retrieved_chunks": 5,
+      "retrieved_chunks": [
+        {
+          "chunk_id": "Gemma2_2024_chunk_0026",
+          "source_id": "Gemma2_2024",
+          "similarity_score": 0.6409761905670166,
+          "section": "6. Evaluation",
+          "text_preview": "atisfaction and conver-\nsation goal achievement (Table 16). Moreover,\nwe saw that the Gemma 2 models were better\nthan Gemma 1.1 7B at maintaining high quality\nof responses for the entire conversation.\nStandard Benchmarks\n\nthat instruction fine-tuning can improve the per-\nformance of the models on fe"
+        },
+        {
+          "chunk_id": "Gemma_2024_chunk_0019",
+          "source_id": "Gemma_2024",
+          "similarity_score": 0.6384667754173279,
+          "section": "unknown",
+          "text_preview": "hreshold, there is signifi-\ncantroomforcontinuedimprovementstoachieve\nGemini and human-level performance.\nGemma models demonstrate particularly\nstrong performance on mathematics and coding\nbenchmarks. On mathematics tasks, which\nare often used to benchmark the general ana-\nlytical capabilities of mo"
+        },
+        {
+          "chunk_id": "Gemma_2024_chunk_0055",
+          "source_id": "Gemma_2024",
+          "similarity_score": 0.6256446242332458,
+          "section": "unknown",
+          "text_preview": "Campbell, P. Guo,\nR. Ren, A. Pan, X. Yin, M. Mazeika, A.-K. Dom-\nbrowski, S. Goel, N. Li, M. J. Byun, Z. Wang,\nA. Mallen, S. Basart, S. Koyejo, D. Song,\nM. Fredrikson, J. Z. Kolter, and D. Hendrycks.\nRepresentation engineering: A top-down ap-\nproach to ai transparency, 2023.\n16\n\nGemma: Open Models B"
+        },
+        {
+          "chunk_id": "Gemma_2024_chunk_0018",
+          "source_id": "Gemma_2024",
+          "similarity_score": 0.6142970323562622,
+          "section": "unknown",
+          "text_preview": "closely as possible. These specific benchmarks\nare: ARC (Clark et al., 2018), CommonsenseQA\n(Talmor et al., 2019), Big Bench Hard (Suzgun\net al., 2022), and AGI Eval (English-only) (Zhong\netal.,2023). Duetorestrictivelicensing, wewere\nunable to run any evaluations on LLaMA-2 and\ncite only those metr"
+        },
+        {
+          "chunk_id": "Gemma_2024_chunk_0004",
+          "source_id": "Gemma_2024",
+          "similarity_score": 0.6077002286911011,
+          "section": "unknown",
+          "text_preview": "urrent techniques, and for enabling\nthe development of the next wave of innovations.\nWhile thorough testing of all Gemma models has\n1See Contributions and Acknowledgments section for full author list. Please send correspondence to  .\n\u00a92024 Google DeepMind. All rights reservedarXiv:2403.08295v4 [cs.C"
+        }
+      ],
+      "generation_config": {
+        "model": "gpt-3.5-turbo",
+        "temperature": 0.1,
+        "max_tokens": 1000,
+        "prompt_version": "v2.0_trust_behavior_enhanced"
+      },
+      "metrics": {
+        "groundedness": {
+          "citation_count": 0,
+          "citation_density": 0.0,
+          "has_citations": 0.0,
+          "properly_flags_missing": 0.0,
+          "num_sentences": 1
+        },
+        "answer_relevance": {
+          "term_coverage": 0.8181818181818182,
+          "length_score": 0.48,
+          "directness": 1.0,
+          "word_count": 24
+        }
+      },
+      "success": true,
+      "error": null
+    },
+    {
+      "query_id": "synthesis_002",
+      "query": "What are the different approaches to model compression discussed across the corpus?",
+      "query_type": "synthesis",
+      "expected_answer_type": "comparative_methods",
+      "answer": "The different approaches to model compression discussed across the corpus include the following:\n1. Length-MAX selects tokens directly based on their value in representing the corpus to avoid creating potentially wasteful intermediate tokens, contributing to superior compression performance compared to frequency-based baselines like BPE, SentencePiece, and WordPiece [Source: LengthMAX_2025, Chunk: LengthMAX_2025_chunk_0062].\n2. BPE builds tokens incrementally through merge operations, creating intermediate tokens that may become redundant, while Length-MAX selects tokens directly based on their value in representing the corpus, leading to better compression performance [Source: LengthMAX_2025, Chunk: LengthMAX_2025_chunk_0062].\n\nThe provided excerpts do not contain sufficient information to provide a comprehensive list of all approaches to model compression discussed across the corpus.",
+      "citations": [
+        {
+          "source_id": "LengthMAX_2025",
+          "chunk_id": "LengthMAX_2025_chunk_0062"
+        },
+        {
+          "source_id": "LengthMAX_2025",
+          "chunk_id": "LengthMAX_2025_chunk_0062"
+        }
+      ],
+      "num_retrieved_chunks": 5,
+      "retrieved_chunks": [
+        {
+          "chunk_id": "LengthMAX_2025_chunk_0023",
+          "source_id": "LengthMAX_2025",
+          "similarity_score": 0.5772588849067688,
+          "section": "4 Experimental Evaluation",
+          "text_preview": "orresponds to better compression and shorter effective sequences for the same text.\n4.1 Tokenization Efficiency\nWe begin by measuring intrinsic compression metrics across vocabulary sizes and domains. The\nresults show that the length-weighted objective reduces TPC relative to frequency-only baseline"
+        },
+        {
+          "chunk_id": "LengthMAX_2025_chunk_0062",
+          "source_id": "LengthMAX_2025",
+          "similarity_score": 0.5626370310783386,
+          "section": "References",
+          "text_preview": "difference lies in the algorithms\u2019 fundamental approaches: BPE builds\ntokens incrementally through merge operations, creating intermediate tokens that may become\nredundantaslargermergedunitsareformed. Incontrast, Length-MAXselectstokensdirectlybased\non their value in representing the corpus, avoidin"
+        },
+        {
+          "chunk_id": "SLMEval_2023_chunk_0018",
+          "source_id": "SLMEval_2023",
+          "similarity_score": 0.5583646297454834,
+          "section": "7 Conclusion 22",
+          "text_preview": "tr id pl ru nl pt it de es fr en code\nLanguages0.00.51.01.52.02.53.03.5Compression RatioModel\nLLaMA-7B\nBaichuan-7B\nChatGLM2-6B\nInternLM-7B\nQwenFigure 3: Encoding compression rates of different models. We randomly selected 1million\ndocument corpora of each language to test and compare the encoding co"
+        },
+        {
+          "chunk_id": "LengthMAX_2025_chunk_0024",
+          "source_id": "LengthMAX_2025",
+          "similarity_score": 0.5548505187034607,
+          "section": "4 Experimental Evaluation",
+          "text_preview": "BPE\nSentencePiece\nWordPiece\nFigure 4: TPC across tokenizers and vocabulary sizes on the FineWeb10B training corpus. Length-\nMAX consistently achieves better compression than frequency-based baselines.\nCross-domain compression.Table 1 complements the above analysis by reporting the average\nnumber of "
+        },
+        {
+          "chunk_id": "GPTQ_2022_chunk_0041",
+          "source_id": "GPTQ_2022",
+          "similarity_score": 0.535297691822052,
+          "section": "ABSTRACT",
+          "text_preview": "PT-175B, a less than 1 point drop. While this leads to worse compression on\naverage relative to the 2-bit numbers above, this pattern could be efficiently implemented on custom\nhardware such as FPGAs. In summary, these results are an encouraging first step towards pushing\nhighly-accurate one-shot co"
+        }
+      ],
+      "generation_config": {
+        "model": "gpt-3.5-turbo",
+        "temperature": 0.1,
+        "max_tokens": 1000,
+        "prompt_version": "v2.0_trust_behavior_enhanced"
+      },
+      "metrics": {
+        "groundedness": {
+          "citation_count": 2,
+          "citation_density": 0.4,
+          "has_citations": 1.0,
+          "properly_flags_missing": 0.0,
+          "num_sentences": 5
+        },
+        "answer_relevance": {
+          "term_coverage": 0.875,
+          "length_score": 1.0,
+          "directness": 1.0,
+          "word_count": 111
+        }
+      },
+      "success": true,
+      "error": null
+    },
+    {
+      "query_id": "synthesis_003",
+      "query": "How do different papers in the corpus define 'small language model'? Is there consensus?",
+      "query_type": "synthesis",
+      "expected_answer_type": "definition_comparison",
+      "answer": "The provided excerpts do not contain sufficient information to answer this question.",
+      "citations": [],
+      "num_retrieved_chunks": 5,
+      "retrieved_chunks": [
+        {
+          "chunk_id": "TinyLlama_2023_chunk_0000",
+          "source_id": "TinyLlama_2023",
+          "similarity_score": 0.6696742177009583,
+          "section": "Header/Title",
+          "text_preview": "TinyStories : How Small Can Language Models Be and Still Speak\nCoherent English?\nRonen Eldan\u2217and Yuanzhi Li\u2020\nMicrosoft Research\nApril 2023"
+        },
+        {
+          "chunk_id": "SLMasJudge_2026_chunk_0039",
+          "source_id": "SLMasJudge_2026",
+          "similarity_score": 0.6006842255592346,
+          "section": "7 CONCLUSION",
+          "text_preview": "MODELS(LLMS)\nWe used large language models (LLMs) only for minor text polishing, such as grammar and phras-\ning. All ideas, experiments, analyses, and discussions were conducted solely by the authors. The\nLLM did not contribute to the design and interpretation of our research."
+        },
+        {
+          "chunk_id": "TinyLlama_2023_chunk_0006",
+          "source_id": "TinyLlama_2023",
+          "similarity_score": 0.5931025743484497,
+          "section": "1 Introduction",
+          "text_preview": "1]. These abilities suggest that language models are not only learning the surface patterns of language,\nbut also acquiring some degree of semantic and logical understanding of the world and the text. However, it is not\nclear at what scale these abilities emerge, and how they depend on the model arc"
+        },
+        {
+          "chunk_id": "Phi3_2024_chunk_0048",
+          "source_id": "Phi3_2024",
+          "similarity_score": 0.5851170420646667,
+          "section": "References",
+          "text_preview": "ute-optimal large language models. arXiv preprint\narXiv:2203.15556 , 2022.\n[HSK+24] Cheng-Ping Hsieh, Simeng Sun, Samuel Kriman, Shantanu Acharya, Dima Rekesh, Fei Jia,\nYang Zhang, and Boris Ginsburg. Ruler: What\u2019s the real context size of your long-context\nlanguage models?, 2024.\n[JBA+23] Mojan Jav"
+        },
+        {
+          "chunk_id": "Farseer_2025_chunk_0103",
+          "source_id": "Farseer_2025",
+          "similarity_score": 0.5674145221710205,
+          "section": "Appendix",
+          "text_preview": "A persistent question in the formulation and analysis of scaling laws for language models revolves\naround the inclusion of embedding layer parameters when defining the total model size, denoted as\nN. This is not a trivial accounting detail, as the embedding layer can constitute a significant fractio"
+        }
+      ],
+      "generation_config": {
+        "model": "gpt-3.5-turbo",
+        "temperature": 0.1,
+        "max_tokens": 1000,
+        "prompt_version": "v2.0_trust_behavior_enhanced"
+      },
+      "metrics": {
+        "groundedness": {
+          "citation_count": 0,
+          "citation_density": 0.0,
+          "has_citations": 0.0,
+          "properly_flags_missing": 0.0,
+          "num_sentences": 1
+        },
+        "answer_relevance": {
+          "term_coverage": 0.0,
+          "length_score": 0.24,
+          "directness": 1.0,
+          "word_count": 12
+        }
+      },
+      "success": true,
+      "error": null
+    },
+    {
+      "query_id": "synthesis_004",
+      "query": "What training strategies are recommended for small models with limited compute budgets?",
+      "query_type": "synthesis",
+      "expected_answer_type": "recommended_practices",
+      "answer": "The provided excerpts do not contain sufficient information to answer this question.",
+      "citations": [],
+      "num_retrieved_chunks": 5,
+      "retrieved_chunks": [
+        {
+          "chunk_id": "Gemma2_2024_chunk_0002",
+          "source_id": "Gemma2_2024",
+          "similarity_score": 0.5819305777549744,
+          "section": "1. Introduction",
+          "text_preview": "e latest small models require up to\n15T tokens to improve the state of the art by less\nthan 1-2%  2024).\nYet, these continued improvements provide ev-\nidence that small models are still under-trained.\nIn this work, we explore alternatives to improve\nsmall model performance without solely increas-\nin"
+        },
+        {
+          "chunk_id": "Farseer_2025_chunk_0042",
+          "source_id": "Farseer_2025",
+          "similarity_score": 0.5461474061012268,
+          "section": "3 Methodology",
+          "text_preview": "ted in the\noptimal D/N ratio. we compare the practical guidance offered by Farseer and Chinchilla on optimal\ncompute allocation during training, where the total budget is taken as C= 6ND [22,20]. Fig. 1\n(b) presents the optimal D/N ratio predicted by both Farseer and Chinchilla as a instrument of th"
+        },
+        {
+          "chunk_id": "MiniCPM_2024_chunk_0000",
+          "source_id": "MiniCPM_2024",
+          "similarity_score": 0.5351722836494446,
+          "section": "Header/Title",
+          "text_preview": "MiniCPM: Unveiling the Potential of Small Language Models\nwith Scalable Training Strategies\nShengding Hu1, Yuge T u2, Xu Han1\u2217, Chaoqun He1, Ganqu Cui1, Xiang Long2,\nZhi Zheng2, Yewei Fang2, Yuxiang Huang1, Weilin Zhao1, Xinrong Zhang1,\nZheng Leng Thai1,Kaihuo Zhang2, Chongyi Wang2, Yuan Yao1,\nCheny"
+        },
+        {
+          "chunk_id": "MiniCPM_2024_chunk_0015",
+          "source_id": "MiniCPM_2024",
+          "similarity_score": 0.5257422924041748,
+          "section": "Appendix A.1.",
+          "text_preview": "Appendix A.1.\n3.2 Optimal Batch Size\nBatch size determines the balance between the convergence speed of the model and the\nconsumption of computational resources. If the batch size is too large, it will result in a\nsignificant amount of data and computation costs. On the other hand, if the batch size"
+        },
+        {
+          "chunk_id": "TinyLlama_2023_chunk_0103",
+          "source_id": "TinyLlama_2023",
+          "similarity_score": 0.5198293924331665,
+          "section": "1 Introduction",
+          "text_preview": "to balance model size and learning budget\nfor a fixed amount of training flops, and how to choose the number of attention heads for a given model width and\ndepth.\nModel size versus the training FLOPs. For a fixed amount of training flops, there is a trade-off between the\nsize of the model and the nu"
+        }
+      ],
+      "generation_config": {
+        "model": "gpt-3.5-turbo",
+        "temperature": 0.1,
+        "max_tokens": 1000,
+        "prompt_version": "v2.0_trust_behavior_enhanced"
+      },
+      "metrics": {
+        "groundedness": {
+          "citation_count": 0,
+          "citation_density": 0.0,
+          "has_citations": 0.0,
+          "properly_flags_missing": 0.0,
+          "num_sentences": 1
+        },
+        "answer_relevance": {
+          "term_coverage": 0.0,
+          "length_score": 0.24,
+          "directness": 1.0,
+          "word_count": 12
+        }
+      },
+      "success": true,
+      "error": null
+    },
+    {
+      "query_id": "synthesis_005",
+      "query": "Which papers discuss speculative decoding and what are their different approaches?",
+      "query_type": "synthesis",
+      "expected_answer_type": "technical_comparison",
+      "answer": "The papers that discuss speculative decoding and their different approaches are:\n1. \"Speculative decoding (Leviathan et al., 2023)\" which uses a smaller and faster draft model to generate candidate tokens verified in parallel by the original large target model to ensure correctness, improving inference throughput while preserving accuracy ([Source: AdaptiveSpec_2025, Chunk: AdaptiveSpec_2025_chunk_0004]).\n2. \"Draft & Verify (Zhang et al., 2024)\" achieves self-speculative decoding by selectively skipping intermediate layers during drafting, providing up to 2\u00d7 speedup without additional training ([Source: LLMShepherding_2026, Chunk: LLMShepherding_2026_chunk_0068]).\n3. \"Online Speculative Decoding (Liu et al., 2024)\" continuously adapts the draft model during inference to improve token acceptance rates ([Source: LLMShepherding_2026, Chunk: LLMShepherding_2026_chunk_0068]).",
+      "citations": [
+        {
+          "source_id": "AdaptiveSpec_2025",
+          "chunk_id": "AdaptiveSpec_2025_chunk_0004"
+        },
+        {
+          "source_id": "LLMShepherding_2026",
+          "chunk_id": "LLMShepherding_2026_chunk_0068"
+        },
+        {
+          "source_id": "LLMShepherding_2026",
+          "chunk_id": "LLMShepherding_2026_chunk_0068"
+        }
+      ],
+      "num_retrieved_chunks": 5,
+      "retrieved_chunks": [
+        {
+          "chunk_id": "AdaptiveSpec_2025_chunk_0000",
+          "source_id": "AdaptiveSpec_2025",
+          "similarity_score": 0.6421847939491272,
+          "section": "Header/Title",
+          "text_preview": "AdaSD: Adaptive Speculative Decoding for Efficient Language Model\nInference\nKuan-Wei Lu1, Ding-Yong Hong1, Pangfeng Liu2\n1Institute of Information Science, Academia Sinica\n2Department of Computer Science and Information Engineering, National Taiwan University"
+        },
+        {
+          "chunk_id": "AdaptiveSpec_2025_chunk_0004",
+          "source_id": "AdaptiveSpec_2025",
+          "similarity_score": 0.6120486259460449,
+          "section": "1 Introduction",
+          "text_preview": "ce becomes\nmemory-bound, as every forward pass requires\nloading the entire set of model weights from mem-\nory, which significantly slows down computation\nand poses challenges for practical deployment.\nSpeculative decoding (Leviathan et al., 2023) is\na technique to alleviate the memory-bound bottle-\n"
+        },
+        {
+          "chunk_id": "LLMShepherding_2026_chunk_0068",
+          "source_id": "LLMShepherding_2026",
+          "similarity_score": 0.558414101600647,
+          "section": "References",
+          "text_preview": "celerating LLM\ninference without sacrificing output quality. The approach uses a smallerdraft modelto generate candidate token sequences,\nwhich are then verified in parallel by the largertarget model. Tokens that match the target model\u2019s distribution are accepted,\namortizing the cost of large-model "
+        },
+        {
+          "chunk_id": "DistillSLM_2023_chunk_0038",
+          "source_id": "DistillSLM_2023",
+          "similarity_score": 0.5405900478363037,
+          "section": "appendix sections as follows: performance of our",
+          "text_preview": "eus sam-\npling (Holtzman et al., 2020) method can result\nin more diverse activation, and hence less favor-\nable towards our method. We found out this is not\nthe case either for long token generations. Nucleus\nsampling doesn\u2019t lead to lower performance in long\ngeneration in neither cpu or gpu.\n5.2 Sp"
+        },
+        {
+          "chunk_id": "AdaptiveSpec_2025_chunk_0009",
+          "source_id": "AdaptiveSpec_2025",
+          "similarity_score": 0.5401061773300171,
+          "section": "2 Background",
+          "text_preview": "tes generation.\n2.1.2 Speculative Decoding\nSpeculative decoding is designed to address the\nhigh inference time of auto-regressive generation\nin the large language model, denoted as thetarget\nmodel Mp. To mitigate this, a smaller and faster\nmodel Mq, referred to as thedraft model, is in-\ntroduced to "
+        }
+      ],
+      "generation_config": {
+        "model": "gpt-3.5-turbo",
+        "temperature": 0.1,
+        "max_tokens": 1000,
+        "prompt_version": "v2.0_trust_behavior_enhanced"
+      },
+      "metrics": {
+        "groundedness": {
+          "citation_count": 3,
+          "citation_density": 0.3333333333333333,
+          "has_citations": 1.0,
+          "properly_flags_missing": 0.0,
+          "num_sentences": 9
+        },
+        "answer_relevance": {
+          "term_coverage": 0.8888888888888888,
+          "length_score": 1.0,
+          "directness": 1.0,
+          "word_count": 106
+        }
+      },
+      "success": true,
+      "error": null
+    },
+    {
+      "query_id": "synthesis_006",
+      "query": "What are the trade-offs between model size and performance discussed in the corpus?",
+      "query_type": "synthesis",
+      "expected_answer_type": "trade_off_analysis",
+      "answer": "The trade-offs between model size and performance discussed in the corpus include the disproportionate consumption of the parameter budget by the vocabulary embedding matrix in Small Language Models (SLMs), especially for models with large vocabularies. For example, in a small model with a hidden dimension of 1024, the embedding matrix alone demands a significant number of parameters, which can limit the model's capacity for reasoning through Transformer depth [Source: SeparableArch_2026, Chunk: SeparableArch_2026_chunk_0006]. Additionally, there is an ambiguity regarding the effective contribution of embedding parameters to model capacity as characterized by scaling laws, leading to different perspectives on whether to include embedding layer parameters when defining the total model size [Source: Farseer_2025, Chunk: Farseer_2025_chunk_0103].",
+      "citations": [
+        {
+          "source_id": "SeparableArch_2026",
+          "chunk_id": "SeparableArch_2026_chunk_0006"
+        },
+        {
+          "source_id": "Farseer_2025",
+          "chunk_id": "Farseer_2025_chunk_0103"
+        }
+      ],
+      "num_retrieved_chunks": 5,
+      "retrieved_chunks": [
+        {
+          "chunk_id": "SeparableArch_2026_chunk_0006",
+          "source_id": "SeparableArch_2026",
+          "similarity_score": 0.6156343221664429,
+          "section": "2. Background",
+          "text_preview": "2. Background\nParametric Efficiency of ScalingThe foundations of\nmodern neural scaling laws (Kaplan et al., 2020; Hoffmann\net al., 2022) rest on the assumption of parametric inter-\nchangeability: that a parameter added to depth is a param-\neter added to width at efficient frontiers,ceteris paribus.\n"
+        },
+        {
+          "chunk_id": "Farseer_2025_chunk_0103",
+          "source_id": "Farseer_2025",
+          "similarity_score": 0.6137896776199341,
+          "section": "Appendix",
+          "text_preview": "A persistent question in the formulation and analysis of scaling laws for language models revolves\naround the inclusion of embedding layer parameters when defining the total model size, denoted as\nN. This is not a trivial accounting detail, as the embedding layer can constitute a significant fractio"
+        },
+        {
+          "chunk_id": "Qwen25_2024_chunk_0011",
+          "source_id": "Qwen25_2024",
+          "similarity_score": 0.5859264135360718,
+          "section": "1 Introduction",
+          "text_preview": "aspects. With exceptions like the 1.5B model having a\nlarger intermediate size and the 3B model having more layers, most parameters generally\n3\n\nTechnical Report\nincrease as the model size scales up. Comparing the 7B and 32B models for instance: the 7B\nmodel features a hidden size of 3,584, whereas "
+        },
+        {
+          "chunk_id": "Phi3_2024_chunk_0048",
+          "source_id": "Phi3_2024",
+          "similarity_score": 0.5854719281196594,
+          "section": "References",
+          "text_preview": "ute-optimal large language models. arXiv preprint\narXiv:2203.15556 , 2022.\n[HSK+24] Cheng-Ping Hsieh, Simeng Sun, Samuel Kriman, Shantanu Acharya, Dima Rekesh, Fei Jia,\nYang Zhang, and Boris Ginsburg. Ruler: What\u2019s the real context size of your long-context\nlanguage models?, 2024.\n[JBA+23] Mojan Jav"
+        },
+        {
+          "chunk_id": "DataQuality_2024_chunk_0005",
+          "source_id": "DataQuality_2024",
+          "similarity_score": 0.5848821401596069,
+          "section": "1. Introduction",
+          "text_preview": "he model\u2019s scale or training data size can significantly enhance its performance. Many studies have\npushed the boundaries of model performance by continuously expanding the scale of PLM [7; 8; 9; 10]. As models\ngrow larger, a remarkable phenomenon known as \"emergence\" occurs, wherein they exhibit as"
+        }
+      ],
+      "generation_config": {
+        "model": "gpt-3.5-turbo",
+        "temperature": 0.1,
+        "max_tokens": 1000,
+        "prompt_version": "v2.0_trust_behavior_enhanced"
+      },
+      "metrics": {
+        "groundedness": {
+          "citation_count": 2,
+          "citation_density": 0.6666666666666666,
+          "has_citations": 1.0,
+          "properly_flags_missing": 0.0,
+          "num_sentences": 3
+        },
+        "answer_relevance": {
+          "term_coverage": 0.8888888888888888,
+          "length_score": 1.0,
+          "directness": 1.0,
+          "word_count": 113
+        }
+      },
+      "success": true,
+      "error": null
+    },
+    {
+      "query_id": "synthesis_007",
+      "query": "How do papers in 2024 differ from papers in 2026 in their approach to small language models?",
+      "query_type": "synthesis",
+      "expected_answer_type": "temporal_comparison",
+      "answer": "The provided excerpts do not contain sufficient information to answer this question.",
+      "citations": [],
+      "num_retrieved_chunks": 5,
+      "retrieved_chunks": [
+        {
+          "chunk_id": "Llama2_2023_chunk_0130",
+          "source_id": "Llama2_2023",
+          "similarity_score": 0.6041957139968872,
+          "section": "6 Related Work",
+          "text_preview": "6 Related Work\nLarge Language Models. The recent years have witnessed a substantial evolution in the field of LLMs.\nFollowing the scaling laws of Kaplan et al. (2020), several Large Language Models with more than 100B\nparameters have been proposed, from GPT-3 (Brown et al., 2020) to Gopher (Rae et a"
+        },
+        {
+          "chunk_id": "TinyLlama_2023_chunk_0000",
+          "source_id": "TinyLlama_2023",
+          "similarity_score": 0.5896621942520142,
+          "section": "Header/Title",
+          "text_preview": "TinyStories : How Small Can Language Models Be and Still Speak\nCoherent English?\nRonen Eldan\u2217and Yuanzhi Li\u2020\nMicrosoft Research\nApril 2023"
+        },
+        {
+          "chunk_id": "SLMEval_2023_chunk_0088",
+          "source_id": "SLMEval_2023",
+          "similarity_score": 0.574711799621582,
+          "section": "7 Conclusion 22",
+          "text_preview": "cess of QWEN will foster collaboration and innovation within the\ncommunity, enabling researchers and developers to build upon our work and push the boundaries of\nwhat is possible with language models. By providing these models to the public, we hope to inspire\nnew research and applications that will"
+        },
+        {
+          "chunk_id": "Farseer_2025_chunk_0000",
+          "source_id": "Farseer_2025",
+          "similarity_score": 0.5611172914505005,
+          "section": "Header/Title",
+          "text_preview": "Predictable Scale: Part II, Farseer \u2013 A Refined Scaling\nLaw in Large Language Models\nHouyi Li\u2217\nStepFun, Fudan UniversityWenzhen Zheng\u2217\nStepFunQiufeng Wang\nStepFun\nZhenyu Ding\nXi\u2019an Jiaotong UniversityHaoying Wang\nXi\u2019an Jiaotong UniversityZili Wang\nStepFun\nShijie Xuyang\nStepFun, Fudan UniversityNing "
+        },
+        {
+          "chunk_id": "MiniCPM_2024_chunk_0004",
+          "source_id": "MiniCPM_2024",
+          "similarity_score": 0.5607605576515198,
+          "section": "1 Introduction",
+          "text_preview": "rporations. On the other hand, the deployment of these colossal models in everyday\nscenarios, such as on personal computers or smartphones, is either inefficient or unfeasible.\n\u2217Corresponding Authors.\n1\n1arXiv:2404.06395v3 [cs.CL] 3 Jun 2024\n\nBoth aspects underscore the imperative to refocus efforts"
+        }
+      ],
+      "generation_config": {
+        "model": "gpt-3.5-turbo",
+        "temperature": 0.1,
+        "max_tokens": 1000,
+        "prompt_version": "v2.0_trust_behavior_enhanced"
+      },
+      "metrics": {
+        "groundedness": {
+          "citation_count": 0,
+          "citation_density": 0.0,
+          "has_citations": 0.0,
+          "properly_flags_missing": 0.0,
+          "num_sentences": 1
+        },
+        "answer_relevance": {
+          "term_coverage": 0.08333333333333333,
+          "length_score": 0.24,
+          "directness": 1.0,
+          "word_count": 12
+        }
+      },
+      "success": true,
+      "error": null
+    },
+    {
+      "query_id": "synthesis_008",
+      "query": "What evaluation benchmarks are most commonly used across the corpus, and are any criticized?",
+      "query_type": "synthesis",
+      "expected_answer_type": "benchmark_analysis",
+      "answer": "The evaluation benchmarks most commonly used across the corpus include GLUE downstream accuracy for GPT-2 models with different tokenizers, benchmarks related to commonsense reasoning, world knowledge, reading comprehension, and math benchmarks like GSM8K and MATH. Safety benchmarks are also mentioned in the excerpts. However, there is no specific mention of any benchmarks being criticized in the provided excerpts. [Source: LengthMAX_2025, Chunk: LengthMAX_2025_chunk_0033] [Source: Llama2_2023, Chunk: Llama2_2023_chunk_0022]",
+      "citations": [
+        {
+          "source_id": "LengthMAX_2025",
+          "chunk_id": "LengthMAX_2025_chunk_0033"
+        },
+        {
+          "source_id": "Llama2_2023",
+          "chunk_id": "Llama2_2023_chunk_0022"
+        }
+      ],
+      "num_retrieved_chunks": 5,
+      "retrieved_chunks": [
+        {
+          "chunk_id": "LengthMAX_2025_chunk_0033",
+          "source_id": "LengthMAX_2025",
+          "similarity_score": 0.5344345569610596,
+          "section": "4 Experimental Evaluation",
+          "text_preview": "ended spans. Across all seven benchmarks, the macro\naverage improved by 2.9 points (59.9\u00b10.4 vs. 57.0\u00b10.4). Appendix Figure 9 and its accompanying\ntable provide detailed breakdowns for each benchmark.\nTable 5: GLUE downstream accuracy for GPT-2 models with different tokenisers (percentage\nimprovemen"
+        },
+        {
+          "chunk_id": "Llama2_2023_chunk_0022",
+          "source_id": "Llama2_2023",
+          "similarity_score": 0.5317002534866333,
+          "section": "1 Introduction",
+          "text_preview": "ted results.\nInTable3,wesummarizetheoverallperformanceacrossasuiteofpopularbenchmarks. Notethatsafety\nbenchmarks are shared in Section 4.1. The benchmarks are grouped into the categories listed below. The\nresults for all the individual benchmarks are available in Section A.2.2.\n\nMBPP (Austin et al.,"
+        },
+        {
+          "chunk_id": "DataQuality_2024_chunk_0134",
+          "source_id": "DataQuality_2024",
+          "similarity_score": 0.5222904682159424,
+          "section": "References",
+          "text_preview": "020.\n[126] H. Li, Y. Zhang, F. Koto, Y. Yang, H. Zhao, Y. Gong, N. Duan, and T. Baldwin, \u201cCmmlu: Measuring massive multitask language\nunderstanding in chinese,\u201d arXiv preprint arXiv:2306.09212 , 2023.\n[127] J. Hu, S. Ruder, A. Siddhant, G. Neubig, O. Firat, and M. Johnson, \u201cXtreme: A massively multi"
+        },
+        {
+          "chunk_id": "ModelSize_2025_chunk_0009",
+          "source_id": "ModelSize_2025",
+          "similarity_score": 0.5199265480041504,
+          "section": "1 Introduction",
+          "text_preview": ". LLMs accessed via commercial APIs.\nRuns Each model evaluated on all datasets, with three executions per task. Majority\nvoting (2/3) is used for the final label. Metrics computed via macro-averaging.\nStatistical test Scheirer-Ray-Hare test, a non-parametric equivalent of two-way ANOVA.\n3 Preliminar"
+        },
+        {
+          "chunk_id": "SLMasJudge_2026_chunk_0006",
+          "source_id": "SLMasJudge_2026",
+          "similarity_score": 0.5048145055770874,
+          "section": "1 INTRODUCTION",
+          "text_preview": "we advance an alternative perspective on evaluation:Representation-\nas-a-Judge. Rather than relying on prompted text generation, evaluative signals can be extracted\ndirectly from the latent structure. This addresses key bottlenecks of prompt-based evaluation and\nopens the door to lightweight, interp"
+        }
+      ],
+      "generation_config": {
+        "model": "gpt-3.5-turbo",
+        "temperature": 0.1,
+        "max_tokens": 1000,
+        "prompt_version": "v2.0_trust_behavior_enhanced"
+      },
+      "metrics": {
+        "groundedness": {
+          "citation_count": 2,
+          "citation_density": 0.5,
+          "has_citations": 1.0,
+          "properly_flags_missing": 0.0,
+          "num_sentences": 4
+        },
+        "answer_relevance": {
+          "term_coverage": 0.8,
+          "length_score": 1.0,
+          "directness": 1.0,
+          "word_count": 66
+        }
+      },
+      "success": true,
+      "error": null
+    },
+    {
+      "query_id": "edge_001",
+      "query": "Does the corpus contain evidence that small language models outperform GPT-4 on all tasks?",
+      "query_type": "edge_case",
+      "expected_answer_type": "negative_confirmation",
+      "answer": "The provided excerpts do not contain sufficient information to answer whether small language models outperform GPT-4 on all tasks.",
+      "citations": [],
+      "num_retrieved_chunks": 5,
+      "retrieved_chunks": [
+        {
+          "chunk_id": "TinyLlama_2023_chunk_0029",
+          "source_id": "TinyLlama_2023",
+          "similarity_score": 0.6752281188964844,
+          "section": "1 Introduction",
+          "text_preview": "GPT-Eval scores during training for the GPT-neo models with embedding\ndimension 768 and different number of layers. We can see that the GPT-4 evaluation scores increase as evaluation\nlosses decrease.\n3.1 First insights that arise from our evaluation method\nOur proposed evaluation method gives a way "
+        },
+        {
+          "chunk_id": "TinyLlama_2023_chunk_0030",
+          "source_id": "TinyLlama_2023",
+          "similarity_score": 0.6472078561782837,
+          "section": "1 Introduction",
+          "text_preview": "cally correct language (we provide additional evidence for this in the next section).\n\u2022In the same figure, we observe that the score for grammar plateaus at an earlier stage than the other two\nscores. Furthermore, in Table 4, we also see that while grammar can be mastered by relatively small models,"
+        },
+        {
+          "chunk_id": "TinyLlama_2023_chunk_0007",
+          "source_id": "TinyLlama_2023",
+          "similarity_score": 0.6470683813095093,
+          "section": "1 Introduction",
+          "text_preview": "to the fact that producing coherent text already requires quite a large scale: small\nlanguage models (SLMs) are very limited in their performance and capabilities, especially in text generation tasks.\nFor example, models with around 125M parameters such as GPT-Neo (small) or GPT-2 (small) can rarely"
+        },
+        {
+          "chunk_id": "TinyLlama_2023_chunk_0014",
+          "source_id": "TinyLlama_2023",
+          "similarity_score": 0.6463629603385925,
+          "section": "1 Introduction",
+          "text_preview": "ds some bread and cheese. He puts them on the table and says,\n\u201cHere, Jane. You can have some bread and cheese. They are not bitter. They are sweet and yummy.\u201d\nJane is happy. She says, \u201cThank you, Tom. You are a good friend. I like bread and cheese. They are not\nbitter.\u201d\nFigure 1: Comparison between "
+        },
+        {
+          "chunk_id": "LengthMAX_2025_chunk_0031",
+          "source_id": "LengthMAX_2025",
+          "similarity_score": 0.607680082321167,
+          "section": "4 Experimental Evaluation",
+          "text_preview": "4 517\u00b19\nLength-MAX 2.30\u00b10.05 446\u00b17\n4.3 Downstream Task Performance\nA central question is whether compression efficiency translates into downstream quality or merely\ntrades model performance for speed. To investigate this, we trained models that were configured\nidentically except for their tokenizers"
+        }
+      ],
+      "generation_config": {
+        "model": "gpt-3.5-turbo",
+        "temperature": 0.1,
+        "max_tokens": 1000,
+        "prompt_version": "v2.0_trust_behavior_enhanced"
+      },
+      "metrics": {
+        "groundedness": {
+          "citation_count": 0,
+          "citation_density": 0.0,
+          "has_citations": 0.0,
+          "properly_flags_missing": 0.0,
+          "num_sentences": 1
+        },
+        "answer_relevance": {
+          "term_coverage": 0.6666666666666666,
+          "length_score": 0.38,
+          "directness": 1.0,
+          "word_count": 19
+        }
+      },
+      "success": true,
+      "error": null
+    },
+    {
+      "query_id": "edge_002",
+      "query": "What is the training cost in dollars for Phi-3-mini?",
+      "query_type": "edge_case",
+      "expected_answer_type": "missing_information",
+      "answer": "The provided excerpts do not contain sufficient information to answer this question.",
+      "citations": [],
+      "num_retrieved_chunks": 3,
+      "retrieved_chunks": [
+        {
+          "chunk_id": "Phi3_2024_chunk_0019",
+          "source_id": "Phi3_2024",
+          "similarity_score": 0.43937861919403076,
+          "section": "1 Introduction",
+          "text_preview": "of the phi-3.5-mini andphi-3.5-MoE models\ncompared with recent SoTA pretrained language models, such as GPT-4o-mini, Gemini-1.5 Flash, and\nopen-source models like Llama-3.1-8B and the Mistral models. The results show that phi-3.5-mini\nachieves performance comparable to much larger models like Mistra"
+        },
+        {
+          "chunk_id": "Phi4_2025_chunk_0030",
+          "source_id": "Phi4_2025",
+          "similarity_score": 0.4238422214984894,
+          "section": "5 Experiment",
+          "text_preview": "hereas in the second stage the sequence length is extended to 20K without packing. For the\nRollout DPO phase, we use a learning rate of 5e-7 for a single training epoch, with a sequence length of\n16K. During the RL stage, a learning rate of 5e-7 and a sequence length of 25k are used to encourage\nmod"
+        },
+        {
+          "chunk_id": "TextbooksAllYouNeed_2023_chunk_0010",
+          "source_id": "TextbooksAllYouNeed_2023",
+          "similarity_score": 0.41873085498809814,
+          "section": "1 Introduction",
+          "text_preview": "our new CodeExercises dataset. For the 1.3B models, phi-1 andphi-1-base are checkpoints\nafter training on 51B tokens (770 GPU hours) and The Stack+ model was trained for 76B tokens and 1090 GPU\nhours. We highlight that even without any finetuning, our phi-1-base model trained on CodeTextbook dataset"
+        }
+      ],
+      "generation_config": {
+        "model": "gpt-3.5-turbo",
+        "temperature": 0.1,
+        "max_tokens": 1000,
+        "prompt_version": "v2.0_trust_behavior_enhanced"
+      },
+      "metrics": {
+        "groundedness": {
+          "citation_count": 0,
+          "citation_density": 0.0,
+          "has_citations": 0.0,
+          "properly_flags_missing": 0.0,
+          "num_sentences": 1
+        },
+        "answer_relevance": {
+          "term_coverage": 0.0,
+          "length_score": 0.24,
+          "directness": 1.0,
+          "word_count": 12
+        }
+      },
+      "success": true,
+      "error": null
+    },
+    {
+      "query_id": "edge_003",
+      "query": "How does Phi-4 compare to Phi-3?",
+      "query_type": "edge_case",
+      "expected_answer_type": "comparative_analysis",
+      "answer": "The provided excerpts do not contain sufficient information to answer this question.",
+      "citations": [],
+      "num_retrieved_chunks": 5,
+      "retrieved_chunks": [
+        {
+          "chunk_id": "Phi3_2024_chunk_0019",
+          "source_id": "Phi3_2024",
+          "similarity_score": 0.5474851727485657,
+          "section": "1 Introduction",
+          "text_preview": "of the phi-3.5-mini andphi-3.5-MoE models\ncompared with recent SoTA pretrained language models, such as GPT-4o-mini, Gemini-1.5 Flash, and\nopen-source models like Llama-3.1-8B and the Mistral models. The results show that phi-3.5-mini\nachieves performance comparable to much larger models like Mistra"
+        },
+        {
+          "chunk_id": "Phi3_2024_chunk_0014",
+          "source_id": "Phi3_2024",
+          "similarity_score": 0.5321042537689209,
+          "section": "1 Introduction",
+          "text_preview": "models, and in particular we did no optimization to the pipeline for the phi-3\nmodels.4The number of k\u2013shot examples is listed per-benchmark. An example of a 2-shot prompt is\ndescribed in Appendix A.\n4For example, we found that using ## before the Question can lead to a noticeable improvement to phi"
+        },
+        {
+          "chunk_id": "Phi3_2024_chunk_0021",
+          "source_id": "Phi3_2024",
+          "similarity_score": 0.4645342230796814,
+          "section": "1 Introduction",
+          "text_preview": "hat the harmful response percentages in this chart are inflated numbers as\nthe red team tried to induce phi-3-mini in an adversarial way to generate harmful responses through multi-turn\nconversations.\nThe safety alignment of phi-3-small ,phi-3-medium andphi-3.5-MoE was conducted by un-\ndergoing the "
+        },
+        {
+          "chunk_id": "Phi3_2024_chunk_0024",
+          "source_id": "Phi3_2024",
+          "similarity_score": 0.4533700942993164,
+          "section": "1 Introduction",
+          "text_preview": "LLM capabilities, while phi-3-mini model achieves similar level of language understanding\nand reasoning ability as much larger models, it is still fundamentally limited by its size for certain tasks.\nThe model simply does not have the capacity to store too much \u201cfactual knowledge\u201d, which can be seen"
+        },
+        {
+          "chunk_id": "Phi3_2024_chunk_0001",
+          "source_id": "Phi3_2024",
+          "similarity_score": 0.439172625541687,
+          "section": "Abstract",
+          "text_preview": "MMLU, and 8.7, 8.9 on MT-bench). To enhance multilingual, multimodal, and long-context\ncapabilities, we introduce three models in the phi-3.5 series: phi-3.5-mini ,phi-3.5-MoE , and phi-\n3.5-Vision . The phi-3.5-MoE , a 16 x 3.8B MoE model with 6.6 billion active parameters, achieves\nsuperior perfor"
+        }
+      ],
+      "generation_config": {
+        "model": "gpt-3.5-turbo",
+        "temperature": 0.1,
+        "max_tokens": 1000,
+        "prompt_version": "v2.0_trust_behavior_enhanced"
+      },
+      "metrics": {
+        "groundedness": {
+          "citation_count": 0,
+          "citation_density": 0.0,
+          "has_citations": 0.0,
+          "properly_flags_missing": 0.0,
+          "num_sentences": 1
+        },
+        "answer_relevance": {
+          "term_coverage": 0.25,
+          "length_score": 0.24,
+          "directness": 1.0,
+          "word_count": 12
+        }
+      },
+      "success": true,
+      "error": null
+    },
+    {
+      "query_id": "edge_004",
+      "query": "What are the ethical implications of deploying small language models in healthcare?",
+      "query_type": "edge_case",
+      "expected_answer_type": "out_of_scope",
+      "answer": "The provided excerpts do not contain sufficient information to answer this question.",
+      "citations": [],
+      "num_retrieved_chunks": 5,
+      "retrieved_chunks": [
+        {
+          "chunk_id": "Gemma2_2024_chunk_0069",
+          "source_id": "Gemma2_2024",
+          "similarity_score": 0.5730128288269043,
+          "section": "References",
+          "text_preview": "yal,\nE. Hambro, F. Azhar, A. Rodriguez, A. Joulin,\nE. Grave, and G. Lample. Llama: Open and\nefficient foundation language models, 2023.\nA. Vaswani, N. Shazeer, N. Parmar, J. Uszkoreit,\nL. Jones, A. N. Gomez, L. Kaiser, and I. Polo-\nsukhin. Attention is all you need. CoRR,\nabs/1706.03762, 2017. URL \n"
+        },
+        {
+          "chunk_id": "Llama2_2023_chunk_0172",
+          "source_id": "Llama2_2023",
+          "similarity_score": 0.5292789340019226,
+          "section": "References",
+          "text_preview": "al Conference on Learning\nRepresentations , 2021.\nJasonWei,MaartenBosma,VincentZhao,KelvinGuu,AdamsWeiYu,BrianLester,NanDu,AndrewM.Dai,\nand Quoc V Le. Finetuned language models are zero-shot learners. In International Conference on Learning\nRepresentations , 2022a. URL  .\nJason Wei, Xuezhi Wang, Dal"
+        },
+        {
+          "chunk_id": "DataQuality_2024_chunk_0107",
+          "source_id": "DataQuality_2024",
+          "similarity_score": 0.5177753567695618,
+          "section": "References",
+          "text_preview": "References\n[1] Y. Liu, T. Han, S. Ma, J. Zhang, Y. Yang, J. Tian, H. He, A. Li, M. He, Z. Liu et al., \u201cSummary of chatgpt-related research and perspective\ntowards the future of large language models,\u201d Meta-Radiology , p. 100017, 2023.\n[2] J.Wang,E.Shi,S.Yu,Z.Wu,C.Ma,H.Dai,Q.Yang,Y.Kang,J.Wu,H.Hu eta"
+        },
+        {
+          "chunk_id": "TinyLlama_2023_chunk_0000",
+          "source_id": "TinyLlama_2023",
+          "similarity_score": 0.5049877166748047,
+          "section": "Header/Title",
+          "text_preview": "TinyStories : How Small Can Language Models Be and Still Speak\nCoherent English?\nRonen Eldan\u2217and Yuanzhi Li\u2020\nMicrosoft Research\nApril 2023"
+        },
+        {
+          "chunk_id": "Orca2_2023_chunk_0076",
+          "source_id": "Orca2_2023",
+          "similarity_score": 0.492358922958374,
+          "section": "8 Conclusions",
+          "text_preview": "we believe that the use\nof synthetic data for post-training that has been filtered with various content safety filters\ncould provide another opportunity for improving the overall safety of the models. While\nthe journey towards fully realizing the potential of small language models is ongoing, our\nwo"
+        }
+      ],
+      "generation_config": {
+        "model": "gpt-3.5-turbo",
+        "temperature": 0.1,
+        "max_tokens": 1000,
+        "prompt_version": "v2.0_trust_behavior_enhanced"
+      },
+      "metrics": {
+        "groundedness": {
+          "citation_count": 0,
+          "citation_density": 0.0,
+          "has_citations": 0.0,
+          "properly_flags_missing": 0.0,
+          "num_sentences": 1
+        },
+        "answer_relevance": {
+          "term_coverage": 0.0,
+          "length_score": 0.24,
+          "directness": 1.0,
+          "word_count": 12
+        }
+      },
+      "success": true,
+      "error": null
+    },
+    {
+      "query_id": "edge_005",
+      "query": "Is Mistral 7B considered a small language model?",
+      "query_type": "edge_case",
+      "expected_answer_type": "definitional_ambiguity",
+      "answer": "The provided excerpts do not contain sufficient information to answer this question.",
+      "citations": [],
+      "num_retrieved_chunks": 5,
+      "retrieved_chunks": [
+        {
+          "chunk_id": "Mistral_2023_chunk_0019",
+          "source_id": "Mistral_2023",
+          "similarity_score": 0.6451694965362549,
+          "section": "6 Conclusion",
+          "text_preview": "6 Conclusion\nOur work on Mistral 7B demonstrates that language models may compress knowledge more than\nwhat was previously thought. This opens up interesting perspectives: the field has so far put the\nemphasis on scaling laws in 2 dimensions (directly associating model capabilities to training cost,"
+        },
+        {
+          "chunk_id": "TinyLlama_2023_chunk_0000",
+          "source_id": "TinyLlama_2023",
+          "similarity_score": 0.6435927152633667,
+          "section": "Header/Title",
+          "text_preview": "TinyStories : How Small Can Language Models Be and Still Speak\nCoherent English?\nRonen Eldan\u2217and Yuanzhi Li\u2020\nMicrosoft Research\nApril 2023"
+        },
+        {
+          "chunk_id": "Phi3_2024_chunk_0048",
+          "source_id": "Phi3_2024",
+          "similarity_score": 0.5854414701461792,
+          "section": "References",
+          "text_preview": "ute-optimal large language models. arXiv preprint\narXiv:2203.15556 , 2022.\n[HSK+24] Cheng-Ping Hsieh, Simeng Sun, Samuel Kriman, Shantanu Acharya, Dima Rekesh, Fei Jia,\nYang Zhang, and Boris Ginsburg. Ruler: What\u2019s the real context size of your long-context\nlanguage models?, 2024.\n[JBA+23] Mojan Jav"
+        },
+        {
+          "chunk_id": "MiniCPM_2024_chunk_0077",
+          "source_id": "MiniCPM_2024",
+          "similarity_score": 0.582375168800354,
+          "section": "References",
+          "text_preview": "al. C-eval: A multi-level multi-discipline\nchinese evaluation suite for foundation models. Advances in Neural Information Processing\nSystems , 36, 2024.\nAndrew Hundt, Varun Jain, and Gregory D Hager. sharpdarts: Faster and more accurate\ndifferentiable architecture search. arXiv preprint arXiv:1903.0"
+        },
+        {
+          "chunk_id": "TextbooksAllYouNeed_2023_chunk_0059",
+          "source_id": "TextbooksAllYouNeed_2023",
+          "similarity_score": 0.55436110496521,
+          "section": "References",
+          "text_preview": "back. arXiv preprint arXiv:2305.14387 , 2023.\n[EL23] Ronen Eldan and Yuanzhi Li. Tinystories: How small can language models be and still\nspeak coherent english? arXiv preprint arXiv:2305.07759 , 2023.\n[GWS+23] Arnav Gudibande, Eric Wallace, Charlie Snell, Xinyang Geng, Hao Liu, Pieter Abbeel,\nSergey"
+        }
+      ],
+      "generation_config": {
+        "model": "gpt-3.5-turbo",
+        "temperature": 0.1,
+        "max_tokens": 1000,
+        "prompt_version": "v2.0_trust_behavior_enhanced"
+      },
+      "metrics": {
+        "groundedness": {
+          "citation_count": 0,
+          "citation_density": 0.0,
+          "has_citations": 0.0,
+          "properly_flags_missing": 0.0,
+          "num_sentences": 1
+        },
+        "answer_relevance": {
+          "term_coverage": 0.0,
+          "length_score": 0.24,
+          "directness": 1.0,
+          "word_count": 12
+        }
+      },
+      "success": true,
+      "error": null
+    },
+    {
+      "query_id": "edge_006",
+      "query": "What will be the state of small language models in 2030?",
+      "query_type": "edge_case",
+      "expected_answer_type": "future_speculation",
+      "answer": "The provided excerpts do not contain sufficient information to answer this question.",
+      "citations": [],
+      "num_retrieved_chunks": 5,
+      "retrieved_chunks": [
+        {
+          "chunk_id": "TinyLlama_2023_chunk_0000",
+          "source_id": "TinyLlama_2023",
+          "similarity_score": 0.6828615665435791,
+          "section": "Header/Title",
+          "text_preview": "TinyStories : How Small Can Language Models Be and Still Speak\nCoherent English?\nRonen Eldan\u2217and Yuanzhi Li\u2020\nMicrosoft Research\nApril 2023"
+        },
+        {
+          "chunk_id": "MiniCPM_2024_chunk_0004",
+          "source_id": "MiniCPM_2024",
+          "similarity_score": 0.6321772336959839,
+          "section": "1 Introduction",
+          "text_preview": "rporations. On the other hand, the deployment of these colossal models in everyday\nscenarios, such as on personal computers or smartphones, is either inefficient or unfeasible.\n\u2217Corresponding Authors.\n1\n1arXiv:2404.06395v3 [cs.CL] 3 Jun 2024\n\nBoth aspects underscore the imperative to refocus efforts"
+        },
+        {
+          "chunk_id": "SLMEval_2023_chunk_0124",
+          "source_id": "SLMEval_2023",
+          "similarity_score": 0.6255662441253662,
+          "section": "REFERENCES",
+          "text_preview": "Ross Taylor, Marcin Kardas, Guillem Cucurull, Thomas Scialom, Anthony Hartshorn, Elvis Saravia,\nAndrew Poulton, Viktor Kerkez, and Robert Stojnic. Galactica: A large language model for science,\n2022.\nRomal Thoppilan, Daniel De Freitas, Jamie Hall, Noam Shazeer, Apoorv Kulshreshtha, Heng-Tze\nCheng, A"
+        },
+        {
+          "chunk_id": "MiniCPM_2024_chunk_0003",
+          "source_id": "MiniCPM_2024",
+          "similarity_score": 0.617074728012085,
+          "section": "1 Introduction",
+          "text_preview": "1 Introduction\nFollowing the revelation of the scaling law (Kaplan et al., 2020), there has been a vigorous\npursuit in the field of Large Language Models (LLMs) (Hoffmann et al., 2022; Bai et al., 2023;\nGemini et al., 2023; Chowdhery et al., 2023; Achiam et al., 2023), encompassing models with\nup to"
+        },
+        {
+          "chunk_id": "Llama2_2023_chunk_0130",
+          "source_id": "Llama2_2023",
+          "similarity_score": 0.6090379357337952,
+          "section": "6 Related Work",
+          "text_preview": "6 Related Work\nLarge Language Models. The recent years have witnessed a substantial evolution in the field of LLMs.\nFollowing the scaling laws of Kaplan et al. (2020), several Large Language Models with more than 100B\nparameters have been proposed, from GPT-3 (Brown et al., 2020) to Gopher (Rae et a"
+        }
+      ],
+      "generation_config": {
+        "model": "gpt-3.5-turbo",
+        "temperature": 0.1,
+        "max_tokens": 1000,
+        "prompt_version": "v2.0_trust_behavior_enhanced"
+      },
+      "metrics": {
+        "groundedness": {
+          "citation_count": 0,
+          "citation_density": 0.0,
+          "has_citations": 0.0,
+          "properly_flags_missing": 0.0,
+          "num_sentences": 1
+        },
+        "answer_relevance": {
+          "term_coverage": 0.0,
+          "length_score": 0.24,
+          "directness": 1.0,
+          "word_count": 12
+        }
+      },
+      "success": true,
+      "error": null
+    },
+    {
+      "query_id": "edge_007",
+      "query": "Which paper in the corpus is the best?",
+      "query_type": "edge_case",
+      "expected_answer_type": "subjective_judgment",
+      "answer": "The provided excerpts do not contain sufficient information to answer this question.",
+      "citations": [],
+      "num_retrieved_chunks": 2,
+      "retrieved_chunks": [
+        {
+          "chunk_id": "DataQuality_2024_chunk_0035",
+          "source_id": "DataQuality_2024",
+          "similarity_score": 0.42466145753860474,
+          "section": "2. Background Knowledge",
+          "text_preview": "categorized into 5 groups for\ndiscussion.\nYiheng Liu et al.: Preprint submitted to Elsevier Page 6 of 30\n\nA Comprehensive Overview from Training to Inference\nTable 1\nCommonly used corpora information.\nCorpora Type Links\nBookCorpus [65] Books \nGutenberg [66] Books \nBooks1 [8] Books Not open source ye"
+        },
+        {
+          "chunk_id": "LengthMAX_2025_chunk_0064",
+          "source_id": "LengthMAX_2025",
+          "similarity_score": 0.40019914507865906,
+          "section": "References",
+          "text_preview": "and \u201cNew York City\u201d. These examples are\nprovided to clarify the type of phrases selected; we refrain from quantifying causal links to quality\nand instead emphasise end-to-end metrics in the main text.\n24\n\nJ Zipf Alignment Analysis\nMethod.We compute token frequency histograms on held-out subsets, sor"
+        }
+      ],
+      "generation_config": {
+        "model": "gpt-3.5-turbo",
+        "temperature": 0.1,
+        "max_tokens": 1000,
+        "prompt_version": "v2.0_trust_behavior_enhanced"
+      },
+      "metrics": {
+        "groundedness": {
+          "citation_count": 0,
+          "citation_density": 0.0,
+          "has_citations": 0.0,
+          "properly_flags_missing": 0.0,
+          "num_sentences": 1
+        },
+        "answer_relevance": {
+          "term_coverage": 0.0,
+          "length_score": 0.24,
+          "directness": 1.0,
+          "word_count": 12
+        }
+      },
+      "success": true,
+      "error": null
+    }
+  ]
+}

@@ -1,0 +1,285 @@
+{
+  "source_id": "SLMCompiler_2025",
+  "metadata": {
+    "title": "Small Language Models as Compiler Experts: Auto-Parallelization for Heterogeneous Systems",
+    "authors": "Research Team",
+    "year": "2025",
+    "venue": "arXiv",
+    "url": "https://arxiv.org/abs/2512.19250",
+    "source_type": "peer-reviewed",
+    "relevance_note": "SLMs for code optimization - novel application domain (Dec 22, 2025)"
+  },
+  "pdf_metadata": {
+    "title": "Small Language Models as Compiler Experts: Auto-Parallelization for Heterogeneous Systems",
+    "author": "Prathamesh Devadiga",
+    "total_pages": 9
+  },
+  "statistics": {
+    "total_pages": 9,
+    "total_chunks": 20,
+    "avg_chunk_size": 920.9,
+    "ingestion_timestamp": "2026-02-02T19:04:01.657843"
+  },
+  "chunks": [
+    {
+      "chunk_id": "SLMCompiler_2025_chunk_0000",
+      "source_id": "SLMCompiler_2025",
+      "text": "Small Language Models as Compiler Experts:\nAuto-Parallelization for Heterogeneous Systems\nPrathamesh Devadiga\nDepartment of Computer Science\nPES University\nBangalore, India",
+      "section": "Header/Title",
+      "char_count": 172,
+      "chunk_index": 0,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "SLMCompiler_2025_2512_19250.pdf",
+      "total_source_pages": 9
+    },
+    {
+      "chunk_id": "SLMCompiler_2025_chunk_0001",
+      "source_id": "SLMCompiler_2025",
+      "text": "Abstract\nTraditional auto-parallelizing compilers, reliant on rigid heuristics, struggle with\nthe complexity of modern heterogeneous systems. This paper presents a com-\nprehensive evaluation of small ( 1B parameter) Language Model (LLM)-driven\ncompiler auto-parallelization. We evaluate three models— gemma3 ,llama3.2 ,\nandqwen2.5 —using six reasoning strategies across 11 real-world kernels from\nscientific computing, graph algorithms, and machine learning. Our system is\nbenchmarked against strong compiler baselines, including LLVM Polly, TVM, and\nTriton. Across 376 total evaluations, our LLM-driven approach achieves an average\nspeedup of6.81xand a peak performance of43.25xon convolution operations.\nWe analyze scalability, verify correctness with multiple sanitizers, and confirm\nrobustness across diverse compilers and hardware. Our findings establish that small,\nefficient LLMs can serve as powerful reasoning engines for complex compiler\noptimization tasks.",
+      "section": "Abstract",
+      "char_count": 967,
+      "chunk_index": 1,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "SLMCompiler_2025_2512_19250.pdf",
+      "total_source_pages": 9
+    },
+    {
+      "chunk_id": "SLMCompiler_2025_chunk_0002",
+      "source_id": "SLMCompiler_2025",
+      "text": "1 Introduction\nThe end of Moore’s Law has introduced an era of heterogeneous computing, where performance\ngains depend on effectively using a mix of CPUs, GPUs, and other accelerators. However, software\ntoolchains have not kept pace. Automatic parallelization, a long-standing goal in compiler design [ 1],\nstill relies on brittle heuristics that fail to capture complex dependencies in real-world code.\nRecent advances in LLMs for code generation [2] have inspired a new field of “AI for Systems” [3].\nYet, most research focuses on massive, proprietary models whose latency and cost are prohibitive\nfor direct compiler integration. This raises a critical question:Can smaller, more efficient LLMs\nprovide the sophisticated reasoning needed for complex compiler tasks like auto-parallelization?\nThis work answers that question affirmatively. We present a comprehensive evaluation of an LLM-\ndriven system that analyzes and parallelizes C/C++ code. Our key contributions include:\n•Real-World Application Support:Evaluation across 11 kernels from scientific computing, graph\nalgorithms, and machine learning.",
+      "section": "1 Introduction",
+      "char_count": 1106,
+      "chunk_index": 2,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "SLMCompiler_2025_2512_19250.pdf",
+      "total_source_pages": 9
+    },
+    {
+      "chunk_id": "SLMCompiler_2025_chunk_0003",
+      "source_id": "SLMCompiler_2025",
+      "text": "hat analyzes and parallelizes C/C++ code. Our key contributions include:\n•Real-World Application Support:Evaluation across 11 kernels from scientific computing, graph\nalgorithms, and machine learning.\n•Advanced Baseline Comparison:Rigorous benchmarking against strong baselines like LLVM\nPolly, TVM, and Triton.\n•Scalability Analysis:Performance evaluation across varying input sizes and CPU cores.\n•Correctness and Robustness Verification:A methodology using regression testing, sanitizers,\nand cross-platform validation.\nPreprint.arXiv:2512.19250v1 [cs.LG] 22 Dec 2025\n\n2 System and Methodology\nOur system uses a three-stage pipeline: aCode Analyzerfor static analysis, anLLM Reasonerto\ndevise a parallelization plan, and aParallelization Generatorto implement it in code.\nWe evaluate three small ( 1B parameter) models: gemma3:1b ,llama3.2:1b , and qwen2.5:1.5b .\nTheir reasoning is guided by six prompting strategies: Zero-shot, Chain of Thought [ 4], Tree of\nThoughts [ 5], ReAct, Step-by-Step, and Few-shot. Our evaluation suite, shown in Table 1, covers a\nwide range of computational patterns to ensure a robust assessment of the system’s capabilities.",
+      "section": "1 Introduction",
+      "char_count": 1159,
+      "chunk_index": 3,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "SLMCompiler_2025_2512_19250.pdf",
+      "total_source_pages": 9
+    },
+    {
+      "chunk_id": "SLMCompiler_2025_chunk_0004",
+      "source_id": "SLMCompiler_2025",
+      "text": "e of\nThoughts [ 5], ReAct, Step-by-Step, and Few-shot. Our evaluation suite, shown in Table 1, covers a\nwide range of computational patterns to ensure a robust assessment of the system’s capabilities.\n2.1 LLM-Guided Dependence Reasoning and Parallelization Decisions\nUnlike traditional auto-parallelizing compilers that rely on fixed heuristics and conservative static\nanalyses, our system leverages a language model as a semantic reasoning engine over program\nstructure. The LLM is not treated as a black-box code generator; instead, it is prompted with an\nabstracted representation of loop nests, memory access patterns, and control flow, enabling explicit\nreasoning about parallelizability.\nSpecifically, the model is tasked with identifying:\n•Loop-carried dependenciesthat prevent safe parallel execution.\n•Reduction patterns(e.g., summations, minima/maxima) that can be safely parallelized using\nreduction clauses.\n•Privatizable variableswhose scope must be restricted to avoid data races.\n•Target-specific execution strategies, such as CPU thread-level parallelism or GPU kernel decom-\nposition.",
+      "section": "1 Introduction",
+      "char_count": 1101,
+      "chunk_index": 4,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "SLMCompiler_2025_2512_19250.pdf",
+      "total_source_pages": 9
+    },
+    {
+      "chunk_id": "SLMCompiler_2025_chunk_0005",
+      "source_id": "SLMCompiler_2025",
+      "text": "reduction clauses.\n•Privatizable variableswhose scope must be restricted to avoid data races.\n•Target-specific execution strategies, such as CPU thread-level parallelism or GPU kernel decom-\nposition.\nThe LLM produces a structured parallelization plan, which is then validated by a static analyzer before\ncode generation. Unsafe transformations are rejected automatically through sanitizer-based validation\nand regression testing, ensuring that incorrect parallelizations are never silently accepted. This design\nallows the system to combine the flexibility of learned reasoning with the safety guarantees expected\nof compiler toolchains.\nTable 1: Benchmark kernels categorized by application domain.\nDomain Kernel Complexity\nScientific ComputingFFT 1DO(nlogn)\nJacobi SolverO(n2×iter)\nMatrix MultiplicationO(n3)\nGraph AlgorithmsBreadth-First Search (BFS)O(V+E)\nPageRankO(iter×E)\nShortest Path (Dijkstra)O(V2)\nML KernelsConvolution 2DO(H×W×K2)\nAttention MechanismO(seq2×d)\nPoolingO(H×W)",
+      "section": "1 Introduction",
+      "char_count": 985,
+      "chunk_index": 5,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "SLMCompiler_2025_2512_19250.pdf",
+      "total_source_pages": 9
+    },
+    {
+      "chunk_id": "SLMCompiler_2025_chunk_0006",
+      "source_id": "SLMCompiler_2025",
+      "text": "cationO(n3)\nGraph AlgorithmsBreadth-First Search (BFS)O(V+E)\nPageRankO(iter×E)\nShortest Path (Dijkstra)O(V2)\nML KernelsConvolution 2DO(H×W×K2)\nAttention MechanismO(seq2×d)\nPoolingO(H×W)",
+      "section": "1 Introduction",
+      "char_count": 185,
+      "chunk_index": 6,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "SLMCompiler_2025_2512_19250.pdf",
+      "total_source_pages": 9
+    },
+    {
+      "chunk_id": "SLMCompiler_2025_chunk_0007",
+      "source_id": "SLMCompiler_2025",
+      "text": "3 Experimental Evaluation\nOur comprehensive evaluation involved376 tests, comparing models, strategies, and baselines across\nall 11 kernels.\nAll reported speedups are measured relative to optimized single-threaded CPU baselines compiled\nwith -O3, unless otherwise stated. GPU performance is compared against vendor-recommended\nreference implementations where applicable. Peak speedups represent best-case outcomes for specific\nkernels, while average speedups provide a more representative measure of system-wide performance.\n2\n\n3.1 LLM Model and Prompting Strategy Performance\nThe choice of model and prompting strategy significantly impacts performance, as detailed in Table 2.\nTheqwen2.5 model emerged as the top performer. Among prompting strategies,Tree of Thoughts\n(ToT)consistently delivered the best results, suggesting that exploring multiple reasoning paths is\ncrucial for complex optimization tasks.\nTable 2: Performance comparison of LLM models and prompting strategies.",
+      "section": "3 Experimental Evaluation",
+      "char_count": 981,
+      "chunk_index": 7,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "SLMCompiler_2025_2512_19250.pdf",
+      "total_source_pages": 9
+    },
+    {
+      "chunk_id": "SLMCompiler_2025_chunk_0008",
+      "source_id": "SLMCompiler_2025",
+      "text": "tently delivered the best results, suggesting that exploring multiple reasoning paths is\ncrucial for complex optimization tasks.\nTable 2: Performance comparison of LLM models and prompting strategies.\n(a) LLM Model Performance (Averaged over all strategies)\nModel Avg Speedup Best Speedup Analysis Quality Response Time (s)\ngemma3:1b6.2x 38.7x 0.78 12.3\nllama3.2:1b6.8x 41.2x 0.82 15.7\nqwen2.5:1.5b 7.2x 43.25x 0.8518.9\n(b) Prompting Strategy Performance (Averaged over all models)\nStrategy Avg Speedup Success Rate Quality Score Best Kernel\nTree of Thoughts 7.1x 88% 0.84Matrix Mult (39.8x)\nChain of Thought6.9x 85% 0.81 FFT (38.4x)\nReAct6.7x 83% 0.79 Jacobi (35.2x)\nFew-shot6.6x 82% 0.78 Attention (36.9x)\nStep-by-Step6.4x 80% 0.76 BFS (33.7x)\nZero-shot5.8x 78% 0.72 Convolution (32.1x)\n3.2 Advanced Baseline Comparison\nAs shown in Table 3, the LLM-driven approach is highly competitive, outperforming domain-general\ncompilers like LLVM Polly and GCC on average. While domain-specific tools like Triton achieve\nhigher peak performance on their target kernels (e.g., Attention), the LLM shows greater versatility\nacross a wide variety of domains.",
+      "section": "3 Experimental Evaluation",
+      "char_count": 1147,
+      "chunk_index": 8,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "SLMCompiler_2025_2512_19250.pdf",
+      "total_source_pages": 9
+    },
+    {
+      "chunk_id": "SLMCompiler_2025_chunk_0009",
+      "source_id": "SLMCompiler_2025",
+      "text": "d GCC on average. While domain-specific tools like Triton achieve\nhigher peak performance on their target kernels (e.g., Attention), the LLM shows greater versatility\nacross a wide variety of domains.\nTable 3: Comparison with advanced compiler and optimizer baselines.\nBaseline Avg Speedup Best Performance GPU Support Compilation Time\nLLM (qwen2.5 + ToT) 7.1x Convolution (43.25x) Yes 18.9s\nLLVM Polly 5.8x Matrix Mult (8.2x) No 2.1s\nGCC Advanced (-O3) 5.2x Vector Add (7.8x) No 1.8s\nIntel ICC 6.1x FFT (8.9x) No 2.3s\nTVM 7.4x Convolution (11.2x) Yes 3.2s\nHalide 6.8x Stencil (9.1x) Yes 2.8s\nTriton 8.9x Attention (13.7x) Yes 4.1s\n4 Scalability and Correctness Analysis\n4.1 Scalability\nThe LLM-generated code scales robustly, consistently outperforming traditional CPU compilers as\nthe problem size and core count increase (Table 4). This indicates the LLM generates more efficient\nparallel structures and handles thread management effectively.\n4.2 Correctness\nCorrectness is paramount. As detailed in Table 5, sophisticated prompting strategies like ToT yield\nhigh verification and race-free rates.",
+      "section": "3 Experimental Evaluation",
+      "char_count": 1100,
+      "chunk_index": 9,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "SLMCompiler_2025_2512_19250.pdf",
+      "total_source_pages": 9
+    },
+    {
+      "chunk_id": "SLMCompiler_2025_chunk_0010",
+      "source_id": "SLMCompiler_2025",
+      "text": "es and handles thread management effectively.\n4.2 Correctness\nCorrectness is paramount. As detailed in Table 5, sophisticated prompting strategies like ToT yield\nhigh verification and race-free rates. While not yet matching the determinism of traditional compilers\n3\n\nTable 4: Scalability analysis for input size and multi-core efficiency.\n(a) Input Size Scaling (Matrix Multiplication Speedup)\nApproach 1K×1K 2K×2K 4K×4K 8K×8K 16K×16K\nLLM 4.2x 6.8x 8.9x 11.2x 13.1x\nLLVM Polly3.8x 6.1x 8.2x 10.8x 12.7x\nGCC3.5x 5.7x 7.8x 10.1x 12.0x\nIntel ICC4.1x 6.4x 8.5x 10.9x 12.8x\n(b) Multi-Core Scaling Efficiency\nApproach 1 Core 2 Cores 4 Cores 8 Cores 16 Cores\nLLM100%95% 88% 82% 71%\nLLVM Polly100% 92% 85% 78% 68%\nGCC100% 89% 82% 75% 65%\nIntel ICC100% 94% 87% 80% 70%\nlike LLVM Polly (95% verification), the LLM’s 88% success rate is remarkably high and demonstrates\nits ability to generate safe parallel code.\nImportantly, all incorrect transformations are automatically detected and rejected through sanitizer-\nbased validation, ensuring that unsafe parallel code is never emitted in deployed settings.\nTable 5: Correctness verification results across different approaches.",
+      "section": "3 Experimental Evaluation",
+      "char_count": 1168,
+      "chunk_index": 10,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "SLMCompiler_2025_2512_19250.pdf",
+      "total_source_pages": 9
+    },
+    {
+      "chunk_id": "SLMCompiler_2025_chunk_0011",
+      "source_id": "SLMCompiler_2025",
+      "text": "ected and rejected through sanitizer-\nbased validation, ensuring that unsafe parallel code is never emitted in deployed settings.\nTable 5: Correctness verification results across different approaches.\nApproach Verification Rate Race-Free Memory-Safe Sanitizer Pass\nLLM-Tree of Thoughts 88% 91% 94% 85%\nLLM-Chain of Thought85% 88% 92% 82%\nLLM-Zero-shot78% 82% 89% 75%\nLLVM Polly95% 97% 98% 93%\nGCC Advanced92% 94% 96% 90%\nIntel ICC94% 96% 97% 92%\n5 Limitations\nWhile the results demonstrate that small LLMs can effectively guide auto-parallelization, several\nlimitations remain. First, compilation latency is significantly higher than traditional compilers,\nas LLM inference currently adds tens of seconds of overhead. Although acceptable for offline\noptimization, this limits immediate deployment in just-in-time compilation settings.\nSecond, despite extensive validation, a non-trivial fraction of generated parallelizations fail correctness\nchecks and must be discarded. While these failures are reliably detected through sanitizers and\nregression tests, improving first-pass correctness remains an important area for future work.",
+      "section": "3 Experimental Evaluation",
+      "char_count": 1132,
+      "chunk_index": 11,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "SLMCompiler_2025_2512_19250.pdf",
+      "total_source_pages": 9
+    },
+    {
+      "chunk_id": "SLMCompiler_2025_chunk_0012",
+      "source_id": "SLMCompiler_2025",
+      "text": "orrectness\nchecks and must be discarded. While these failures are reliably detected through sanitizers and\nregression tests, improving first-pass correctness remains an important area for future work.\nThird, the effectiveness of the approach depends on prompt quality and abstraction design, which\ncurrently requires expert tuning. Finally, our evaluation focuses on representative kernels rather\nthan full-scale applications, and results may vary when applied to large, highly irregular real-world\ncodebases.",
+      "section": "3 Experimental Evaluation",
+      "char_count": 509,
+      "chunk_index": 12,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "SLMCompiler_2025_2512_19250.pdf",
+      "total_source_pages": 9
+    },
+    {
+      "chunk_id": "SLMCompiler_2025_chunk_0013",
+      "source_id": "SLMCompiler_2025",
+      "text": "6 Conclusion and Future Work\nWe demonstrate that small, efficient LLMs can serve as powerful compiler experts for auto-\nparallelization, achieving performance competitive with, and often superior to, state-of-the-art\ncompilers. The key insight is that sophisticated reasoning frameworks like Tree of Thoughts are more\ncritical than raw model scale for this task.\n4\n\nFuture work will focus on:\n1.Improving Correctness:Achieving >95% verification success rates through verifier-in-the-\nloop feedback.\n2.Reducing Latency:Lowering response times to under 10 seconds for seamless compiler\nintegration.\n3.Expanding Hardware Support:Adding support for accelerators like TPUs and FPGAs.\n4.Multi-Language Support:Extending capabilities to languages like Python, Julia, and Rust.\nArtifact Statement\nAll code, prompts, and evaluation scripts used in this work will be released as open-source artifacts\nupon publication, enabling full reproducibility of our results.",
+      "section": "6 Conclusion and Future Work",
+      "char_count": 954,
+      "chunk_index": 13,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "SLMCompiler_2025_2512_19250.pdf",
+      "total_source_pages": 9
+    },
+    {
+      "chunk_id": "SLMCompiler_2025_chunk_0014",
+      "source_id": "SLMCompiler_2025",
+      "text": "References\n[1]Utpal Banerjee.Loop Parallelization. The Kluwer International Series in Engineering and\nComputer Science. Springer US, 1994.\n[2]Mark Chen, Jerry Tworek, Heewoo Jun, et al. Evaluating large language models trained on code.\narXiv preprint arXiv:2107.03374, 2021.\n[3]Ziru Chen, Yidong Wang, Xiangyu Zhao, et al. A survey on large language models for systems\nand networking.arXiv preprint arXiv:2403.02383, 2024.\n[4]Jason Wei, Xuezhi Wang, Dale Schuurmans, et al. Chain-of-thought prompting elicits reasoning\nin large language models. InAdvances in Neural Information Processing Systems 35, 2022.\n[5]Shunyu Yao, Dian Yu, Jeffrey Zhao, et al. Tree of thoughts: Deliberate problem solving with\nlarge language models.arXiv preprint arXiv:2305.10601, 2023.\n5\n\nA Appendix\nA.1 Robustness and Portability\nThe LLM-generated code was tested for compatibility across major C++ compilers and hardware back-\nends, showing high compatibility and demonstrating that the system generates standards-compliant,\nportable code.\nTable 6: Compiler Compatibility Results.",
+      "section": "References",
+      "char_count": 1059,
+      "chunk_index": 14,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "SLMCompiler_2025_2512_19250.pdf",
+      "total_source_pages": 9
+    },
+    {
+      "chunk_id": "SLMCompiler_2025_chunk_0015",
+      "source_id": "SLMCompiler_2025",
+      "text": "across major C++ compilers and hardware back-\nends, showing high compatibility and demonstrating that the system generates standards-compliant,\nportable code.\nTable 6: Compiler Compatibility Results.\nCompiler Success Rate Performance Code Quality\nGCC 11+98% 100% 95%\nClang 14+96% 98% 97%\nIntel ICC 2021+94% 97% 93%\nMSVC 2019+89% 92% 88%\nTable 7: Hardware Backend Support and Performance Ratio.\nBackend LLM Support Traditional Support Performance Ratio*\nNVIDIA GPUsYes Yes 85-95%\nAMD GPUsYes Yes 80-90%\nMulti-core CPUsYes Yes 90-100%\nARM ProcessorsYes Yes 85-95%\n*LLM performance relative to traditional GPU/CPU specific tools.\nA.2 Detailed Performance on Real-World Kernels\nThe following tables provide a detailed breakdown of the speedups achieved by the LLM-driven\napproach compared to traditional compiler optimizations for each category of computational kernels.\nTable 8: Scientific Computing Kernels Performance.",
+      "section": "References",
+      "char_count": 917,
+      "chunk_index": 15,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "SLMCompiler_2025_2512_19250.pdf",
+      "total_source_pages": 9
+    },
+    {
+      "chunk_id": "SLMCompiler_2025_chunk_0016",
+      "source_id": "SLMCompiler_2025",
+      "text": "akdown of the speedups achieved by the LLM-driven\napproach compared to traditional compiler optimizations for each category of computational kernels.\nTable 8: Scientific Computing Kernels Performance.\nKernel Complexity LLM Speedup Traditional Best Strategy\nFFT 1DO(nlogn)6.8x 5.2x Tree of Thoughts\nJacobi SolverO(n2×iter)5.9x 4.8x Chain of Thought\nMatrix MultiplicationO(n3)7.2x 6.1x Tree of Thoughts\nA.3 Sample Code Transformation\nTo provide a concrete example of the system’s output, this section shows the transformation of a\nstandard sequential matrix multiplication function into a parallel version using OpenMP, as generated\nby theqwen2.5model with the Tree of Thoughts strategy.\nOriginal Sequential Code\nvoid matmul(float* A, float* B, float* C, int n) {\nfor (int i = 0; i < n; i++) {\nfor (int j = 0; j < n; j++) {\nC[i*n + j] = 0.0f;\nfor (int k = 0; k < n; k++) {\nC[i*n + j] += A[i*n + k] * B[k*n + j];\n}\n}\n}\n}\n6\n\nTable 9: Graph Algorithm Kernels Performance.\nKernel Complexity LLM Speedup Traditional Best Strategy\nBFSO(V+E)4.1x 3.2x Step-by-Step\nPageRankO(iter×E)5.3x 4.1x ReAct\nShortest PathO(V2)3.8x 2.9x Chain of Thought\nTable 10: ML Kernels Performance.",
+      "section": "References",
+      "char_count": 1166,
+      "chunk_index": 16,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "SLMCompiler_2025_2512_19250.pdf",
+      "total_source_pages": 9
+    },
+    {
+      "chunk_id": "SLMCompiler_2025_chunk_0017",
+      "source_id": "SLMCompiler_2025",
+      "text": "Kernel Complexity LLM Speedup Traditional Best Strategy\nBFSO(V+E)4.1x 3.2x Step-by-Step\nPageRankO(iter×E)5.3x 4.1x ReAct\nShortest PathO(V2)3.8x 2.9x Chain of Thought\nTable 10: ML Kernels Performance.\nKernel Complexity LLM Speedup Traditional Best Strategy\nConvolution 2DO(H×W×K2)12.4x 9.8x Tree of Thoughts\nAttention MechanismO(seq2×d)8.7x 6.9x Few-shot\nPoolingO(H×W)6.2x 5.1x Zero-shot\nLLM-Generated Parallel Code\nvoid matmul_parallel(float* A, float* B, float* C, int n) {\n#pragma omp parallel for collapse(2) schedule(dynamic)\nfor (int i = 0; i < n; i++) {\nfor (int j = 0; j < n; j++) {\nfloat sum = 0.0f;\nfor (int k = 0; k < n; k++) {\nsum += A[i*n + k] * B[k*n + j];\n}\nC[i*n + j] = sum;\n}\n}\n}\nA.4 Performance Metrics Summary\nTable 11 provides a high-level summary of performance metrics, comparing the average LLM\napproach against the average of traditional baselines.\nTable 11: Summary of Key Performance Metrics.\nMetric LLM Average Best LLM Traditional Avg.",
+      "section": "References",
+      "char_count": 962,
+      "chunk_index": 17,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "SLMCompiler_2025_2512_19250.pdf",
+      "total_source_pages": 9
+    },
+    {
+      "chunk_id": "SLMCompiler_2025_chunk_0018",
+      "source_id": "SLMCompiler_2025",
+      "text": "mary of performance metrics, comparing the average LLM\napproach against the average of traditional baselines.\nTable 11: Summary of Key Performance Metrics.\nMetric LLM Average Best LLM Traditional Avg. Improvement\nSpeedup6.81x 43.25x 6.45x +5.6%\nEfficiency0.85 0.92 0.81 +4.9%\nAnalysis Quality*0.82 0.95 1.00 -18%\nCompilation Time**15.6s 5.2s 2.1s +643%\nMemory Usage**1.2GB 0.8GB 0.9GB +33%\n*Analysis quality is lower but provides reasoning transparency.\n**Compilation overhead is offset by optimization quality.\nA.5 Visual Performance Analysis\nThe following figures provide a visual representation of the key performance comparisons discussed in\nthe main paper. Note that the model_comparison andprompting_strategy figures are high-level\nsummaries.\n7\n\n(a) High-level model performance summary.\n (b) High-level prompting strategy impact.\nFigure 1: Summary performance analysis of LLM models and prompting strategies.\nFigure 2: Detailed performance speedup across all evaluated kernels. Each bar represents a specific\ncombination of LLM model and prompting strategy, or a traditional baseline, providing a granular\nview of performance on a per-kernel basis.",
+      "section": "References",
+      "char_count": 1155,
+      "chunk_index": 18,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "SLMCompiler_2025_2512_19250.pdf",
+      "total_source_pages": 9
+    },
+    {
+      "chunk_id": "SLMCompiler_2025_chunk_0019",
+      "source_id": "SLMCompiler_2025",
+      "text": "across all evaluated kernels. Each bar represents a specific\ncombination of LLM model and prompting strategy, or a traditional baseline, providing a granular\nview of performance on a per-kernel basis.\n8\n\nFigure 3: Efficiency score distribution for each approach shown as a box plot. This visualization\nhighlights the median efficiency (orange line) as well as the variance and outliers for each configura-\ntion, offering deeper insight into the consistency of the parallelization strategies.\n9",
+      "section": "References",
+      "char_count": 493,
+      "chunk_index": 19,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "SLMCompiler_2025_2512_19250.pdf",
+      "total_source_pages": 9
+    }
+  ]
+}

@@ -1,0 +1,1442 @@
+{
+  "source_id": "MobileLLM_2024",
+  "metadata": {
+    "title": "MobileLLM: Optimizing Sub-billion Parameter Language Models for On-Device Use Cases",
+    "authors": "Zechun Liu, Changsheng Zhao, Forrest Iandola, Chen Lai, Yuandong Tian, Igor Fedorov, Yunyang Xiong, Ernie Chang, Yangyang Shi, Raghuraman Krishnamoorthi, Liangzhen Lai, Vikas Chandra",
+    "year": "2024",
+    "venue": "arXiv",
+    "url": "https://arxiv.org/abs/2402.14905",
+    "source_type": "peer-reviewed",
+    "relevance_note": "Mobile-specific optimization techniques - critical for understanding deployment constraints"
+  },
+  "pdf_metadata": {
+    "title": "MobileLLM: Optimizing Sub-billion Parameter Language Models  for On-Device Use Cases",
+    "author": "Zechun Liu, Changsheng Zhao, Forrest Iandola, Chen Lai, Yuandong Tian, Igor Fedorov, Yunyang Xiong, Ernie Chang, Yangyang Shi, Raghuraman Krishnamoorthi, Liangzhen Lai, Vikas Chandra",
+    "total_pages": 24
+  },
+  "statistics": {
+    "total_pages": 24,
+    "total_chunks": 109,
+    "avg_chunk_size": 1028.697247706422,
+    "ingestion_timestamp": "2026-02-02T19:03:45.439872"
+  },
+  "chunks": [
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0000",
+      "source_id": "MobileLLM_2024",
+      "text": "MobileLLM: Optimizing Sub-billion Parameter Language Models\nfor On-Device Use Cases\nZechun Liu1Changsheng Zhao1Forrest Iandola1Chen Lai1Yuandong Tian1Igor Fedorov1\nYunyang Xiong1Ernie Chang1Yangyang Shi1Raghuraman Krishnamoorthi1Liangzhen Lai1\nVikas Chandra1",
+      "section": "Header/Title",
+      "char_count": 258,
+      "chunk_index": 0,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0001",
+      "source_id": "MobileLLM_2024",
+      "text": "Abstract\nThis paper addresses the growing need for ef-\nficient large language models (LLMs) on mo-\nbile devices, driven by increasing cloud costs\nand latency concerns. We focus on designing\ntop-quality LLMs with fewer than a billion pa-\nrameters, a practical choice for mobile deploy-\nment. Contrary to prevailing belief emphasiz-\ning the pivotal role of data and parameter quan-\ntity in determining model quality, our investiga-\ntion underscores the significance of model archi-\ntecture for sub-billion scale LLMs. Leveraging\ndeep and thin architectures, coupled with embed-\nding sharing and grouped-query attention mech-\nanisms, we establish a strong baseline network\ndenoted as MobileLLM , which attains a remark-\nable 2.7%/4.3% accuracy boost over preceding\n125M/350M state-of-the-art models. Addition-\nally, we propose an immediate block-wise weight-\nsharing approach with no increase in model size\nand only marginal latency overhead. The re-\nsultant models, denoted as MobileLLM-LS ,\ndemonstrate a further accuracy enhancement\nof 0.7%/0.8% than MobileLLM 125M/350M.",
+      "section": "Abstract",
+      "char_count": 1071,
+      "chunk_index": 1,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0002",
+      "source_id": "MobileLLM_2024",
+      "text": "h with no increase in model size\nand only marginal latency overhead. The re-\nsultant models, denoted as MobileLLM-LS ,\ndemonstrate a further accuracy enhancement\nof 0.7%/0.8% than MobileLLM 125M/350M.\nMoreover, MobileLLM model family shows sig-\nnificant improvements compared to previous sub-\nbillion models on chat benchmarks, and demon-\nstrates close correctness to LLaMA-v2 7B in API\ncalling tasks, highlighting the capability of small\nmodels for common on-device use cases.",
+      "section": "Abstract",
+      "char_count": 477,
+      "chunk_index": 2,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0003",
+      "source_id": "MobileLLM_2024",
+      "text": "1. Introduction\nLarge language models (LLMs) are permeating various\nfacets of human life, influencing not only the way people\n1Meta. Correspondence to: Zechun Liu <zechun-\n\nProceedings of the 41stInternational Conference on Machine\nLearning , Vienna, Austria. PMLR 235, 2024. Copyright 2024 by\nthe author(s).\nCerebras-GPTOPT\nGPT-Neo BLOOM Pythia RWKV\nMobileLLM40424446485052AccuracyDiameter\n0125350 #Params(M) Figure 1: Average score on zero-shot common sense tasks\nfor LLMs smaller than 1B parameters. Each bubble’s area is\nproportional to the model size of a variant in a model family.\nThe results of previous methods were evaluated using open-\nsource Hugging Face models to ensure consistent evaluation\nprocedures. The full list of tasks is in Table 3.\ncommunicate and work but also shaping everyday entertain-\nment experiences. Prominent examples of contemporary\nLLM products, such as ChatGPT and Perplexity AI, pri-\nmarily operate in cloud environments.",
+      "section": "1. Introduction",
+      "char_count": 958,
+      "chunk_index": 3,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0004",
+      "source_id": "MobileLLM_2024",
+      "text": "mmunicate and work but also shaping everyday entertain-\nment experiences. Prominent examples of contemporary\nLLM products, such as ChatGPT and Perplexity AI, pri-\nmarily operate in cloud environments. Leading models\nsuch as ChatGPT4 exceed 1 trillion parameters.1However,\nenvisioning a future scenario characterized by widespread\nhuman reliance on LLMs in both front-end conversational\ninterfaces and back-end operations like recommendation\nsystem, equating to ∼5% of individuals’ daily time. In this\nhypothetical scenario, employing GPT-4 at a processing rate\nof 50 tokens/s entails the deployment of around one hundred\nmillion H100 GPUs2, each capable of 60 TFLOPs/s3. This\ncomputation scale, excluding communication and data trans-\n1\n2Detailed calculation can be found in the appendix.\n3\n1arXiv:2402.14905v2 [cs.LG] 27 Jun 2024\n\nMobileLLM\nCPU / GPU / NPUSRAM Cache 8- 32 MBDRAM 6-12 GBFlash memory ~100 GB~1 GB/s~10 GB/s~100 GB/s55055155255355455555655755855956056156256356456556656756856957057157",
+      "section": "1. Introduction",
+      "char_count": 1000,
+      "chunk_index": 4,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0005",
+      "source_id": "MobileLLM_2024",
+      "text": "02.14905v2 [cs.LG] 27 Jun 2024\n\nMobileLLM\nCPU / GPU / NPUSRAM Cache 8- 32 MBDRAM 6-12 GBFlash memory ~100 GB~1 GB/s~10 GB/s~100 GB/s550551552553554555556557558559560561562563564565566567568569570571572573574575576577578579580581582583584585586587588589590591592593594595596597598599600601602603604MobileLLM:SoC last levelHardware Device memory size DRAM sizeApple A16 iPhone 15 24 MB 6 GBApple A15 iPhone 14 32 MB 6 GBGoogle Pixel 8 8 MB 8 GB / 12 GB (pro)QCOM Snapdragon 8 10 MB 8-12 GBTable 9: Your caption\nTable 10: Ablation: depth and layer sharing.Model #Layer #Heads Dim #Params(M) ARC-e ARC-c BoolQ PIQA SIQA HellaSwag OBQA WinoGrande Avg.130M4 20 1280 163.2 42.3 26.3 61.1 62.1 41.6 32.9 33.0 51.7 43.96 16 1024 138.1 41.0 26.5 61.8 61.7 41.4 32.0 33.5 51.2 43.68 14 896 142.6 40.2 26.8 53.7 62.7 41.7 32.9 35.5 51.7 43.212 12 768 134.1 42.0 26.6 59.8 63.6 41.8 34.9 37.9 51.0 44.718 10 640 132.4 41.0 25.5 59.3 62.6 41.6 34.2 36.7 50.1 43.924 9 576 132.4 42.1 25.2 61.9 62.9 42.0 35.4 38.6 5",
+      "section": "1. Introduction",
+      "char_count": 1000,
+      "chunk_index": 5,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0006",
+      "source_id": "MobileLLM_2024",
+      "text": "62.7 41.7 32.9 35.5 51.7 43.212 12 768 134.1 42.0 26.6 59.8 63.6 41.8 34.9 37.9 51.0 44.718 10 640 132.4 41.0 25.5 59.3 62.6 41.6 34.2 36.7 50.1 43.924 9 576 132.4 42.1 25.2 61.9 62.9 42.0 35.4 38.6 52.0 45.030 8 512 135.0 43.2 27.7 57.5 63.7 42.4 36.4 38.1 52.945.242 7 448 134.6 43.3 26.1 57.8 63.3 41.7 36.3 35.9 52.0 44.562 6 384 134.3 44.1 26.7 59.0 64.7 42.4 36.2 33.1 53.8 45.0380M5 32 2048 388.0 47.9 28.8 62.2 65.2 42.8 38.1 39.0 52.6 47.110 24 1536 381.4 49.1 29.6 60.6 67.1 44.0 42.7 41.2 54.4 48.612 22 1408 379.9 49.9 31.6 59.1 68.2 42.6 44.0 43.7 53.8 49.115 20 1280 386.7 49.2 30.6 59.1 67.7 44.3 43.2 41.0 54.2 48.719 18 1152 376.3 50.8 30.9 56.3 69.1 43.8 45.2 39.6 54.5 48.824 16 1024 373.8 50.7 33.8 58.8 68.6 43.5 45.0 40.0 54.9 49.428 15 960 371.1 49.7 30.5 59.5 68.1 45.1 44.9 43.4 55.5 49.632 14 896 380.3 51.7 33.2 57.6 67.9 42.9 46.0 37.7 53.9 48.946 12 768 374.7 50.7 31.4 59.4 67.8 43.3 46.2 43.8 56.249.866 10 640 376.2 50.5 31.8 61.0 67.4 43.8 46.0 40.1 55.6 49.5130M4 20",
+      "section": "1. Introduction",
+      "char_count": 1000,
+      "chunk_index": 6,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0007",
+      "source_id": "MobileLLM_2024",
+      "text": "3.4 55.5 49.632 14 896 380.3 51.7 33.2 57.6 67.9 42.9 46.0 37.7 53.9 48.946 12 768 374.7 50.7 31.4 59.4 67.8 43.3 46.2 43.8 56.249.866 10 640 376.2 50.5 31.8 61.0 67.4 43.8 46.0 40.1 55.6 49.5130M4 20 1280 155.6 42.1 26.9 61.4 62.2 41.3 34.3 35.1 51.5 44.36 16 1024 131.7 42.3 26.5 58.0 61.3 42.8 33.3 34.8 52.3 43.98 14 896 136.0 43.0 24.7 59.3 62.4 42.0 34.6 39.3 50.8 44.512 12 768 127.9 43.3 26.6 58.7 63.3 41.6 36.0 37.8 52.1 44.918 10 640 126.3 43.3 27.5 60.4 64.6 42.7 35.9 37.6 53.4 45.724 9 576 126.3 44.4 27.7 57.5 64.0 42.4 37.1 35.1 53.9 45.230 8 512 128.8 44.8 27.4 59.2 64.5 43.5 37.0 38.0 52.545.842 7 448 128.4 43.9 27.9 62.3 63.6 42.9 37.1 36.3 52.845.862 6 384 128.1 43.2 26.4 59.7 63.7 42.5 37.1 37.7 51.8 45.3380M5 32 2048 370.0 50.6 31.2 58.6 67.1 43.7 43.2 41.5 55.4 48.910 24 1536 363.8 50.5 32.0 60.0 68.3 42.7 45.9 40.3 56.9 49.612 22 1408 362.3 50.3 31.9 57.8 67.4 43.7 45.4 42.5 55.0 49.215 20 1280 368.8 53.4 32.1 61.9 68.0 43.5 46.6 41.5 54.9 50.219 18 1152 358.9 52.5 32",
+      "section": "1. Introduction",
+      "char_count": 1000,
+      "chunk_index": 7,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0008",
+      "source_id": "MobileLLM_2024",
+      "text": "536 363.8 50.5 32.0 60.0 68.3 42.7 45.9 40.3 56.9 49.612 22 1408 362.3 50.3 31.9 57.8 67.4 43.7 45.4 42.5 55.0 49.215 20 1280 368.8 53.4 32.1 61.9 68.0 43.5 46.6 41.5 54.9 50.219 18 1152 358.9 52.5 32.7 60.0 68.7 43.8 46.8 42.9 57.650.624 16 1024 356.5 50.7 31.1 59.2 69.1 42.7 46.4 40.9 53.7 49.228 15 960 353.9 49.1 30.9 58.7 68.2 44.3 46.0 40.5 54.9 49.132 14 896 362.7 51.5 32.0 60.9 68.7 43.6 46.7 42.1 55.3 50.146 12 768 357.4 51.9 31.6 60.4 69.2 43.7 47.2 43.8 54.0 50.211\nFigure 2: Memory hierarchy in prevalent mobile devices.\nDespite adequate Flash storage, the operational memory for\nexecuting high-speed applications predominantly resides in\nDRAM, typically constrained to 6-12 GB.\nmission overhead, is on par with 160 Meta-scale companies4.\nThe ensuing energy consumption and carbon dioxide emis-\nsions would present staggering environmental challenges.\nConsequently, it is imperative that we downsize LLMs.\nFurthermore, considerations of portability andcomputa-\ntional cost propel the necessity to deploy LLMs on smart-\nphones and mobile devices.",
+      "section": "1. Introduction",
+      "char_count": 1060,
+      "chunk_index": 8,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0009",
+      "source_id": "MobileLLM_2024",
+      "text": "enges.\nConsequently, it is imperative that we downsize LLMs.\nFurthermore, considerations of portability andcomputa-\ntional cost propel the necessity to deploy LLMs on smart-\nphones and mobile devices. In the current landscape of\nmobile technology, integrating an LLM like the LLaMA-\nv2 7B (Touvron et al., 2023b) with 8-bit weights proves\nprohibitively expensive due to limitations in main-memory\n(DRAM) capacity source. A prevalent memory hierarchy\nin mobile devices is depicted in Figure 2. With DRAM\ncapacities ranging from 6 GB for the iPhone 15 and 12 GB\nfor the Google Pixel 8 Pro (Hristov, 2022; Google, 2023),\na mobile app should not exceed 10% of the DRAM, since\nDRAM is shared with the operating system and other ap-\nplications (Malladi et al., 2012). This motivates deploying\nsub-billion parameter LLMs. Additionally, factoring in\nLLM energy consumption (0.1 J/token per billion in model\nparameters (Han et al., 2016; Malladi et al., 2012)), a 7B-\nparameter LLM consumes 0.7 J/token. A fully charged\niPhone, with approximately 50kJ of energy, can sustain this\nmodel in conversation for less than 2 hours at a rate of 10\ntokens/s, with every 64 tokens draining 0.2% of the battery.",
+      "section": "1. Introduction",
+      "char_count": 1191,
+      "chunk_index": 9,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0010",
+      "source_id": "MobileLLM_2024",
+      "text": "en. A fully charged\niPhone, with approximately 50kJ of energy, can sustain this\nmodel in conversation for less than 2 hours at a rate of 10\ntokens/s, with every 64 tokens draining 0.2% of the battery.\nThese demands converge on a singular imperative: the adop-\ntion of compact models for on-device execution. By uti-\nlizing a sub-billion model, such as a 350M 8-bit model\nconsuming only 0.035 J/token, an iPhone can support con-\nversational use an entire day. Moreover, the decoding speed\ncan be significantly enhanced, as exemplified by the bench-\nmark results of the 125M model, capable of operating at 50\ntokens/s, compared to the state-of-the-art iPhone App MLC\nChat utilizing the LLaMA 7B model at 3 ∼6 tokens/second5.\nIn light of these considerations, our paper is motivated by\nthe design and implementation of LLMs with parameters\n4\n5 than 1 billion.\nWe make the following contributions to build the most accu-\nrate LLMs to date under 1 billion parameters.6\n•Contradictory to the scaling law (Kaplan et al., 2020),\nwe demonstrate that depth is more important than width\nfor small LLMs.",
+      "section": "1. Introduction",
+      "char_count": 1091,
+      "chunk_index": 10,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0011",
+      "source_id": "MobileLLM_2024",
+      "text": "s to build the most accu-\nrate LLMs to date under 1 billion parameters.6\n•Contradictory to the scaling law (Kaplan et al., 2020),\nwe demonstrate that depth is more important than width\nfor small LLMs. A deep-and-thin model structure ex-\ncels in capturing abstract concepts, resulting in superior\nfinal performance.\n•We revisit embedding sharing methods (Zhang et al.,\n2022) and implement grouped query attention (Ainslie\net al., 2023) in small LLMs to maximize weight uti-\nlization.\n•We propose immediate block-wise weight sharing. In\nscenarios where memory movement is the latency bot-\ntleneck, weight sharing between two adjacent blocks\navoids weight movement, requiring only computing the\nblock twice and incurring minimal latency overhead.\n•We propose a new family of models, MobileLLM ,\nshowcasing SOTA performance. In a suite of zero-shot\ntasks, MobileLLM outperforms the previous SOTA\n125M/350M models by 2.7%/4.3%.\n•In downstream tasks, such as Chat and API calling,\nMobileLLM model family significantly outperforms\nequivalently-sized models. In an API calling task,\nMobileLLM -350M even achieves a comparable exact-\nmatch score as a much larger LLaMA-v2 7B model.",
+      "section": "1. Introduction",
+      "char_count": 1172,
+      "chunk_index": 11,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0012",
+      "source_id": "MobileLLM_2024",
+      "text": "g,\nMobileLLM model family significantly outperforms\nequivalently-sized models. In an API calling task,\nMobileLLM -350M even achieves a comparable exact-\nmatch score as a much larger LLaMA-v2 7B model.\n•We further demonstrate that our design philosophy\nscales effectively to larger models, with results for\nMobileLLM -600M/1B/1.5B detailed in Appendix A.\n2. Improving Sub-billion Scale LLM Design\nIn this section, we present the evolutionary path from a\nbaseline sub-billion parameter model to the new state-of-\nthe-art models (Figure 3). We explore both 125M and 350M\nmodels and demonstrate consistent improvements in both\ncases. For on-device use cases where model size is a major\nconstraint, how to allocate the limited weight parameters\neffectively becomes more critical than ever. We first propose\na strong baseline model named MobileLLM by testing out\nfour model design techniques that are beneficial for sub-\nbillion scale LLMs, including (1) adopting SwiGLU FFN\n(Dauphin et al., 2017); (2) forcing lanky (deep and thin) ar-\nchitectures (3) revisiting embedding sharing method (Zhang\net al., 2022) (4) utilizing grouped query attention (Chowdh-\nery et al., 2023).",
+      "section": "1. Introduction",
+      "char_count": 1169,
+      "chunk_index": 12,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0013",
+      "source_id": "MobileLLM_2024",
+      "text": "(Dauphin et al., 2017); (2) forcing lanky (deep and thin) ar-\nchitectures (3) revisiting embedding sharing method (Zhang\net al., 2022) (4) utilizing grouped query attention (Chowdh-\nery et al., 2023). Then we develop an immediate block-wise\nlayer-sharing method that further boosts accuracy without\nincurring any additional memory overhead and with only\n6Our pre-training code is available at \ncom/facebookresearch/MobileLLM .\n2\n\nMobileLLM\nFigure 3: Design roadmap of sub-billion sized transformer\nmodels. The foreground and background bars represent\nthe averaged accuracy on zero-shot common sense reason-\ning tasks for 125M and 350M models, respectively. The\n125M model, initially a 12-layer 768-dimension structure,\nis enhanced via improving feed-forward network design,\nnetwork depth adjustments, and weight-sharing strategies.\nThe detailed accuracy of each modification can be found in\nthe appendix.\nslight latency overhead in the memory-bounded LM decod-\ning process. We denote our model with layer sharing as\nMobileLLM-LS .\n2.1. Training Setup\nOur experiments are conducted on 32 A100 GPUs, with\neach GPU having a batch size of 32.",
+      "section": "1. Introduction",
+      "char_count": 1138,
+      "chunk_index": 13,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0014",
+      "source_id": "MobileLLM_2024",
+      "text": "mory-bounded LM decod-\ning process. We denote our model with layer sharing as\nMobileLLM-LS .\n2.1. Training Setup\nOur experiments are conducted on 32 A100 GPUs, with\neach GPU having a batch size of 32. We performed ex-\nploratory experiments with 120k iterations on 0.25T tokens.\nSubsequently, the top models reported in Table 3 and Table\n4, are trained with 480k iterations on 1T tokens.\nWe evaluate the pre-trained model on zero-shot com-\nmon sense reasoning tasks, including ARC-easy, ARC-\nchallenge (Clark et al., 2018), BoolQ (Clark et al., 2019),\nPIQA (Bisk et al., 2020), SIQA (Sap et al., 2019), Hel-\nlaSwag (Zellers et al., 2019), OBQA (Mihaylov et al., 2018),\nWinoGrande (Sakaguchi et al., 2021), as well as question an-\nswering and reading comprehension tasks using TQA (Joshi\net al., 2017) and RACE dataset (Lai et al., 2017).\n2.2. Building a Strong Baseline\n2.2.1. F EED-FORWARD NETWORK CHOICE\nWe first investigate activation functions commonly used in\nfeed-forward networks (FFNs) and find that the state-of-\nthe-art SwiGLU (Dauphin et al., 2017) is also beneficialfor small models.",
+      "section": "1. Introduction",
+      "char_count": 1094,
+      "chunk_index": 14,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0015",
+      "source_id": "MobileLLM_2024",
+      "text": "ORK CHOICE\nWe first investigate activation functions commonly used in\nfeed-forward networks (FFNs) and find that the state-of-\nthe-art SwiGLU (Dauphin et al., 2017) is also beneficialfor small models. By changing the vanilla FFN ( FC→\nReLU →FC) to SwiGLU, The average performance on\nzero-shot reasoning tasks is boosted from 42.6 to 43.9 for\nthe 125M model. Therefore, we use SwiGLU in FFN for\nthe experiments afterward.\n2.2.2. A RCHITECTURE DEPTH VS WIDTH\nA prevalent belief (Kaplan et al., 2020) in the field suggests\nthat the performance of transformer models is primarily\ndetermined by the number of parameters, the size of the\ntraining dataset, and the number of training iterations. This\nbelief posits that architectural designs have negligible im-\npact on the transformer model’s performance. However,\nour findings indicate that this may not hold true for smaller\nmodels.\nOur experimental results, specifically for small models with\nlimited model capacity, reveals that going deeper is more\ncrucial than going wider for performance improvement. We\nconducted an extensive study involving the training of 19\nmodels, including 9 models with ∼125M parameters and\n10 models with ∼350M parameters.",
+      "section": "1. Introduction",
+      "char_count": 1198,
+      "chunk_index": 15,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0016",
+      "source_id": "MobileLLM_2024",
+      "text": "crucial than going wider for performance improvement. We\nconducted an extensive study involving the training of 19\nmodels, including 9 models with ∼125M parameters and\n10 models with ∼350M parameters. Each model is de-\nsigned with a similar size but varied in terms of depth and\nwidth. We experiment on eight zero-shot common sense\nreasoning tasks, as well as question answering and read-\ning comprehension benchmarks. Our findings consistently\ndemonstrate that deeper and thinner models outperform\ntheir shallower and wider counterparts. Figure 4 (a) and\n(b) illustrate the superior performance of deeper networks\nacross most zero-shot reasoning tasks, including ARC-easy,\nARC-challenge, PIQA, HellaSwag, OBQA, WinoGrande.\nParticularly, this trend is even more pronounced on the TQA\nand RACE datasets, as shown in Figure 4 (c)-(f). Detailed\nmodel configurations and results can be seen in the appendix.\nOur findings suggest that models with 30 or even 42 layers\nperform significantly better than those with 12 layers for\ntransformer models sized around 125M.",
+      "section": "1. Introduction",
+      "char_count": 1059,
+      "chunk_index": 16,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0017",
+      "source_id": "MobileLLM_2024",
+      "text": "ons and results can be seen in the appendix.\nOur findings suggest that models with 30 or even 42 layers\nperform significantly better than those with 12 layers for\ntransformer models sized around 125M. This finding is sur-\nprising considering the number of layers in most previous\n125M models (Zhang et al., 2022; Black et al., 2022) is\nlimited to 12.\n2.2.3. E MBEDDING SHARING\nIn sub-billion scale language models, the embedding lay-\ners constitute a significant portion of the parameter count.\nFor instance, with an embedding dimension of 512 and a\nvocabulary size of 32k, the input and output embedding\nlayers each comprise 16 million parameters. Together, these\nembedding layers account for more than 20% of the total\nparameters of a 125M-parameter model. Contrastingly, this\nproportion is considerably lower in larger language models.",
+      "section": "1. Introduction",
+      "char_count": 838,
+      "chunk_index": 17,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0018",
+      "source_id": "MobileLLM_2024",
+      "text": "arameters. Together, these\nembedding layers account for more than 20% of the total\nparameters of a 125M-parameter model. Contrastingly, this\nproportion is considerably lower in larger language models.\nFor example, the input and output embeddings only account\nfor 3.7% of the total number of parameters in the LLaMA-\n7B model (Touvron et al., 2023a) and a mere 0.7% in the\n3\n\nMobileLLM\n(d) 350M model, TQA(c) 125M model, TQA(e) 125M model, RACE(f) 350M model, RACE(a) 125M model, Zero-shot reasoning(b) 350M model, Zero-shot reasoning\nFigure 4: Under comparable model sizes, deeper and thinner models generally outperform their wider and shallower coun-\nterparts across various tasks such as zero-shot common sense reasoning, question answering, and reading comprehension.\nTable 1: Ablation study on input-output embedding sharing with a 30-layer model with 512 embedding dimension, on\nzero-shot common-sense reasoning tasks. The increased depth ( ↑depth) model has 32 layers.\nModel # Params ARC-e ARC-c BoolQ PIQA SIQA HS OBQA WinoGrande Avg.",
+      "section": "1. Introduction",
+      "char_count": 1042,
+      "chunk_index": 18,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0019",
+      "source_id": "MobileLLM_2024",
+      "text": "yer model with 512 embedding dimension, on\nzero-shot common-sense reasoning tasks. The increased depth ( ↑depth) model has 32 layers.\nModel # Params ARC-e ARC-c BoolQ PIQA SIQA HS OBQA WinoGrande Avg.\nWithout emb-share 135M 43.6 26.1 58.0 62.5 42.6 36.5 37.5 51.5 44.8\n+ emb-share 119M 44.4 26.0 56.2 62.8 43.1 35.9 36.0 52.6 44.6\n+ emb-share, ↑depth 125M 43.3 26.4 54.4 64.7 43.5 36.9 38.5 52.6 45.0\nLLaMA-70B model. This disparity might elucidate why\nembedding sharing was initially proposed and implemented\nin OPT models (Zhang et al., 2022) but was subsequently\ndisregarded in recent designs of LLMs.\nIn the development of sub-billion scale language models, we\nrevisit the concept of input-output embedding sharing. The\ninput embedding in LLM models maps the token ID in the\nvocabulary to the corresponding token embedding and has a\ndimension of (vocab _size, embedding _dim). Conversely,\nthe output fully-connected layer maps the embedding dimen-\nsion back to the logits prediction across the vocabulary, with\na weight size of (vocab _size, embedding _dim).",
+      "section": "1. Introduction",
+      "char_count": 1062,
+      "chunk_index": 19,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0020",
+      "source_id": "MobileLLM_2024",
+      "text": ", embedding _dim). Conversely,\nthe output fully-connected layer maps the embedding dimen-\nsion back to the logits prediction across the vocabulary, with\na weight size of (vocab _size, embedding _dim). By shar-\ning the embedding, we reuse the input embedding weights\nas the output fully connected layer weights, resulting in a\nmore efficient and compact model architecture.\nWe experiment on a 30-layer 125M model. In Table 1, we\ndemonstrate that sharing the input and output embeddings\nreduces the number of parameters by 16M, approximately\n11.8% of total parameters with a 0.2 points drop in aver-\nage accuracy. The marginal accuracy drop can be readily\nrestored by reallocating the saved parameters to add more\nlayers. Increasing the depth to 32 layers produces a 0.4\npoints accuracy gain while still maintaining 10M fewer pa-\nrameters compared to the original 135M model. Similar\nresults are also observed in 350M models. These findings\nfurther suggest that embedding sharing is a valuable tech-\n(a)125M(b)350MFigure 5: Ablation study on number of heads and kv-heads.\nHere, the ratio denotes the number of heads divided by\nthe number of kv-heads.",
+      "section": "1. Introduction",
+      "char_count": 1148,
+      "chunk_index": 20,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0021",
+      "source_id": "MobileLLM_2024",
+      "text": "uggest that embedding sharing is a valuable tech-\n(a)125M(b)350MFigure 5: Ablation study on number of heads and kv-heads.\nHere, the ratio denotes the number of heads divided by\nthe number of kv-heads. Averaged accuracy on zero-shot\nreasoning tasks is reported.\nnique for maximizing weight utilization and optimizing\nmodel performance given a limited model storage budget.\n2.2.4. N UMBER OF HEADS AND KV-H EADS\nWe now investigate the optimal head size for small trans-\nformer models. The trade-off between more semantics per\nhead dimension and more non-linear combinations of multi-\nple heads is a key consideration in choosing the head size.\nIn addition, most previous studies have typically used an\nidentical number of key-value heads to query heads in sub-\nbillion parameter language models. Instead, we found that\ngrouped query attention, which is initially designed for re-\n4\n\nMobileLLM\nducing key-value cache size in LLMs (Chowdhery et al.,\n2023; Ainslie et al., 2023), can also effectively reduce re-\ndundancy in key-value heads in small LMs.",
+      "section": "1. Introduction",
+      "char_count": 1048,
+      "chunk_index": 21,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0022",
+      "source_id": "MobileLLM_2024",
+      "text": "is initially designed for re-\n4\n\nMobileLLM\nducing key-value cache size in LLMs (Chowdhery et al.,\n2023; Ainslie et al., 2023), can also effectively reduce re-\ndundancy in key-value heads in small LMs. Grouped query\nattention can be viewed as another form of weight-sharing\nfor weight re-utilization, where the number of key-value\nheads is 1/nthat of query heads, and the kv-heads are re-\npeated ntimes in computing attention scores and output\ntogether with the query. Here, n∈Z+denotes a positive\ninteger that the number of query heads are divisible by.\nTo establish a solid foundation for a state-of-the-art small\ntransformer model, we conducted experiments to determine\nthe desirable head size on 125M and 350M models. Results\nin Figure 5 show that using 16 query heads produces the best\nresults. Additionally, reducing the number of kv-heads from\n16 to 4 resulted in comparable accuracy for the 125M model\nand only 0.2 points accuracy drop in the 350M model with\nalmost 10% model size reduction. These results serve as a\nguideline in our model architecture design.",
+      "section": "1. Introduction",
+      "char_count": 1067,
+      "chunk_index": 22,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0023",
+      "source_id": "MobileLLM_2024",
+      "text": "in comparable accuracy for the 125M model\nand only 0.2 points accuracy drop in the 350M model with\nalmost 10% model size reduction. These results serve as a\nguideline in our model architecture design. By adopting the\ngrouped query attention (GQA) and meanwhile increasing\nthe embedding dimension to maintain the model size, the\naccuracy of 125M further increases by 0.4 points, indicating\nGQA as a favorable method to further squeeze out small\nmodel’s potential.\nIn summary, we tested out four state-of-the-art techniques\nbeneficial to small model designs, including FFN with\nSwiGLU, deep and thin architecture, embedding sharing,\nand grouped query attention. Combining these techniques,\nwe build a strong baseline small LLM and we name it\nMobileLLM .\n2.3. Layer Sharing\nThe findings in Section 2.2.2 on the impact of layer depth\nversus width suggest deeper layers are favorable for small\ntransformer models. This motivates us to investigate layer\nsharing as a strategy to increase the number of hidden layers\nwithout additional model storage cost. This approach is\nparticularly helpful in on-device scenarios where model size\nis a major constraint.",
+      "section": "1. Introduction",
+      "char_count": 1149,
+      "chunk_index": 23,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0024",
+      "source_id": "MobileLLM_2024",
+      "text": "haring as a strategy to increase the number of hidden layers\nwithout additional model storage cost. This approach is\nparticularly helpful in on-device scenarios where model size\nis a major constraint.\nSurprisingly, the experimental findings show that accuracy\nenhancement can be achieved by simply replicating trans-\nformer blocks, without necessitating architectural modifi-\ncations or an enlargement of the model size. We further\nexamined three different weight-sharing strategies, illus-\ntrated in Figure 6. Results in Table 2 indicate that the repeat-\nover layer-sharing strategy produces the best performance\namong immediate block-wise repeat, repeat all-over, and re-\nverse sharing strategies. However, considering the hardware\nmemory hierarchy (Figure 2), the SRAM for computing is\ntypically limited to around 20MB. This capacity is usually\nonly sufficient to hold a single transformer block.",
+      "section": "1. Introduction",
+      "char_count": 899,
+      "chunk_index": 24,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0025",
+      "source_id": "MobileLLM_2024",
+      "text": "However, considering the hardware\nmemory hierarchy (Figure 2), the SRAM for computing is\ntypically limited to around 20MB. This capacity is usually\nonly sufficient to hold a single transformer block. Therefore,\nplacing shared weights in the cache and computing them\ntwice immediately can avoid the need to transfer weights be-\nBlockBlockBlockBlockBlockBlockBlockBlockBlockBlockBlockBlockInput\nOutputInputInput\nOutputOutput(b)(c)(d)BlockBlockBlockBlockBlockBlock………\n(a)OutputBlockBlockBlock…InputBlockMHSA+FFN=Figure 6: (a) Baseline model without layer sharing; (b)\nImmediate block-wise sharing; (c) Repeat-all-over sharing;\n(d) Reverse sharing. A transformer block contains the multi-\nhead self-attention (MHSA) and the feed-forward network\n(FFN). While repeat-all-over sharing has slightly higher\nperformance, immediate block-wise sharing best utilizes the\ncache because the shared weights can stay in the cache and\nbe immediately computed twice.\ntween the SRAM and DRAM, resulting in improved overall\nexecution speed for auto-regressive inference. Consequently,\nwe have opted for the immediate block-wise sharing strategy\nin our model design.",
+      "section": "1. Introduction",
+      "char_count": 1144,
+      "chunk_index": 25,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0026",
+      "source_id": "MobileLLM_2024",
+      "text": "ce.\ntween the SRAM and DRAM, resulting in improved overall\nexecution speed for auto-regressive inference. Consequently,\nwe have opted for the immediate block-wise sharing strategy\nin our model design. We denote the proposed model with\nlayer sharing as MobileLLM-LS .",
+      "section": "1. Introduction",
+      "char_count": 266,
+      "chunk_index": 26,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0027",
+      "source_id": "MobileLLM_2024",
+      "text": "3. Experiments\n3.1. Experimental Settings\nWe train MobileLLM from scratch using Adam optimizer\n(Kingma & Ba, 2014) with a weight decay of 0.1. The\nexperiments are conducted using 32 A100 GPUs, with a\nbatch size of 32 on each GPU. The initial learning rate is set\nto 2e-3 and follows a cosine learning-rate decay strategy. We\nperform quick exploration experiments with 120k iterations\non 0.25T tokens and train the best models reported in Tables\n3 and 4 with 480k iterations on 1T tokens.\n3.2. Main Results\nWe compare the final performance on zero-shot common\nsense reasoning tasks, question answering, and reading com-\nprehension tasks. The results of baseline methods were\nevaluated using their open-source Hugging Face models to\nensure consistent evaluation procedures.\nZero-shot Common Sense Reasoning Table 3 presents\na comparison between our proposed model, MobileLLM ,\nand state-of-the-art sub-billion parameter models, including\nthe early open-sourced LLMs, OPT (Zhang et al., 2022),\nBLOOM (Scao et al., 2022), and recent releases such as\n5\n\nMobileLLM\nTable 2: Ablation study of layer-sharing strategy on zero-shot common sense reasoning tasks.",
+      "section": "3. Experiments",
+      "char_count": 1151,
+      "chunk_index": 27,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0028",
+      "source_id": "MobileLLM_2024",
+      "text": "sourced LLMs, OPT (Zhang et al., 2022),\nBLOOM (Scao et al., 2022), and recent releases such as\n5\n\nMobileLLM\nTable 2: Ablation study of layer-sharing strategy on zero-shot common sense reasoning tasks.\nModel Sharing method ARC-e ARC-c BoolQ PIQA SIQA HellaSwag OBQA WinoGrande Avg.\n125Mbaseline 41.6 25.7 61.1 62.4 43.1 34.4 36.9 51.6 44.6\nImmediate block-wise share 43.9 27.9 61.5 64.3 41.5 35.5 35.1 50.2 45.0\nRepeat-all-over share 43.6 27.1 60.7 63.4 42.6 35.5 36.9 51.7 45.2\nReverse share 43.8 26.0 58.9 62.9 42.2 35.2 36.8 52.2 44.8\n350Mbaseline 50.8 30.6 62.3 68.6 43.5 45.1 43.8 52.4 49.6\nImmediate block-wise share 51.5 30.8 59.6 68.2 43.9 47.7 44.7 55.0 50.2\nRepeat-all-over share 53.5 33.0 61.2 69.4 43.2 48.3 42.2 54.6 50.7\nReverse share 50.7 32.2 61.0 68.8 43.8 47.4 43.1 53.8 50.1\nTable 3: Zero-shot performance on Common Sense Reasoning tasks. MobileLLM denotes the proposed baseline model\nandMobileLLM-LS is integrated with layer sharing with the #layer counting layers with distinct weights.\nModel #Layers #Params ARC-e ARC-c BoolQ PIQA SIQA HellaSwag OBQA WinoGrande Avg.",
+      "section": "3. Experiments",
+      "char_count": 1087,
+      "chunk_index": 28,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0029",
+      "source_id": "MobileLLM_2024",
+      "text": "baseline model\nandMobileLLM-LS is integrated with layer sharing with the #layer counting layers with distinct weights.\nModel #Layers #Params ARC-e ARC-c BoolQ PIQA SIQA HellaSwag OBQA WinoGrande Avg.\nCerebras-GPT-111M 10 111M 35.8 20.2 62.0 58.0 39.8 26.7 29.0 48.8 40.0\nLaMini-GPT-124M 12 124M 43.6 26.0 51.8 62.7 42.1 30.2 29.6 49.2 41.9\nGalactica-125M 12 125M 44.0 26.2 54.9 55.4 38.9 29.6 28.2 49.6 40.9\nOPT-125M 12 125M 41.3 25.2 57.5 62.0 41.9 31.1 31.2 50.8 42.6\nGPT-neo-125M 12 125M 40.7 24.8 61.3 62.5 41.9 29.7 31.6 50.7 42.9\nPythia-160M 12 162M 40.0 25.3 59.5 62.0 41.5 29.9 31.2 50.9 42.5\nRWKV-169M 12 169M 42.5 25.3 59.1 63.9 40.7 31.9 33.8 51.5 43.6\nMobileLLM -125M 30 125M 43.9 27.1 60.2 65.3 42.4 38.9 39.5 53.1 46.3\nMobileLLM-LS -125M 30 125M 45.8 28.7 60.4 65.7 42.9 39.5 41.1 52.1 47.0\nCerebras-GPT-256M 14 256M 37.9 23.2 60.3 61.4 40.6 28.3 31.8 50.5 41.8\nOPT-350M 24 331M 41.9 25.7 54.0 64.8 42.6 36.2 33.3 52.4 43.9\nPythia-410M 24 405M 47.1 30.3 55.3 67.2 43.1 40.1 36.2 53.4 4",
+      "section": "3. Experiments",
+      "char_count": 999,
+      "chunk_index": 29,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0030",
+      "source_id": "MobileLLM_2024",
+      "text": "47.0\nCerebras-GPT-256M 14 256M 37.9 23.2 60.3 61.4 40.6 28.3 31.8 50.5 41.8\nOPT-350M 24 331M 41.9 25.7 54.0 64.8 42.6 36.2 33.3 52.4 43.9\nPythia-410M 24 405M 47.1 30.3 55.3 67.2 43.1 40.1 36.2 53.4 46.6\nRWKV-430M 24 430M 48.9 32.0 53.4 68.1 43.6 40.6 37.8 51.6 47.0\nBLOOM-560M 24 559M 43.7 27.5 53.7 65.1 42.5 36.5 32.6 52.2 44.2\nCerebras-GPT-590M 18 590M 42.6 24.9 57.7 62.8 40.9 32.0 33.2 49.7 43.0\nMobileLLM -350M 32 345M 53.8 33.5 62.4 68.6 44.7 49.6 40.0 57.6 51.3\nMobileLLM-LS -350M 32 345M 54.4 32.5 62.8 69.8 44.1 50.6 45.8 57.2 52.1\nTable 4: Performance on Trivia QA and RACE datasets for\nquestion answering and reading comprehension tasks.\nTQA (F1 score) RACE (Acc)\nModel 1-shot 5-shot 64-shot middle high\nCerebras-GPT-111M 1.9 3.8 4.4 29.2 24.3\nOPT-125M 8.7 9.6 8.2 34.7 27.5\nGPT-Neo-125M 8.0 7.9 5.0 34.7 27.0\nPythia-160M 2.1 1.4 2.1 30.2 25.1\nMobileLLM -125M 13.9 14.3 12.5 39.7 28.9\nMobileLLM-LS -125M 14.2 14.8 14.6 40.7 29.6\nCerebras-GPT-256M 5.2 6.8 3.3 31.7 26.2\nOPT-350M 11.0 12.3",
+      "section": "3. Experiments",
+      "char_count": 999,
+      "chunk_index": 30,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0031",
+      "source_id": "MobileLLM_2024",
+      "text": "8.0 7.9 5.0 34.7 27.0\nPythia-160M 2.1 1.4 2.1 30.2 25.1\nMobileLLM -125M 13.9 14.3 12.5 39.7 28.9\nMobileLLM-LS -125M 14.2 14.8 14.6 40.7 29.6\nCerebras-GPT-256M 5.2 6.8 3.3 31.7 26.2\nOPT-350M 11.0 12.3 10.4 37.1 28.0\nPythia-410M 12.4 13.8 12.8 39.1 29.7\nBLOOM-560M 8.8 8.9 5.3 37.6 28.2\nCerebras-GPT-590M 6.4 9.1 4.9 34.6 27.4\nMobileLLM -350M 22.0 23.9 24.2 45.6 33.8\nMobileLLM-LS -350M 21.4 22.5 22.6 47.3 33.7\nGalactica (Taylor et al., 2022), Cerebras (Dey et al., 2023),\nGPT-neo (Black et al., 2022) as well as the LLM analyzing\nsuite Pythia (Biderman et al., 2023) and transformer variants\nRWKV (Peng et al., 2023) on zero-shot common sense rea-\nsoning tasks. For the 125M model size, MobileLLM favor-\nably outperforms previous models such as OPT, GPT-Neo,\nand Galactica at the same model size by a significant margin.\nAdditionally, MobileLLM -125M achieves 3.8 points and\n2.7 points higher accuracy than Pythia-160M and RWKV-\n169M while being 22% and 26% smaller, respectively. Fur-thermore, incorporating layer-sharing in MobileLLM-LS -\n125M results in an additional 0.7 points improvement in\naccuracy.",
+      "section": "3. Experiments",
+      "char_count": 1106,
+      "chunk_index": 31,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0032",
+      "source_id": "MobileLLM_2024",
+      "text": "Pythia-160M and RWKV-\n169M while being 22% and 26% smaller, respectively. Fur-thermore, incorporating layer-sharing in MobileLLM-LS -\n125M results in an additional 0.7 points improvement in\naccuracy. It is noteworthy that MobileLLM-LS -125M\nachieves comparable or even higher results than most pre-\nvious 350M models. In the 350M model size category,\nMobileLLM surpasses previous state-of-the-art models by\nmore than 4 points with comparable or smaller model sizes.\nTo further validate our design principles under a wider range\nof memory constraints, we extend our model to include\nMobileLLM -600M, 1B, and 1.5B configurations. The com-\nprehensive results are detailed in the Appendix A.\nQuestion Answering and Reading Comprehension We\nevaluate pre-trained models on the TQA question answering\nbenchmark (Joshi et al., 2017) and RACE reading compre-\nhension benchmark (Lai et al., 2017). We follow the evalua-\ntion setup from (Touvron et al., 2023a) and report the results\nin Table 4. Comparing models of 125M size, MobileLLM -\n125M demonstrates a noteworthy improvement of over 4.3\npoints on the TQA benchmark in contrast to its predecessor.",
+      "section": "3. Experiments",
+      "char_count": 1142,
+      "chunk_index": 32,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0033",
+      "source_id": "MobileLLM_2024",
+      "text": "2023a) and report the results\nin Table 4. Comparing models of 125M size, MobileLLM -\n125M demonstrates a noteworthy improvement of over 4.3\npoints on the TQA benchmark in contrast to its predecessor.\nMoreover, the MobileLLM -350M model exhibits a sub-\nstantial performance increase of approximately 10 points\ncompared to other 350M-sized models. For the reading\ncomprehension tasks, MobileLLM model family also ex-\nhibits significantly higher scores than preceding sub-billion\nparameter models.\n6\n\nMobileLLM\nTable 5: Benchmark results on AlpacaEval (Evaluator: GPT-\n4; Reference model: text-davinci-001) and MT-Bench.\nModel MT-Bench (score) Alpaca Eval (win %)\nnumber of parameters < 200M\nOPT-125M 1.21 3.91\nGPT-Neo-125M 1.06 1.01\nPythia-160M 1.01 0.63\nMobileLLM -125M 2.33 24.07\nMobileLLM-LS -125M 2.52 23.79\n200M < number of parameters < 1B\nOPT-350M 1.37 6.80\nPythia-410M 1.62 13.87\nBLOOM-560M 1.73 10.29\nMobileLLM -350M 3.28 47.08\nMobileLLM-LS -350M 3.16 48.20\nnumber of parameters > 1B\nPythia-1B 1.70 16.62\nBLOOM-1.1B 2.37 19.90\nFalcon-1.3B 2.54 30.38\nOPT-1.3B 2.24 38.84\n3.3.",
+      "section": "3. Experiments",
+      "char_count": 1080,
+      "chunk_index": 33,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0034",
+      "source_id": "MobileLLM_2024",
+      "text": "3.87\nBLOOM-560M 1.73 10.29\nMobileLLM -350M 3.28 47.08\nMobileLLM-LS -350M 3.16 48.20\nnumber of parameters > 1B\nPythia-1B 1.70 16.62\nBLOOM-1.1B 2.37 19.90\nFalcon-1.3B 2.54 30.38\nOPT-1.3B 2.24 38.84\n3.3. Downstream Tasks\nTo validate the effectiveness of sub-billion scale models for\non-device applications, we assess their performance in two\ncrucial on-device tasks: Chat and API calling.\n3.3.1. C HAT\nWe fine-tune MobileLLM models, as well as previous\nstate-of-the-art (SoTA) models sourced from HuggingFace\ncheckpoints for chat-based tasks, and evaluate them un-\nder identical settings to ensure consistency. We evaluate\ntwo benchmarks: AlpacaEval (Li et al., 2023), a single-\nrun chat benchmark, and MT-Bench (Zheng et al., 2023),\na multi-run chat benchmark. The results presented in Ta-\nble 5 showcase that MobileLLM models significantly out-\nperform previous state-of-the-art sub-billion scale models,\nsurpassing even models with 1 billion parameters. Notably,\nMobileLLM-LS -350M achieves a remarkable win rate\nof 48.2% when compared to the baseline GPT-3 model\n(text-davinci-001).",
+      "section": "3. Experiments",
+      "char_count": 1083,
+      "chunk_index": 34,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0035",
+      "source_id": "MobileLLM_2024",
+      "text": "illion scale models,\nsurpassing even models with 1 billion parameters. Notably,\nMobileLLM-LS -350M achieves a remarkable win rate\nof 48.2% when compared to the baseline GPT-3 model\n(text-davinci-001). Considering the self-win rate of GPT-3\nis 50%, it is noteworthy that MobileLLM-LS -350M ob-\ntains comparable chat performance as this baseline model.\nVisualizations of chat examples in the appendix also un-\nderscore the impressive quality of responses generated by\nMobileLLM models.\n3.3.2. API C ALLING\nAPI calling is a common on-device application, particularly\nin collaboration with audio-to-text models for assistant func-\ntionalities. Leveraging LLMs for API calling involves the\nconversion of natural language inputs into JSON configura-Table 6: API calling evaluation score. EM intent/EM structure\nmeasures the exact match in API calling. R1/RL refers to the\nRouge-1/-L score measuring the quality of agent response.\nModel EM intent EM structure R1 RL\nOPT-350M 56.1 38.6 37.1 35.3\nPythia-410M 62.2 44.7 43.1 41.1\nBLOOM-560M 64.7 37.9 36.9 34.6\nMobileLLM -350M 65.3 48.8 46.8 44.6\nLLaMA-v2 7B 62.8 50.9 56.5 54.3\ntions to invoke corresponding APIs7.",
+      "section": "3. Experiments",
+      "char_count": 1155,
+      "chunk_index": 35,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0036",
+      "source_id": "MobileLLM_2024",
+      "text": "RL\nOPT-350M 56.1 38.6 37.1 35.3\nPythia-410M 62.2 44.7 43.1 41.1\nBLOOM-560M 64.7 37.9 36.9 34.6\nMobileLLM -350M 65.3 48.8 46.8 44.6\nLLaMA-v2 7B 62.8 50.9 56.5 54.3\ntions to invoke corresponding APIs7. For instance, given the\ninput \"Help me set an alarm at 7:30 AM\" the model outputs\n{API: \"alarm(time=\"7:30 am\")\"} . Additionally, the model\ngenerates an agent response: \"Sure! Your alarm is set to\n7:30 AM.\"\nTo adapt LLMs for this task, we create a synthetic dataset\nwith 5000 training samples and 2500 testing samples. Each\nsample involves 8 conversation turns on average. Detailed\nexamples of this dataset are provided in the appendix. The\npre-trained models undergo fine-tuning on the training set\nfor 4 epochs, utilizing the Adam optimizer with a linear-\ndecay learning rate starting at 2e-5 and a weight decay of\n0.01.\nTable 6 shows that MobileLLM -350M demonstrates com-\nparable intent and structure exact match scores to LLaMA-\nv2 7B, where high intent scores indicate the correct pre-\ndiction of the API user intends to call, while structural\nexact match scores reflect the proficiency in predicting con-\ntent within API functions.",
+      "section": "3. Experiments",
+      "char_count": 1137,
+      "chunk_index": 36,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0037",
+      "source_id": "MobileLLM_2024",
+      "text": "B, where high intent scores indicate the correct pre-\ndiction of the API user intends to call, while structural\nexact match scores reflect the proficiency in predicting con-\ntent within API functions. Despite lower Rouge scores in\nMobileLLM -350M compared to 7B models, it is crucial to\nnote that API calling prioritizes correct API invocation. The\nresults suggest that certain common scenarios in on-device\napplications are not particularly challenging, and smaller\nmodels like MobileLLM -350M can adeptly handle it.\n3.4. Compatibility with Quantization\nWe further conduct per-token min-max post-training quan-\ntization (PTQ) experiments on both MobileLLM and\nMobileLLM-LS models with 125M and 350M model\nsizes trained on 0.25T tokens. Figure 7 shows that em-\nploying W8A8 PTQ yields a modest accuracy reduction\nof less than 0.5 points and remains compatible with layer\nsharing.\n3.5. Knowledge Distillation\nSo far, we trained compact models from scratch using next\ntokens as hard labels.",
+      "section": "3. Experiments",
+      "char_count": 988,
+      "chunk_index": 37,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0038",
+      "source_id": "MobileLLM_2024",
+      "text": "odest accuracy reduction\nof less than 0.5 points and remains compatible with layer\nsharing.\n3.5. Knowledge Distillation\nSo far, we trained compact models from scratch using next\ntokens as hard labels. We explored Knowledge Distillation\n(KD) of 125M and 350M models with LLAMA-v2 7B as\n7\n7\n\nMobileLLM\n125M Layer share 125M 350M Layer share 350M45464748495051Accuracy\nBF16\nW8A8\nFigure 7: Comparison between BFloat16 model and 8-bit\nweight 8-bit activation post-training quantized model.\nTable 7: Latency analysis of MobileLLM -125M (30\nlayers), MobileLLM-LS -125M (2 ×30 layers, adjacent\nblocks sharing weights), and a 60-layer non-shared weight\nmodel, with consistent configurations in all other aspects.\nLoad Init Execute\nMobileLLM 39.2 ms 1361.7 ms 15.6 ms\nMobileLLM-LS 43.6 ms 1388.2 ms 16.0 ms\n60-layer non-shared 68.6 ms 3347.7 ms 29.0 ms\na teacher. Unfortunately, KD increases training time (slow-\ndown of 2.6−3.2×) and exhibits comparable or inferior\naccuracy to label-based training (details in appendix).\n3.6.",
+      "section": "3. Experiments",
+      "char_count": 1017,
+      "chunk_index": 38,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0039",
+      "source_id": "MobileLLM_2024",
+      "text": "68.6 ms 3347.7 ms 29.0 ms\na teacher. Unfortunately, KD increases training time (slow-\ndown of 2.6−3.2×) and exhibits comparable or inferior\naccuracy to label-based training (details in appendix).\n3.6. On-device Profiling\nWe measure the latency for MobileLLM -125M and\nMobileLLM-LS -125M FP16 models via ExecuTorch8on\niPhone 13 (iOS 17.2.1), with Metal Performance Shaders\n(MPS) backend9. Model loading, initialization, and execu-\ntion time are reported in Table 7. Specifically, execution\ntime is averaged over 50 iterations.\nResults in Table 7 reflects that through weight sharing and\ndoubling the number of layers, MobileLLM-LS incurs\nonly a 2.2% increase in loading and initialization time com-\npared to MobileLLM , attributable to their similar model\nsizes. Execution time also experiences a mere 2.6% over-\nhead, benefitting from data locality.",
+      "section": "3. Experiments",
+      "char_count": 849,
+      "chunk_index": 39,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0040",
+      "source_id": "MobileLLM_2024",
+      "text": "increase in loading and initialization time com-\npared to MobileLLM , attributable to their similar model\nsizes. Execution time also experiences a mere 2.6% over-\nhead, benefitting from data locality. In contrast, a model\nwith a doubled number of layers without weight sharing\nexhibits a substantial 143% rise in loading and initialization\ntime and an 86% increase in execution time.",
+      "section": "3. Experiments",
+      "char_count": 383,
+      "chunk_index": 40,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0041",
+      "source_id": "MobileLLM_2024",
+      "text": "4. Related Work\nThe excellent performance of LLMs has fostered its wide\napplications. Considering the computational cost and energy\n8\n9 of LLMs, a new stream of research direction\nhave emerged to downsize LLMs to enable on-device infer-\nence. These methods include:\nModel Compression. Numerous model compression meth-\nods are developed for LLMs, including pruning(Xia et al.,\n2023b), sparsity (Sun et al., 2023; Xia et al., 2023a; Fran-\ntar & Alistarh, 2023), and quantization (Liu et al., 2023a;\nDettmers et al., 2022; Kim et al., 2023; Frantar et al., 2022;\nXiao et al., 2023; Yao et al., 2022; Liu et al., 2023c;b; Fran-\ntar et al., 2022). Our research is complementary to these\ntechniques. As also substantiated in Section 3.4, our method-\nology is compatible with quantization.\nSmall Model Design. A limited number of studies have\nexplored compact model architectures, such as TinyLLaMA\n(Timiryasov & Tastet, 2023). However, even the smallest\nTinyLLaMA exceeds 1 billion parameters, making them\nstill prohibitive for many on-device applications.",
+      "section": "4. Related Work",
+      "char_count": 1050,
+      "chunk_index": 41,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0042",
+      "source_id": "MobileLLM_2024",
+      "text": "ct model architectures, such as TinyLLaMA\n(Timiryasov & Tastet, 2023). However, even the smallest\nTinyLLaMA exceeds 1 billion parameters, making them\nstill prohibitive for many on-device applications. Some\nresearch proposes large model architectures alongside their\nsmaller LLM variants in a model family (Zhang et al., 2022;\nScao et al., 2022; Black et al., 2022; Dey et al., 2023) or an\nanalytical suite containing small LLM variants (Biderman\net al., 2023). However, these models are not optimized\nunder the constraint of sub-billion parameters and therefore\nmay not be optimal.\nNeural Architecture Search. NAS has garnered substan-\ntial attention in the realm of convolutional neural networks,\nparticularly in the context of vision tasks (Tan & Le, 2019;\nZoph & Le, 2016; Wu et al., 2019; Guo et al., 2020). In\ncontrast, within the transformer domain, the prevailing con-\nsensus posits that the model architecture exerts minimal\ninfluence on accuracy, provided the total number of pa-\nrameters remains consistent (Kaplan et al., 2020).",
+      "section": "4. Related Work",
+      "char_count": 1039,
+      "chunk_index": 42,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0043",
+      "source_id": "MobileLLM_2024",
+      "text": "nsformer domain, the prevailing con-\nsensus posits that the model architecture exerts minimal\ninfluence on accuracy, provided the total number of pa-\nrameters remains consistent (Kaplan et al., 2020). Only a\nlimited number of studies have developed NAS algorithms\nfor language transformers, targeting at BERT models (Xu\net al., 2021; Jawahar et al., 2023; Ganesan et al., 2021).\nOur current investigation, focusing on the interplay between\ndepth and width, can be conceptualized as a meticulous\ngrid search within the depth space. The outcomes of that\nstudy challenge the prevalent orthodoxy surrounding scaling\nlaws, proposing that deep and thin architectures demonstrate\nhigher performance for compact LLMs.\nWeight Sharing. Weight sharing is an intuitive strategy for\noptimizing model weight utilization within fixed parame-\nter constraints. While the OPT family (Zhang et al., 2022)\nand subsequent works (Black et al., 2022) leverage weight\nsharing between input and output embeddings, limited re-\nsearch has explored weight sharing for intermediate layers\nin transformers (Shen et al., 2022; Reid et al., 2021). Prior\nefforts often entail specialized designs for shared layers.",
+      "section": "4. Related Work",
+      "char_count": 1181,
+      "chunk_index": 43,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0044",
+      "source_id": "MobileLLM_2024",
+      "text": "ddings, limited re-\nsearch has explored weight sharing for intermediate layers\nin transformers (Shen et al., 2022; Reid et al., 2021). Prior\nefforts often entail specialized designs for shared layers. In\ncontrast, our contribution highlights a more straightforward\nyet effective way of simply repeating transformer blocks,\nyielding improved accuracy with a fixed model size and\n8\n\nMobileLLM\nminimal latency increase.\nEfficient Attention and Implementation. In the realm of\nefficient transformer design, much research has focused on\noptimizing attention computation through methods like low-\nrank approximation (Wang et al., 2020; Katharopoulos et al.,\n2020; Xiong et al., 2021) and sparse attention (Kitaev et al.,\n2020; Roy et al., 2021). Another line of work explores\nhardware scheduling and weight movement, exemplified\nby works such as FlashAttention (Dao et al., 2022) and\nFlexGen (Sheng et al., 2023).",
+      "section": "4. Related Work",
+      "char_count": 907,
+      "chunk_index": 44,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0045",
+      "source_id": "MobileLLM_2024",
+      "text": "et al.,\n2020; Roy et al., 2021). Another line of work explores\nhardware scheduling and weight movement, exemplified\nby works such as FlashAttention (Dao et al., 2022) and\nFlexGen (Sheng et al., 2023). In contrast, our primary goal\nis to optimize model size without introducing new attention\ncomputation or efficient hardware implementation methods.",
+      "section": "4. Related Work",
+      "char_count": 348,
+      "chunk_index": 45,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0046",
+      "source_id": "MobileLLM_2024",
+      "text": "5. Conclusion\nThis study focuses on optimizing sub-billion scale mod-\nels for on-device applications. Our findings indicate that,\nfor smaller models, prioritizing depth over width enhances\nmodel performance. Furthermore, by leveraging advanced\nweight-sharing techniques, including embedding sharing,\ngrouped query attention, and block-wise weight sharing,\nwe achieve significant enhancements in weight utilization\nwithin storage-constrained scenarios. The resulting models\ndenoted as MobileLLM exhibit substantial advancements\nin zero-shot commonsense reasoning, question answering,\nand reading comprehension tasks compared to previous\nSoTA methods. Last but not least, we demonstrate the ef-\nfectiveness of the fine-tuned MobileLLM models in two\nprevalent on-device use cases: chat and API calling, under-\nscoring their adeptness in handling such tasks.\nAcknowledgment\nWe thank Hansong Zhang for his valuable contribution to\nsetting up the latency measurement environment on iOS,\nand the full support from the PyTorch edge team.",
+      "section": "5. Conclusion",
+      "char_count": 1029,
+      "chunk_index": 46,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0047",
+      "source_id": "MobileLLM_2024",
+      "text": "s in handling such tasks.\nAcknowledgment\nWe thank Hansong Zhang for his valuable contribution to\nsetting up the latency measurement environment on iOS,\nand the full support from the PyTorch edge team.\nImpact Statement\nThis paper advocates for the adoption of sub-billion scale\nlarge language models in on-device applications, aiming to\nmitigate energy consumption during LLM inference. The\nproposed approach is promising in alleviating computational\ncosts associated with LLM deployment.",
+      "section": "5. Conclusion",
+      "char_count": 487,
+      "chunk_index": 47,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0048",
+      "source_id": "MobileLLM_2024",
+      "text": "References\nAinslie, J., Lee-Thorp, J., de Jong, M., Zemlyanskiy, Y .,\nLebron, F., and Sanghai, S. GQA: Training generalized\nmulti-query transformer models from multi-head check-\npoints. In EMNLP , 2023.\nAlmazrouei, E., Alobeidli, H., Alshamsi, A., Cappelli, A.,\nCojocaru, R., Debbah, M., Goffinet, É., Hesslow, D., Lau-nay, J., Malartic, Q., et al. The falcon series of open lan-\nguage models. arXiv preprint arXiv:2311.16867 , 2023.\nBai, J., Bai, S., Chu, Y ., Cui, Z., Dang, K., Deng, X., Fan,\nY ., Ge, W., Han, Y ., Huang, F., et al. Qwen technical\nreport. arXiv preprint arXiv:2309.16609 , 2023.\nBiderman, S., Schoelkopf, H., Anthony, Q. G., Bradley,\nH., O’Brien, K., Hallahan, E., Khan, M. A., Purohit, S.,\nPrashanth, U. S., Raff, E., et al. Pythia: A suite for ana-\nlyzing large language models across training and scaling.\nInInternational Conference on Machine Learning , pp.\n2397–2430. PMLR, 2023.\nBisk, Y ., Zellers, R., Gao, J., Choi, Y ., et al. Piqa: Reasoning\nabout physical commonsense in natural language. In Pro-\nceedings of the AAAI conference on artificial intelligence ,\nvolume 34, pp. 7432–7439, 2020.",
+      "section": "References",
+      "char_count": 1121,
+      "chunk_index": 48,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0049",
+      "source_id": "MobileLLM_2024",
+      "text": "ers, R., Gao, J., Choi, Y ., et al. Piqa: Reasoning\nabout physical commonsense in natural language. In Pro-\nceedings of the AAAI conference on artificial intelligence ,\nvolume 34, pp. 7432–7439, 2020.\nBlack, S., Biderman, S., Hallahan, E., Anthony, Q., Gao,\nL., Golding, L., He, H., Leahy, C., McDonell, K., Phang,\nJ., et al. Gpt-neox-20b: An open-source autoregressive\nlanguage model. arXiv preprint arXiv:2204.06745 , 2022.\nChowdhery, A., Narang, S., Devlin, J., Bosma, M., Mishra,\nG., Roberts, A., Barham, P., Chung, H. W., Sutton, C.,\nGehrmann, S., et al. Palm: Scaling language modeling\nwith pathways. Journal of Machine Learning Research ,\n24(240):1–113, 2023.\nClark, C., Lee, K., Chang, M.-W., Kwiatkowski, T., Collins,\nM., and Toutanova, K. Boolq: Exploring the surprising\ndifficulty of natural yes/no questions. arXiv preprint\narXiv:1905.10044 , 2019.\nClark, P., Cowhey, I., Etzioni, O., Khot, T., Sabharwal, A.,\nSchoenick, C., and Tafjord, O. Think you have solved\nquestion answering? try arc, the ai2 reasoning challenge.\narXiv preprint arXiv:1803.05457 , 2018.\nDao, T., Fu, D., Ermon, S., Rudra, A., and Ré, C.",
+      "section": "References",
+      "char_count": 1122,
+      "chunk_index": 49,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0050",
+      "source_id": "MobileLLM_2024",
+      "text": "Schoenick, C., and Tafjord, O. Think you have solved\nquestion answering? try arc, the ai2 reasoning challenge.\narXiv preprint arXiv:1803.05457 , 2018.\nDao, T., Fu, D., Ermon, S., Rudra, A., and Ré, C. Flashat-\ntention: Fast and memory-efficient exact attention with\nio-awareness. Advances in Neural Information Process-\ning Systems , 35:16344–16359, 2022.\nDauphin, Y . N., Fan, A., Auli, M., and Grangier, D. Lan-\nguage modeling with gated convolutional networks. In\nInternational conference on machine learning , pp. 933–\n941. PMLR, 2017.\nDettmers, T., Lewis, M., Belkada, Y ., and Zettlemoyer, L.\nLlm. int8 (): 8-bit matrix multiplication for transformers\nat scale. arXiv preprint arXiv:2208.07339 , 2022.\nDey, N., Gosal, G., Khachane, H., Marshall, W., Pathria, R.,\nTom, M., Hestness, J., et al. Cerebras-gpt: Open compute-\noptimal language models trained on the cerebras wafer-\nscale cluster. arXiv preprint arXiv:2304.03208 , 2023.\n9\n\nMobileLLM\nFrantar, E. and Alistarh, D. Sparsegpt: Massive language\nmodels can be accurately pruned in one-shot. In Inter-\nnational Conference on Machine Learning , pp. 10323–\n10337. PMLR, 2023.\nFrantar, E., Ashkboos, S., Hoefler, T., and Alistarh, D.",
+      "section": "References",
+      "char_count": 1190,
+      "chunk_index": 50,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0051",
+      "source_id": "MobileLLM_2024",
+      "text": "Massive language\nmodels can be accurately pruned in one-shot. In Inter-\nnational Conference on Machine Learning , pp. 10323–\n10337. PMLR, 2023.\nFrantar, E., Ashkboos, S., Hoefler, T., and Alistarh, D. Gptq:\nAccurate post-training quantization for generative pre-\ntrained transformers. arXiv preprint arXiv:2210.17323 ,\n2022.\nGanesan, V ., Ramesh, G., and Kumar, P. Supershaper: Task-\nagnostic super pre-training of bert models with variable\nhidden dimensions. arXiv preprint arXiv:2110.04711 ,\n2021.\nGoogle. Pixel 8 pro tech specs. https:\n//store.google.com/gb/product/pixel_\n8_pro_specs , 2023.\nGuo, Z., Zhang, X., Mu, H., Heng, W., Liu, Z., Wei, Y ., and\nSun, J. Single path one-shot neural architecture search\nwith uniform sampling. In Computer Vision–ECCV 2020:\n16th European Conference, Glasgow, UK, August 23–28,\n2020, Proceedings, Part XVI 16 , pp. 544–560. Springer,\n2020.\nHan, S., Liu, X., Mao, H., Pu, J., Pedram, A., Horowitz,\nM. A., and Dally, W. J. Eie: Efficient inference engine\non compressed deep neural network. ACM SIGARCH\nComputer Architecture News , 44(3):243–254, 2016.\nHinton, G., Vinyals, O., Dean, J., et al. Distilling\nthe knowledge in a neural network.",
+      "section": "References",
+      "char_count": 1178,
+      "chunk_index": 51,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0052",
+      "source_id": "MobileLLM_2024",
+      "text": "nference engine\non compressed deep neural network. ACM SIGARCH\nComputer Architecture News , 44(3):243–254, 2016.\nHinton, G., Vinyals, O., Dean, J., et al. Distilling\nthe knowledge in a neural network. arXiv preprint\narXiv:1503.02531 , 2(7), 2015.\nHristov, V . A16 bionic explained: what’s\nnew in apple’s pro-grade mobile chip?\n\nA16-Bionic-explained-whats-new_\nid142438 , 2022.\nJawahar, G., Yang, H., Xiong, Y ., Liu, Z., Wang, D., Sun,\nF., Li, M., Pappu, A., Oguz, B., Abdul-Mageed, M., et al.\nMixture-of-supernets: Improving weight-sharing super-\nnet training with architecture-routed mixture-of-experts.\narXiv preprint arXiv:2306.04845 , 2023.\nJoshi, M., Choi, E., Weld, D. S., and Zettlemoyer, L.\nTriviaqa: A large scale distantly supervised challenge\ndataset for reading comprehension. arXiv preprint\narXiv:1705.03551 , 2017.\nKaplan, J., McCandlish, S., Henighan, T., Brown, T. B.,\nChess, B., Child, R., Gray, S., Radford, A., Wu, J., and\nAmodei, D. Scaling laws for neural language models.\narXiv preprint arXiv:2001.08361 , 2020.Katharopoulos, A., Vyas, A., Pappas, N., and Fleuret, F.\nTransformers are rnns: Fast autoregressive transformers\nwith linear attention.",
+      "section": "References",
+      "char_count": 1169,
+      "chunk_index": 52,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0053",
+      "source_id": "MobileLLM_2024",
+      "text": "r neural language models.\narXiv preprint arXiv:2001.08361 , 2020.Katharopoulos, A., Vyas, A., Pappas, N., and Fleuret, F.\nTransformers are rnns: Fast autoregressive transformers\nwith linear attention. In International conference on ma-\nchine learning , pp. 5156–5165. PMLR, 2020.\nKim, S., Hooper, C., Gholami, A., Dong, Z., Li,\nX., Shen, S., Mahoney, M. W., and Keutzer, K.\nSqueezellm: Dense-and-sparse quantization. arXiv\npreprint arXiv:2306.07629 , 2023.\nKingma, D. P. and Ba, J. Adam: A method for stochastic\noptimization. arXiv preprint arXiv:1412.6980 , 2014.\nKitaev, N., Kaiser, Ł., and Levskaya, A. Reformer: The\nefficient transformer. arXiv preprint arXiv:2001.04451 ,\n2020.\nLai, G., Xie, Q., Liu, H., Yang, Y ., and Hovy, E. Race:\nLarge-scale reading comprehension dataset from exami-\nnations. arXiv preprint arXiv:1704.04683 , 2017.\nLi, X., Zhang, T., Dubois, Y ., Taori, R., Gulrajani, I.,\nGuestrin, C., Liang, P., and Hashimoto, T. B. Alpacae-\nval: An automatic evaluator of instruction-following\nmodels. \nalpaca_eval , 2023.\nLiu, J., Gong, R., Wei, X., Dong, Z., Cai, J., and Zhuang,\nB. Qllm: Accurate and efficient low-bitwidth quan-\ntization for large language models.",
+      "section": "References",
+      "char_count": 1183,
+      "chunk_index": 53,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0054",
+      "source_id": "MobileLLM_2024",
+      "text": "of instruction-following\nmodels. \nalpaca_eval , 2023.\nLiu, J., Gong, R., Wei, X., Dong, Z., Cai, J., and Zhuang,\nB. Qllm: Accurate and efficient low-bitwidth quan-\ntization for large language models. arXiv preprint\narXiv:2310.08041 , 2023a.\nLiu, S.-y., Liu, Z., Huang, X., Dong, P., and Cheng, K.-\nT. Llm-fp4: 4-bit floating-point quantized transformers.\narXiv preprint arXiv:2310.16836 , 2023b.\nLiu, Z., Oguz, B., Zhao, C., Chang, E., Stock, P., Mehdad,\nY ., Shi, Y ., Krishnamoorthi, R., and Chandra, V . Llm-qat:\nData-free quantization aware training for large language\nmodels. arXiv preprint arXiv:2305.17888 , 2023c.\nMalladi, K. T., Lee, B. C., Nothaft, F. A., Kozyrakis, C.,\nPeriyathambi, K., and Horowitz, M. Towards energy-\nproportional datacenter memory with mobile dram. ACM\nSIGARCH Computer Architecture News , 40(3):37–48,\n2012.\nMihaylov, T., Clark, P., Khot, T., and Sabharwal, A. Can\na suit of armor conduct electricity? a new dataset\nfor open book question answering. arXiv preprint\narXiv:1809.02789 , 2018.\nPeng, B., Alcaide, E., Anthony, Q., Albalak, A., Arcadinho,\nS., Cao, H., Cheng, X., Chung, M., Grella, M., GV , K. K.,\net al. Rwkv: Reinventing rnns for the transformer era.",
+      "section": "References",
+      "char_count": 1196,
+      "chunk_index": 54,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0055",
+      "source_id": "MobileLLM_2024",
+      "text": "t\narXiv:1809.02789 , 2018.\nPeng, B., Alcaide, E., Anthony, Q., Albalak, A., Arcadinho,\nS., Cao, H., Cheng, X., Chung, M., Grella, M., GV , K. K.,\net al. Rwkv: Reinventing rnns for the transformer era.\narXiv preprint arXiv:2305.13048 , 2023.\n10\n\nMobileLLM\nReid, M., Marrese-Taylor, E., and Matsuo, Y . Subformer:\nExploring weight sharing for parameter efficiency in gen-\nerative transformers. arXiv preprint arXiv:2101.00234 ,\n2021.\nRoy, A., Saffar, M., Vaswani, A., and Grangier, D. Efficient\ncontent-based sparse attention with routing transform-\ners.Transactions of the Association for Computational\nLinguistics , 9:53–68, 2021.\nSakaguchi, K., Bras, R. L., Bhagavatula, C., and Choi, Y .\nWinogrande: An adversarial winograd schema challenge\nat scale. Communications of the ACM , 64(9):99–106,\n2021.\nSap, M., Rashkin, H., Chen, D., LeBras, R., and Choi, Y .\nSocialiqa: Commonsense reasoning about social interac-\ntions. arXiv preprint arXiv:1904.09728 , 2019.\nScao, T. L., Fan, A., Akiki, C., Pavlick, E., Ili ´c, S., Hesslow,\nD., Castagné, R., Luccioni, A. S., Yvon, F., Gallé, M.,\net al. Bloom: A 176b-parameter open-access multilingual\nlanguage model. arXiv preprint arXiv:2211.05100 , 2022.",
+      "section": "References",
+      "char_count": 1195,
+      "chunk_index": 55,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0056",
+      "source_id": "MobileLLM_2024",
+      "text": "avlick, E., Ili ´c, S., Hesslow,\nD., Castagné, R., Luccioni, A. S., Yvon, F., Gallé, M.,\net al. Bloom: A 176b-parameter open-access multilingual\nlanguage model. arXiv preprint arXiv:2211.05100 , 2022.\nShen, Z., Liu, Z., and Xing, E. Sliced recursive transformer.\nInEuropean Conference on Computer Vision , pp. 727–\n744. Springer, 2022.\nSheng, Y ., Zheng, L., Yuan, B., Li, Z., Ryabinin, M., Chen,\nB., Liang, P., Ré, C., Stoica, I., and Zhang, C. Flexgen:\nHigh-throughput generative inference of large language\nmodels with a single gpu. In International Conference\non Machine Learning , pp. 31094–31116. PMLR, 2023.\nSun, M., Liu, Z., Bair, A., and Kolter, J. Z. A simple and\neffective pruning approach for large language models.\narXiv preprint arXiv:2306.11695 , 2023.\nTan, M. and Le, Q. Efficientnet: Rethinking model scal-\ning for convolutional neural networks. In International\nconference on machine learning , pp. 6105–6114. PMLR,\n2019.\nTaylor, R., Kardas, M., Cucurull, G., Scialom, T., Hartshorn,\nA., Saravia, E., Poulton, A., Kerkez, V ., and Stojnic, R.\nGalactica: A large language model for science. arXiv\npreprint arXiv:2211.09085 , 2022.",
+      "section": "References",
+      "char_count": 1147,
+      "chunk_index": 56,
+      "page_numbers": [
+        11
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0057",
+      "source_id": "MobileLLM_2024",
+      "text": "R., Kardas, M., Cucurull, G., Scialom, T., Hartshorn,\nA., Saravia, E., Poulton, A., Kerkez, V ., and Stojnic, R.\nGalactica: A large language model for science. arXiv\npreprint arXiv:2211.09085 , 2022.\nThawakar, O., Vayani, A., Khan, S., Cholakal, H., Anwer,\nR. M., Felsberg, M., Baldwin, T., Xing, E. P., and Khan,\nF. S. Mobillama: Towards accurate and lightweight fully\ntransparent gpt. arXiv preprint arXiv:2402.16840 , 2024.\nTimiryasov, I. and Tastet, J.-L. Baby llama: knowledge\ndistillation from an ensemble of teachers trained on a\nsmall dataset with no performance penalty. arXiv preprint\narXiv:2308.02019 , 2023.Touvron, H., Lavril, T., Izacard, G., Martinet, X., Lachaux,\nM.-A., Lacroix, T., Rozière, B., Goyal, N., Hambro, E.,\nAzhar, F., et al. Llama: Open and efficient foundation lan-\nguage models. arXiv preprint arXiv:2302.13971 , 2023a.\nTouvron, H., Martin, L., Stone, K., Albert, P., Almahairi,\nA., Babaei, Y ., Bashlykov, N., Batra, S., Bhargava, P.,\nBhosale, S., Bikel, D., Blecher, L., Ferrer, C.",
+      "section": "References",
+      "char_count": 1014,
+      "chunk_index": 57,
+      "page_numbers": [
+        11
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0058",
+      "source_id": "MobileLLM_2024",
+      "text": "v preprint arXiv:2302.13971 , 2023a.\nTouvron, H., Martin, L., Stone, K., Albert, P., Almahairi,\nA., Babaei, Y ., Bashlykov, N., Batra, S., Bhargava, P.,\nBhosale, S., Bikel, D., Blecher, L., Ferrer, C. C., Chen,\nM., Cucurull, G., Esiobu, D., Fernandes, J., Fu, J., Fu, W.,\nFuller, B., Gao, C., Goswami, V ., Goyal, N., Hartshorn,\nA., Hosseini, S., Hou, R., Inan, H., Kardas, M., Kerkez,\nV ., Khabsa, M., Kloumann, I., Korenev, A., Koura, P. S.,\nLachaux, M.-A., Lavril, T., Lee, J., Liskovich, D., Lu, Y .,\nMao, Y ., Martinet, X., Mihaylov, T., Mishra, P., Molybog,\nI., Nie, Y ., Poulton, A., Reizenstein, J., Rungta, R., Saladi,\nK., Schelten, A., Silva, R., Smith, E. M., Subramanian, R.,\nTan, X. E., Tang, B., Taylor, R., Williams, A., Kuan, J. X.,\nXu, P., Yan, Z., Zarov, I., Zhang, Y ., Fan, A., Kambadur,\nM., Narang, S., Rodriguez, A., Stojnic, R., Edunov, S.,\nand Scialom, T. Llama 2: Open foundation and fine-tuned\nchat models, 2023b.\nWang, S., Li, B. Z., Khabsa, M., Fang, H., and Ma, H.\nLinformer: Self-attention with linear complexity. arXiv\npreprint arXiv:2006.04768 , 2020.\nWu, B., Dai, X., Zhang, P., Wang, Y ., Sun, F., Wu, Y ., Tian,\nY ., Vajda, P., Jia, Y ., and Keutzer, K.",
+      "section": "References",
+      "char_count": 1188,
+      "chunk_index": 58,
+      "page_numbers": [
+        11
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0059",
+      "source_id": "MobileLLM_2024",
+      "text": "a, H.\nLinformer: Self-attention with linear complexity. arXiv\npreprint arXiv:2006.04768 , 2020.\nWu, B., Dai, X., Zhang, P., Wang, Y ., Sun, F., Wu, Y ., Tian,\nY ., Vajda, P., Jia, Y ., and Keutzer, K. Fbnet: Hardware-\naware efficient convnet design via differentiable neural\narchitecture search. In Proceedings of the IEEE/CVF\nconference on computer vision and pattern recognition ,\npp. 10734–10742, 2019.\nWu, M., Waheed, A., Zhang, C., Abdul-Mageed, M.,\nand Aji, A. F. Lamini-lm: A diverse herd of distilled\nmodels from large-scale instructions. arXiv preprint\narXiv:2304.14402 , 2023.\nXia, H., Zheng, Z., Li, Y ., Zhuang, D., Zhou, Z., Qiu,\nX., Li, Y ., Lin, W., and Song, S. L. Flash-llm: En-\nabling cost-effective and highly-efficient large genera-\ntive model inference with unstructured sparsity. arXiv\npreprint arXiv:2309.10285 , 2023a.\nXia, M., Gao, T., Zeng, Z., and Chen, D. Sheared llama:\nAccelerating language model pre-training via structured\npruning. arXiv preprint arXiv:2310.06694 , 2023b.\nXiao, G., Lin, J., Seznec, M., Wu, H., Demouth, J., and Han,\nS. Smoothquant: Accurate and efficient post-training\nquantization for large language models.",
+      "section": "References",
+      "char_count": 1158,
+      "chunk_index": 59,
+      "page_numbers": [
+        11
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0060",
+      "source_id": "MobileLLM_2024",
+      "text": "ning. arXiv preprint arXiv:2310.06694 , 2023b.\nXiao, G., Lin, J., Seznec, M., Wu, H., Demouth, J., and Han,\nS. Smoothquant: Accurate and efficient post-training\nquantization for large language models. In International\nConference on Machine Learning , pp. 38087–38099.\nPMLR, 2023.\nXiong, Y ., Zeng, Z., Chakraborty, R., Tan, M., Fung, G.,\nLi, Y ., and Singh, V . Nyströmformer: A nyström-based\n11\n\nMobileLLM\nalgorithm for approximating self-attention. In Proceed-\nings of the AAAI Conference on Artificial Intelligence ,\nvolume 35, pp. 14138–14148, 2021.\nXu, J., Tan, X., Luo, R., Song, K., Li, J., Qin, T., and Liu,\nT.-Y . Nas-bert: task-agnostic and adaptive-size bert com-\npression with neural architecture search. In Proceedings\nof the 27th ACM SIGKDD Conference on Knowledge\nDiscovery & Data Mining , pp. 1933–1943, 2021.\nYao, Z., Yazdani Aminabadi, R., Zhang, M., Wu, X., Li,\nC., and He, Y . Zeroquant: Efficient and affordable post-\ntraining quantization for large-scale transformers. Ad-\nvances in Neural Information Processing Systems , 35:\n27168–27183, 2022.\nZellers, R., Holtzman, A., Bisk, Y ., Farhadi, A., and Choi,\nY .",
+      "section": "References",
+      "char_count": 1132,
+      "chunk_index": 60,
+      "page_numbers": [
+        11
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0061",
+      "source_id": "MobileLLM_2024",
+      "text": "post-\ntraining quantization for large-scale transformers. Ad-\nvances in Neural Information Processing Systems , 35:\n27168–27183, 2022.\nZellers, R., Holtzman, A., Bisk, Y ., Farhadi, A., and Choi,\nY . Hellaswag: Can a machine really finish your sentence?\narXiv preprint arXiv:1905.07830 , 2019.\nZhang, P., Zeng, G., Wang, T., and Lu, W. Tinyllama:\nAn open-source small language model. arXiv preprint\narXiv:2401.02385 , 2024.\nZhang, S., Roller, S., Goyal, N., Artetxe, M., Chen, M.,\nChen, S., Dewan, C., Diab, M., Li, X., Lin, X. V .,\net al. Opt: Open pre-trained transformer language models.\narXiv preprint arXiv:2205.01068 , 2022.\nZheng, L., Chiang, W.-L., Sheng, Y ., Zhuang, S., Wu, Z.,\nZhuang, Y ., Lin, Z., Li, Z., Li, D., Xing, E., et al. Judging\nllm-as-a-judge with mt-bench and chatbot arena. arXiv\npreprint arXiv:2306.05685 , 2023.\nZoph, B. and Le, Q. V . Neural architecture search with\nreinforcement learning. arXiv preprint arXiv:1611.01578 ,\n2016.\n12\n\nMobileLLM",
+      "section": "References",
+      "char_count": 973,
+      "chunk_index": 61,
+      "page_numbers": [
+        12
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0062",
+      "source_id": "MobileLLM_2024",
+      "text": "arXiv\npreprint arXiv:2306.05685 , 2023.\nZoph, B. and Le, Q. V . Neural architecture search with\nreinforcement learning. arXiv preprint arXiv:1611.01578 ,\n2016.\n12\n\nMobileLLM",
+      "section": "References",
+      "char_count": 173,
+      "chunk_index": 62,
+      "page_numbers": [
+        12
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0063",
+      "source_id": "MobileLLM_2024",
+      "text": "Appendix\nA. Scaling Up to Larger Model Architectures\nIn this paper, we primarily investigated two model sizes, MobileLLM -125M and MobileLLM -350M. In this section, we\nextended our design principles—SwiGLU, deeper architecture, grouped-query attention, and embedding sharing—to larger\nmodels, pre-training MobileLLM -600M, 1B, and 1.5B variants. This expansion facilitates a broader range of applications\nacross different memory constraints. Table 8 compares MobileLLM with various general-purpose10pre-trained models,\nincluding i.e.OPT (Zhang et al., 2022), BLOOM (Scao et al., 2022), GPT-neo (Black et al., 2022), Pythia (Biderman et al.,\n2023), Falcon (Almazrouei et al., 2023), TinyLlama (Zhang et al., 2024), Cerebras-GPT (Dey et al., 2023), Galactica (Taylor\net al., 2022), RWKV (Peng et al., 2023), LaMini-GPT (Wu et al., 2023), Qwen (Bai et al., 2023) as well as a recent model\nMobiLlama (Thawakar et al., 2024) released after MobileLLM .\nThe results in Table 8 demonstrate that MobileLLM consistently surpasses previous models of similar scale.",
+      "section": "Appendix",
+      "char_count": 1053,
+      "chunk_index": 63,
+      "page_numbers": [
+        13
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0064",
+      "source_id": "MobileLLM_2024",
+      "text": "2023) as well as a recent model\nMobiLlama (Thawakar et al., 2024) released after MobileLLM .\nThe results in Table 8 demonstrate that MobileLLM consistently surpasses previous models of similar scale. Notably,\nMobileLLM -1.5B achieves an average accuracy of 59.4 points on zero-shot commonsense reasoning tasks, outperforming\nthe previous state-of-the-art model, Qwen1.5-1.8B, by 2.9 points despite the latter having more parameters. The detailed\narchitecture specifications of MobileLLM can be found in Table 9.\nTable 8: Zero-shot performance on Common Sense Reasoning tasks for MobileLLM -600M, 1B and 1.5B. The highest and\nsecond-highest average scores within each model-size category are highlighted.\nModel ARC-e ARC-c BoolQ PIQA SIQA HellaSwag OBQA WinoGrande Avg.\nQwen1.5-500M 54.7 32.1 46.9 68.9 46.0 48.8 37.7 55.0 48.8\nBLOOM-560M 43.7 27.5 53.7 65.1 42.5 36.5 32.6 52.2 44.2\nCerebras-GPT-590M 42.6 24.9 57.7 62.8 40.9 32.0 33.2 49.7 43.0\nMobiLlama-800M 52.0 31.7 54.6 73.0 43.3 52.3 42.5 56.",
+      "section": "Appendix",
+      "char_count": 999,
+      "chunk_index": 64,
+      "page_numbers": [
+        13
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0065",
+      "source_id": "MobileLLM_2024",
+      "text": ".9 46.0 48.8 37.7 55.0 48.8\nBLOOM-560M 43.7 27.5 53.7 65.1 42.5 36.5 32.6 52.2 44.2\nCerebras-GPT-590M 42.6 24.9 57.7 62.8 40.9 32.0 33.2 49.7 43.0\nMobiLlama-800M 52.0 31.7 54.6 73.0 43.3 52.3 42.5 56.3 50.7\nMobileLLM -600M 58.1 35.8 61.0 72.3 44.9 55.9 47.9 58.6 54.3\nPythia-1B 49.9 30.4 58.7 69.2 43.3 47.4 38.6 52.2 48.7\nMobiLlama-1B 59.7 38.4 59.2 74.5 44.9 62.0 43.7 59.0 55.2\nFalcon-1B 59.5 38.4 63.9 74.6 44.6 62.9 45.6 60.9 56.3\nBLOOM-1.1B 47.6 27.3 58.6 67.0 42.4 42.2 36.6 53.8 46.9\nTinyLlama-1.1B 59.2 37.1 58.1 72.9 43.9 59.1 44.7 58.8 54.2\nMobileLLM -1B 63.0 39.0 66.7 74.4 45.0 61.4 46.8 62.3 57.3\nCerebras-GPT-1.3B 47.4 28.3 57.3 66.9 43.1 38.2 38.4 52.1 46.5\nGalactica-1.3B 59.8 34.3 61.4 63.9 42.0 40.9 33.8 54.9 48.9\nGPT-neo-1.3B 51.3 33.0 61.8 70.9 43.7 48.6 41.2 54.5 50.6\nOPT-1.3B 54.4 31.7 58.4 71.5 44.7 53.7 44.6 59.1 52.3\nLaMini-GPT-1.5B 59.9 39.1 77.0 71.9 45.9 50.9 44.4 57.5 55.8\nRWKV-1.5B 56.2 33.8 61.8 72.3 44.7 52.8 41.8 54.7 52.3\nBLOOM-1.7B 50.9 31.2 61.7 70.0 43.2 47",
+      "section": "Appendix",
+      "char_count": 1000,
+      "chunk_index": 65,
+      "page_numbers": [
+        13
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0066",
+      "source_id": "MobileLLM_2024",
+      "text": "54.4 31.7 58.4 71.5 44.7 53.7 44.6 59.1 52.3\nLaMini-GPT-1.5B 59.9 39.1 77.0 71.9 45.9 50.9 44.4 57.5 55.8\nRWKV-1.5B 56.2 33.8 61.8 72.3 44.7 52.8 41.8 54.7 52.3\nBLOOM-1.7B 50.9 31.2 61.7 70.0 43.2 47.2 36.2 56.1 49.6\nQwen1.5-1.8B 61.1 36.5 68.3 74.1 47.2 60.4 42.9 61.2 56.5\nCerebras-GPT-2.7B 53.8 32.3 55.0 71.0 43.3 48.9 40.6 55.7 50.1\nGPT-neo-2.7B 55.8 34.3 62.4 72.9 43.6 55.6 40.0 57.9 52.8\nOPT-2.7B 56.6 34.6 61.8 74.5 45.6 60.2 48.2 59.6 55.1\nPythia-2.8B 59.4 38.9 66.1 73.8 44.5 59.6 45.0 59.4 55.8\nBLOOM-3B 55.1 33.6 62.1 70.5 43.2 53.9 41.6 58.2 52.3\nRWKV-3B 60.1 39.1 58.6 74.5 45.1 59.8 44.6 59.1 55.1\nMobileLLM -1.5B 67.5 40.9 65.7 74.8 46.4 64.5 50.5 64.7 59.4\nTable 9: Detailed architecture specifications of MobileLLM. \"Emb Dim\" denotes the embedding dimension and \"Hidden\nDim\" represents the dimension inside the feed-forward network.\nModel #Layer #Head #KV-Head Emb Dim Hidden Dim #Params\nMobileLLM -125M 30 9 3 576 1536 124.6M\nMobileLLM -350M 32 15 5 960 2560 345.3M\nMobileLLM -600M 40 18 6 1152 3072 603.1M\nMobileLLM -1B 54 20 5 1280 3584 1.0B\nMobileLLM -1.5B 54 25 5 1600 4352 1.5B\n10Models pre-trained for specific downstream tasks were excluded to ensure a fair comparison.",
+      "section": "Appendix",
+      "char_count": 1196,
+      "chunk_index": 66,
+      "page_numbers": [
+        13
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0067",
+      "source_id": "MobileLLM_2024",
+      "text": "-600M 40 18 6 1152 3072 603.1M\nMobileLLM -1B 54 20 5 1280 3584 1.0B\nMobileLLM -1.5B 54 25 5 1600 4352 1.5B\n10Models pre-trained for specific downstream tasks were excluded to ensure a fair comparison.\n13\n\nMobileLLM\nB. Impact of Each Design Choice\nThis section presents comprehensive tabulated results for the improving sub-billion scale LLM design experiments, at the\nmodel sizes of 125M and 350M. Looking at the results in Table 10, transitioning from the traditional Feedforward Network\n(FC→ReLU →FC) to SwiGLU yields an accuracy improvement of 1.3% for both model sizes. Further increasing the\nmodel depth enhances accuracy by 0.9%/1.1% for 125M/350M models, respectively. Then, introducing input and output\nembedding sharing achieves a parameter reduction of approximately 10%, while with only marginal accuracy drops of\n0.2% for 125M and 0.6% for 350M models. Additionally, following in findings in Section D, we incorporate grouped query\nattention with a head dimension equal to 64, and a head number to near 4 ×to the kv-head number, while increasing the\nembedding dimension to preserve model size. This modification further results in a performance boost of 0.4%/0.7% for\n125M/350M models.",
+      "section": "Appendix",
+      "char_count": 1197,
+      "chunk_index": 67,
+      "page_numbers": [
+        13
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0068",
+      "source_id": "MobileLLM_2024",
+      "text": "ad number to near 4 ×to the kv-head number, while increasing the\nembedding dimension to preserve model size. This modification further results in a performance boost of 0.4%/0.7% for\n125M/350M models. Combining these techniques establishes a strong baseline network denoted as MobileLLM . Finally,\nthe immediate block-wise weight-sharing technique contributes an additional accuracy gain of 1.1% for models trained on\n0.25 trillion tokens, resulting in the model MobileLLM-LS . Final models including MobileLLM andMobileLLM-LS\nare trained with 1 trillion tokens.\nTable 10: Ablation study on the impact of each design choice on the model accuracy on zero-shot common sense reasoning\ntasks. Corresponding to the bar chart in Figure 3. Here, L, H, HKVdenotes the number of layers, heads, kv-heads,\nrespectively, and dim denotes the embedding dimension.\nTechniques L H H KVDim #Params(M) ARC-e ARC-c BoolQ PIQA SIQA HellaSwag OBQA WinoGrande Avg.",
+      "section": "Appendix",
+      "char_count": 942,
+      "chunk_index": 68,
+      "page_numbers": [
+        14
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0069",
+      "source_id": "MobileLLM_2024",
+      "text": "H, HKVdenotes the number of layers, heads, kv-heads,\nrespectively, and dim denotes the embedding dimension.\nTechniques L H H KVDim #Params(M) ARC-e ARC-c BoolQ PIQA SIQA HellaSwag OBQA WinoGrande Avg.\n125M\nBaseline model 12 12 12 768 134.1 41.3 25.2 57.5 62.0 41.9 31.1 31.2 50.8 42.6\n+ SwiGLU in FFN 12 12 12 768 134.1 43.1 28.9 58.1 62.3 42.3 34.6 31.5 50.1 43.9\n+ Use deep-thin structure 30 8 8 512 135.0 43.6 26.1 58.0 62.5 42.6 36.5 37.5 51.5 44.8\n+ Embedding share 30 8 8 512 118.6 44.4 26.0 56.2 62.8 43.1 35.9 36.0 52.6 44.6\n+ Grouped-query attention 30 9 3 576 124.6 45.5 27.7 58.3 64.6 41.9 36.4 35.4 50.4 45.0\n(Train on 1T token) 30 9 3 576 124.6 43.9 27.1 60.2 65.3 42.4 38.9 39.5 53.1 46.3\n+ Layer sharing 30 9 3 576 124.6 44.4 27.0 61.5 65.1 43.0 37.6 37.8 52.0 46.1\n(Train on 1T token) 30 9 3 576 124.6 45.8 28.7 60.4 65.7 42.9 39.5 41.1 52.1 47.0\n350M\nBaseline model 15 20 20 1280 376.8 50.3 27.6 53.8 68.1 44.1 42.6 40.1 52.4 47.4\n+ SwiGLU in FFN 15 20 20 1280 386.7 49.2 30.6 59.1 6",
+      "section": "Appendix",
+      "char_count": 1000,
+      "chunk_index": 69,
+      "page_numbers": [
+        14
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0070",
+      "source_id": "MobileLLM_2024",
+      "text": "30 9 3 576 124.6 45.8 28.7 60.4 65.7 42.9 39.5 41.1 52.1 47.0\n350M\nBaseline model 15 20 20 1280 376.8 50.3 27.6 53.8 68.1 44.1 42.6 40.1 52.4 47.4\n+ SwiGLU in FFN 15 20 20 1280 386.7 49.2 30.6 59.1 67.7 44.3 43.2 41.0 54.2 48.7\n+ Use deep-thin structure 32 14 14 896 380.3 50.7 31.4 59.4 67.8 43.3 46.2 43.8 56.2 49.8\n+ Embedding share 32 14 14 896 351.6 49.9 32.0 60.3 67.9 43.2 47.0 38.9 54.8 49.2\n+ Grouped-query attention 32 15 5 960 345.3 51.4 31.3 61.0 68.1 43.6 47.2 41.6 55.4 49.9\n(Train on 1T token) 32 15 5 960 345.3 53.8 33.5 62.4 68.6 44.7 49.6 40.0 57.6 51.3\n+ Layer sharing 32 15 5 960 345.3 51.9 35.2 59.6 68.9 43.4 47.2 43.3 58.4 51.0\n(Train on 1T token) 32 15 5 960 345.3 54.4 32.5 62.8 69.8 44.1 50.6 45.8 57.2 52.1\nC. Depth vs Width\nWe provide network depth versus width exploration results on zero-shot reasoning tasks in Table 11, as well as results on\nquestion answering and reading comprehension tasks in Table 12. The findings indicate that shallow architectures with fewer\nthan 10 layers perform poorly in reasoning or handling comprehension tasks.",
+      "section": "Appendix",
+      "char_count": 1073,
+      "chunk_index": 70,
+      "page_numbers": [
+        14
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0071",
+      "source_id": "MobileLLM_2024",
+      "text": "question answering and reading comprehension tasks in Table 12. The findings indicate that shallow architectures with fewer\nthan 10 layers perform poorly in reasoning or handling comprehension tasks. Models with 10-20 layers exhibit improved\naccuracy, while further increasing depth continues to provide significant benefits across all three tasks. Notably, the optimal\ndepth is found to be near 30 layers for sub-billion scale models.\nD. Number of Heads and Key-Value Heads\nWe provide detailed experimental results assessing the impact of the number of attention heads and key-value heads on\nzero-shot reasoning accuracy in Table 13. Our study involves two baseline architectures: an 8-layer 125M model with an\nembedding dimension of 896, and a 15-layer 350M model with an embedding dimension of 1280. We conduct head size\nsweeps in {8, 16, 32}. The findings shown in Table 13 indicate that using 16 heads, with a head dimension close to 64, and\n4 key-value heads, yields the best accuracy and memory trade-off. This setting serves as a guiding principle in our model\narchitecture design.\nE.",
+      "section": "Appendix",
+      "char_count": 1092,
+      "chunk_index": 71,
+      "page_numbers": [
+        14
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0072",
+      "source_id": "MobileLLM_2024",
+      "text": "using 16 heads, with a head dimension close to 64, and\n4 key-value heads, yields the best accuracy and memory trade-off. This setting serves as a guiding principle in our model\narchitecture design.\nE. Layer-Sharing Number Ablation\nWe extended our investigation to determine the optimal number of layer repetitions. The experiment involved the 8-layer\n125M model with an embedding dimension of 896 and the 15-layer 350M model with an embedding dimension of 1280.\n14\n\nMobileLLM\nTable 11: Ablation study on depth versus width in architecture design, illustrated in Figure 4 (a)(b). For compact models,\nprioritizing depth over width yields superior performance, assessed through zero-shot common sense reasoning tasks.\n#Layer #Heads Dim #Params(M) ARC-e ARC-c BoolQ PIQA SIQA HellaSwag OBQA WinoGrande Avg.",
+      "section": "Appendix",
+      "char_count": 802,
+      "chunk_index": 72,
+      "page_numbers": [
+        14
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0073",
+      "source_id": "MobileLLM_2024",
+      "text": "oritizing depth over width yields superior performance, assessed through zero-shot common sense reasoning tasks.\n#Layer #Heads Dim #Params(M) ARC-e ARC-c BoolQ PIQA SIQA HellaSwag OBQA WinoGrande Avg.\n4 20 1280 163.2 42.0 26.1 61.0 61.5 41.3 32.9 31.4 49.8 43.3\n6 16 1024 142.6 42.2 25.5 51.0 62.6 41.6 33.5 32.1 50.0 42.3\n8 14 896 138.1 43.6 25.5 48.6 61.8 40.9 34.0 37.5 52.0 43.0\n12 12 768 134.1 43.1 28.9 58.1 62.3 42.3 34.6 31.5 50.1 43.9\n18 10 640 132.4 41.0 25.5 59.3 62.6 41.6 34.2 36.7 50.1 43.9\n24 9 576 132.4 43.6 27.0 59.7 63.8 42.0 36.2 33.7 52.2 44.8\n30 8 512 135.0 43.6 26.1 58.0 62.5 42.6 36.5 37.5 51.5 44.8\n42 7 448 134.6 43.3 26.1 57.8 63.3 41.7 36.3 35.9 52.0 44.5\n62 6 384 134.3 44.1 26.7 59.0 64.7 42.4 36.2 33.1 51.3 44.7\n5 32 2048 388.0 47.9 28.8 62.2 65.2 42.8 38.1 39.0 52.6 47.1\n10 24 1536 381.4 49.1 29.6 60.6 67.1 44.0 42.7 41.2 54.4 48.6\n12 22 1408 379.9 49.9 31.6 59.1 68.2 42.6 44.0 43.7 53.8 49.1\n15 20 1280 386.7 49.2 30.6 59.1 67.7 44.3 43.2 41.0 54.2 48.7\n19 18 11",
+      "section": "Appendix",
+      "char_count": 1000,
+      "chunk_index": 73,
+      "page_numbers": [
+        15
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0074",
+      "source_id": "MobileLLM_2024",
+      "text": "47.1\n10 24 1536 381.4 49.1 29.6 60.6 67.1 44.0 42.7 41.2 54.4 48.6\n12 22 1408 379.9 49.9 31.6 59.1 68.2 42.6 44.0 43.7 53.8 49.1\n15 20 1280 386.7 49.2 30.6 59.1 67.7 44.3 43.2 41.0 54.2 48.7\n19 18 1152 376.3 50.8 30.9 56.3 69.1 43.8 45.2 39.6 54.5 48.8\n24 16 1024 373.8 50.7 33.8 58.8 68.6 43.5 45.0 40.0 54.9 49.4\n28 15 960 371.1 51.7 33.2 57.6 67.9 42.9 46.0 37.7 53.9 48.9\n32 14 896 380.3 50.7 31.4 59.4 67.8 43.3 46.2 43.8 56.2 49.8\n46 12 768 374.7 49.7 30.5 59.5 68.1 45.1 44.9 43.4 55.5 49.6\n66 10 640 376.2 50.5 31.8 61.0 67.4 43.8 46.0 40.1 55.6 49.5\nTable 12: Ablation study on depth vs. width in architecture design on TQA and RACE datasets, depicted in Figure 4 (c-f).\nTQA (F1 score) RACE (Acc)\n#Layer #Heads Dim #Params(M) 1-shot 5-shot 64-shot middle high\n4 20 1280 163.2 2.0 3.9 3.9 33.2 26.0\n6 16 1024 142.6 3.5 4.9 4.6 29.2 25.5\n8 14 896 138.1 4.2 5.2 4.7 29.2 24.3\n12 12 768 134.1 5.1 6.1 6.3 35.6 27.3\n18 10 640 132.4 4.7 6.8 5.2 34.3 27.4\n24 9 576 132.4 5.9 7.2 7.3 35.3 28.6\n30 8",
+      "section": "Appendix",
+      "char_count": 999,
+      "chunk_index": 74,
+      "page_numbers": [
+        15
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0075",
+      "source_id": "MobileLLM_2024",
+      "text": ".2 26.0\n6 16 1024 142.6 3.5 4.9 4.6 29.2 25.5\n8 14 896 138.1 4.2 5.2 4.7 29.2 24.3\n12 12 768 134.1 5.1 6.1 6.3 35.6 27.3\n18 10 640 132.4 4.7 6.8 5.2 34.3 27.4\n24 9 576 132.4 5.9 7.2 7.3 35.3 28.6\n30 8 512 135.0 6.2 6.8 6.9 34.2 27.9\n42 7 448 134.6 6.1 7.2 7.2 34.4 28.6\n62 6 384 134.3 6.0 7.0 7.3 38.9 28.9\n5 32 2048 388.0 5.6 7.8 8.6 38.1 29.0\n10 24 1536 381.4 9.0 11.8 12.7 40.6 30.0\n12 22 1408 379.9 11.7 12.9 13.3 42.4 31.5\n15 20 1280 386.7 10.7 13.1 14.2 42.6 30.6\n19 18 1152 376.3 11.3 13.3 13.5 42.6 32.4\n24 16 1024 373.8 11.8 13.5 14.4 43.0 31.9\n28 15 960 371.1 12.5 13.6 14.9 42.8 32.3\n32 14 896 380.3 12.6 14.5 15.3 44.2 32.2\n46 12 768 374.7 13.0 15.4 15.6 44.7 31.4\n66 10 640 376.2 12.5 15.1 15.7 44.0 32.5\nThe results in Table 14 demonstrate that when we double the layer number and with each two transformer blocks sharing\nweights, the accuracy is enhanced by 0.4-0.6%. However, as we further triple or quadruple the layer repetition times, this\naccuracy enhancement effect diminishes. Consequently, in our experiments, we adopt a configuration where every two\nblocks share weights, effectively doubling the total number of layers.\nF.",
+      "section": "Appendix",
+      "char_count": 1147,
+      "chunk_index": 75,
+      "page_numbers": [
+        15
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0076",
+      "source_id": "MobileLLM_2024",
+      "text": "times, this\naccuracy enhancement effect diminishes. Consequently, in our experiments, we adopt a configuration where every two\nblocks share weights, effectively doubling the total number of layers.\nF. Compatibility with Quantization\nThis section explores the compatibility of quantization with the proposed model architecture and layer sharing. We employ\na straightforward per-token min-max quantization, quantizing both weight and activation to 8-bit using post-training\nquantization (PTQ). Experiments are conducted on both MobileLLM andMobileLLM-LS with model sizes of 125M\nand 350M, trained on 0.25T tokens. Results in Table 15 demonstrate that W8A8 PTQ results in a modest accuracy drop of\nwithin 0.5% and is compatible with the proposed layer-sharing method.\nG. Knowledge Distillation\nThe results of integrating knowledge distillation (KD) (Hinton et al., 2015) into small model pre-training are presented in\nTable 16. LLaMA-v2 7B models serve as the teacher, and the KD loss is computed using cross-entropy between the logits\n15\n\nMobileLLM\nTable 13: Ablation study investigating the impact of the number of attention heads and key-value heads.",
+      "section": "Appendix",
+      "char_count": 1150,
+      "chunk_index": 76,
+      "page_numbers": [
+        15
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0077",
+      "source_id": "MobileLLM_2024",
+      "text": "as the teacher, and the KD loss is computed using cross-entropy between the logits\n15\n\nMobileLLM\nTable 13: Ablation study investigating the impact of the number of attention heads and key-value heads.\nModel #Heads #KV-Heads #Params(M) ARC-e ARC-c BoolQ PIQA SIQA HellaSwag OBQA WinoGrande Avg.\n32 32 138.1 42.1 26.9 58.4 62.2 42.1 33.8 36.7 52.4 44.3\n32 16 131.7 41.2 26.4 57.7 62.5 42.3 33.3 34.2 52.9 43.8\n32 8 128.5 42.6 27.3 61.1 61.9 41.9 32.2 35.0 52.0 44.2\n32 4 126.8 43.1 26.8 59.8 62.7 41.4 32.5 34.4 51.1 44.0\n32 2 126.0 39.8 26.7 59.4 59.4 42.0 31.3 32.6 52.9 43.0\n32 1 125.6 41.0 24.3 59.1 60.8 41.2 31.4 35.4 52.0 43.1\n125M 16 16 138.1 41.6 25.7 61.1 62.4 43.1 34.4 36.9 51.6 44.6\n# layers=8 16 8 131.7 42.4 26.4 60.7 63.4 41.9 33.5 34.7 51.5 44.3\ndim=896 16 4 128.5 42.5 25.6 62.3 62.4 41.8 33.0 35.9 54.5 44.7\n16 2 126.8 41.7 25.3 56.9 61.7 42.0 32.9 32.6 54.5 43.5\n16 1 126.0 40.4 26.3 61.8 63.2 41.7 32.0 34.0 50.4 43.7\n8 8 138.1 41.4 25.0 58.3 61.7 41.7 33.3 35.9 53.2 43.8\n8 4 131.",
+      "section": "Appendix",
+      "char_count": 1000,
+      "chunk_index": 77,
+      "page_numbers": [
+        15
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0078",
+      "source_id": "MobileLLM_2024",
+      "text": "41.8 33.0 35.9 54.5 44.7\n16 2 126.8 41.7 25.3 56.9 61.7 42.0 32.9 32.6 54.5 43.5\n16 1 126.0 40.4 26.3 61.8 63.2 41.7 32.0 34.0 50.4 43.7\n8 8 138.1 41.4 25.0 58.3 61.7 41.7 33.3 35.9 53.2 43.8\n8 4 131.7 43.3 28.2 58.3 61.8 42.8 33.8 30.9 53.0 44.0\n8 2 128.5 40.7 26.2 58.1 61.2 41.6 32.8 34.8 51.5 43.4\n8 1 126.8 42.5 24.8 59.4 62.3 42.0 32.0 36.3 51.3 43.8\n32 32 386.7 48.6 30.4 59.7 67.2 43.9 44.0 40.9 53.9 48.6\n32 16 362.1 48.9 31.6 57.6 68.4 43.4 43.8 38.6 54.9 48.4\n32 8 349.8 48.3 33.1 61.0 67.2 42.6 42.1 39.0 53.9 48.4\n32 4 343.7 47.2 29.8 59.4 67.2 43.5 42.5 42.5 54.1 48.3\n32 2 340.6 47.6 30.3 62.4 66.9 42.6 41.6 38.6 52.0 47.7\n32 1 339.0 48.5 27.3 56.3 67.1 42.9 40.9 36.7 53.3 46.6\n350M 16 16 386.7 50.8 30.6 62.3 68.6 43.5 45.1 43.8 52.4 49.6\n# layers=15 16 8 362.1 48.5 30.7 59.4 67.3 43.8 43.8 41.3 53.3 48.5\ndim=1280 16 4 349.8 49.9 30.6 60.0 69.2 43.5 44.2 41.8 55.8 49.4\n16 2 343.7 49.3 28.4 55.0 67.3 42.7 42.6 40.3 54.5 47.5\n16 1 340.6 49.2 29.3 58.8 67.4 43.5 42.1 39.9 52.8 47.",
+      "section": "Appendix",
+      "char_count": 1000,
+      "chunk_index": 78,
+      "page_numbers": [
+        16
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0079",
+      "source_id": "MobileLLM_2024",
+      "text": "43.8 43.8 41.3 53.3 48.5\ndim=1280 16 4 349.8 49.9 30.6 60.0 69.2 43.5 44.2 41.8 55.8 49.4\n16 2 343.7 49.3 28.4 55.0 67.3 42.7 42.6 40.3 54.5 47.5\n16 1 340.6 49.2 29.3 58.8 67.4 43.5 42.1 39.9 52.8 47.9\n8 8 386.7 51.0 33.2 58.2 67.0 43.9 43.9 42.6 54.7 49.3\n8 4 362.1 50.0 31.3 60.2 66.0 42.7 43.7 40.9 53.7 48.6\n8 2 349.8 49.3 30.4 59.9 67.9 42.8 43.5 38.9 53.8 48.3\n8 1 343.7 48.0 27.7 61.5 67.1 43.1 42.5 37.3 54.7 47.8\nTable 14: Ablation study on the impact of varying layer repetition numbers.\nModel Size Repeat Times ARC-e ARC-c BoolQ PIQA SIQA HellaSwag OBQA WinoGrande Avg.\n125Mbaseline 41.6 25.7 61.1 62.4 43.1 34.4 36.9 51.6 44.6\nblock-wise share repeat ×2 43.9 27.9 61.5 64.3 41.5 35.5 35.1 50.2 45.0\nblock-wise share repeat ×3 43.3 27.6 60.9 63.0 42.3 35.6 34.1 52.9 45.0\nblock-wise share repeat ×4 42.0 26.6 62.3 64.4 41.5 36.2 35.8 53.9 45.3\n350Mbaseline 50.8 30.6 62.3 68.6 43.5 45.1 43.8 52.4 49.6\nblock-wise share repeat ×2 51.5 30.8 59.6 68.2 43.9 47.7 44.7 55.0 50.2\nblock-wise shar",
+      "section": "Appendix",
+      "char_count": 1000,
+      "chunk_index": 79,
+      "page_numbers": [
+        16
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0080",
+      "source_id": "MobileLLM_2024",
+      "text": "repeat ×4 42.0 26.6 62.3 64.4 41.5 36.2 35.8 53.9 45.3\n350Mbaseline 50.8 30.6 62.3 68.6 43.5 45.1 43.8 52.4 49.6\nblock-wise share repeat ×2 51.5 30.8 59.6 68.2 43.9 47.7 44.7 55.0 50.2\nblock-wise share repeat ×3 49.6 32.0 57.3 68.4 43.9 47.0 40.6 56.2 49.4\nblock-wise share repeat ×4 52.2 32.6 60.0 69.0 44.5 47.6 41.8 55.2 50.4\nfrom the large pre-trained teacher model ( i.e., LLaMA-v2 7B) and the small student network ( i.e., 125M or 350M models):\nLCE=−1\nnX\ncnX\ni=1pT\nc(Xi) log(pS\nc(Xi)), (1)\nHere, idenotes the ithsample in the current batch with ntotal samples in the batch, and crepresents the number of classes,\nwhich, in our case, equals the size of the vocabulary. TandSare the teacher and student networks, respectively.\nThe results in Table 16 indicate that adding KD loss is comparable to or even lower than solely using the next token as labels.\nHowever, it’s noteworthy that the training time using KD is 2.6−3.2×slower than training from scratch using labels. All\nmodels are trained on 32 A100 80G GPUs with a batch size of 32 for 120k iterations. Consequently, we opt to use labels in\nour experiments.\nH.",
+      "section": "Appendix",
+      "char_count": 1120,
+      "chunk_index": 80,
+      "page_numbers": [
+        16
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0081",
+      "source_id": "MobileLLM_2024",
+      "text": ".6−3.2×slower than training from scratch using labels. All\nmodels are trained on 32 A100 80G GPUs with a batch size of 32 for 120k iterations. Consequently, we opt to use labels in\nour experiments.\nH. Datasets and Benchmarks\nMobileLLM is assessed on zero-shot common sense reasoning (BoolQ, PIQA, SIQA, HellaSwag, Winogrande, ARC,\nOBQA), question answering (TriviaQA), and reading comprehension (RACE) tasks. Additionally, we evaluate our chat\nmodels on MT-Bench and AlpacaEval benchmarks. We also generated an API calling dataset to fine-tune and evaluate\nmodels for this particular task.\n16\n\nMobileLLM\nTable 15: Ablation study: 8-bit weight, 8-bit activation post-training quantization results on zero-shot common sense\nreasoning tasks. Quantized models achieve accuracy gap of within 0.5% compared to the full-precision BF16 counterpart.\nModel Precision ARC-e ARC-c BoolQ PIQA SIQA HellaSwag OBQA WinoGrande Avg.",
+      "section": "Appendix",
+      "char_count": 915,
+      "chunk_index": 81,
+      "page_numbers": [
+        16
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0082",
+      "source_id": "MobileLLM_2024",
+      "text": "sense\nreasoning tasks. Quantized models achieve accuracy gap of within 0.5% compared to the full-precision BF16 counterpart.\nModel Precision ARC-e ARC-c BoolQ PIQA SIQA HellaSwag OBQA WinoGrande Avg. Gap\nMobileLLM -125M BF16 45.5 27.7 58.3 64.6 41.9 36.4 35.4 50.4 45.0 –\nMobileLLM -125M W8A8 45.2 27.1 58.3 65.0 41.7 36.2 33.6 51.0 44.8 0.2\nMobileLLM-LS -125M BF16 44.4 27.0 61.5 65.1 43.0 37.6 37.8 52.0 46.1 –\nMobileLLM-LS -125M W8A8 44.0 27.5 60.9 64.6 43.1 37.7 37.7 51.0 45.8 0.3\nMobileLLM -350M BF16 51.4 31.3 61.0 68.1 43.6 47.2 41.6 55.4 49.9 –\nMobileLLM -350M W8A8 51.4 32.1 61.1 68.8 43.1 47.1 40.6 55.1 49.9 0.0\nMobileLLM-LS -350M BF16 51.9 35.2 59.6 68.9 43.4 47.2 43.3 58.4 51.0 –\nMobileLLM-LS -350M W8A8 51.3 33.8 59.5 69.1 43.7 47.2 43.0 57.0 50.6 0.4\nTable 16: Ablation study on employing LLaMA-v2 7B teacher’s output as soft labels for knowledge distillation (KD).\nResults indicate a slight degradation in performance when incorporating KD loss compared to only using hard labels.\nModel Training Loss Training Time ARC-e ARC-c BoolQ PIQA SIQA HellaSwag OBQA WinoGrande Avg.",
+      "section": "Appendix",
+      "char_count": 1091,
+      "chunk_index": 82,
+      "page_numbers": [
+        17
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0083",
+      "source_id": "MobileLLM_2024",
+      "text": "indicate a slight degradation in performance when incorporating KD loss compared to only using hard labels.\nModel Training Loss Training Time ARC-e ARC-c BoolQ PIQA SIQA HellaSwag OBQA WinoGrande Avg.\n125M model Label 29h 43.1 28.9 58.1 62.3 42.3 34.6 31.5 50.1 43.9\n125M model Label + KD 93h 41.8 28.5 58.5 61.6 41.1 34.5 32.7 51.6 43.8\n350M model Label 42h 50.2 31.8 56.9 67.7 44.3 45.8 40.8 55.5 49.1\n350M model Label + KD 109h 48.7 31.8 60.7 67.4 43.2 45.9 38.9 53.7 48.8\nH.1. Zero-shot Common Sense Reasoning tasks\nBoolQ (Clark et al., 2019) is a reading comprehension dataset focused on naturally occurring yes/no questions. Each\ninstance includes a question (Q), an excerpt from a passage (P), and an answer (A), with an added explanation for enhanced\nclarity.\nPIQA (Bisk et al., 2020), abbreviated for Physical Interaction: Question Answering, serves as a benchmark for evaluating\nand studying the capacity of natural language models in comprehending physical commonsense understanding.",
+      "section": "Appendix",
+      "char_count": 994,
+      "chunk_index": 83,
+      "page_numbers": [
+        17
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0084",
+      "source_id": "MobileLLM_2024",
+      "text": "abbreviated for Physical Interaction: Question Answering, serves as a benchmark for evaluating\nand studying the capacity of natural language models in comprehending physical commonsense understanding.\nSIQA (Sap et al., 2019), abbreviated for Social Interaction Question Answering, is designed to measure the social and\nemotional intelligence of computational models through multiple-choice question answering.\nHellaSwag (Zellers et al., 2019) serves as a benchmark for physically situated commonsense natural language inference. It\ncomprises four-way multiple-choice problems that are considered trivial for humans (>95% accuracy) but pose a challenge\nfor language models.\nWinoGrande (Sakaguchi et al., 2021) is a benchmark for commonsense reasoning. It consists of a set of 273 expert-crafted\npronoun resolution problems, deliberately designed to be unsolvable for statistical models relying on selectional preferences\nor word associations.\nARC (Clark et al., 2018), the AI2 Reasoning Challenge, is a compilation of 7787 natural science questions.",
+      "section": "Appendix",
+      "char_count": 1048,
+      "chunk_index": 84,
+      "page_numbers": [
+        17
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0085",
+      "source_id": "MobileLLM_2024",
+      "text": "be unsolvable for statistical models relying on selectional preferences\nor word associations.\nARC (Clark et al., 2018), the AI2 Reasoning Challenge, is a compilation of 7787 natural science questions. It is divided into\na Challenge Set and an Easy Set, with the Challenge Set exclusively comprising questions that were answered incorrectly by\nboth a retrieval-based algorithm and a word co-occurrence algorithm.\nOBQA (Mihaylov et al., 2018) is a dataset consisting of approximately 6000 questions designed for open-book question\nanswering. The task involves integrating a corpus of provided science facts (open book) with external broad common\nknowledge. Providing correct answers necessitates leveraging simple common knowledge beyond the core facts provided.\nH.2. Question Answering Tasks\nTriviaQA (Joshi et al., 2017) is a closed-book question answering benchmark. It encompasses over 650,000 question-answer\nevidence triples derived by combining 95,000 question-answer pairs authored by Trivia enthusiasts. Each question is\nsupported by an average of six evidence documents.\n17\n\nMobileLLM\nH.3.",
+      "section": "Appendix",
+      "char_count": 1097,
+      "chunk_index": 85,
+      "page_numbers": [
+        17
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0086",
+      "source_id": "MobileLLM_2024",
+      "text": "uestion-answer\nevidence triples derived by combining 95,000 question-answer pairs authored by Trivia enthusiasts. Each question is\nsupported by an average of six evidence documents.\n17\n\nMobileLLM\nH.3. Reading Comprehension Tasks\nRACE (Lai et al., 2017) is a large-scale reading comprehension dataset with more than 28,000 passages and nearly 100,000\nquestions. The dataset is collected from English examinations in China, which are designed for middle school and high\nschool students.\nH.4. Chat Benchmarks\nAlpacaEval (Li et al., 2023) is a single-turn benchmark featuring 805 questions across various topics. In the evaluation of\nthis paper, models generate responses and are scored by GPT-4, with the ultimate metric being the pairwise win rate against\na baseline model (text-davinci-001).\nMT-Bench (Zheng et al., 2023) is a multi-turn benchmark comprising 160 questions spanning eight diverse knowledge\ndomains. In this evaluation, models are tasked with answering an initial question and subsequently providing a second\nresponse to a predefined follow-up question. Each model response is rated by GPT-4 on a scale from 1 to 10, and the final\nscore is determined by the mean over the two turns.",
+      "section": "Appendix",
+      "char_count": 1196,
+      "chunk_index": 86,
+      "page_numbers": [
+        17
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0087",
+      "source_id": "MobileLLM_2024",
+      "text": "quently providing a second\nresponse to a predefined follow-up question. Each model response is rated by GPT-4 on a scale from 1 to 10, and the final\nscore is determined by the mean over the two turns.\nH.5. API Calling Dataset\nThe API calling dataset is generated by instructing a language model to simulate a conversation between a human and an\nagent. This process instructs the language model to explicitly mention tasks that should be performed using designated APIs\nthroughout the simulated conversation. Examples of a conversation turn in the generated dataset are shown in the following\nboxes.\n{\"role\": \"USER\", \"message\": \"Can you help me send a SMS message: We are looking forward to seeing\nyou\"},\n{\"role\": \"PARSER\", \"message\": \"style_transfer(text = \"We are looking forward to seeing you\", style =\n[\"sms\"], contact = None)\"},\n{\"role\": \"AGENT\", \"message\": \"Sure! Here’s a possible SMS message: Hey [name], we are looking\nforward to seeing you!",
+      "section": "Appendix",
+      "char_count": 949,
+      "chunk_index": 87,
+      "page_numbers": [
+        18
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0088",
+      "source_id": "MobileLLM_2024",
+      "text": "(text = \"We are looking forward to seeing you\", style =\n[\"sms\"], contact = None)\"},\n{\"role\": \"AGENT\", \"message\": \"Sure! Here’s a possible SMS message: Hey [name], we are looking\nforward to seeing you! Wishing you all well.\"},\n{\"role\": \"USER\", \"message\": \"How did the S&P 500 perform last month?\"},\n{\"role\": \"PARSER\", \"message\": \"get_stock_information(company_name = \"S&P 500\", ticker_symbol =\n\"GSPC\", date_time = \"last month\", financial_metrics = \"price\")\"},\n{\"role\": \"AGENT\", \"message\": \"The S&P 500 closed at $2,977.94 last month, with a monthly return of\n2.5%.\"},\n{\"role\": \"USER\", \"message\": \"Is the San Diego Zoo open during the winter months?\"},\n{\"role\": \"PARSER\", \"message\": \"get_local_information(point_of_interest = \"San Diego Zoo\", attributes =\n\"hours of operation\")\"},\n{\"role\": \"AGENT\", \"message\": \"The San Diego Zoo is open year-round, but the hours of operation vary\ndepending on the time of year.",
+      "section": "Appendix",
+      "char_count": 909,
+      "chunk_index": 88,
+      "page_numbers": [
+        18
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0089",
+      "source_id": "MobileLLM_2024",
+      "text": "_of_interest = \"San Diego Zoo\", attributes =\n\"hours of operation\")\"},\n{\"role\": \"AGENT\", \"message\": \"The San Diego Zoo is open year-round, but the hours of operation vary\ndepending on the time of year. During the winter months, the zoo is open from 9:00 AM to 5:00 PM.\"},\n18\n\nMobileLLM\n{\"role\": \"USER\", \"message\": \"What is the most recent news concerning aliens?\"},\n{\"role\": \"PARSER\", \"message\": \"news(query = \"latest alien news\")\"},\n{\"role\": \"AGENT\", \"message\": \"According to recent news articles, NASA has announced the discovery of a\nnew planet outside of our solar system that has the potential to support alien life. The planet, named Kepler-\n186f, is located in the constellation Cygnus and is the first known Earth-sized planet to be found in the\nhabitable zone of a star. While this news does not necessarily prove the existence of aliens, it does provide\nhope for the possibility of finding life beyond Earth. Additionally, a recent study published in the journal\nNature has suggested that the universe may be teeming with alien civilizations, with estimates suggesting\nthat there could be tens of billions of intelligent civilizations in the observable universe.",
+      "section": "Appendix",
+      "char_count": 1171,
+      "chunk_index": 89,
+      "page_numbers": [
+        18
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0090",
+      "source_id": "MobileLLM_2024",
+      "text": "Nature has suggested that the universe may be teeming with alien civilizations, with estimates suggesting\nthat there could be tens of billions of intelligent civilizations in the observable universe. However, it’s\nimportant to note that these findings are still being researched and debated in the scientific community.\"},\n{\"role\": \"USER\", \"message\": \"Who won the last Super Bowl?\"},\n{\"role\": \"PARSER\", \"message\": \"get_sports_information(match = \"\", sport_type = \"NFL\", metric =\n\"winner\")\"},\n{\"role\": \"AGENT\", \"message\": \"The last Super Bowl was won by the Kansas City Chiefs.\"},\n19\n\nMobileLLM\nI. Approximate calculation of envisioned future GPU consumption\n#GPUs = 7.88×109(population size) ×5%(individual time11)×220×109(approximating FLOPs/token for 220B GPT-4\nmodel with one expert activated12)×50(token/s) ×24(h)×3600 (s) / ( 60×1012(FLOPs/s, H100 computation capacity )\n×24(h)×3600 (s))≈1×108\nThis assumes short sequence lengths ( i.e.hundreds of tokens, not tens of thousands of tokens), where the compute is\ndominated by linear layers. For very long sequences, the self-attention computation would dominate, and this would\nnecessitate a more complicated formula.\nJ.",
+      "section": "Appendix",
+      "char_count": 1173,
+      "chunk_index": 90,
+      "page_numbers": [
+        19
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0091",
+      "source_id": "MobileLLM_2024",
+      "text": "thousands of tokens), where the compute is\ndominated by linear layers. For very long sequences, the self-attention computation would dominate, and this would\nnecessitate a more complicated formula.\nJ. Chat Generations from MobileLLM\nWe show several examples of chat output generated with MobileLLM while responding to various questions.\nInput:\nAre there any particular physical benefits to mindful walking, such as improved posture or increased physical\nfitness?\nOutput (MobileLLM -125M):\nYes, there are several physical benefits to mindful walking. Here are a few:\n1. Improved Posture: Mindful walking can help improve your posture by promoting good alignment and reducing\nstress on the joints. This can lead to better posture and reduced back pain.\n2. Increased Flexibility: Mindful walking can also help increase flexibility in your body, which can reduce the\nrisk of injury and improve overall health.\n3. Better Sleep: Mindful walking can help you fall asleep more easily and stay asleep longer, which can improve\nyour sleep quality.\n4. Reduced Stress: Mindful walking can help reduce stress levels by promoting relaxation and reducing tension\nin the body.\n5.",
+      "section": "Appendix",
+      "char_count": 1163,
+      "chunk_index": 91,
+      "page_numbers": [
+        20
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0092",
+      "source_id": "MobileLLM_2024",
+      "text": "more easily and stay asleep longer, which can improve\nyour sleep quality.\n4. Reduced Stress: Mindful walking can help reduce stress levels by promoting relaxation and reducing tension\nin the body.\n5. Enhanced Mental Health: Mindful walking has been shown to have positive effects on mental health, including\nreducing symptoms of depression and anxiety.\nOverall, mindful walking is an excellent way to improve your physical health and well-being. It’s a simple and\neffective way to get moving and enjoy the benefits it offers. If you’re interested in trying mindful walking, I\nwould recommend starting with shorter walks and gradually increasing the duration over time. You may also\nwant to consider incorporating mindfulness into your daily routine to further enhance your experience.\nIn conclusion, mindful walking is a great way to improve your physical health and well-being. With its numerous\nphysical benefits, it’s easy to see why it’s becoming increasingly popular among people looking for a fun and\nsustainable way to get moving.",
+      "section": "Appendix",
+      "char_count": 1037,
+      "chunk_index": 92,
+      "page_numbers": [
+        20
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0093",
+      "source_id": "MobileLLM_2024",
+      "text": "rove your physical health and well-being. With its numerous\nphysical benefits, it’s easy to see why it’s becoming increasingly popular among people looking for a fun and\nsustainable way to get moving. So go ahead and give it a try!\n11According to the statistics that YouTube users spend an average of 23 hours per month (source) and Instagram users dedicating 12\nhours monthly to the app (source), we have reason to believe the interaction with LLM can easily surpass the cumulative engagement of\nthese platforms in the future.\n12\n20\n\nMobileLLM\nOutput (MobileLLM -350M):\nYes, there are several physical benefits of mindful walking. Firstly, it can improve your posture by reducing the\namount of tension in your muscles and joints. Secondly, it can increase your physical fitness by improving your\ncardiovascular health, strengthening your core muscles, and increasing your flexibility. Additionally, mindful\nwalking can help you to stay more focused on the present moment, which can lead to better sleep quality and\nreduced stress levels. Finally, it can also help you to develop a greater sense of awareness and appreciation for\nthe world around you, which can enhance your overall well-being.",
+      "section": "Appendix",
+      "char_count": 1194,
+      "chunk_index": 93,
+      "page_numbers": [
+        20
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0094",
+      "source_id": "MobileLLM_2024",
+      "text": "ter sleep quality and\nreduced stress levels. Finally, it can also help you to develop a greater sense of awareness and appreciation for\nthe world around you, which can enhance your overall well-being.\nOverall, mindful walking is a great way to improve your physical health and well-being, while also promoting\nrelaxation and mindfulness. Whether you’re looking to reduce stress, improve your posture, or simply enjoy a\npeaceful walk, mindful walking can be a rewarding and fulfilling experience.\nIf you’re interested in trying out mindful walking, there are many resources available that can guide you through\nthe process. Some popular options include guided meditations, apps that offer mindful walking exercises, and\nclasses that teach you how to practice mindful walking. With a little bit of effort and dedication, anyone can start\nincorporating mindful walking into their daily routine and reap the many benefits it offers.\nIn conclusion, mindful walking is a simple yet powerful tool that can help you to improve your physical health,\nreduce stress, and cultivate a deeper sense of awareness and appreciation for the world around you.",
+      "section": "Appendix",
+      "char_count": 1140,
+      "chunk_index": 94,
+      "page_numbers": [
+        21
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0095",
+      "source_id": "MobileLLM_2024",
+      "text": "on, mindful walking is a simple yet powerful tool that can help you to improve your physical health,\nreduce stress, and cultivate a deeper sense of awareness and appreciation for the world around you. So why not\ngive it a try and see what kind of benefits you can achieve? Your body and mind will thank you!\nOutput (llama-v2-7b-chat):\nMindful walking can have a range of physical benefits, including:\n1. Improved posture: By focusing on the sensation of each step and the movement of the body, mindful walking\ncan help improve posture and reduce slouching or hunching.\n2. Increased physical fitness: Mindful walking can help improve cardiovascular fitness, increase muscle strength\nand endurance, and boost overall physical fitness.\n3. Better balance and coordination: By paying attention to the body’s position in space and the movement of the\nlegs and feet, mindful walking can help improve balance and coordination.\n4. Reduced stress and tension: Mindful walking can help reduce stress and tension in the body, which can lead to\nimproved physical relaxation and well-being.\n5.",
+      "section": "Appendix",
+      "char_count": 1079,
+      "chunk_index": 95,
+      "page_numbers": [
+        21
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0096",
+      "source_id": "MobileLLM_2024",
+      "text": "help improve balance and coordination.\n4. Reduced stress and tension: Mindful walking can help reduce stress and tension in the body, which can lead to\nimproved physical relaxation and well-being.\n5. Improved flexibility: By focusing on the movement of the body and the sensation of each step, mindful walking\ncan help improve flexibility and range of motion.\n6. Boosted immune system: Studies have shown that mindfulness practices, including mindful walking, can help\nboost the immune system and reduce inflammation.\n7. Improved sleep: Mindful walking can help improve sleep quality and duration by reducing stress and promoting\nrelaxation. 8. Reduced pain: Mindful walking can help reduce pain by focusing on the sensation of each step and\nthe movement of the body, rather than the pain itself.\n9. Improved mood: Mindful walking can help improve mood and reduce symptoms of depression and anxiety by\npromoting relaxation and reducing stress.\nIt’s important to note that the physical benefits of mindful walking may vary depending on the individual and the\nfrequency and duration of the practice.",
+      "section": "Appendix",
+      "char_count": 1097,
+      "chunk_index": 96,
+      "page_numbers": [
+        21
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0097",
+      "source_id": "MobileLLM_2024",
+      "text": "y by\npromoting relaxation and reducing stress.\nIt’s important to note that the physical benefits of mindful walking may vary depending on the individual and the\nfrequency and duration of the practice. However, with regular practice, mindful walking can have a range of\npositive effects on physical health and well-being.\nInput:\nHow do I wrap a present neatly?\n21\n\nMobileLLM\nOutput (MobileLLM -125M):\n1. Choose the right size gift: The size of the present you want to give will depend on your budget and personal\npreference. If you are looking for a small gift, consider buying a small box or card with a single-use plastic bag.\n2. Prepare the present: Make sure all the items in the present are clean and tidy. You can use a cleaning kit or a\ntissue paper to remove any dirt or debris from the present.\n3. Arrange the presents: Place the present in a place where it is easy to see and touch. Use a pencil to draw a line\naround the present and arrange it in a way that makes sense to you.\n4. Add decorations: Decorate the present with stickers, ribbons, or other decorative items. This will add some\npersonality to the present and make it more visually appealing.\n5.",
+      "section": "Appendix",
+      "char_count": 1165,
+      "chunk_index": 97,
+      "page_numbers": [
+        21
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0098",
+      "source_id": "MobileLLM_2024",
+      "text": "at makes sense to you.\n4. Add decorations: Decorate the present with stickers, ribbons, or other decorative items. This will add some\npersonality to the present and make it more visually appealing.\n5. Enjoy the present: Take time to enjoy the present and let yourself feel the warmth and comfort of the present.\nSmile at yourself and take a moment to appreciate the present.\nRemember, the most important thing is to have fun and enjoy the present! Happy gift-giving!\nIf you’re feeling adventurous, try making a surprise gift for someone special by wrapping the present in a cute\nand colorful gift basket. Or, if you’re feeling adventurous, try making a gift for a friend who needs a little extra\nhelp with their homework. Whatever you choose, remember to be creative and have fun with your present!\nWith these tips, you’ll be able to create a beautiful and thoughtful present that will last for years to come. Happy\ngift-giving!\nOutput (MobileLLM -350M):\n1. Start by wrapping the present in a decorative gift wrap or ribbon.\n2. Use a small amount of glue or tape to secure the gift wrap or ribbon to the surface of the present.\n3.",
+      "section": "Appendix",
+      "char_count": 1130,
+      "chunk_index": 98,
+      "page_numbers": [
+        22
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0099",
+      "source_id": "MobileLLM_2024",
+      "text": "utput (MobileLLM -350M):\n1. Start by wrapping the present in a decorative gift wrap or ribbon.\n2. Use a small amount of glue or tape to secure the gift wrap or ribbon to the surface of the present.\n3. Place the gift wrap or ribbon around the present, making sure it is centered and evenly distributed.\n4. Use a small amount of glue or tape to secure the gift wrap or ribbon to the surface of the present.\n5. Once the gift wrap or ribbon is securely attached, you can add any additional decorations or embellishments to\nthe present.\n6. If you want to add a personal touch, you can write a message or a special message on the gift wrap or ribbon.\n7. Finally, enjoy your beautifully wrapped present!\nRemember, wrapping a gift is a fun and creative way to show your loved one how much you care. Have fun and\nenjoy the process!\nOutput (llama-v2-7b-chat):\nWrapping a present neatly can be a bit of a challenge, but with a few simple tips and tricks, you can create a\nbeautifully wrapped gift that your recipient will love. Here are some tips to help you wrap a present neatly:\n1. Use the right wrapping paper: Choose a wrapping paper that complements the gift and is the right size for the\npresent.",
+      "section": "Appendix",
+      "char_count": 1192,
+      "chunk_index": 99,
+      "page_numbers": [
+        22
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0100",
+      "source_id": "MobileLLM_2024",
+      "text": "our recipient will love. Here are some tips to help you wrap a present neatly:\n1. Use the right wrapping paper: Choose a wrapping paper that complements the gift and is the right size for the\npresent. You can also use a patterned paper or a solid color, depending on your preference.\n2. Measure the gift: Before you start wrapping, measure the gift to make sure you have enough wrapping paper.\nYou can also use a piece of scrap paper to measure the gift and mark the edges with a pencil.\n3. Use a flat surface: Make sure you have a flat surface to work on, such as a table or countertop. This will help\nyou keep the wrapping paper flat and prevent it from wrinkling.\n4. Start with the edges: Begin by folding the edges of the wrapping paper over the gift, making sure they are even\nand smooth. You can use tape to secure the edges if needed.\n5. Roll the gift: Once you have the edges in place, roll the gift into the center of the wrapping paper. Make sure\nthe gift is securely in place before moving on to the next step.\n6. Tuck in the edges: As you wrap the gift, tuck the edges of the wrapping paper under the gift, smoothing them\nout as you go.",
+      "section": "Appendix",
+      "char_count": 1148,
+      "chunk_index": 100,
+      "page_numbers": [
+        22
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0101",
+      "source_id": "MobileLLM_2024",
+      "text": "ake sure\nthe gift is securely in place before moving on to the next step.\n6. Tuck in the edges: As you wrap the gift, tuck the edges of the wrapping paper under the gift, smoothing them\nout as you go. Make sure the edges are even and smooth, and use tape to secure them if needed.\n7. Add a ribbon or bow: Once you have the gift wrapped, add a ribbon or bow to the top. This will not only make\nthe gift look more festive, but it will also help to keep the wrapping paper in place.\n8. Practice makes perfect: Wrapping a present neatly takes a bit of practice, so don’t be discouraged if it doesn’t\ncome out perfectly the first time. Keep practicing, and you’ll get the hang of it in no time!\nBy following these tips, you can create a beautifully wrapped present that your recipient will love. Happy\nwrapping!\n22\n\nMobileLLM\nInput:\nWhat are the best exercises for beginners?\nOutput (MobileLLM -125M):\n1. Push-ups: This is a classic exercise that can be done anywhere, anytime. It’s easy to do and requires no\nequipment.\n2. Dumbbell Rows: These rows are great for building strength in your legs and core.\n3. Squats: Squats are a great way to build strength in your legs and core.\n4.",
+      "section": "Appendix",
+      "char_count": 1177,
+      "chunk_index": 101,
+      "page_numbers": [
+        22
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0102",
+      "source_id": "MobileLLM_2024",
+      "text": "easy to do and requires no\nequipment.\n2. Dumbbell Rows: These rows are great for building strength in your legs and core.\n3. Squats: Squats are a great way to build strength in your legs and core.\n4. Lunges: Lunges are a great way to improve balance and stability.\n5. Plank: A plank is a great way to build strength in your back and core.\n6. Jumping Jacks: Jumping jacks are a fun and effective way to build strength in your legs and core.\n7. Burpees: Burpees are a great way to build strength in your legs and core.\n8. Mountain Climbers: Mountain climbers are a great way to build strength in your legs and core.\n9. Deadlifts: Deadlifts are a great way to build strength in your legs and core.\n10. Tricep Dips: Tricep dips are a great way to build strength in your triceps.\nRemember, it’s important to start with simple exercises and gradually increase the intensity as you get stronger.\nDon’t push yourself too hard or you may find it difficult to maintain proper form. With consistent practice, you\nwill see improvements in your strength and overall fitness.\nIf you have any questions about exercises or healthy living, don’t hesitate to talk to a doctor or physical therapist.",
+      "section": "Appendix",
+      "char_count": 1180,
+      "chunk_index": 102,
+      "page_numbers": [
+        23
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0103",
+      "source_id": "MobileLLM_2024",
+      "text": "sistent practice, you\nwill see improvements in your strength and overall fitness.\nIf you have any questions about exercises or healthy living, don’t hesitate to talk to a doctor or physical therapist.\nThey can help you develop a personalized plan that works best for you.\nIn conclusion, there are many exercises that can be done at home, but it’s important to start slowly and gradually\nincrease the intensity over time. Remember to listen to your body and take breaks when needed. And most\nimportantly, enjoy the process!\nOutput (MobileLLM -350M):\nBeginners should start with exercises that are easy to do and don’t require a lot of strength or endurance. Here are\nsome exercises that are great for beginners:\n1. Push-ups: This is a great exercise for beginners because it’s a simple exercise that can be done anywhere. Start\nwith a push-up on your knees and then lower yourself down to the ground.\n2. Squats: Squats are a great exercise for building leg strength and endurance. Start with a squat on your knees\nand then lower yourself down to the ground.\n3. Lunges: Lunges are a great exercise for building leg strength and endurance.",
+      "section": "Appendix",
+      "char_count": 1136,
+      "chunk_index": 103,
+      "page_numbers": [
+        23
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0104",
+      "source_id": "MobileLLM_2024",
+      "text": "se for building leg strength and endurance. Start with a squat on your knees\nand then lower yourself down to the ground.\n3. Lunges: Lunges are a great exercise for building leg strength and endurance. Start with a lunge on your front\nfoot and then lower yourself down to the ground.\n4. Plank: Planks are a great exercise for building core strength and stability. Start with a plank on your forearms\nand then lower yourself down to the ground.\n5. Bicycle crunches: Bicycle crunches are a great exercise for building upper body strength and stability. Start\nwith a bicycle crunch on your upper back and then lower yourself down to the ground.\n6. Plank with leg lifts: This exercise is great for building leg strength and stability. Start with a plank on your\nforearms and then lift your legs off the ground and hold for a few seconds before lowering them back down.\n7. Jumping jacks: Jumping jacks are a great exercise for building cardiovascular endurance and strength. Start\nwith a jumping jack on your feet and then jump up and spread your legs.\nRemember to start with a weight that is comfortable for you and gradually increase the weight as you get stronger.",
+      "section": "Appendix",
+      "char_count": 1161,
+      "chunk_index": 104,
+      "page_numbers": [
+        23
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0105",
+      "source_id": "MobileLLM_2024",
+      "text": "rength. Start\nwith a jumping jack on your feet and then jump up and spread your legs.\nRemember to start with a weight that is comfortable for you and gradually increase the weight as you get stronger.\nIt’s also important to warm up before exercising and to stretch after your workout to prevent injury.\nIn conclusion, beginners should start with exercises that are easy to do and don’t require a lot of strength\nor endurance. These exercises are great for building leg strength and endurance, and can be done anywhere.\nRemember to start with a weight that is comfortable for you and gradually increase the weight as you get stronger.\nWarming up and stretching after your workout are also important to prevent injury.\nFollowing these exercises can help you build strength, endurance, and improve your overall fitness level.\nRemember to always consult with a healthcare professional before starting any new exercise program.\n23\n\nMobileLLM\nOutput (llama-v2-7b-chat):\nExercise is an essential part of a healthy lifestyle, but for beginners, it can be intimidating and overwhelming.\nHere are some of the best exercises for beginners:\n1.",
+      "section": "Appendix",
+      "char_count": 1131,
+      "chunk_index": 105,
+      "page_numbers": [
+        23
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0106",
+      "source_id": "MobileLLM_2024",
+      "text": "leLLM\nOutput (llama-v2-7b-chat):\nExercise is an essential part of a healthy lifestyle, but for beginners, it can be intimidating and overwhelming.\nHere are some of the best exercises for beginners:\n1. Bodyweight exercises: These exercises are great for beginners because they don’t require any equipment.\nExamples include push-ups, squats, lunges, and planks.\n2. Yoga: Yoga is a low-impact exercise that can help improve flexibility, balance, and strength. It’s also great for\nreducing stress and improving overall well-being.\n3. Brisk walking: Walking is a simple and accessible form of exercise that can be done anywhere. It’s a great\nway to get your heart rate up and improve cardiovascular health.\n4. Swimming: Swimming is a low-impact exercise that can help improve cardiovascular health and strengthen\nmuscles. It’s also easy on the joints, making it a great option for beginners.\n5. Cycling: Cycling is another low-impact exercise that can be done indoors or outdoors. It’s a great way to\nimprove cardiovascular health and build leg strength.\n6. Resistance band exercises: Resistance bands are lightweight and portable, making them easy to use at home or\non the go.",
+      "section": "Appendix",
+      "char_count": 1172,
+      "chunk_index": 106,
+      "page_numbers": [
+        24
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0107",
+      "source_id": "MobileLLM_2024",
+      "text": "rs. It’s a great way to\nimprove cardiovascular health and build leg strength.\n6. Resistance band exercises: Resistance bands are lightweight and portable, making them easy to use at home or\non the go. They can help improve strength and flexibility in the upper body, lower body, and core.\n7. Pilates: Pilates is a form of exercise that focuses on core strength, flexibility, and body control. It’s a great\noption for beginners because it’s low-impact and can help improve posture and balance.\n8. Dance-based workouts: Dance-based workouts, such as Zumba or Hip Hop Abs, are fun and energetic ways to\nget in shape. They often involve aerobic exercise and strength training, making them a great option for beginners.\n9. Jumping rope: Jumping rope is a high-intensity exercise that can help improve cardiovascular health and burn\ncalories. It’s also easy to do at home with a simple jump rope.\n10. Kettlebell exercises: Kettlebells are small weights that can be used to perform a variety of exercises, including\nswings, squats, and presses. They’re a great way to improve strength and cardiovascular health.",
+      "section": "Appendix",
+      "char_count": 1104,
+      "chunk_index": 107,
+      "page_numbers": [
+        24
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    },
+    {
+      "chunk_id": "MobileLLM_2024_chunk_0108",
+      "source_id": "MobileLLM_2024",
+      "text": "l exercises: Kettlebells are small weights that can be used to perform a variety of exercises, including\nswings, squats, and presses. They’re a great way to improve strength and cardiovascular health.\nRemember to always consult with a doctor before starting any new exercise program, especially if you’re a\nbeginner. It’s also important to start slowly and gradually increase the intensity and duration of your workouts as\nyou become more comfortable.\n24",
+      "section": "Appendix",
+      "char_count": 454,
+      "chunk_index": 108,
+      "page_numbers": [
+        24
+      ],
+      "source_file": "MobileLLM_2024_2402_14905.pdf",
+      "total_source_pages": 24
+    }
+  ]
+}

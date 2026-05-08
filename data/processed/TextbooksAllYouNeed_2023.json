@@ -1,0 +1,1208 @@
+{
+  "source_id": "TextbooksAllYouNeed_2023",
+  "metadata": {
+    "title": "Textbooks Are All You Need",
+    "authors": "Suriya Gunasekar, Yi Zhang, Jyoti Aneja, Caio César Teodoro Mendes, Allie Del Giorno, Sivakanth Gopi, Mojan Javaheripi, Piero Kauffmann, Gustavo de Rosa, Olli Saarikivi, Adil Salim, Shital Shah, Harkirat Singh Behl, Xin Wang, Sébastien Bubeck, Ronen Eldan, Adam Tauman Kalai, Yin Tat Lee, Yuanzhi Li",
+    "year": "2023",
+    "venue": "arXiv",
+    "url": "https://arxiv.org/abs/2306.11644",
+    "source_type": "peer-reviewed",
+    "relevance_note": "Synthetic data generation strategy for Phi-1 - demonstrates how high-quality synthetic data enables efficient SLM training"
+  },
+  "pdf_metadata": {
+    "title": "",
+    "author": "",
+    "total_pages": 26
+  },
+  "statistics": {
+    "total_pages": 26,
+    "total_chunks": 91,
+    "avg_chunk_size": 1009.9010989010989,
+    "ingestion_timestamp": "2026-02-02T19:03:49.939219"
+  },
+  "chunks": [
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0000",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "Textbooks Are All You Need\nSuriya Gunasekar Yi Zhang Jyoti Aneja Caio C´ esar Teodoro Mendes\nAllie Del Giorno Sivakanth Gopi Mojan Javaheripi Piero Kauffmann\nGustavo de Rosa Olli Saarikivi Adil Salim Shital Shah Harkirat Singh Behl\nXin Wang S´ ebastien Bubeck Ronen Eldan Adam Tauman Kalai Yin Tat Lee\nYuanzhi Li\nMicrosoft Research",
+      "section": "Header/Title",
+      "char_count": 331,
+      "chunk_index": 0,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0001",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "Abstract\nWe introduce phi-1 , a new large language model for code, with significantly smaller size than\ncompeting models: phi-1 is a Transformer-based model with 1 .3B parameters, trained for 4 days on\n8 A100s, using a selection of “textbook quality” data from the web (6B tokens) and synthetically\ngenerated textbooks and exercises with GPT-3.5 (1B tokens). Despite this small scale, phi-1 attains\n accuracy 50 .6% on HumanEval and 55 .5% on MBPP. It also displays surprising emergent\nproperties compared to phi-1-base , our model before our finetuning stage on a dataset of coding\nexercises, and phi-1-small , a smaller model with 350M parameters trained with the same pipeline as\nphi-1 that still achieves 45% on HumanEval.",
+      "section": "Abstract",
+      "char_count": 726,
+      "chunk_index": 1,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0002",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "1 Introduction\nThe art of training large artificial neural networks has made extraordinary progress in the last decade,\nespecially after the discovery of the Transformer architecture [VSP+17], yet the science behind this success\nremains limited. Amidst a vast and confusing array of results, a semblance of order emerged around the\nsame time as Transformers were introduced, namely that performance improves somewhat predictably as\none scales up either the amount of compute or the size of the network [HNA+17], a phenomenon which is\nnow referred to as scaling laws [KMH+20]. The subsequent exploration of scale in deep learning was guided\nby these scaling laws [BMR+20], and discoveries of variants of these laws led to rapid jump in performances\n[HBM+22]. In this work, following the footsteps of Eldan and Li [EL23], we explore the improvement\nthat can be obtained along a different axis: the quality of the data.",
+      "section": "1 Introduction",
+      "char_count": 916,
+      "chunk_index": 2,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0003",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "d to rapid jump in performances\n[HBM+22]. In this work, following the footsteps of Eldan and Li [EL23], we explore the improvement\nthat can be obtained along a different axis: the quality of the data. It has long been known that higher\nquality data leads to better results, e.g., data cleaning is an important part of modern dataset creation\n[RSR+20], and it can yield other side benefits such as somewhat smaller datasets [LYR+23, YGK+23] or\nallowing for more passes on the data [MRB+23]. The recent work of Eldan and Li on TinyStories (a high\nquality dataset synthetically generated to teach English to neural networks) showed that in fact the effect\nof high quality data extends well past this: improving data quality can dramatically change the shape of\nthe scaling laws, potentially allowing to match the performance of large-scale models with much leaner\ntraining/models. In this work we go beyond the initial foray of Eldan and Li to show that high quality\ndata can even improve the SOTA of large language models (LLMs), while dramatically reducing the\ndataset size and training compute.",
+      "section": "1 Introduction",
+      "char_count": 1094,
+      "chunk_index": 3,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0004",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "go beyond the initial foray of Eldan and Li to show that high quality\ndata can even improve the SOTA of large language models (LLMs), while dramatically reducing the\ndataset size and training compute. Importantly, smaller models requiring less training can significantly\nreduce the environmental cost of LLMs [BGMMS21].\nWe focus our attention on LLMs trained for code, and specifically writing simple Python functions\nfrom their docstrings as in [CTJ+21]. The evaluation benchmark proposed in the latter work, HumanEval,\nhas been widely adopted for comparing LLMs’ performance on code. We demonstrate the power of high\n1arXiv:2306.11644v2 [cs.CL] 2 Oct 2023\n\nDate Model Model size Dataset size HumanEval MBPP\n(Parameters) (Tokens)  \n2021 Jul Codex-300M [CTJ+21] 300M 100B 13.2% -\n2021 Jul Codex-12B [CTJ+21] 12B 100B 28.8% -\n2022 Mar CodeGen-Mono-350M [NPH+23] 350M 577B 12.8% -\n2022 Mar CodeGen-Mono-16.1B [NPH+23] 16.1B 577B 29.3% 35.3%\n2022 Apr PaLM-Coder [CND+22] 540B 780B 35.9% 47.0%\n2022 Sep CodeGeeX [ZXZ+23] 13B 850B 22.9% 24.4%\n2022 Nov GPT-3.5 [Ope23] 175B N.A. 47% -\n2022 Dec SantaCoder [ALK+23] 1.1B 236B 14.0% 35.0%\n2023 Mar GPT-4 [Ope23] N.A. N.A.",
+      "section": "1 Introduction",
+      "char_count": 1162,
+      "chunk_index": 4,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0005",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "D+22] 540B 780B 35.9% 47.0%\n2022 Sep CodeGeeX [ZXZ+23] 13B 850B 22.9% 24.4%\n2022 Nov GPT-3.5 [Ope23] 175B N.A. 47% -\n2022 Dec SantaCoder [ALK+23] 1.1B 236B 14.0% 35.0%\n2023 Mar GPT-4 [Ope23] N.A. N.A. 67% -\n2023 Apr Replit [Rep23] 2.7B 525B 21.9% -\n2023 Apr Replit-Finetuned [Rep23] 2.7B 525B 30.5% -\n2023 May CodeGen2-1B [NHX+23] 1B N.A. 10.3% -\n2023 May CodeGen2-7B [NHX+23] 7B N.A. 19.1% -\n2023 May StarCoder [LAZ+23] 15.5B 1T 33.6% 52.7%\n2023 May StarCoder-Prompted [LAZ+23] 15.5B 1T 40.8% 49.5%\n2023 May PaLM 2-S [ADF+23] N.A. N.A. 37.6% 50.0%\n2023 May CodeT5+ [WLG+23] 2B 52B 24.2% -\n2023 May CodeT5+ [WLG+23] 16B 52B 30.9% -\n2023 May InstructCodeT5+ [WLG+23] 16B 52B 35.0% -\n2023 Jun WizardCoder [LXZ+23] 16B 1T 57.3% 51.8%\n2023 Jun phi-1 1.3B 7B 50.6% 55.5%\nTable 1: We use self-reported scores whenever available. Despite being trained at vastly smaller scale, phi-1\noutperforms competing models on HumanEval and MBPP, except for GPT-4 (also WizardCoder obtains better\nHumanEval but worse MBPP).",
+      "section": "1 Introduction",
+      "char_count": 1004,
+      "chunk_index": 5,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0006",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "henever available. Despite being trained at vastly smaller scale, phi-1\noutperforms competing models on HumanEval and MBPP, except for GPT-4 (also WizardCoder obtains better\nHumanEval but worse MBPP).\nquality data in breaking existing scaling laws by training a 1 .3B-parameter model, which we call phi-1 ,\nfor roughly 8 passes over 7B tokens (slightly over 50B total tokens seen) followed by finetuning on less than\n200M tokens. Roughly speaking we pretrain on “textbook quality” data, both synthetically generated\n(with GPT-3.5) and filtered from web sources, and we finetune on “textbook-exercise-like” data. Despite\nbeing several orders of magnitude smaller than competing models, both in terms of dataset and model size\n(see Table 1), we attain 50 .6%  accuracy on HumanEval and 55.5%  accuracy on MBPP\n(Mostly Basic Python Programs), which are one of the best self-reported numbers using only one LLM\ngeneration. In Section 2, we give some details of our training process, and we discuss evidence for the\nimportance of our data selection process in achieving this result.",
+      "section": "1 Introduction",
+      "char_count": 1077,
+      "chunk_index": 6,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0007",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "ed numbers using only one LLM\ngeneration. In Section 2, we give some details of our training process, and we discuss evidence for the\nimportance of our data selection process in achieving this result. Moreover, despite being trained on\nmuch fewer tokens compared to existing models, phi-1 still displays emergent properties. In Section\n3 we discuss these emergent properties, and in particular we confirm the hypothesis that the number\nof parameters plays a key role in emergence (see e.g., [WTB+22]), by comparing the outputs of phi-1\nwith those of phi-1-small , a model trained with the same pipeline but with only 350M parameters.\nThe methodology used in this section is reminiscent of the Sparks of AGI paper [BCE+23] that argued\nfor moving away from static benchmarks to test LLMs’ performance. Finally in Section 4 we discuss\nalternative benchmarks to evaluate the model and in Section 5 we study possible contamination of our\ntraining data with respect to HumanEval. We release the model for usage and evaluation by the broader\ncommunity, but omit some details of the synthetic data generation, for proprietary reasons.",
+      "section": "1 Introduction",
+      "char_count": 1126,
+      "chunk_index": 7,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0008",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "of our\ntraining data with respect to HumanEval. We release the model for usage and evaluation by the broader\ncommunity, but omit some details of the synthetic data generation, for proprietary reasons.\nMore related works Our work is part of the recent program of using LLMs for program synthesis,\nsee [CTJ+21, NPH+22] for more references on this. Our approach is also part of the emerging trend of\n2\n\nusing existing LLMs to synthesize data for the training of new generations of LLMs, [WKM+22, TGZ+23,\nMMJ+23, LGK+23, JWJ+23]. There is an ongoing debate about whether such “recursive training” might\nlead to narrower scope for the resulting LLM [SSZ+23, GWS+23], see [MMJ+23] for a counterviewpoint.\nNote that in this paper we focus on a narrow task, similarly to [JWJ+23], in which case it seems plausible\nto attain better performance than the teacher LLM on that specific task (as is argued in the latter paper).\n2 Training details and the importance of high-quality data\nFigure 2.1:  accuracy (%) on HumanEval.",
+      "section": "1 Introduction",
+      "char_count": 1012,
+      "chunk_index": 8,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0009",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "ain better performance than the teacher LLM on that specific task (as is argued in the latter paper).\n2 Training details and the importance of high-quality data\nFigure 2.1:  accuracy (%) on HumanEval. The grouping of bar plots correspond to the usual scaling\ndimensions of either increasing the compute time (more passes on the data, here from 26B tokens seen to 76B)\nor increasing the number of parameters of the model (here from 350M to 1 .3B). Each column within a group\ncorresponds to different training datasets: (A) The first (orange) column represents the performance of models\ntrained on the standard dataset of deduplicated Python files from The Stack (plus StackOverflow for 1.3B parameter\nmodel); (B) The second (light green) column represents the performance of models trained with our new dataset\ncomposition CodeTextbook ; (C) Finally, the third (dark green) column corresponds to the respective second column\nmodels finetuned on our new CodeExercises dataset. For the 1.3B models, phi-1 andphi-1-base are checkpoints\nafter training on 51B tokens (770 GPU hours) and The Stack+ model was trained for 76B tokens and 1090 GPU\nhours.",
+      "section": "1 Introduction",
+      "char_count": 1144,
+      "chunk_index": 9,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0010",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "our new CodeExercises dataset. For the 1.3B models, phi-1 andphi-1-base are checkpoints\nafter training on 51B tokens (770 GPU hours) and The Stack+ model was trained for 76B tokens and 1090 GPU\nhours. We highlight that even without any finetuning, our phi-1-base model trained on CodeTextbook dataset\nachieves 29% HumanEval performance with a mere 1.3B parameter model. The previous smallest model that\nachieves close to 30% performance on HumanEval was Replit-Finetuned at 2.7B parameters, which was trained\nwith 100 times more training tokens than us [Rep23]. On top of this, finetuning on our CodeExercises dataset to\nobtain phi-1 not only gives us our top performance of 51% on HumanEval, but also unlocks further unexpected\ncoding capabilities (see Section 3).\nAs alluded to in the title of the paper, the central ingredient our model relies on textbook-quality\ntraining data.",
+      "section": "1 Introduction",
+      "char_count": 881,
+      "chunk_index": 10,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0011",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "HumanEval, but also unlocks further unexpected\ncoding capabilities (see Section 3).\nAs alluded to in the title of the paper, the central ingredient our model relies on textbook-quality\ntraining data. Unlike previous work that used standard sources of text data for code generation, such\nas The Stack [KLA+22] (which contains sourcecode from repositories with permissive licenses) and other\nweb-based datasets (e.g., StackOverflow and CodeContest [LCC+22]), we argue that these sources are\nnot optimal for teaching the model how to reason and plan algorithmically. On the other hand, our\nmodel architecture and training methods are fairly conventional (Section 2.3), so we devote this section\nprimarily to explaining how we curated our data.\nThe standard code datasets [KLA+22, LCC+22] form a large and diverse corpus covering broad range\nof topics and use cases.",
+      "section": "1 Introduction",
+      "char_count": 862,
+      "chunk_index": 11,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0012",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "3), so we devote this section\nprimarily to explaining how we curated our data.\nThe standard code datasets [KLA+22, LCC+22] form a large and diverse corpus covering broad range\nof topics and use cases. However, based on manual inspection of random samples we observe that many of\nthese snippets are not very instructive for learning the basics of coding, and suffer from several drawbacks:\n3\n\n•Many samples are not self-contained, meaning that they depend on other modules or files that are\nexternal to the snippet, making them hard to understand without additional context.\n•Typical examples do not involve any meaningful computation, but rather consist of trivial or boil-\nerplate code, such as defining constants, setting parameters, or configuring GUI elements.\n•Samples that do contain algorithmic logic are often buried inside complex or poorly documented\nfunctions, making them difficult to follow or learn from.\n•The examples are skewed towards certain topics or use cases, resulting in an unbalanced distribution\nof coding concepts and skills across the dataset.",
+      "section": "1 Introduction",
+      "char_count": 1070,
+      "chunk_index": 12,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0013",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": ", making them difficult to follow or learn from.\n•The examples are skewed towards certain topics or use cases, resulting in an unbalanced distribution\nof coding concepts and skills across the dataset.\nOne can only imagine how frustrating and inefficient it would be for a human learner to try to\nacquire coding skills from these datasets, as they would have to deal with a lot of noise, ambiguity, and\nincompleteness in the data. We hypothesize that these issues also affect the performance of language\nmodels, as they reduce the quality and quantity of the signal that maps natural language to code. We\nconjecture that language models would benefit from a training set that has the same qualities as a good\n“textbook”: it should be clear, self-contained, instructive, and balanced.\nIn this work, we address this challenge directly and show that by intentionally selecting and generating\nhigh-quality data, we can achieve state-of-the-art results on code-generation tasks with a much smaller\nmodel and less compute than existing approaches.",
+      "section": "1 Introduction",
+      "char_count": 1040,
+      "chunk_index": 13,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0014",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "that by intentionally selecting and generating\nhigh-quality data, we can achieve state-of-the-art results on code-generation tasks with a much smaller\nmodel and less compute than existing approaches. Our training relies on three main datasets:\n•Afiltered code-language dataset, which is a subset of The Stack and StackOverflow, obtained by\nusing a language model-based classifier (consisting of about 6B tokens).\n•Asynthetic textbook dataset consisting of <1B tokens of GPT-3.5 generated Python textbooks.\n•A small synthetic exercises dataset consisting of ∼180M tokens of Python exercises and solutions.\nWe describe those datasets in more detail in the next subsections. Taken together, the above datasets\ncontain less than 7B tokens. We refer to the combination of filtered code-language andsynthetic textbook\ndatasets as “CodeTextbook” and use it in the pretraining phase to obtain our base model phi-1-base\n—this model already achieves a competitive HumanEval performance of 29%. Then we use the 180M\ntoken synthetic exercises dataset, referred to as “CodeExercises”, to finetune our phi-1-base model to\nobtain phi-1 .",
+      "section": "1 Introduction",
+      "char_count": 1122,
+      "chunk_index": 14,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0015",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "already achieves a competitive HumanEval performance of 29%. Then we use the 180M\ntoken synthetic exercises dataset, referred to as “CodeExercises”, to finetune our phi-1-base model to\nobtain phi-1 . Despite the small size of the “CodeExercises” dataset, finetuning with this dataset is\ncrucial not only for large improvements in generating simple Python function as shown in Figure 2.1, but\nmore broadly to unlock many interesting emergent capabilities in our phi-1 model that are not observed\ninphi-1-base (see Section 3).\n2.1 Filtering of existing code datasets using a transformer-based classifier\nWe begin with publicly available Python code datasets: we use the Python subset of the deduplicated\nversion of The Stack and the StackOverflow, which together contain over 35 million files/samples, totalling\nover 35B tokens. We annotate the quality of a small subset of these files (about 100k samples) using\nGPT-4: given a code snippet, the model is prompted to “determine its educational value for a student\nwhose goal is to learn basic coding concepts”.",
+      "section": "1 Introduction",
+      "char_count": 1058,
+      "chunk_index": 15,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0016",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "all subset of these files (about 100k samples) using\nGPT-4: given a code snippet, the model is prompted to “determine its educational value for a student\nwhose goal is to learn basic coding concepts”.\nWe then use this annotated dataset to train a random forest classifier that predicts the quality of\na file/sample using its output embedding from a pretrained codegen model as features. We note that\nunlike GPT-3.5, which we use extensively to generate synthetic content (discussed below), we use GPT-4\nminimally only for annotations on the quality of a small subset of The Stack and StackOverflow samples.\nWe thus view our usage of GPT-4 as merely a way to avoid tedious human-annotation efforts [DLT+23].\n4\n\nEducational values deemed by the filter\nHigh educational value\nimport torch\nimport torch.nn.functional as F\ndef normalize(x, axis=-1):\n\"\"\"Performs L2-Norm.\"\"\"\nnum = x\ndenom = torch.norm(x, 2, axis, keepdim=True)\n.expand_as(x) + 1e-12\nreturn num / denom\ndef euclidean_dist(x, y):\n\"\"\"Computes Euclidean distance.\"\"\"\nm, n = x.size(0), y.size(0)\nxx = torch.pow(x, 2).sum(1, keepdim=True).\nexpand(m, n)\nyy = torch.pow(x, 2).sum(1, keepdim=True).",
+      "section": "1 Introduction",
+      "char_count": 1150,
+      "chunk_index": 16,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0017",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "num / denom\ndef euclidean_dist(x, y):\n\"\"\"Computes Euclidean distance.\"\"\"\nm, n = x.size(0), y.size(0)\nxx = torch.pow(x, 2).sum(1, keepdim=True).\nexpand(m, n)\nyy = torch.pow(x, 2).sum(1, keepdim=True).\nexpand(m, m).t()\ndist = xx + yy - 2 *torch.matmul(x, y.t())\ndist = dist.clamp(min=1e-12).sqrt()\nreturn dist\ndef cosine_dist(x, y):\n\"\"\"Computes Cosine Distance.\"\"\"\nx = F.normalize(x, dim=1)\ny = F.normalize(y, dim=1)\ndist = 2 - 2 *torch.mm(x, y.t())\nreturn distLow educational value\nimport re\nimport typing\n...\nclass Default(object):\ndef __init__(self, vim: Nvim) -> None:\nself._vim = vim\nself._denite: typing.Optional[SyncParent]\n= None\nself._selected_candidates: typing.List[int\n] = []\nself._candidates: Candidates = []\nself._cursor = 0\nself._entire_len = 0\nself._result: typing.List[typing.Any] = []\nself._context: UserContext = {}\nself._bufnr = -1\nself._winid = -1\nself._winrestcmd = ''\nself._initialized = False\nself._winheight = 0\nself._winwidth = 0\nself._winminheight = -1\nself._is_multi = False\nself._is_async = False\nself._matched_pattern = ''\n...",
+      "section": "1 Introduction",
+      "char_count": 1054,
+      "chunk_index": 17,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0018",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "._winid = -1\nself._winrestcmd = ''\nself._initialized = False\nself._winheight = 0\nself._winwidth = 0\nself._winminheight = -1\nself._is_multi = False\nself._is_async = False\nself._matched_pattern = ''\n...\nOur filtering methodology boosts our model performance significantly even without the synthetic\ndatasets discussed below: for 350M parameter models trained on unfiltered Stack (deduplicated python)\nand StackOverflow, the HumanEval performance saturates at 12 .19% even after training for 96k steps\n(∼200B tokens), while training on the filtered subset achieves 17 .68% on HumanEval after 36k steps.\nWe further improve this to 20 .12% (reported in Figure 2.1) by training on a combination of the filtered\ndataset and the synthetic textbooks dataset discussed below.\n2.2 Creation of synthetic textbook-quality datasets\nOne of the main challenges in creating a high-quality dataset for code generation is ensuring that the\nexamples are diverse and non-repetitive. By diversity, we mean that the examples should cover a wide\nrange of coding concepts, skills, and scenarios, and that they should vary in their level of difficulty,\ncomplexity, and style.",
+      "section": "1 Introduction",
+      "char_count": 1149,
+      "chunk_index": 18,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0019",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "-repetitive. By diversity, we mean that the examples should cover a wide\nrange of coding concepts, skills, and scenarios, and that they should vary in their level of difficulty,\ncomplexity, and style. Diversity is important for several reasons: it exposes the language model to\ndifferent ways of expressing and solving problems in code, it reduces the risk of overfitting or memorizing\nspecific patterns or solutions, and it increases the generalization and robustness of the model to unseen or\nnovel tasks. However, achieving diversity is not trivial, especially when using synthetic data generated by\nanother language model. Simply prompting the model to produce a coding textbook or a set of exercises,\neven with some variation in the instructions or the parameters, will likely result in a very homogeneous\nand redundant dataset, where the same concepts and solutions are repeated over and over with minor\nchanges. This is because language models tend to follow the most probable or common paths given their\ntraining data and their priors, and they lack the creativity or the incentive to explore alternative or novel\nways of generating code.",
+      "section": "1 Introduction",
+      "char_count": 1146,
+      "chunk_index": 19,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0020",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "dels tend to follow the most probable or common paths given their\ntraining data and their priors, and they lack the creativity or the incentive to explore alternative or novel\nways of generating code. Therefore, one needs to find the right “trick” that will induce the language\nmodel to be more creative and diverse in its output, while still maintaining the quality and the coherence\nof the examples. Inspired by [EL23], where a diverse set of short stories were created by including a\n5\n\nrandom subset of words chosen from some fixed vocabulary in the prompt and requiring that they would\nbe somehow combined in the generated text, we look for ways to inject randomness into the prompt in\na way that gives rise to the generation of a diverse dataset.\nThe synthetic textbook dataset\nThis dataset consists of less that 1B tokens of GPT-3.5 generated Python textbooks, synthesized to\nprovide a high-quality source of natural language heavy text interleaved with relevant code snippets.\nWe further targeted the content of these textbooks to cover topics that promote reasoning and basic\nalgorithmic skills.",
+      "section": "1 Introduction",
+      "char_count": 1104,
+      "chunk_index": 20,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0021",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "y source of natural language heavy text interleaved with relevant code snippets.\nWe further targeted the content of these textbooks to cover topics that promote reasoning and basic\nalgorithmic skills. Here, diversity is obtained by providing constraints on topics and target audience of\nthe generated textbook. The following is an example text from the synthetic textbook:\nTo begin, let us define singular and nonsingular matrices. A matrix is said to be singular if its\ndeterminant is zero. On the other hand, a matrix is said to be nonsingular if its determinant is not\nzero. Now, let's explore these concepts through examples.\nExample 1: Consider the matrix A = np.array([[1, 2], [2, 4]]). We can check if this matrix is\nsingular or nonsingular using the determinant function. We can define a Python function, `\nis_singular(A) `, which returns true if the determinant of A is zero, and false otherwise.",
+      "section": "1 Introduction",
+      "char_count": 905,
+      "chunk_index": 21,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0022",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "if this matrix is\nsingular or nonsingular using the determinant function. We can define a Python function, `\nis_singular(A) `, which returns true if the determinant of A is zero, and false otherwise.\nimport numpy as np\ndef is_singular(A):\ndet = np.linalg.det(A)\nif det == 0:\nreturn True\nelse:\nreturn False\nA = np.array([[1, 2], [2, 4]])\nprint(is_singular(A)) # True\nThe CodeExercises dataset\nThis is a small synthetic exercises dataset consisting of less than 180M tokens of Python exercises and\nsolutions. Each exercise is a docstring of a function that needs to be completed. The goal of this dataset\nis to align the model to perform function completion tasks based on natural language instructions. This\ndataset was also generated by GPT-3.5, where the main means of eliciting diversity is by constraining\nthe function names. For this dataset in particular, we conduct explicit decontamination and alternative\nevaluations in the following sections to ensure that problems similar to those from HumanEval benchmark\nare not seen during finetuning. The following snippet illustrates a synthetically generated exercise.",
+      "section": "1 Introduction",
+      "char_count": 1118,
+      "chunk_index": 22,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0023",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "ations in the following sections to ensure that problems similar to those from HumanEval benchmark\nare not seen during finetuning. The following snippet illustrates a synthetically generated exercise.\ndef valid_guessing_letters(word: str, guesses: List[str]) -> List[str]:\n\"\"\"\nReturns a list of valid guessing letters, which are letters that have not been guessed yet and\nare present in the word.\nParameters:\nword (str): The word to guess.\nguesses (List[str]): A list of letters that have already been guessed.\nReturns:\nList[str]: A list of valid guessing letters.\n\"\"\"\nvalid_letters = []\nfor letter in word:\nif letter not in guesses and letter not in valid_letters:\nvalid_letters.append(letter)\nreturn valid_letters\n6\n\n2.3 Model architecture and training\nWe use a decoder only transformer [VSP+17] model using the FlashAttention implementation of multi-\nhead attention (MHA) [DFE+22]. We also use MHA and MLP layers in parallel configuration following\nsome recent models like CodeGen [NPH+22], PaLM [CND+22], and GPT-NeoX [BBH+22].",
+      "section": "1 Introduction",
+      "char_count": 1031,
+      "chunk_index": 23,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0024",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "plementation of multi-\nhead attention (MHA) [DFE+22]. We also use MHA and MLP layers in parallel configuration following\nsome recent models like CodeGen [NPH+22], PaLM [CND+22], and GPT-NeoX [BBH+22]. The archi-\ntecture for our 1.3B parameter phi-1 model consists of 24 layers, hidden dimension of 2048, MLP-inner\ndimension of 8192, and 32 attention heads of dimension 64 each. The smaller 350M parameter phi-\n1-small model consists of 20 layers, hidden dimension of 1024, MLP-inner dimension of 4096, and 16\nattention heads of dimension 64 each. We also use a rotary position embedding [SLP+21] with rotary\ndimension 32. These architectural choices were adopted from [NPH+22]. We also use the same tokenizer\nas codegen-350M-mono [NPH+22]. Aside from FlashAttention, our models do not use other techniques\nlike Fill-In-the-Middle (FIM) [BJT+22], or Multi-Query-Attention (MQA) [RSR+20] that could further\nboost performance and efficiency [LAZ+23].\nFor both pretraining and finetuning, we concatenate our respective datasets into a single dimensional\narray with “ ⟨∣endoftext ∣⟩” token used for separating the files.",
+      "section": "1 Introduction",
+      "char_count": 1115,
+      "chunk_index": 24,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0025",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "ormance and efficiency [LAZ+23].\nFor both pretraining and finetuning, we concatenate our respective datasets into a single dimensional\narray with “ ⟨∣endoftext ∣⟩” token used for separating the files. We train our models on sequence length of\n2048 sliced from our dataset array with next-token prediction loss. We use fp16 training with AdamW\noptimizer, linear-warmup-linear-decay learning rate schedule, and attention and residual dropout of 0.1.\nWe train on 8 Nvidia-A100 GPUs using deepspeed. Our pretrained base model phi-1-base was obtained\nin under 4 days of training. Finetuning to obtain phi-1 used an additional 7 hours on the same hardware.\nPretraining. phi-1-base was trained on the CodeTextbook dataset (filtered code-language corpus\nand synthetic textbooks). We use effective batch size 1024 (including data parallelism and gradient\naccumulation), maximum learning rate 1e-3 with warmup over 750 steps, and weight decay 0 .1, for a\ntotal of 36,000 steps. We use the checkpoint at 24,000 steps as our phi-1-base – this is equivalent to ∼\n8 epochs on our CodeTextbook dataset for a total of little over 50B total training tokens.",
+      "section": "1 Introduction",
+      "char_count": 1140,
+      "chunk_index": 25,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0026",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "or a\ntotal of 36,000 steps. We use the checkpoint at 24,000 steps as our phi-1-base – this is equivalent to ∼\n8 epochs on our CodeTextbook dataset for a total of little over 50B total training tokens. Despite the\nsmall size and computation, this model already achieves a 29% accuracy on HumanEval.\nFinetuning. phi-1 is obtained by finetuning phi-1-base on the CodeExercises dataset. For finetuning,\nwe use the same setup as pretraining, but different hyperparameters: we use effective batchsize of 256,\nmaximum learning rate 1e-4 with 50 steps of warmup, and weight decay 0.01. We train for total of 6,000\nsteps and pick the best checkpoint (saved every 1000 steps).\n3 Spikes of model capability after finetuning on CodeExercises\nFigure 2.1 showed that the largest improvement in HumanEval resulted from finetuning on the small\nCodeExercises dataset ( <200M tokens). CodeExercises consist exclusively of short Python tasks using\nonly basic Python libraries. In this section, we demonstrate that, quite remarkably the model after\nfinetuning also exhibits a substantial improvement in executing tasks that are notfeatured\nin the finetuning dataset .",
+      "section": "1 Introduction",
+      "char_count": 1147,
+      "chunk_index": 26,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0027",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "libraries. In this section, we demonstrate that, quite remarkably the model after\nfinetuning also exhibits a substantial improvement in executing tasks that are notfeatured\nin the finetuning dataset . This includes managing intricate algorithmic tasks and using external\nlibraries. This suggests that our finetuning process might have helped the model in reorganizing and\nconsolidating the knowledge acquired during pretraining, even if such knowledge is not explicitly present\nin our CodeExercises dataset. In this section we will focus on qualitatively comparing and contrasting\nthe capabilities of our finetuned model phi-1 and its pretrained 1.3B parameter base model phi-1-base .\n3.1 Finetuning improves the model’s understanding\nUsing a simple Python function that we created ourselves, we observe below that the model shows a much\nhigher level of understanding and compliance with the instructions after finetuning. In particular, we see\n7\n\nthatphi-1-base struggles with the logical relationships in the prompts, while phi-1 can interpret the\nquestion and generate the answer correctly.",
+      "section": "1 Introduction",
+      "char_count": 1093,
+      "chunk_index": 27,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0028",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "nstructions after finetuning. In particular, we see\n7\n\nthatphi-1-base struggles with the logical relationships in the prompts, while phi-1 can interpret the\nquestion and generate the answer correctly. In this example, even our 350M phi-1-small model shows\nsome level of understanding of the problem even though the resulting solution is wrong. We see such\ntrends consistently in our interactions, see Appendix A for another example.\nPrompt:\n\"\"\" Alice, Bob and Charles are playing games. Alice first pick a random number from 333\nto 678, Bob then pick a number starting from Alice’s number to 888, Charles then pick a\nnumber starting from 123 to Bob’s number. Alice gets one point if Alice’s number minus\nCharles’s number is divisible by the floor of the square root of Bob’s number, otherwise\nBob gets one point. Simulate Alice’s and Bob’s points in 30 iterations.",
+      "section": "1 Introduction",
+      "char_count": 864,
+      "chunk_index": 28,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0029",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "gets one point if Alice’s number minus\nCharles’s number is divisible by the floor of the square root of Bob’s number, otherwise\nBob gets one point. Simulate Alice’s and Bob’s points in 30 iterations.\n\"\"\"\nphi-1\npoints = [0, 0]\nfor i in range(30):\nalice_num = random.randint\n(333, 678)\nbob_num = random.randint(\nalice_num, 888)\ncharles_num = random.randint\n(123, bob_num)\nif (alice_num - charles_num)\n% int(bob_num **0.5) == 0:\npoints[0] += 1\nelse:\npoints[1] += 1\nreturn f\"Alice: {points[0]}, Bob:\n{points[1]}\"phi-1-base\nself.points = 0\nself.alice = 333\nself.bob = 678\nself.charles = 888\nself.bob_points = 0\nself.alice_points = 0\nself.iterations = 30\nself.alice_turn = True\nself.bob_turn = True\nself.alice_turn_points = 0\nself.bob_turn_points = 0\nself.alice_turn_points_history =\n[]\nself.bob_turn_points_history = []\nself.alice_turn_points_history\n.append(self.alice_points)\nself.bob_turn_points_history\n.append(self.bob_points)phi-1-small\nindices = []\nimport random\nalice_points = 0\nbob_points = 0\nfo",
+      "section": "1 Introduction",
+      "char_count": 999,
+      "chunk_index": 29,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0030",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "ts_history = []\nself.alice_turn_points_history\n.append(self.alice_points)\nself.bob_turn_points_history\n.append(self.bob_points)phi-1-small\nindices = []\nimport random\nalice_points = 0\nbob_points = 0\nfor i in range(30):\nalice_num = random.randint\n(333, 678)\nbob_num = random.randint(123,\nbob_num)\nif (alice_num - bob_num) %\nmath.floor(math.sqrt(bob_num\n)) == 0:\nalice_points += 1\nif (i % 2) == 0:\nbob_points += 1\nprint(f\"Alice gets {alice_points}\npoints, while Bob gets {\nbob_points} points.\")\n3.2 Finetuning improves the model’s ability to use external libraries\nWe demonstrate here that finetuning on CodeExercises unexpectedly improves the model’s ability to use\nexternal libraries such as Pygame and Tkinter, eventhough our exercises do not contain these libraries.\nThis suggests that our finetuning not only improves the tasks we targeted, but also makes unrelated tasks\neasier to distill from pretraining. For reference, Figure 3.1 shows the distribution of package imports in\nour CodeExercises dataset.\nFigure 3.1: The number of imports among ∼880K exercises in CodeExercises (we ignore libraries imported less than\n10 times).",
+      "section": "1 Introduction",
+      "char_count": 1131,
+      "chunk_index": 30,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0031",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "3.1 shows the distribution of package imports in\nour CodeExercises dataset.\nFigure 3.1: The number of imports among ∼880K exercises in CodeExercises (we ignore libraries imported less than\n10 times). The plot code is generated by phi-1 with the prompt: “I have a dictionary, first sort the dictionary\nusing the value, from largest to smallest. Then generate a pyplot bar plot. First set font size to be 7, then rotate\nthe x-axis label by 90 degree, the x-axis is the key, y-axis is the value of the dictionary. Use log-scale on y-axis.\nMoreover, set the y-axis label to be ‘Log Number of Times’ and x-axis label to be ‘Imports’. Set dpi to be 1000.”\n8\n\nPyGame example. We start with a PyGame that asks the model to generate code to move a ball:\nPrompt:\n\"\"\" Write a PyGame. There is a ball. At every iteration, (1). The x-axis of the ball\nincreases by a random integer between (-10, 10), (2). The y-axis of the ball increases\nby a random integer between (-20, 20). The x-axis of the ball should stay inside 0-400,\nand y-axis of the ball should stay inside 0-600. When the user press ’space’, set the\nx-axis of the ball to 200 and y-axis of the ball to 400.\n\"\"\"\nphi-1\n...",
+      "section": "1 Introduction",
+      "char_count": 1169,
+      "chunk_index": 31,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0032",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "-axis of the ball should stay inside 0-400,\nand y-axis of the ball should stay inside 0-600. When the user press ’space’, set the\nx-axis of the ball to 200 and y-axis of the ball to 400.\n\"\"\"\nphi-1\n...\nscreen = pygame.display.set_mode\n((400, 600))\nx, y = 0, 0\nwhile True:\nfor event in pygame.event.get\n():\n...\nelif event.type == pygame\n.KEYDOWN:\nif event.key ==\npygame.K_SPACE:\nx = 200\ny = 400\nx += random.randint(-10, 10)\ny += random.randint(-20, 20)\nif x < 0:\nx = 0\nelif x > 400:\nx = 400\nif y < 0:\ny = 0\nelif y > 600:\ny = 600\nscreen.fill((255, 255, 255))\npygame.draw.circle(screen,\n(255, 0, 0), (x, y), 10)\npygame.display.update()phi-1-base\n...\nball_x = random.randint(-10, 10)\nball_y = random.randint(-20, 20)\nball_vx = random.randint(-5, 5)\nball_vy = random.randint(-5, 5)\n...\nscreen = pygame.display.set_mode\n((800, 600))\n...\nwhile not done:\nfor event in pygame.event.get\n():\n...\nelif event.type == pygame\n.KEYDOWN:\nif event.key ==\npygame.K_SPACE:\nball_x = 200\nball_y = 400\nball_x += ball_vx\nball_y += ball_vy\nball_vx += ball\npygame.display.flip()phi-1-small\n...",
+      "section": "1 Introduction",
+      "char_count": 1066,
+      "chunk_index": 32,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0033",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "event.get\n():\n...\nelif event.type == pygame\n.KEYDOWN:\nif event.key ==\npygame.K_SPACE:\nball_x = 200\nball_y = 400\nball_x += ball_vx\nball_y += ball_vy\nball_vx += ball\npygame.display.flip()phi-1-small\n...\nx, y = 0, 0\ndx, dy = random.randint(-10, 10),\nrandom.randint(-20, 20)\nwhile True:\nscreen.fill((0, 0, 0))\npygame.draw.rect(screen,\n(255, 255, 255), (x, y, 400,\n600))\npygame.display.update()\nx += dx\ny += dy\nif x + dx > 400:\ndx = -dx\nelif x + dx < 0:\ndx = dx\nif y + dy > 600:\ndy = -dy\nelif y + dy < 0:\ndy = dy\npygame.time.wait(50)\nThe above code snippet shows the main loop of a simple PyGame program that bounces a ball on\nthe screen. phi-1 correctly applies the PyGame functions to update and draw the ball, as instructed\nby the prompt. phi-1-base andphi-1-small produce function calls that are syntactically correct but\nsemantically irrelevant. We can see that phi-1-base shows some ability to use the appropriate API calls,\nbut it fails to follow the logic of the task, while phi-1-small after finetuning understands the logic but\ndoes not have enough capacity to learn the correct function calls.\n9\n\nTKinter example.",
+      "section": "1 Introduction",
+      "char_count": 1119,
+      "chunk_index": 33,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0034",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "calls,\nbut it fails to follow the logic of the task, while phi-1-small after finetuning understands the logic but\ndoes not have enough capacity to learn the correct function calls.\n9\n\nTKinter example. Our second example is a TKinter application where we ask the model to update a\ntextfield accordingly when the user clicks buttons.\nPrompt:\n\"\"\" Write a tkinter application, there is a textfield on top, a submit button at the\nbutton and a recover button next to it. When pressing the submit button, get the text\nfrom the textfield and save it to a global string s. If the text contains the word\n\"pew\" update the textfield text to \"pewpewpew?\", otherwise, add \"no pew...\" to the end.\nWhen pressing the recover button, replace the text in the textfield with s.\n\"\"\"\nphi-1\n...\nglobal s\ns = \"\"\ndef submit():\nglobal s\ntext = textfield.get()\nif \"pew\" in text:\ntextfield.delete(0, tk.END)\ntextfield.insert(0, \"pewpewpew...\")\nelse:\ntextfield.delete(0, tk.END)\ntextfield.insert(0, text + \"no pew...\")\ns = text\nd",
+      "section": "1 Introduction",
+      "char_count": 1000,
+      "chunk_index": 34,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0035",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": ":\nglobal s\ntext = textfield.get()\nif \"pew\" in text:\ntextfield.delete(0, tk.END)\ntextfield.insert(0, \"pewpewpew...\")\nelse:\ntextfield.delete(0, tk.END)\ntextfield.insert(0, text + \"no pew...\")\ns = text\ndef recover():\nglobal s\ntextfield.delete(0, tk.END)\ntextfield.insert(0, s)\ntextfield = tk.Entry(root)\ntextfield.pack()\nsubmit_button = tk.Button(root, text=\"Submit\",\ncommand=submit)\nsubmit_button.pack()\nrecover_button = tk.Button(root, text=\"Recover\"\n, command=recover)\nrecover_button.pack()\nroot.mainloop()phi-1-base\nglobal s\ns = s.replace(\"pew\", \"pewpewpew\")\nif \"pew\" in s:\ns = s.replace(\"pew\", \"pewpewpew\")\nelse:\ns = s + \"no pew...\"\ntext.delete(0.0, END)\ntext.insert(0.0, s)\ndef main():\nglobal s\ns = \"pewpewpew\"\ntext.delete(0.0, END)\ntext.insert(0.0, s)\ntext.tag_add(\"button\", \"<Button-1>\", \"<Button-3>\n\")\ntext.tag_add(\"button\", \"<Button-2>\", \"<Button-4>\n\")\n# The model keeps adding buttons from here.",
+      "section": "1 Introduction",
+      "char_count": 903,
+      "chunk_index": 35,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0036",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "pewpewpew\"\ntext.delete(0.0, END)\ntext.insert(0.0, s)\ntext.tag_add(\"button\", \"<Button-1>\", \"<Button-3>\n\")\ntext.tag_add(\"button\", \"<Button-2>\", \"<Button-4>\n\")\n# The model keeps adding buttons from here.\nphi-1-small\nimport tkinter as tk\nroot = tk.Tk()\nglobal s\ntext = \"\"\nwhile True:\nevent, values = tk.popup()\nif event == \"submit\":\ntext += values.split()[0] + \" \"\nelif event == \"textfield\":\ns += values.split()[0] + \" \"\nelif event == \"submit-button-text\":\ntext = values.split()[0] + \" \"\nelif event == \"text-button-text\":\ns = text\nif \"pew\" in text:\ntext = text.replace(\"pew\", \"pewpewpew\")\nif \"no pew\" in text:\nbreak\ntk.destroy()\nThe three models’ completions show a huge gap in their prompt understanding. Both phi-1-base\nandphi-1-small fail to use the correct Tkinter APIs and make up meaningless function calls. On the\nother hand, phi-1 implements the GUI and all the functions correctly (except that it did not copy\n“pewpewpew?” correctly). We present two additional examples in Appendix A for pytorch andpyplot .\n10\n\nChat mode example. Finally, we show that phi-1 has a better chat capability than phi-1-base\ndespite that chat data is exclusive in pretraining, but not in the finetuning.",
+      "section": "1 Introduction",
+      "char_count": 1187,
+      "chunk_index": 36,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0037",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "A for pytorch andpyplot .\n10\n\nChat mode example. Finally, we show that phi-1 has a better chat capability than phi-1-base\ndespite that chat data is exclusive in pretraining, but not in the finetuning.\nPrompt:\nStudent: I have a Python pyplot, I want to increase its resolution and rotate it, what\nshould I do? TA:\nphi-1\n1. Set the 'dpi' parameter to the desired\nresolution (e.g. 300 for 300 DPI)\n2. Use the 'rotate' function from the 'matplotlib.\npyplot' module to rotate the plot by 90 degrees\nclockwise\nHere's an example:\nimport matplotlib.pyplot as plt\nfig, ax = plt.subplots()\nax.plot([1, 2, 3], [4, 5, 6])\n# Set the resolution to 300 DPI\nax.set_dpi(300)\n# Rotate the plot by 90 degrees clockwise\nax.rotate(90)phi-1-base\nYou can use the `setp() `function to set the\nresolution and the `set_rotation() `function to\nrotate the plot.",
+      "section": "1 Introduction",
+      "char_count": 833,
+      "chunk_index": 37,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0038",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "300 DPI\nax.set_dpi(300)\n# Rotate the plot by 90 degrees clockwise\nax.rotate(90)phi-1-base\nYou can use the `setp() `function to set the\nresolution and the `set_rotation() `function to\nrotate the plot. <|endoftext|>\nphi-1-small\nI am a Python pyplot, and I want to increase its\nresolution and rotate it, what should I do?\nSECOND:\nI am a Python pyplot, and I want to increase its\nresolution and rotate it, what should I do?\nTHIRD:...",
+      "section": "1 Introduction",
+      "char_count": 429,
+      "chunk_index": 38,
+      "page_numbers": [
+        11
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0039",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "4 Evaluation on unconventional problems with LLM grading\nA potential concern with the surprisingly good performance of phi-1 on HumanEval (see Table 1 and\nFigure 2.1) is that there might be memorization stemming from contamination of the synthetic CodeEx-\nercises dataset. We study this potential contamination directly in Section 5, while this section addresses\nthe concern with a new evaluation that is designed to be unconventional enough to be unlikely to appear\nin our training dataset.\nTo minimize bias and leakage, the new evaluation problems were created by a dedicated team that\ndid not access the CodeExercises dataset or the final model. They created 50 new problems in the same\nformat as HumanEval with instructions to design problems that are unlikely to appear in real-world code\nbases or as coding exercises. Here is an example of such a problem:\ndef sort_concat_square_deduplicate(list1, list2, my_threshold):\n\"\"\"\nThis functions takes two lists of integers, sorts each of them in ascending order,\nconcatenates them, squares the entries at even indices, filters out entries\nsmaller than my_threshold and then removes duplicates. The resulting list is\nreturned.",
+      "section": "4 Evaluation on unconventional problems with LLM grading",
+      "char_count": 1175,
+      "chunk_index": 39,
+      "page_numbers": [
+        11
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0040",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "orts each of them in ascending order,\nconcatenates them, squares the entries at even indices, filters out entries\nsmaller than my_threshold and then removes duplicates. The resulting list is\nreturned.\n\"\"\"\nOne of the challenges of evaluating language models on coding tasks is that the output of the model\nis often binary: either the code passes all the unit tests or it fails. However, this does not capture the\nnuances of the model’s performance, as it might have produced a code that is almost correct but has a\nminor error, or a code that is completely wrong but coincidentally passes some tests. Arguably, a more\ninformative way of assessing the model’s coding skills is to compare its output with the correct solution\nand grade it based on how well it matches the expected logic. This is similar to how humans are evaluated\non coding interviews, where the interviewer does not only run the code but also examines the reasoning\nand the quality of the solution.\nTo evaluate candidate solutions, we therefore adopt the approach of using GPT-4 to grade the solution\n(such as in [EL23]).",
+      "section": "4 Evaluation on unconventional problems with LLM grading",
+      "char_count": 1087,
+      "chunk_index": 40,
+      "page_numbers": [
+        11
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0041",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "run the code but also examines the reasoning\nand the quality of the solution.\nTo evaluate candidate solutions, we therefore adopt the approach of using GPT-4 to grade the solution\n(such as in [EL23]). This approach has two distinct advantages: (1) by using GPT-4 as a grader, we can\nleverage its knowledge and generative abilities to obtain a more fine-grained and meaningful signal of the\n11\n\nModel Size Training tokens Score HumanEval\nCodeGen-Mono-350M [NPH+23] 350M 577B 19% 13%\nCodeGen-Mono-16.1B [NPH+23] 16.1B 577B 38% 29%\nReplit [Rep23] 2.7B 525B 37% 22%\nStarCoder [LAZ+23] 15.5B 1T 51% 34%\nphi-1-base 1.3B 7B 37% 29%\nphi-1-small 350M 7B 45% 45%\nphi-1 1.3B 7B 52% 51%\nTable 2: LLM graded Understanding scores on 50 new unconventional coding problems.\nstudent model’s coding capabilities, and (2) it obviates the need for tests1. Our prompt instructs the\nLLM to evaluate a student’s solution first in a short verbal evaluation followed by grades from 0 to 10.\nSee Table 2 for our results with phi-1 and competing models. The grades on our new unconventional\nproblems give the same ranking as HumanEval (see Table 1).",
+      "section": "4 Evaluation on unconventional problems with LLM grading",
+      "char_count": 1122,
+      "chunk_index": 41,
+      "page_numbers": [
+        11
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0042",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "evaluation followed by grades from 0 to 10.\nSee Table 2 for our results with phi-1 and competing models. The grades on our new unconventional\nproblems give the same ranking as HumanEval (see Table 1). phi-1 again achieves a score significantly\nhigher than StarCoder, as it did on HumanEval. Given that the new problems have had no chance to\ncontaminate the training data and, furthermore, were designed to be outside the training distribution ,\nthese results greatly increase our confidence in the validity of phi-1 ’s performance.\n5 Data pruning for unbiased performance evaluation\nIn Figure 2.1, we see that training on CodeExercises leads to a substantial boost in the performance of the\nmodel on the HumanEval benchmark. To investigate this boost, we propose to prune the CodeExercises\ndataset by removing files that are “similar” to those in HumanEval. This process can be viewed as\na “strong form” of data decontamination. We then retrain our model on such pruned data, and still\nobserve strong performance on HumanEval.",
+      "section": "4 Evaluation on unconventional problems with LLM grading",
+      "char_count": 1026,
+      "chunk_index": 42,
+      "page_numbers": [
+        12
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0043",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "similar” to those in HumanEval. This process can be viewed as\na “strong form” of data decontamination. We then retrain our model on such pruned data, and still\nobserve strong performance on HumanEval. In particular, even after aggressively pruning more than\n40% of the CodeExercises dataset (this even prunes files that are only vaguely similar to HumanEval, see",
+      "section": "4 Evaluation on unconventional problems with LLM grading",
+      "char_count": 362,
+      "chunk_index": 43,
+      "page_numbers": [
+        12
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0044",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "Appendix C), the retrained phi-1 still outperforms StarCoder.\nWe believe that such data pruning experiment is a fair way to evaluate performance, and is more\ninsightful than standard “contamination” studies in the literature that are usually based on measures of\noverlap between training and test data (e.g., Section 4.8 of [AON+21]). For sake of completeness we start\nthis section by conducting a standard contamination experiment, which shows that CodeExercises is not\ncontaminated by HumanEval in this standard sense.\n5.1 N-gram overlap\nN-gram measures the similarity of text segments based on the shared n-word sequences. We calculate the\nn-gram overlap between the docstrings of each humaneval question and each exercise in the CodeExercises\ndataset that was generated. We found 4 humaneval questions with 13-gram overlap with at least one of\nthe entries in our dataset. After further investigating, we found out that all the 4 overlap cases in\nthe 13-gram are all false positives such as the example below. Our n-gram overlap analysis shows\nthat our dataset has minimal letter-by-letter overlap with HumanEval.",
+      "section": "Appendix C), the retrained phi-1 still outperforms StarCoder.",
+      "char_count": 1116,
+      "chunk_index": 44,
+      "page_numbers": [
+        12
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0045",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "t that all the 4 overlap cases in\nthe 13-gram are all false positives such as the example below. Our n-gram overlap analysis shows\nthat our dataset has minimal letter-by-letter overlap with HumanEval.\n1Developing rigorous sets of tests can be a significant undertaking, as demonstrated by [LXWZ23].\n12\n\nHumanEval: CodeExercises:\nYou are given a non-empty list of positive\nintegers. Return the greatest integer that\nis greater than zero, and has a frequency\ngreater than or equal to the value of the\ninteger itself. The frequency of an integer\nis the number of times it appears in the list.Calculates the power frequency analysis sum\nof a list of integers. The power frequency\nanalysis sum is calculated by taking the sum of\nthe squares of the frequencies of each unique\ninteger in the list. The frequency of an integer\nis the number of times it appears in the list.\n5.2 Embedding and syntax-based similarity analysis\nAs we just saw, the n-gram analysis is not refined enough to find similar code snippets between HumanEval\nand CodeExercises. Instead we use a combination of embedding and syntax-based distances.",
+      "section": "Appendix C), the retrained phi-1 still outperforms StarCoder.",
+      "char_count": 1111,
+      "chunk_index": 45,
+      "page_numbers": [
+        12
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0046",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "lysis\nAs we just saw, the n-gram analysis is not refined enough to find similar code snippets between HumanEval\nand CodeExercises. Instead we use a combination of embedding and syntax-based distances. For the\nembedding distance we compute the L2 distance between the embedding of the code snippets where the\nembedding is derived from a pre-trained CodeGen-Mono 350M model [NPH+23]. We observe that the\nembedding distance is successful in capturing code pairs where the overall code semantics are similar,\nwhich can be inferred via the Python Docstring, function/class names, as well as the code structure. For\nthe syntax-based distance we calculate the (string) edit distance between the abstract syntax trees (ASTs)\nof two given code snippets. The AST distance successfully identifies overlapping sections between code\npairs while being agnostic to non-syntax text such as variable/function naming, comments, and Python\nDocstrings. For our pruning of CodeExercises we fix a threshold for the embedding distance, and we test\nseveral match rate τfor the AST distance. See Appendix C for examples of code pairs that are captured\nwith the embedding distance and various AST match rates τ.",
+      "section": "Appendix C), the retrained phi-1 still outperforms StarCoder.",
+      "char_count": 1185,
+      "chunk_index": 46,
+      "page_numbers": [
+        13
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0047",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "for the embedding distance, and we test\nseveral match rate τfor the AST distance. See Appendix C for examples of code pairs that are captured\nwith the embedding distance and various AST match rates τ. We vary τbetween 0 .95 and 0 .8, which\ncorresponds to removing between 42 .5Kto 354 Kof the 879 .5Ktotal problems in CodeExercises.\nτProblem\nCountphi-1phi-1 retrained\non pruned dataStarCoder-Prompted\n[LAZ+23]\n0.95similar 71 81.7% 74.6% 57.7%\nnon-similar 93 26.9% 32.3% 29.0%\ntotal 164 50.6% 50.6% 41.5%\n0.9similar 93 63.4% 51.6% 48.4%\nnon-similar 71 33.8% 36.6% 32.4%\ntotal 164 50.6% 45.1% 41.5%\n0.85similar 106 62.3% 52.8% 47.2%\nnon-similar 58 29.3% 34.5% 31.0%\ntotal 164 50.6% 46.3% 41.5%\n0.8similar 116 59.5% 52.6% 45.7%\nnon-similar 48 29.2% 27.1% 31.2%\ntotal 164 50.6% 45.1% 41.5%\nTable 3: Percentage of similar versus non-similar HumanEval problems correctly solved by different models. Simi-\nlarity is determined based on whether or not the corresponding HumanEval problem has any close matches inside\nthe CodeExercises dataset (for a given τ). The problem count denotes the number of HumanEval problems within\neach subset.",
+      "section": "Appendix C), the retrained phi-1 still outperforms StarCoder.",
+      "char_count": 1130,
+      "chunk_index": 47,
+      "page_numbers": [
+        13
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0048",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "hether or not the corresponding HumanEval problem has any close matches inside\nthe CodeExercises dataset (for a given τ). The problem count denotes the number of HumanEval problems within\neach subset. Here, τis the threshold on AST-based match rate between codes for similarity check.\nTable 3 summarizes the performance of our retrained phi-1 on pruned datasets (with τ=0.95,0.9,0.85\nand 0 .8) versus the original phi-1 trained on full CodeExercises and the 15 .5B-parameter StarCoder-\nprompted. We divide the HumanEval problems into two subsets (“similar” and “non-similar”) based on\nwhether or not they have at least one close match (for this given τ) inside the original CodeExercises\ndataset. We then report the accuracy of the models on each subset of HumanEval separately. As one\ncan see, even after heavily pruning our dataset, phi-1 still outperforms StarCoder-Prompted by a large\n13\n\nmargin, which validates that our performance boost is not due to dataset “contamination”, even when the\nlatter term is understood loosely.",
+      "section": "Appendix C), the retrained phi-1 still outperforms StarCoder.",
+      "char_count": 1031,
+      "chunk_index": 48,
+      "page_numbers": [
+        13
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0049",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "et, phi-1 still outperforms StarCoder-Prompted by a large\n13\n\nmargin, which validates that our performance boost is not due to dataset “contamination”, even when the\nlatter term is understood loosely. Note also that the accuracy of all models is lower on the HumanEval\nnon-similar subset versus the similar one.",
+      "section": "Appendix C), the retrained phi-1 still outperforms StarCoder.",
+      "char_count": 311,
+      "chunk_index": 49,
+      "page_numbers": [
+        13
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0050",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "6 Conclusion\nJust as a comprehensive, well-crafted textbook can provide a student with the necessary knowledge to\nmaster a new subject, our work demonstrates the remarkable impact of high-quality data in honing a\nlanguage model’s proficiency in code-generation tasks. By crafting “textbook quality” data we were able\nto train a model that surpasses almost all open-source models on coding benchmarks such as HumanEval\nand MBPP despite being 10x smaller in model size and 100x smaller in dataset size. We hypothesize\nthat such high quality data dramatically improves the learning efficiency of language models for code as\nthey provide clear, self-contained, instructive, and balanced examples of coding concepts and skills.\nThere remains a number of limitations of our model compared to larger models for code. Firstly,\nphi-1 is specialized in Python coding, which restricts its versatility compared to multi-language models.\nSecondly, phi-1 lacks the domain-specific knowledge of larger models such as programming with specific\nAPIs or using less common packages.",
+      "section": "6 Conclusion",
+      "char_count": 1063,
+      "chunk_index": 50,
+      "page_numbers": [
+        14
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0051",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "restricts its versatility compared to multi-language models.\nSecondly, phi-1 lacks the domain-specific knowledge of larger models such as programming with specific\nAPIs or using less common packages. Lastly, due to the structured nature of the datasets and the lack\nof diversity in terms of language and style, phi-1 is less robust to stylistic variations or errors in the\nprompt (for instance, its performance substantially degrades when there are grammatical mistakes in the\nprompt). We expand on these limitations and give examples of the failure modes of phi-1 in Appendix B.\nNone of these limitations seem fundamental, and with more work our approach could be used to tackle\neach one of them, although it is unclear what scaling might be necessary to overcome them (both for\nthe model size and the dataset size). We also believe that significant gains could be achieved by using\nGPT-4 to generate the synthetic data instead of GPT-3.5, as we noticed that GPT-3.5 data has a high\nerror rate.",
+      "section": "6 Conclusion",
+      "char_count": 995,
+      "chunk_index": 51,
+      "page_numbers": [
+        14
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0052",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "and the dataset size). We also believe that significant gains could be achieved by using\nGPT-4 to generate the synthetic data instead of GPT-3.5, as we noticed that GPT-3.5 data has a high\nerror rate. It is interesting that phi-1 is able to achieve such high coding proficiency despite those errors\n(a similar phenomenon was observed in [AZL23] where a language model can be trained on data with\n100% error rate and still generate correct answers at test time).\nMore generally, our work provides evidence that developing good methodology for creating high-\nquality datasets is a central direction of research for advancing natural language processing and related\nfields (see also [JWJ+23] for further evidence). However, creating high-quality datasets is not a trivial\ntask, and it poses several challenges that need to be addressed. One challenge is to ensure that the\ndataset covers all the relevant content and concepts that one wants the model to learn, and that it does\nso in a balanced and representative way. Another challenge is to ensure that the dataset is truly diverse\nand non-repetitive, so that the model does not simply overfit to the data or memorize specific patterns or\nsolutions.",
+      "section": "6 Conclusion",
+      "char_count": 1198,
+      "chunk_index": 52,
+      "page_numbers": [
+        14
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0053",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "presentative way. Another challenge is to ensure that the dataset is truly diverse\nand non-repetitive, so that the model does not simply overfit to the data or memorize specific patterns or\nsolutions. This requires finding ways to inject randomness and creativity into the data generation process,\nwhile still maintaining the quality and the coherence of the examples. Moreover, even after creating such\ndatasets, we lack a good methodology to measure and evaluate the amount of diversity and redundancy\nin the data. For example, if we have a dataset with coding exercises, it is hard to determine how many\ndifferent variations of each exercise exist, and how they are distributed across the dataset. Finally, as\nlanguage models themselves will be used to curate data for future language models, it further increases\nthe urgency on the ethical and social implications of training such models, such as the accountability, the\ntransparency, and the bias of the data and the models that are involved in this process.",
+      "section": "6 Conclusion",
+      "char_count": 1013,
+      "chunk_index": 53,
+      "page_numbers": [
+        14
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0054",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "ses\nthe urgency on the ethical and social implications of training such models, such as the accountability, the\ntransparency, and the bias of the data and the models that are involved in this process.\n14",
+      "section": "6 Conclusion",
+      "char_count": 203,
+      "chunk_index": 54,
+      "page_numbers": [
+        14
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0055",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "References\n[ADF+23] Rohan Anil, Andrew M Dai, Orhan Firat, Melvin Johnson, Dmitry Lepikhin, Alexandre\nPassos, Siamak Shakeri, Emanuel Taropa, Paige Bailey, Zhifeng Chen, et al. Palm 2 tech-\nnical report. arXiv preprint arXiv:2305.10403 , 2023.\n[ALK+23] Loubna Ben Allal, Raymond Li, Denis Kocetkov, Chenghao Mou, Christopher Akiki, Car-\nlos Munoz Ferrandis, Niklas Muennighoff, Mayank Mishra, Alex Gu, Manan Dey, et al.\nSantacoder: don’t reach for the stars! arXiv preprint arXiv:2301.03988 , 2023.\n[AON+21] Jacob Austin, Augustus Odena, Maxwell Nye, Maarten Bosma, Henryk Michalewski, David\nDohan, Ellen Jiang, Carrie Cai, Michael Terry, Quoc Le, et al. Program synthesis with large\nlanguage models. arXiv preprint arXiv:2108.07732 , 2021.\n[AZL23] Zeyuan Allen-Zhu and Yuanzhi Li. Physics of language models: Part 1, context-free gram-\nmar. arXiv preprint arXiv:2305.13673 , 2023.\n[BBH+22] Sid Black, Stella Biderman, Eric Hallahan, Quentin Anthony, Leo Gao, Laurence Gold-\ning, Horace He, Connor Leahy, Kyle McDonell, Jason Phang, Michael Pieler, USVSN Sai\nPrashanth, Shivanshu Purohit, Laria Reynolds, Jonathan Tow, Ben Wang, and Samuel\nWeinbach.",
+      "section": "References",
+      "char_count": 1149,
+      "chunk_index": 55,
+      "page_numbers": [
+        15
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0056",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": ", Leo Gao, Laurence Gold-\ning, Horace He, Connor Leahy, Kyle McDonell, Jason Phang, Michael Pieler, USVSN Sai\nPrashanth, Shivanshu Purohit, Laria Reynolds, Jonathan Tow, Ben Wang, and Samuel\nWeinbach. GPT-NeoX-20B: An open-source autoregressive language model. In Proceedings\nof the ACL Workshop on Challenges & Perspectives in Creating Large Language Models ,\n2022.\n[BCE+23] S´ ebastien Bubeck, Varun Chandrasekaran, Ronen Eldan, Johannes Gehrke, Eric Horvitz,\nEce Kamar, Peter Lee, Yin Tat Lee, Yuanzhi Li, Scott Lundberg, et al. Sparks of artificial\ngeneral intelligence: Early experiments with gpt-4. arXiv preprint arXiv:2303.12712 , 2023.\n[BGMMS21] Emily M Bender, Timnit Gebru, Angelina McMillan-Major, and Shmargaret Shmitchell.\nOn the dangers of stochastic parrots: Can language models be too big? In Proceedings of\nthe 2021 ACM Conference on Fairness, Accountability, and Transparency , pages 610–623,\n2021.\n[BJT+22] Mohammad Bavarian, Heewoo Jun, Nikolas Tezak, John Schulman, Christine McLeavey,\nJerry Tworek, and Mark Chen. Efficient training of language models to fill in the middle.\narXiv preprint arXiv:2207.14255 , 2022.",
+      "section": "References",
+      "char_count": 1137,
+      "chunk_index": 56,
+      "page_numbers": [
+        15
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0057",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "avarian, Heewoo Jun, Nikolas Tezak, John Schulman, Christine McLeavey,\nJerry Tworek, and Mark Chen. Efficient training of language models to fill in the middle.\narXiv preprint arXiv:2207.14255 , 2022.\n[BMR+20] Tom Brown, Benjamin Mann, Nick Ryder, Melanie Subbiah, Jared D Kaplan, Prafulla\nDhariwal, Arvind Neelakantan, Pranav Shyam, Girish Sastry, Amanda Askell, Sandhini\nAgarwal, Ariel Herbert-Voss, Gretchen Krueger, Tom Henighan, Rewon Child, Aditya\nRamesh, Daniel Ziegler, Jeffrey Wu, Clemens Winter, Chris Hesse, Mark Chen, Eric Sigler,\nMateusz Litwin, Scott Gray, Benjamin Chess, Jack Clark, Christopher Berner, Sam Mc-\nCandlish, Alec Radford, Ilya Sutskever, and Dario Amodei. Language models are few-shot\nlearners. In Advances in Neural Information Processing Systems , volume 33, pages 1877–\n1901, 2020.\n[CND+22] Aakanksha Chowdhery, Sharan Narang, Jacob Devlin, Maarten Bosma, Gaurav Mishra,\nAdam Roberts, Paul Barham, Hyung Won Chung, Charles Sutton, Sebastian Gehrmann,\net al. Palm: Scaling language modeling with pathways. arXiv preprint arXiv:2204.02311 ,\n2022.",
+      "section": "References",
+      "char_count": 1076,
+      "chunk_index": 57,
+      "page_numbers": [
+        15
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0058",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "rten Bosma, Gaurav Mishra,\nAdam Roberts, Paul Barham, Hyung Won Chung, Charles Sutton, Sebastian Gehrmann,\net al. Palm: Scaling language modeling with pathways. arXiv preprint arXiv:2204.02311 ,\n2022.\n15\n\n[CTJ+21] Mark Chen, Jerry Tworek, Heewoo Jun, Qiming Yuan, Henrique Ponde de Oliveira Pinto,\nJared Kaplan, Harri Edwards, Yuri Burda, Nicholas Joseph, Greg Brockman, et al. Evalu-\nating large language models trained on code. arXiv preprint arXiv:2107.03374 , 2021.\n[DFE+22] Tri Dao, Dan Fu, Stefano Ermon, Atri Rudra, and Christopher R´ e. Flashattention: Fast\nand memory-efficient exact attention with io-awareness. Advances in Neural Information\nProcessing Systems , 35:16344–16359, 2022.\n[DLT+23] Yann Dubois, Xuechen Li, Rohan Taori, Tianyi Zhang, Ishaan Gulrajani, Jimmy Ba, Carlos\nGuestrin, Percy Liang, and Tatsunori B Hashimoto. Alpacafarm: A simulation framework\nfor methods that learn from human feedback. arXiv preprint arXiv:2305.14387 , 2023.\n[EL23] Ronen Eldan and Yuanzhi Li. Tinystories: How small can language models be and still\nspeak coherent english? arXiv preprint arXiv:2305.07759 , 2023.",
+      "section": "References",
+      "char_count": 1115,
+      "chunk_index": 58,
+      "page_numbers": [
+        15
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0059",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "back. arXiv preprint arXiv:2305.14387 , 2023.\n[EL23] Ronen Eldan and Yuanzhi Li. Tinystories: How small can language models be and still\nspeak coherent english? arXiv preprint arXiv:2305.07759 , 2023.\n[GWS+23] Arnav Gudibande, Eric Wallace, Charlie Snell, Xinyang Geng, Hao Liu, Pieter Abbeel,\nSergey Levine, and Dawn Song. The false promise of imitating proprietary llms. arXiv\npreprint arXiv:2305.15717 , 2023.\n[HBM+22] Jordan Hoffmann, Sebastian Borgeaud, Arthur Mensch, Elena Buchatskaya, Trevor Cai,\nEliza Rutherford, Diego de las Casas, Lisa Anne Hendricks, Johannes Welbl, Aidan Clark,\nTom Hennigan, Eric Noland, Katherine Millican, George van den Driessche, Bogdan Damoc,\nAurelia Guy, Simon Osindero, Karen Simonyan, Erich Elsen, Oriol Vinyals, Jack William\nRae, and Laurent Sifre. An empirical analysis of compute-optimal large language model\ntraining. In Alice H. Oh, Alekh Agarwal, Danielle Belgrave, and Kyunghyun Cho, editors,\nAdvances in Neural Information Processing Systems , 2022.\n[HNA+17] Joel Hestness, Sharan Narang, Newsha Ardalani, Gregory Diamos, Heewoo Jun, Hassan\nKianinejad, Md Mostofa Ali Patwary, Yang Yang, and Yanqi Zhou.",
+      "section": "References",
+      "char_count": 1151,
+      "chunk_index": 59,
+      "page_numbers": [
+        16
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0060",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "Neural Information Processing Systems , 2022.\n[HNA+17] Joel Hestness, Sharan Narang, Newsha Ardalani, Gregory Diamos, Heewoo Jun, Hassan\nKianinejad, Md Mostofa Ali Patwary, Yang Yang, and Yanqi Zhou. Deep learning scaling\nis predictable, empirically. arXiv preprint arXiv:1712.00409 , 2017.\n[JWJ+23] Jaehun Jung, Peter West, Liwei Jiang, Faeze Brahman, Ximing Lu, Jillian Fisher, Taylor\nSorensen, and Yejin Choi. Impossible distillation: from low-quality model to high-quality\ndataset & model for summarization and paraphrasing. arXiv preprint arXiv:2305.16635 ,\n2023.\n[KLA+22] Denis Kocetkov, Raymond Li, Loubna Ben Allal, Jia Li, Chenghao Mou, Carlos Mu˜ noz\nFerrandis, Yacine Jernite, Margaret Mitchell, Sean Hughes, Thomas Wolf, et al. The stack:\n3 tb of permissively licensed source code. arXiv preprint arXiv:2211.15533 , 2022.\n[KMH+20] Jared Kaplan, Sam McCandlish, Tom Henighan, Tom B Brown, Benjamin Chess, Rewon\nChild, Scott Gray, Alec Radford, Jeffrey Wu, and Dario Amodei. Scaling laws for neural\nlanguage models. arXiv preprint arXiv:2001.08361 , 2020.",
+      "section": "References",
+      "char_count": 1065,
+      "chunk_index": 60,
+      "page_numbers": [
+        16
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0061",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "ndlish, Tom Henighan, Tom B Brown, Benjamin Chess, Rewon\nChild, Scott Gray, Alec Radford, Jeffrey Wu, and Dario Amodei. Scaling laws for neural\nlanguage models. arXiv preprint arXiv:2001.08361 , 2020.\n[LAZ+23] Raymond Li, Loubna Ben Allal, Yangtian Zi, Niklas Muennighoff, Denis Kocetkov, Cheng-\nhao Mou, Marc Marone, Christopher Akiki, Jia Li, Jenny Chim, et al. Starcoder: may the\nsource be with you! arXiv preprint arXiv:2305.06161 , 2023.\n[LCC+22] Yujia Li, David Choi, Junyoung Chung, Nate Kushman, Julian Schrittwieser, R´ emi Leblond,\nTom Eccles, James Keeling, Felix Gimeno, Agustin Dal Lago, et al. Competition-level code\ngeneration with alphacode. Science , 378(6624):1092–1097, 2022.\n16\n\n[LGK+23] Zinan Lin, Sivakanth Gopi, Janardhan Kulkarni, Harsha Nori, and Sergey Yekhanin. Dif-\nferentially private synthetic data via foundation model apis 1: Images. arXiv preprint\narXiv:2305.15560 , 2023.\n[LXWZ23] Jiawei Liu, Chunqiu Steven Xia, Yuyao Wang, and Lingming Zhang. Is your code generated\nby chatgpt really correct? rigorous evaluation of large language models for code generation.\narXiv preprint arXiv:2305.01210 , 2023.",
+      "section": "References",
+      "char_count": 1134,
+      "chunk_index": 61,
+      "page_numbers": [
+        16
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0062",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "Steven Xia, Yuyao Wang, and Lingming Zhang. Is your code generated\nby chatgpt really correct? rigorous evaluation of large language models for code generation.\narXiv preprint arXiv:2305.01210 , 2023.\n[LXZ+23] Ziyang Luo, Can Xu, Pu Zhao, Qingfeng Sun, Xiubo Geng, Wenxiang Hu, Chongyang Tao,\nJing Ma, Qingwei Lin, and Daxin Jiang. Wizardcoder: Empowering code large language\nmodels with evol-instruct, 2023.\n[LYR+23] Shayne Longpre, Gregory Yauney, Emily Reif, Katherine Lee, Adam Roberts, Barret Zoph,\nDenny Zhou, Jason Wei, Kevin Robinson, David Mimno, et al. A pretrainer’s guide to\ntraining data: Measuring the effects of data age, domain coverage, quality, & toxicity.\narXiv preprint arXiv:2305.13169 , 2023.\n[MMJ+23] Subhabrata Mukherjee, Arindam Mitra, Ganesh Jawahar, Sahaj Agarwal, Hamid Palangi,\nand Ahmed Awadallah. Orca: Progressive learning from complex explanation traces of\ngpt-4. arXiv preprint arXiv:2306.02707 , 2023.\n[MRB+23] Niklas Muennighoff, Alexander M Rush, Boaz Barak, Teven Le Scao, Aleksandra Piktus,\nNouamane Tazi, Sampo Pyysalo, Thomas Wolf, and Colin Raffel. Scaling data-constrained\nlanguage models. arXiv preprint arXiv:2305.16264 , 2023.",
+      "section": "References",
+      "char_count": 1171,
+      "chunk_index": 62,
+      "page_numbers": [
+        17
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0063",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "der M Rush, Boaz Barak, Teven Le Scao, Aleksandra Piktus,\nNouamane Tazi, Sampo Pyysalo, Thomas Wolf, and Colin Raffel. Scaling data-constrained\nlanguage models. arXiv preprint arXiv:2305.16264 , 2023.\n[NHX+23] Erik Nijkamp, Hiroaki Hayashi, Caiming Xiong, Silvio Savarese, and Yingbo Zhou. Code-\ngen2: Lessons for training llms on programming and natural languages. arXiv preprint\narXiv:2305.02309 , 2023.\n[NPH+22] Erik Nijkamp, Bo Pang, Hiroaki Hayashi, Lifu Tu, Huan Wang, Yingbo Zhou, Silvio\nSavarese, and Caiming Xiong. Codegen: An open large language model for code with\nmulti-turn program synthesis. arXiv preprint , 2022.\n[NPH+23] Erik Nijkamp, Bo Pang, Hiroaki Hayashi, Lifu Tu, Huan Wang, Yingbo Zhou, Silvio\nSavarese, and Caiming Xiong. Codegen: An open large language model for code with\nmulti-turn program synthesis. ICLR , 2023.\n[Ope23] OpenAI. Gpt-4 technical report, 2023. arXiv preprint arXiv:2303.08774 [cs.CL].\n[Rep23] Replit. Replit dev day. \n1651344184593506304 , 2023.\n[RSR+20] Colin Raffel, Noam Shazeer, Adam Roberts, Katherine Lee, Sharan Narang, Michael\nMatena, Yanqi Zhou, Wei Li, and Peter J Liu.",
+      "section": "References",
+      "char_count": 1123,
+      "chunk_index": 63,
+      "page_numbers": [
+        17
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0064",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": ".CL].\n[Rep23] Replit. Replit dev day. \n1651344184593506304 , 2023.\n[RSR+20] Colin Raffel, Noam Shazeer, Adam Roberts, Katherine Lee, Sharan Narang, Michael\nMatena, Yanqi Zhou, Wei Li, and Peter J Liu. Exploring the limits of transfer learn-\ning with a unified text-to-text transformer. The Journal of Machine Learning Research ,\n21(1):5485–5551, 2020.\n[SLP+21] Jianlin Su, Yu Lu, Shengfeng Pan, Bo Wen, and Yunfeng Liu. Roformer: Enhanced trans-\nformer with rotary position embedding. arXiv preprint arXiv:2104.09864 , 2021.\n[SSZ+23] Ilia Shumailov, Zakhar Shumaylov, Yiren Zhao, Yarin Gal, Nicolas Papernot, and Ross\nAnderson. Model dementia: Generated data makes models forget. arXiv preprint\narXiv:2305.17493 , 2023.\n17\n\n[TGZ+23] Rohan Taori, Ishaan Gulrajani, Tianyi Zhang, Yann Dubois, Xuechen Li, Carlos Guestrin,\nPercy Liang, and Tatsunori B. Hashimoto. Stanford alpaca: An instruction-following llama\nmodel. , 2023.\n[VSP+17] Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N\nGomez, L ukasz Kaiser, and Illia Polosukhin. Attention is all you need. In Advances\nin Neural Information Processing Systems , volume 30, 2017.",
+      "section": "References",
+      "char_count": 1157,
+      "chunk_index": 64,
+      "page_numbers": [
+        17
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0065",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "zeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N\nGomez, L ukasz Kaiser, and Illia Polosukhin. Attention is all you need. In Advances\nin Neural Information Processing Systems , volume 30, 2017.\n[WKM+22] Yizhong Wang, Yeganeh Kordi, Swaroop Mishra, Alisa Liu, Noah A Smith, Daniel\nKhashabi, and Hannaneh Hajishirzi. Self-instruct: Aligning language model with self gen-\nerated instructions. arXiv preprint arXiv:2212.10560 , 2022.\n[WLG+23] Yue Wang, Hung Le, Akhilesh Deepak Gotmare, Nghi DQ Bui, Junnan Li, and Steven CH\nHoi. Codet5+: Open code large language models for code understanding and generation.\narXiv preprint arXiv:2305.07922 , 2023.\n[WTB+22] Jason Wei, Yi Tay, Rishi Bommasani, Colin Raffel, Barret Zoph, Sebastian Borgeaud, Dani\nYogatama, Maarten Bosma, Denny Zhou, Donald Metzler, Ed H. Chi, Tatsunori Hashimoto,\nOriol Vinyals, Percy Liang, Jeff Dean, and William Fedus. Emergent abilities of large\nlanguage models. Transactions on Machine Learning Research , 2022. Survey Certification.\n[YGK+23] Da Yu, Sivakanth Gopi, Janardhan Kulkarni, Zinan Lin, Saurabh Naik, Tomasz Lukasz\nReliga, Jian Yin, and Huishuai Zhang. Selective pre-training for private fine-tuning.",
+      "section": "References",
+      "char_count": 1186,
+      "chunk_index": 65,
+      "page_numbers": [
+        18
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0066",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": ". Survey Certification.\n[YGK+23] Da Yu, Sivakanth Gopi, Janardhan Kulkarni, Zinan Lin, Saurabh Naik, Tomasz Lukasz\nReliga, Jian Yin, and Huishuai Zhang. Selective pre-training for private fine-tuning. arXiv\npreprint arXiv:2305.13865 , 2023.\n[ZXZ+23] Qinkai Zheng, Xiao Xia, Xu Zou, Yuxiao Dong, Shan Wang, Yufei Xue, Zihan Wang, Lei\nShen, Andi Wang, Yang Li, Teng Su, Zhilin Yang, and Jie Tang. Codegeex: A pre-trained\nmodel for code generation with multilingual evaluations on humaneval-x, 2023.\n18\n\nA Additional examples for Section 3\nIn Section 3, we discussed with a few examples on how finetuned modes shows a substantial improvement\nover the base model in executing tasks that are notfeatured in the finetuning dataset. Here we provide\nadditional examples and details to further illustrate improvements.\nA.1 Finetuning improves the model’s understanding ability\nThe example below is challenging due to the prevalence of various logical operators such as “and” and\n“not” that link numerous statements. Prior to finetuning, the model is confused by the logic embedded\nin the statement. It struggles to differentiate between “elements” and “indices”, and is unsure about\nwhich array to use.",
+      "section": "References",
+      "char_count": 1193,
+      "chunk_index": 66,
+      "page_numbers": [
+        18
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0067",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "s statements. Prior to finetuning, the model is confused by the logic embedded\nin the statement. It struggles to differentiate between “elements” and “indices”, and is unsure about\nwhich array to use. Conversely, the finetuned model is adept at accurately identifying all relevant arrays\nand indices, while correctly implementing the logical operators.\nPrompt:\n\"\"\" Input is an array A, an array B, an array C, an array E, a numpy matrix D. I want to\nfind all the indices of D whose elements are in the union of B and C and whose row index\nis not in A and column index is in D. Loop through the elements in D. Return the list of\nindices.\n\"\"\"\nphi-1\nindices = []\nfor i in range(D.shape[0]):\nfor j in range(D.shape[1]):\nif D[i][j] in B or D[i][j] in\nC:\nif i not in A and j in D:\nindices.append((i,j))\nreturn indicesphi-1-base\nindices = []\nfor i in range(len(D)):\nfor j in range(len(D[i]))\n:\nif D[i][j] in B and D\n[i][j] not in A:\nindices.append(j)\nreturn indicesphi-1-small\nindices = []\nfor i in range(D.",
+      "section": "References",
+      "char_count": 1000,
+      "chunk_index": 67,
+      "page_numbers": [
+        19
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0068",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "urn indicesphi-1-base\nindices = []\nfor i in range(len(D)):\nfor j in range(len(D[i]))\n:\nif D[i][j] in B and D\n[i][j] not in A:\nindices.append(j)\nreturn indicesphi-1-small\nindices = []\nfor i in range(D.shape[1]):\nif D[0][i] in B and D[0][i]\nnot in A and D[i][0] in C\nand D[i][0] not in E:\nindices.append(i)\nreturn indices\nA.2 Finetuning improves the model’s ability to use external libraries\nPytorch example. In this PyTorch example, we ask the model to write a modified gradient update:\nPrompt:\n\"\"\" Write a pytorch function. The input is a model, take the gradient of each parameter\nof the model, do an SVD of each gradient to get U, Sigma, V, take the top k singular\nvalues of Sigma as Sigmak, then do a update step to the parameter using Uk *Sigmak*Vk\ntimes the norm of the parameter.\n\"\"\"\nphi-1\n...\nfor p in model.parameters():\nif p.grad is not None:\nU, Sigma, V = p.grad.svd()\nSigmak = Sigma[:k].diag()\np.data.add_(torch.mm(U[:,:k],\ntorch.mm(Sigmak, V[:k,:])).mul_(\nnorm))phi-1-base\n...",
+      "section": "References",
+      "char_count": 988,
+      "chunk_index": 68,
+      "page_numbers": [
+        19
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0069",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "\"\nphi-1\n...\nfor p in model.parameters():\nif p.grad is not None:\nU, Sigma, V = p.grad.svd()\nSigmak = Sigma[:k].diag()\np.data.add_(torch.mm(U[:,:k],\ntorch.mm(Sigmak, V[:k,:])).mul_(\nnorm))phi-1-base\n...\nself.model = model\nself.k = k\nself.eps = eps\nself.max_iter = max_iter\nself.verbose = verbose\nself.svd_u = None\nself.svd_sigma = None\nself.svd_v = None\nself.svd_k = None\nself.svd_u_k = None\n...phi-1-small\ndef svd(x):\nu, s, v = np.linalg.svd(x)\nreturn u, s, v\ndef update_parameter(parameter, grad\n):\nu, s, v = svd(grad)\nparameter = u[:, :k]\nnp.diag(s[:k]) v[:k, :]\nparameter += np.diag(sigmoid(\nparameter))\nreturn parameter\n19\n\nThe code by phi-1-small reveals a lack api usage and limitations in understanding, leading to multiple\nsignificant missteps. First, it uses np.linalg.svd(x) , which is incompatible with PyTorch tensors.\nSecond, it erroneously assigns the SVD result directly to the parameter, deviating from the prompt’s\ninstruction to add it. On the other hand, phi-1-base is completely clueless and only produces a sequence\nof meaningless definitions.",
+      "section": "References",
+      "char_count": 1063,
+      "chunk_index": 69,
+      "page_numbers": [
+        19
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0070",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "e SVD result directly to the parameter, deviating from the prompt’s\ninstruction to add it. On the other hand, phi-1-base is completely clueless and only produces a sequence\nof meaningless definitions. This indicates that improving the model’s logical reasoning ability (even only\non simple functions) can greatly enhance the model’s general coding ability.\nPyplot example. The final API example is a Pyplot application. The model is generally good with\nPyplot, so we design a challenging task to ask the model implement an animation .\nPrompt:\n\"\"\"Create an x array that are integers from 1to20,yarray that is equal to the\nelementwise cosof x divided by element-wise sqrt(x + 1). Write a Python code of line\nplot that animates the change of y according to x ***step by step ***with red lines.\nHowever, during the animation, when x[i] is larger than 11, change the animation line\ncolor from red to green.\n\"\"\"\nphi-1\n...\nx = np.arange(1, 21)\ny = np.cos(x) / np.sqrt(x + 1)\nfig, ax = plt.subplots()\nline, = ax.plot([], [], color='\nred')\n...",
+      "section": "References",
+      "char_count": 1034,
+      "chunk_index": 70,
+      "page_numbers": [
+        20
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0071",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "larger than 11, change the animation line\ncolor from red to green.\n\"\"\"\nphi-1\n...\nx = np.arange(1, 21)\ny = np.cos(x) / np.sqrt(x + 1)\nfig, ax = plt.subplots()\nline, = ax.plot([], [], color='\nred')\n...\nax.set_title('Animation of Cosine\nand Cosine-Square-Root')\ndef animate(i):\nif x[i] > 11:\nline.set_color('green')\nelse:\nline.set_color('red')\nline.set_data(x[:i+1], y[:i\n+1])\nreturn line,\nanim = animation.FuncAnimation(\nfig, animate, frames=len(x),\ninterval=500, blit=True)\nplt.show()phi-1-base\n...\nfig, ax = plt.subplots()\nx = np.arange(1, 21)\ny = np.cos(x) / np.sqrt(x + 1)\nline, = ax.plot([], [], lw=2)\ndef init():\nline.set_data([], [])\nreturn line,\ndef animate(i):\nif x[i] > 11:\nline.set_color('green')\nelse:\nline.set_color('red')\nreturn line,\nanim = FuncAnimation(fig, animate\n, init_func=init, frames=len\n(x), interval=50, blit=True)phi-1-small\n...\nfig, ax = plt.subplots()\nx_array = list(range(1, 21))\ny_array = [math.cos(xi/10) for xi\nin x_array]\ndef animate(i):\n...",
+      "section": "References",
+      "char_count": 973,
+      "chunk_index": 71,
+      "page_numbers": [
+        20
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0072",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "animate\n, init_func=init, frames=len\n(x), interval=50, blit=True)phi-1-small\n...\nfig, ax = plt.subplots()\nx_array = list(range(1, 21))\ny_array = [math.cos(xi/10) for xi\nin x_array]\ndef animate(i):\n...\nax.plot(x_array, y_array)\nif x_array[i] > 11:\ncolor = \"red\"\nelse:\ncolor = \"green\"\nax.scatter(x_array[i],\ny_array[i], color=color)\nreturn ax\nani = animation.FuncAnimation(fig\n, animate, frames=len(\nx_array), interval=50, blit=\nTrue)\nplt.show()\nphi-1-small produces a very incorrect completion. From the API perspective, the model fails to\nunderstand the “line plot” requirement and only uses a scatter plot (and even that is implemented\nwrongly). phi-1-base gets the template correct, but misses the core function to update the line plot\nevery iteration.\nB Limitation of phi-1\nWhile finetuning through simple exercises significantly enhances the model’s overall performance, there\nare certain constraints intrinsic to our model that cannot be overcome solely by finetuning.",
+      "section": "References",
+      "char_count": 973,
+      "chunk_index": 72,
+      "page_numbers": [
+        20
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0073",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "i-1\nWhile finetuning through simple exercises significantly enhances the model’s overall performance, there\nare certain constraints intrinsic to our model that cannot be overcome solely by finetuning. Firstly, our\nmodel has only 1.3B parameters trained with only 7B tokens, this restricts our model’s capacity to manage\nmore complex tasks such as developing an intricate Flask application, in comparison to other models like\nStarcoder. Beyond our model’s limitations in terms of generality when contrasted with StarCoder or\nChatGPT, we’ve also outlined several other weaknesses as follows:\n20\n\nSensitivity to prompt variations. Our model is sensitive to various perturbations of prompts. First,\nits performance drops significantly as the length of the prompt increases, as it tends to ignore, forget or\nmisinterpret parts of the prompt when it is too long. For example, our model fails when we increase the\nnumber of layers from 3 to 4 in the following case. We hypothesize that this issue arises because our\nexercises predominantly consist of short prompts. Furthermore, its generation may appear qualitatively\ndifferent with a slightly modified prompt.",
+      "section": "References",
+      "char_count": 1154,
+      "chunk_index": 73,
+      "page_numbers": [
+        20
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0074",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "ase. We hypothesize that this issue arises because our\nexercises predominantly consist of short prompts. Furthermore, its generation may appear qualitatively\ndifferent with a slightly modified prompt. In this case, with an additional import torch command,\nthe model tends to succeed on the very task that it failed previously.\nPrompt:\n\"\"\" Create a neural network\nclass in Pytorch with 3\nlayers. Implement a new \"rr\"\nmethod to this new function:\nIt takes input x. Apply the\nfirst layer on xand assign\nthe output to y, then apply\nthe second layer on yand\nassign the output to z, then\napply the third layer on z\nand assign it to w, then sum\nupy,z,wand assign it to Q.\nReturn Q.\n\"\"\"Prompt:\n\"\"\" Create a neural network\nclass in Pytorch with 4\nlayers. Implement a new \"rr\"\nmethod to this new function:\nIt takes input x. Apply the\nfirst layer on xand assign\nthe output to y, then apply\nthe second layer on yand\nassign the output to z, then\napply the third layer on z\nand assign it to w, then\napply the forth layer on w\nand assign it to p, then sum\nupy,z,w,pand assign it to\nQ. Return Q.\n\"\"\"Prompt:\nimport torch\n\"\"\" Create a neural network class in\nPytorch with 4 layers.",
+      "section": "References",
+      "char_count": 1163,
+      "chunk_index": 74,
+      "page_numbers": [
+        21
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0075",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "assign it to w, then\napply the forth layer on w\nand assign it to p, then sum\nupy,z,w,pand assign it to\nQ. Return Q.\n\"\"\"Prompt:\nimport torch\n\"\"\" Create a neural network class in\nPytorch with 4 layers. Implement\na new \"rr\" method to this new\nfunction: It takes input x. Apply\nthe first layer on xand assign the\noutput to y, then apply the second\nlayer on yand assign the output to\nz, then apply the third layer on z\nand assign it to w, then apply the\nforth layer on wand assign it to\np, then sum up y,z,w,pand assign it\ntoQ. Return Q.\n\"\"\"\nclass NeuralNetwork(nn.Module\n):\ndef __init__(self):\nsuper(NeuralNetwork,\nself).__init__()\nself.layer1 = nn.\nLinear(2, 5)\nself.layer2 = nn.\nLinear(5, 3)\nself.layer3 = nn.\nLinear(3, 1)\ndef rr(self, x):\ny = self.layer1(x)\nz = self.layer2(y)\nw = self.layer3(z)\nQ = y + z + w\nreturn Qclass NeuralNetwork:\ndef __init__(self):\nself.layers = []\ndef add_layer(self, layer\n):\nself.layers.append(\nlayer)\n...\ndef rr(self, x):\ny = self.forward(x)\nz = self.forward(y)\nw = self.forward(z)\np = self.forward(w)\nQ = y + z + w + p\nreturn Qclass NeuralNetwork(torch.nn.Module)\n:\ndef __init__(self):\nsuper(NeuralNetwork, self).\n__init__()\nself.layer1 = torch.nn.\nLinear(10, 20)\n...",
+      "section": "References",
+      "char_count": 1198,
+      "chunk_index": 75,
+      "page_numbers": [
+        21
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0076",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "lf.forward(z)\np = self.forward(w)\nQ = y + z + w + p\nreturn Qclass NeuralNetwork(torch.nn.Module)\n:\ndef __init__(self):\nsuper(NeuralNetwork, self).\n__init__()\nself.layer1 = torch.nn.\nLinear(10, 20)\n...\ndef forward(self, x):\nx = torch.nn.functional.relu\n(self.layer1(x))\ny = torch.nn.functional.relu\n(self.layer2(x))\nz = torch.nn.functional.relu\n(self.layer3(y))\nw = torch.nn.functional.relu\n(self.layer4(z))\np = torch.nn.functional.relu\n(self.output(w))\nQ = p + y + z + w\nreturn Q\n21\n\nSensitivity to natural language inputs. phi-1 demonstrates less robustness in handling natural\nlanguage compared to ChatGPT or StarCoder, particularly with ambiguous prompts. This may be\nbecause we filter out certain types of data from the training process to guarantee textbook-level quality.\nFor instance, our model struggles with the term “unchanged” and has difficulties interpreting a numbered\nlist within the prompt.\nPrompt:\n\"\"\" Alice is moving a point along\nx,y axes at every iteration.\nEvery time Alice moves the\npoint randomly with one of the\noptions: (1). x increases by\n2, y decreases by 5; (2). x\nincreases by 1, y decreases by\n2, (3). x stays unchanged, y\nincrease by 4.",
+      "section": "References",
+      "char_count": 1167,
+      "chunk_index": 76,
+      "page_numbers": [
+        21
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0077",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "iteration.\nEvery time Alice moves the\npoint randomly with one of the\noptions: (1). x increases by\n2, y decreases by 5; (2). x\nincreases by 1, y decreases by\n2, (3). x stays unchanged, y\nincrease by 4. Simulate the\nmovement of the points.\n\"\"\"Prompt:\n\"\"\" Alice is moving a point along\nx,y axes at every iteration.\nEvery time Alice moves the\npoint randomly with one of the\noptions: (1). x increases by\n2, y decreases by 5; (2). x\nincreases by 1, y decreases by 2,\n(3). x stays at x, y increase by\n4. Simulate the movement of the\npoints.\n\"\"\"Prompt:\n\"\"\" Alice is moving a point\nalong x,y axes at every\niteration. Every time Alice\nmoves the point randomly\nwith one of the options:\n(1). move by (2, -5); (2).\nmove by (1, 2); (3). move\nby (0, 4); Simulate the\nmovement of the points.\n\"\"\"\nx, y = 0, 0\nfor i in range(10):\nmove = random.choice([1, 2,\n3])\nif move == 1:\nx += 2\ny -= 5\nelif move == 2:\nx += 1\ny -= 2\nelif move == 3:\nx = 0\ny += 4\nreturn f\"Alice's final position\nis ({x}, {y}).\"x, y = 0, 0\nfor i in r",
+      "section": "References",
+      "char_count": 1000,
+      "chunk_index": 77,
+      "page_numbers": [
+        22
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0078",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "range(10):\nmove = random.choice([1, 2,\n3])\nif move == 1:\nx += 2\ny -= 5\nelif move == 2:\nx += 1\ny -= 2\nelif move == 3:\nx = 0\ny += 4\nreturn f\"Alice's final position\nis ({x}, {y}).\"x, y = 0, 0\nfor i in range(10):\nmove = random.choice([1, 2,\n3])\nif move == 1:\nx += 2\ny -= 5\nelif move == 2:\nx += 1\ny -= 2\nelif move == 3:\nx = x\ny += 4\nprint(f\"Alice moved {move}\npoint to ({x}, {y})\")x, y = 0, 0\nfor i in range(n):\nmove = random.choice\n([(1, 2), (2, -5), (1,\n2), (3, 0), (0, 4)])\nx += move[0]\ny += move[1]\nreturn f\"Alice moved {x}\nunits to the right and\n{y} units down after {n\n} iterations.\"\nNote: the model hallucinates the\nmoves (1, 2), (3, 0).\n22\n\nBad at counting and spatial reasoning. A primary constraint of our model, particularly when\ncontrasted with alternatives like StarCoder, lies in its performance on tasks involving counting and\nspatial reasoning. The model struggles to consistently maintain precise data regarding the quantity and\npositioning of elements within a scene.",
+      "section": "References",
+      "char_count": 980,
+      "chunk_index": 78,
+      "page_numbers": [
+        22
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0079",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "lies in its performance on tasks involving counting and\nspatial reasoning. The model struggles to consistently maintain precise data regarding the quantity and\npositioning of elements within a scene. To illustrate, consider the following example:\nPrompt:\n\"\"\" Generate a tkinter application, I want two textfields side by side at the top,\nthree buttons at the bottom, one named Aon the left, one named Bon the right, one\nnamed Cat the middle.\n\"\"\"\nphi-1 phi-1-small\n...\ntext_a = tk.Text(root, width=30, height=5)\ntext_b = tk.Text(root, width=30, height=5)\ntext_c = tk.Text(root, width=30, height=5)\n# Create the buttons\nbutton_a = tk.Button(root, text=\"A\", width=10,\nheight=2)\nbutton_b = tk.Button(root, text=\"B\", width=10,\nheight=2)\nbutton_c = tk.Button(root, text=\"C\", width=10,\nheight=2)\n# Place the text fields and buttons in the top\nrow\ntext_a.grid(row=0, column=0, padx=5, pady=5)\ntext_b.grid(row=0, column=1, padx=5, pady=5)\ntext_c.grid(row=0, column=2, padx=5, pady=5)\n# Place the buttons in t",
+      "section": "References",
+      "char_count": 999,
+      "chunk_index": 79,
+      "page_numbers": [
+        23
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0080",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "e text fields and buttons in the top\nrow\ntext_a.grid(row=0, column=0, padx=5, pady=5)\ntext_b.grid(row=0, column=1, padx=5, pady=5)\ntext_c.grid(row=0, column=2, padx=5, pady=5)\n# Place the buttons in the bottom row\nbutton_a.grid(row=1, column=0, columnspan=3,\npadx=5, pady=5)\nbutton_b.grid(row=1, column=1, columnspan=3,\npadx=5, pady=5)\nbutton_c.grid(row=1, column=2, columnspan=3,\npadx=5, pady=5)\n...window = tk.Tk()\nwindow.title(\"TextFields\")\n# Create the left and right textfields\ntext1 = tk.Text(window, text=\"A\")\ntext1.pack()\ntext2 = tk.Text(window, text=\"B\")\ntext2.pack()\n# Create the middle button\nbutton = tk.Button(window, text=\"C\")\nbutton.pack()\n# Start the tkinter application\nwindow.mainloop()\nphi-1-base\nroot = tk.Tk()\nroot.title(\"Text Fields\")\nroot.geometry(\"300x200\")\nroot.resizable(False, False)\nroot.configure(background=\"white\")\nroot.configure(font=(\"Arial\", 12))\nroot.configure(foreground=\"black\")\nroot.configure(relief=\"groove\")\nroot.configure(padx=10, pady=10)\nroot.configure(state=\"disabled\")\n# The model keeps outputting nonsensical code.\nDespite the improvement from finetuning, our model still struggles with counting and spatial reason-\ning.",
+      "section": "References",
+      "char_count": 1166,
+      "chunk_index": 80,
+      "page_numbers": [
+        23
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0081",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "x=10, pady=10)\nroot.configure(state=\"disabled\")\n# The model keeps outputting nonsensical code.\nDespite the improvement from finetuning, our model still struggles with counting and spatial reason-\ning. It generates an extra textfield and misplaces the button in the scene.\n23\n\nC Examples for Section 5\nIn this section, we provide example pairs of codes captured with different AST match rates. Additionally,\nwe provide an example of code pair obtained using embedding distance as a measure of similarity.\nAST match rate = 1.0 Here the coding problems require the same reasoning while the wording of\nthe prompts can vary drastically. Particularly, the prompt uses a real-world event, i.e., distance between\nholes on a line, to implicitly teach the model the basic reasoning task of finding the closest pair of elements\nin an array.\nHumanEval CodeExercises\nfrom typing import List, Tuple\ndef find_closest_elements(numbers: List[float])\n-> Tuple[float, float]:\n\"\"\" From a supplied list of numbers (of\nlength at least two) select and return two\nthat are the closest to each\nother and return them in order (smaller\nnumber, larger number).",
+      "section": "References",
+      "char_count": 1132,
+      "chunk_index": 81,
+      "page_numbers": [
+        23
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0082",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "-> Tuple[float, float]:\n\"\"\" From a supplied list of numbers (of\nlength at least two) select and return two\nthat are the closest to each\nother and return them in order (smaller\nnumber, larger number).\n>>> find_closest_elements([1.0, 2.0, 3.0,\n4.0, 5.0, 2.2])\n(2.0, 2.2)\n>>> find_closest_elements([1.0, 2.0, 3.0,\n4.0, 5.0, 2.0])\n(2.0, 2.0)\n\"\"\"\nnumbers.sort()\nmin_diff = float('inf')\nclosest_pair = None\nfor i in range(len(numbers) - 1):\ndiff = numbers[i+1] - numbers[i]\nif diff < min_diff:\nmin_diff = diff\nclosest_pair = (numbers[i], numbers[i\n+1])\nreturn closest_pairfrom typing import List, Tuple\ndef find_closest_two_holes(holes: List[int]) -> (\nint, int):\n\"\"\"\nFinds the two closest holes on a line.\nArgs:\nholes: A list of integers representing\nthe positions of holes on a line.\nReturns:\nA tuple of two integers representing the\npositions of the two closest holes on the\nline.",
+      "section": "References",
+      "char_count": 877,
+      "chunk_index": 82,
+      "page_numbers": [
+        24
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0083",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "losest holes on a line.\nArgs:\nholes: A list of integers representing\nthe positions of holes on a line.\nReturns:\nA tuple of two integers representing the\npositions of the two closest holes on the\nline.\n\"\"\"\nholes.sort()\nmin_distance = float('inf')\nclosest_holes = None\nfor i in range(len(holes) - 1):\ndistance = holes[i+1] - holes[i]\nif distance < min_distance:\nmin_distance = distance\nclosest_holes = (holes[i], holes[i\n+1])\nreturn closest_holes\n24\n\nAST match rate = 0.96 Here the two problems use similar reasoning and coding concepts but their\nprompts ask for different tasks, i.e., returning a pair of numbers versus computing their average.\nHumanEval CodeExercises\nfrom typing import List\ndef find_closest_elements(numbers: List[float])\n-> Tuple[float, float]:\n\"\"\" From a supplied list of numbers (of\nlength at least two) select and return two\nthat are the closest to each\nother and return them in order (smaller\nnumber, larger number).",
+      "section": "References",
+      "char_count": 939,
+      "chunk_index": 83,
+      "page_numbers": [
+        24
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0084",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "-> Tuple[float, float]:\n\"\"\" From a supplied list of numbers (of\nlength at least two) select and return two\nthat are the closest to each\nother and return them in order (smaller\nnumber, larger number).\n>>> find_closest_elements([1.0, 2.0, 3.0,\n4.0, 5.0, 2.2])\n(2.0, 2.2)\n>>> find_closest_elements([1.0, 2.0, 3.0,\n4.0, 5.0, 2.0])\n(2.0, 2.0)\n\"\"\"\nnumbers.sort()\nmin_diff = float('inf')\nclosest_pair = None\nfor i in range(len(numbers) - 1):\ndiff = numbers[i+1] - numbers[i]\nif diff < min_diff:\nmin_diff = diff\nclosest_pair = (numbers[i], numbers[\ni+1])\nreturn closest_pairfrom typing import List\ndef find_closest_pair_average(li: List[int]) ->\nfloat:\n\"\"\"\nReturns the average of the two integers in\nthe list that are closest to each other.\nIf there are multiple pairs with the same\nminimum difference, the function returns the\naverage of the first pair it encounters.",
+      "section": "References",
+      "char_count": 860,
+      "chunk_index": 84,
+      "page_numbers": [
+        24
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0085",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "average of the two integers in\nthe list that are closest to each other.\nIf there are multiple pairs with the same\nminimum difference, the function returns the\naverage of the first pair it encounters.\nArgs:\n- li: a list of integers\nReturns:\n- a float representing the average of the two\nintegers in the list that are closest to\neach other\n\"\"\"\nli.sort()\nmin_diff = float('inf')\nclosest_pair = None\nfor i in range(len(li)-1):\ndiff = li[i+1] - li[i]\nif diff < min_diff:\nmin_diff = diff\nclosest_pair = (li[i], li[i+1])\nreturn sum(closest_pair) / 2\nAST match rate ≤0.9 When the AST match rate ≤0.9, the code pairs start getting less similar as\nshown in the following two examples. Here, the AST match rate is 0 .9 and 0 .83, respectively.\nHumanEval CodeExercises\nfrom typing import List\ndef all_prefixes(string: str) -> List[str]:\n\"\"\" Return list of all prefixes from\nshortest to longest of the input string\n>>> all_prefixes('abc')\n['a', 'ab', 'abc']\n\"\"\"\nprefixes = []\nfor i in range(len(string)):\nprefixe",
+      "section": "References",
+      "char_count": 999,
+      "chunk_index": 85,
+      "page_numbers": [
+        25
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0086",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "tring: str) -> List[str]:\n\"\"\" Return list of all prefixes from\nshortest to longest of the input string\n>>> all_prefixes('abc')\n['a', 'ab', 'abc']\n\"\"\"\nprefixes = []\nfor i in range(len(string)):\nprefixes.append(string[:i+1])\nreturn prefixesfrom typing import List\ndef increase_after_each(li: List[int]) -> List[\nint]:\n\"\"\"\nGiven a list of integers, returns a new list\nwhere each element is increased by the\nnumber of elements in the original list that\ncome after it.\nArgs:\n- li: A list of integers\nReturns:\n- A new list of integers where each element\nis increased by the number of elements in\nthe original list that come after it.\n\"\"\"\nresult = []\nfor i in range(len(li)):\nresult.append(li[i] + len(li[i+1:]))\nreturn result\n25\n\nHumanEval CodeExercises\nfrom typing import List\ndef rescale_to_unit(numbers: List[float]) ->\nList[float]:\n\"\"\" Given list of numbers (of at least two\nelements), apply a linear transform to that\nlist, such that the smallest number will\nbecome 0 and the largest will become 1\n>>>",
+      "section": "References",
+      "char_count": 1000,
+      "chunk_index": 86,
+      "page_numbers": [
+        25
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0087",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "List[float]) ->\nList[float]:\n\"\"\" Given list of numbers (of at least two\nelements), apply a linear transform to that\nlist, such that the smallest number will\nbecome 0 and the largest will become 1\n>>> rescale_to_unit([1.0, 2.0, 3.0, 4.0,\n5.0])\n[0.0, 0.25, 0.5, 0.75, 1.0]\n\"\"\"\nmin_num = min(numbers)\nmax_num = max(numbers)\nreturn [(num - min_num) / (max_num - min_num\n) for num in numbers]from typing import List\ndef frequency_ranges_plot(values: List[float]) ->\nList[List[int]]:\n\"\"\"\nReturns a list of lists where each inner list\nrepresents a frequency range and contains\nthe count of values\nthat fall within that range. The ranges are\ndetermined by dividing the range of values\ninto 10 equal parts.\nArgs:\n- values: A list of float values\nReturns:\n- A list of lists where each inner list\ncontains two integers representing the lower\nand upper bounds of the range\nand the count of values that fall within that\nrange.",
+      "section": "References",
+      "char_count": 913,
+      "chunk_index": 87,
+      "page_numbers": [
+        26
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0088",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "A list of float values\nReturns:\n- A list of lists where each inner list\ncontains two integers representing the lower\nand upper bounds of the range\nand the count of values that fall within that\nrange.\n\"\"\"\nmin_val = min(values)\nmax_val = max(values)\nrange_size = (max_val - min_val) / 10\nranges = [[min_val + i *range_size, min_val +\n(i+1)*range_size, 0] for i in range(10)]\nfor val in values:\nfor i, r in enumerate(ranges):\nif r[0] <= val < r[1]:\nranges[i][2] += 1\nbreak\nreturn [[int(r[0]), int(r[1]), r[2]] for r in\nranges]\nEmbedding Distance = 0.16 Here the two problems have similar Python Docstrings, function names,\nas well as the code structure which can be extracted with using the L2 distance between the normalized\nCodeGen-Mono 350M embedding for each of them.\nHumanEval CodeExercises\ndef sum_product(numbers: List[int]) -> Tuple[int,\nint]:\n\"\"\" For a given list of integers, return a\ntuple consisting of a sum and a product of\nall the integers in a list.\nEmpty sum should be equal to 0 and empty\nproduct should be equal to 1.",
+      "section": "References",
+      "char_count": 1033,
+      "chunk_index": 88,
+      "page_numbers": [
+        26
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0089",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "uple[int,\nint]:\n\"\"\" For a given list of integers, return a\ntuple consisting of a sum and a product of\nall the integers in a list.\nEmpty sum should be equal to 0 and empty\nproduct should be equal to 1.\n>>> sum_product([])\n(0, 1)\n>>> sum_product([1, 2, 3, 4])\n(10, 24)\n\"\"\"\nsum_value = 0\nprod_value = 1\nfor n in numbers:\nsum_value += n\nprod_value *= n\nreturn sum_value, prod_valuefrom typing import List, Tuple\ndef all_numbers_sum_product(numbers: List[int])\n-> Tuple[int,int]:\n\"\"\"\nReturns a tuple containing the sum and\nproduct of all the numbers in the input list.\nArgs:\n- numbers (List[int]): a list of integers\nReturns:\n- a tuple containing two integers:\n- the sum of all the numbers in the input\nlist\n- the product of all the numbers in the\ninput list\n\"\"\"\nsum_of_numbers = 0\nproduct_of_numbers = 1\nfor num in numbers:\nsum_of_numbers += num\nproduct_of_numbers *= num\nreturn (sum_of_numbers, product_of_numbers)\n26",
+      "section": "References",
+      "char_count": 914,
+      "chunk_index": 89,
+      "page_numbers": [
+        26
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "TextbooksAllYouNeed_2023_chunk_0090",
+      "source_id": "TextbooksAllYouNeed_2023",
+      "text": "for num in numbers:\nsum_of_numbers += num\nproduct_of_numbers *= num\nreturn (sum_of_numbers, product_of_numbers)\n26",
+      "section": "References",
+      "char_count": 114,
+      "chunk_index": 90,
+      "page_numbers": [
+        26
+      ],
+      "source_file": "TextbooksAllYouNeed_2023_2306_11644.pdf",
+      "total_source_pages": 26
+    }
+  ]
+}

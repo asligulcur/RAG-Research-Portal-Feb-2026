@@ -1,0 +1,50 @@
+{
+  "test_date": "2026-02-03",
+  "total_tests": 5,
+  "passed": 3,
+  "flagged_missing": 5,
+  "hallucinated": 2,
+  "pass_rate": 0.6,
+  "detailed_results": [
+    {
+      "query": "What is GPT-5's performance on MMLU?",
+      "answer": "The provided excerpts do not contain sufficient information to answer this question.",
+      "num_citations": 0,
+      "flags_missing": true,
+      "is_hallucinating": false,
+      "pass": true
+    },
+    {
+      "query": "What benchmarks did Llama 3.5 achieve?",
+      "answer": "The benchmarks that Llama 3.5 achieved are not explicitly mentioned in the provided excerpts. [Source: All excerpts] The provided excerpts do not contain sufficient information to answer this question.",
+      "num_citations": 0,
+      "flags_missing": true,
+      "is_hallucinating": true,
+      "pass": false
+    },
+    {
+      "query": "According to the papers, what is Claude 3's architecture?",
+      "answer": "The provided excerpts do not contain sufficient information to answer this question.",
+      "num_citations": 0,
+      "flags_missing": true,
+      "is_hallucinating": false,
+      "pass": true
+    },
+    {
+      "query": "What is the recommended batch size for training Mistral-12B?",
+      "answer": "The provided excerpts do not contain sufficient information to determine the recommended batch size for training Mistral-12B.",
+      "num_citations": 0,
+      "flags_missing": true,
+      "is_hallucinating": true,
+      "pass": false
+    },
+    {
+      "query": "How does the corpus compare GPT-4's reasoning ability to small language models?",
+      "answer": "The provided excerpts do not contain sufficient information to answer this question.",
+      "num_citations": 0,
+      "flags_missing": true,
+      "is_hallucinating": false,
+      "pass": true
+    }
+  ]
+}

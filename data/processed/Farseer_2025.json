@@ -1,0 +1,1702 @@
+{
+  "source_id": "Farseer_2025",
+  "metadata": {
+    "title": "Scaling Laws for Language Model Evaluation",
+    "authors": "Research Team",
+    "year": "2025",
+    "venue": "arXiv",
+    "url": "https://arxiv.org/abs/2506.10972",
+    "source_type": "peer-reviewed",
+    "relevance_note": "Provides theoretical foundation for understanding SLM performance across scales (June 2025)"
+  },
+  "pdf_metadata": {
+    "title": "Predictable Scale: Part II, Farseer: A Refined Scaling Law in Large Language Models",
+    "author": "Houyi Li; Wenzhen Zheng; Qiufeng Wang; Zhenyu Ding; Haoying Wang; Zili Wang; Shijie Xuyang; Ning Ding; Shuigeng Zhou; Xiangyu Zhang; Daxin Jiang",
+    "total_pages": 34
+  },
+  "statistics": {
+    "total_pages": 34,
+    "total_chunks": 129,
+    "avg_chunk_size": 1032.1317829457364,
+    "ingestion_timestamp": "2026-02-02T19:03:44.316150"
+  },
+  "chunks": [
+    {
+      "chunk_id": "Farseer_2025_chunk_0000",
+      "source_id": "Farseer_2025",
+      "text": "Predictable Scale: Part II, Farseer – A Refined Scaling\nLaw in Large Language Models\nHouyi Li∗\nStepFun, Fudan UniversityWenzhen Zheng∗\nStepFunQiufeng Wang\nStepFun\nZhenyu Ding\nXi’an Jiaotong UniversityHaoying Wang\nXi’an Jiaotong UniversityZili Wang\nStepFun\nShijie Xuyang\nStepFun, Fudan UniversityNing Ding\nXi’an Jiaotong UniversityShuigeng Zhou\nFudan University\nXiangyu Zhang\nStepFun, Megvii TechnologyDaxin Jiang\nStepFun",
+      "section": "Header/Title",
+      "char_count": 420,
+      "chunk_index": 0,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0001",
+      "source_id": "Farseer_2025",
+      "text": "Abstract\nTraining Large Language Models (LLMs) is prohibitively expensive, creating a\ncritical scaling gap where insights from small-scale experiments often fail to trans-\nfer to resource-intensive production systems, thereby hindering efficient innovation.\nTo bridge this, we introduce Farseer , a novel and refined scaling law offering\nenhanced predictive accuracy across scales. By systematically constructing a\nmodel loss surface L(N, D ),Farseer achieves a significantly better fit to empirical\ndata than prior laws (e.g., Chinchilla’s law ). Our methodology yields accurate,\nrobust, and highly generalizable predictions, demonstrating excellent extrapola-\ntion capabilities, improving upon Chinchilla’s law by reducing extrapolation\nerror by 433%. This allows for the reliable evaluation of competing training\nstrategies across all (N, D )settings, enabling conclusions from small-scale ab-\nlation studies to be confidently extrapolated to predict large-scale performance.\nFurthermore, Farseer provides new insights into optimal compute allocation, bet-\nter reflecting the nuanced demands of modern LLM training.",
+      "section": "Abstract",
+      "char_count": 1118,
+      "chunk_index": 1,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0002",
+      "source_id": "Farseer_2025",
+      "text": "confidently extrapolated to predict large-scale performance.\nFurthermore, Farseer provides new insights into optimal compute allocation, bet-\nter reflecting the nuanced demands of modern LLM training. To validate our\napproach, we trained an extensive suite of approximately 1,000 LLMs across\ndiverse scales and configurations, consuming roughly 3 million NVIDIA H100\nGPU hours. We are comprehensively open-sourcing all models, data, results, and\nlogs at  to foster further\nresearch.\n∗Equal contribution.\nPreprint. Under review.arXiv:2506.10972v3 [cs.LG] 16 Jul 2025\n\n108109\nModel Size N0.0000.0020.0040.0060.0080.0100.012Average Relative Error\nAverage Relative Error Comparison by Model Size N\nFarseer\nChinchilla\nChinchilla fits \nthe best only \nfor themiddle N.As N deviates from the\nmiddle, the Chinchilla’s \nerrorbecomes divergent!\ndivergent \nconvergent\nhigher \nlower\n(a) Comparison of Average Relative Error\n/uni00000014/uni00000013/uni00000015/uni00000013\n/uni00000014/uni00000013/uni00000015/uni",
+      "section": "Abstract",
+      "char_count": 1000,
+      "chunk_index": 2,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0003",
+      "source_id": "Farseer_2025",
+      "text": "chilla’s \nerrorbecomes divergent!\ndivergent \nconvergent\nhigher \nlower\n(a) Comparison of Average Relative Error\n/uni00000014/uni00000013/uni00000015/uni00000013\n/uni00000014/uni00000013/uni00000015/uni00000014\n/uni00000014/uni00000013/uni00000015/uni00000015\n/uni00000014/uni00000013/uni00000015/uni00000016\n/uni00000014/uni00000013/uni00000015/uni00000017\n/uni00000014/uni00000013/uni00000015/uni00000018\n/uni00000014/uni00000013/uni00000015/uni00000019\n/uni00000026/uni00000052/uni00000050/uni00000053/uni00000058/uni00000057/uni00000048/uni00000003/uni00000025/uni00000058/uni00000047/uni0000004a/uni00000048/uni00000057/uni00000003/uni00000026/uni00000003/uni0000000b/uni00000019/uni00000031/uni00000027/uni0000000c/uni00000014/uni00000013/uni00000015/uni00000014/uni00000013/uni00000016/uni00000032/uni00000053/uni00000057/uni0000004c/uni00000050/uni00000044/uni0000004f/uni00000003/uni00000027/uni00000012/uni00000031/uni00000003/uni00000035/uni00000044/uni00000057/uni0000004c/uni00000052/uni00",
+      "section": "Abstract",
+      "char_count": 1000,
+      "chunk_index": 3,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0004",
+      "source_id": "Farseer_2025",
+      "text": "32/uni00000053/uni00000057/uni0000004c/uni00000050/uni00000044/uni0000004f/uni00000003/uni00000027/uni00000012/uni00000031/uni00000003/uni00000035/uni00000044/uni00000057/uni0000004c/uni00000052/uni0000001a/uni00000025\n/uni00000014/uni00000016/uni00000025\n/uni00000016/uni00000017/uni00000025\n/uni0000001a/uni00000013/uni00000025/uni0000001b/uni00000025\n/uni0000001a/uni00000013/uni00000025/uni0000001a/uni00000025\n/uni0000001a/uni00000015/uni00000025/uni0000001a/uni00000025\n/uni00000014/uni00000017/uni00000025\n/uni0000001a/uni00000015/uni00000025/uni0000001b/uni00000025\n/uni00000014/uni00000017/uni00000025\n/uni00000016/uni00000015/uni00000025/uni0000002f/uni0000004f/uni00000044/uni00000050/uni00000044/uni00000003/uni00000015\n/uni0000002f/uni0000004f/uni00000044/uni00000050/uni00000044/uni00000003/uni00000016/uni00000011/uni00000014\n/uni00000034/uni0000005a/uni00000048/uni00000051/uni00000003/uni00000015\n/uni00000034/uni0000005a/uni00000048/uni00000051/uni00000003/uni00000015/uni00000011/u",
+      "section": "Abstract",
+      "char_count": 1000,
+      "chunk_index": 4,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0005",
+      "source_id": "Farseer_2025",
+      "text": "0003/uni00000016/uni00000011/uni00000014\n/uni00000034/uni0000005a/uni00000048/uni00000051/uni00000003/uni00000015\n/uni00000034/uni0000005a/uni00000048/uni00000051/uni00000003/uni00000015/uni00000011/uni00000018\n/uni00000034/uni0000005a/uni00000048/uni00000051/uni00000003/uni00000016\n/uni00000029/uni00000044/uni00000055/uni00000056/uni00000048/uni00000048/uni00000055\n/uni00000026/uni0000004b/uni0000004c/uni00000051/uni00000046/uni0000004b/uni0000004c/uni0000004f/uni0000004f/uni00000044 (b) Optimal D/N Ratio vs. Compute Budget\nFigure 1: Farseer beats Chichilla [20]. (a) Average relative error (BPC) vs. model size Nfor\nFarseer (red) and Chinchilla (blue). Chinchilla, lacking high-order cross terms, fits only near the\ncentral Nand its error diverges as model size grows. In contrast, Farseer ’s error is 232% lower\nwithin the fitted range and remains stable across the full Nrange. (b) Chinchilla ’s rule of\nthumb ( D/N≈20) is valid only at moderate budgets ( C≈1020−1021), but it underestimates the\nrequirements for larger scale regimes.",
+      "section": "Abstract",
+      "char_count": 1044,
+      "chunk_index": 5,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0006",
+      "source_id": "Farseer_2025",
+      "text": "and remains stable across the full Nrange. (b) Chinchilla ’s rule of\nthumb ( D/N≈20) is valid only at moderate budgets ( C≈1020−1021), but it underestimates the\nrequirements for larger scale regimes. In contrast, our analysis predicts a steadily increasing optimal\nD/N , which is consistent with the actual training configurations used in recent large language models\n(e.g., Llama 3.1 [16], Qwen3 [45], etc.).",
+      "section": "Abstract",
+      "char_count": 409,
+      "chunk_index": 6,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0007",
+      "source_id": "Farseer_2025",
+      "text": "1 Introduction\nRecent remarkable progress in Large Language Models (LLMs) such as GPT-3 [ 6], GPT-4 [ 2], and\nLlama [ 39] is largely attributed to scaling laws, notably proposed by Kaplan et al. [ 22]. These\nlaws demonstrate that model performance, typically measured by loss L, exhibits a predictable\nimprovement trend as model parameters ( N) and training data ( D) increase. This relationship follows\npower-law dynamics expressed as:\nL(N, D ) =\"\u0012Nc\nN\u0013αN\nαD+Dc\nD#αD\n, (1)\n/uni00000014/uni00000013/uni00000014/uni00000013/uni00000014/uni00000013/uni00000014/uni00000014\n/uni00000027/uni00000044/uni00000057/uni00000048/uni00000056/uni00000048/uni00000057/uni00000003/uni00000036/uni0000004c/uni0000005d/uni00000048/uni00000003/uni00000027/uni00000003/uni0000000b/uni00000057/uni00000052/uni0000004e/uni00000048/uni00000051/uni00000056/uni0000000c/uni00000013/uni00000011/uni00000018/uni00000013/uni00000011/uni00000019/uni00000025/uni00000033/uni00000026\n/uni0000002a/uni00000055/uni00000052/uni0000",
+      "section": "1 Introduction",
+      "char_count": 1000,
+      "chunk_index": 7,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0008",
+      "source_id": "Farseer_2025",
+      "text": "uni00000048/uni00000051/uni00000056/uni0000000c/uni00000013/uni00000011/uni00000018/uni00000013/uni00000011/uni00000019/uni00000025/uni00000033/uni00000026\n/uni0000002a/uni00000055/uni00000052/uni00000058/uni00000051/uni00000047/uni00000003/uni00000037/uni00000055/uni00000058/uni00000057/uni0000004b\n/uni00000029/uni00000044/uni00000055/uni00000056/uni00000048/uni00000048/uni00000055\n/uni00000026/uni0000004b/uni0000004c/uni00000051/uni00000046/uni0000004b/uni0000004c/uni0000004f/uni0000004f/uni00000044\n-0.04%\n-0.10%\nFigure 2: Empirical BPC values (Ground Truth)\nare plotted alongside fits obtained from Farseer\nand Chinchilla. Farseer yields predictions that lie\nalmost exactly on the ground truth curve, whereas\nChinchilla’s fit exhibits systematic under- and over-\nestimations, particularly at small and large D.Subsequently, DeepMind ’s Chinchilla [ 20] pro-\nposed optimal compute-scaling strategies and\na revised scaling law:\nL(N, D )≈A\nNα+B\nDβ+E. (2)\nWhile valuable, Chinchilla’s formulation has\nlimitations in modeling the interplay between\nmodel size and data scaling.",
+      "section": "1 Introduction",
+      "char_count": 1080,
+      "chunk_index": 8,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0009",
+      "source_id": "Farseer_2025",
+      "text": "compute-scaling strategies and\na revised scaling law:\nL(N, D )≈A\nNα+B\nDβ+E. (2)\nWhile valuable, Chinchilla’s formulation has\nlimitations in modeling the interplay between\nmodel size and data scaling. Specifically, we\nargue that its termB\nDβ, which describes how\nloss improves with data D, uses constant pa-\nrameters Bandβ. This implies that a rate of\nimprovement with data is uniform across all\nmodel sizes N, thereby lacking adequate mod-\neling of N’s influence on data scaling dynamics.\nConsequently, Chinchilla’s law tends to capture\nan average data scaling behavior across the N\nvalues used for fitting. As a result, it performs\nbest for models near the midpoint of this range,\nbut less accurately at the extremes of N, as\nshown in Fig. 1 (a). This characteristic inherently limits its extrapolation capabilities, especially for\nmodel sizes significantly different from its calibration set, making cost-effective prediction across\narbitrary (N, D )surfaces a persistent challenge.",
+      "section": "1 Introduction",
+      "char_count": 984,
+      "chunk_index": 9,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0010",
+      "source_id": "Farseer_2025",
+      "text": "s its extrapolation capabilities, especially for\nmodel sizes significantly different from its calibration set, making cost-effective prediction across\narbitrary (N, D )surfaces a persistent challenge.\n2\n\nThese limitations in accurately predicting performance with existing scaling laws underscore a\nbroader difficulty: the very exploration of superior scaling laws is severely hampered by a significant\nscaling gap . The immense computational cost of state-of-the-art LLM training (often >1025FLOPs)\nmeans insights from affordable, small-scale experiments frequently fail to transfer to production\nscales. This hinders innovation and the adoption of novel methods, highlighting the need for a robust\nframework to quantitatively assess scalability.\nTo bridge this gap, we introduce Farseer , a refined scaling law (Eq. 3) and an experimental method-\nology developed from training over 1,000 LLMs. Farseer employs Differential Piecewise and\nMulti-round Iterative fitting to model the loss surface L(N, D ):\nL(N, D ) =ea3·Nγ+b3+ea2·Nβ+b2·D−ea1·Nα+b1(3)\nOur key contributions are:\n•Refined Scaling Law: We propose Farseer (Eq. 3), providing a significantly more accurate\nfit to empirical LLM data (Fig.",
+      "section": "1 Introduction",
+      "char_count": 1198,
+      "chunk_index": 10,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0011",
+      "source_id": "Farseer_2025",
+      "text": ", D ):\nL(N, D ) =ea3·Nγ+b3+ea2·Nβ+b2·D−ea1·Nα+b1(3)\nOur key contributions are:\n•Refined Scaling Law: We propose Farseer (Eq. 3), providing a significantly more accurate\nfit to empirical LLM data (Fig. 1 (a), 2) through a novel fitting approach where data scaling\neffects are explicitly N-dependent.\n•Superior Extrapolation: Farseer enables reliable large-scale performance prediction from\ntractable small-scale experiments, effectively bridging the scaling gap.\n•Improved Compute Guidance: Our analysis yields new, data-driven insights for optimal\nD/N allocation in modern LLM training, diverging from simpler heuristics (Fig. 1 (b)).\n•Comprehensive Open-Sourcing: We release all models, data from ∼1,000 trained LLMs,\ndetailed logs, and the Farseer code to foster further research.\n2 Preliminaries\n2.1 General Loss Formulation\nOurFarseer method systematically samples L(N, D )via small-scale experiments (smaller N, D )\nand applies a mathematical scaling formulation to predict performance at significantly larger scales.\nThis enables robust assessment of a training strategy’s scaling potential.",
+      "section": "1 Introduction",
+      "char_count": 1097,
+      "chunk_index": 11,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0012",
+      "source_id": "Farseer_2025",
+      "text": "riments (smaller N, D )\nand applies a mathematical scaling formulation to predict performance at significantly larger scales.\nThis enables robust assessment of a training strategy’s scaling potential.\nFor clarity, we decompose the loss L(N, D )as:\nL(N, D ) =E+U(N) +V(D) +H(N, D ) (4)\nwhere Eis a constant term, U(N)is the model-size-dependent loss component, V(D)is the data-\nsize-dependent loss component, and H(N, D )represents the interaction effect between NandD.\nFarseer focuses on determining the functional forms and parameters of U(N),V(D)andH(N, D )\nusing only small-scale experimental data.\n2.2 Basic Settings\nWe train approximately 1,000 models with a standard language modeling objective [ 41,11,31]. The\ntraining data comprises a mix of web text, mathematical content, and code. This data is processed\nusing a Byte Pair Encoding (BPE) [ 14] tokenizer with a vocabulary size of 65,536.",
+      "section": "1 Introduction",
+      "char_count": 898,
+      "chunk_index": 12,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0013",
+      "source_id": "Farseer_2025",
+      "text": "ve [ 41,11,31]. The\ntraining data comprises a mix of web text, mathematical content, and code. This data is processed\nusing a Byte Pair Encoding (BPE) [ 14] tokenizer with a vocabulary size of 65,536. We evaluate two\ndistinct data mixtures following [ 39,25], with specific component weightings detailed in detailed in",
+      "section": "1 Introduction",
+      "char_count": 318,
+      "chunk_index": 13,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0014",
+      "source_id": "Farseer_2025",
+      "text": "Appendix B.\nOur model architecture design follows the Llama [ 39,16] design, using the AdamW optimizer [ 29]\nwithβvalues of [0.9, 0.95], an epsilon of 10−8, a weight decay of 0.1, and a gradient clipping norm of\n1.0. We set the parameters NandDfor these models using a geometric progression with a common\nratio of√\n2, and specific details can be found in the Appendix F. Our learning rate schedule includes\na linear warmup for the first 2,000 steps, followed by cosine decay to 1×10−5for the remainder of\ntraining. The model uses a fixed sequence length of 2,048 tokens. Ultimately, we define model size N\nby excluding embedding layer parameters (see Appendix G for specific details). Further elaboration\non the metric computations, and considerations for optimal hyperparameter settings [ 25], including\nmodel aspect ratios, can be found in Appendix A.\nFor evaluation, we utilize a high-quality, specially constructed validation set containing 30 million\ntokens.",
+      "section": "Appendix B.",
+      "char_count": 963,
+      "chunk_index": 14,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0015",
+      "source_id": "Farseer_2025",
+      "text": "hyperparameter settings [ 25], including\nmodel aspect ratios, can be found in Appendix A.\nFor evaluation, we utilize a high-quality, specially constructed validation set containing 30 million\ntokens. This dataset is entirely separate from our training data, ensuring that all validation samples are\n3\n\n1010\n1011\nData Size D (tokens)102\nDL(N,D)\nN=2.01e+08\nN=3.98e+08\nN=7.98e+08\nN=1.61e+09\nN=3.18e+09\nModel Size N (params)102\nDL(N,D)\nD=4.76e+09\nD=1.60e+10\nD=5.38e+10\nD=1.81e+11\n1010\n1011\nData Size D (tokens)102\nNL(N,D)\nN=2.01e+08\nN=3.98e+08\nN=7.98e+08\nN=1.61e+09\nN=3.18e+09\nModel Size N (params)102\nNL(N,D)\nD=1.19e+09\nD=4.00e+09\nD=1.34e+10\nD=4.52e+10\nD=1.52e+11\n(a) DL(N,D)=B(N)×DA(N)\n(b) DL(N,D)=E(D)×NC(D)\n(c) NL(N,D)=G(N)×DF(N)\n(d) NL(N,D)=I(D)×NH(D)\nFigure 3: Log -Log analysis of the differential BPC terms ∆DLand∆NLas univariate functions\nofDandN, respectively: (a) ∆DLvs.Dat fixed N(R2= 0.9807 ); (b) ∆DLvs.Nat fixed D\n(R2= 0.7457 ); (c)∆NLvs.Dat fixed N(R2= 0.8484 ); (d) ∆NLvs.Nat fixed D(R2= 0.8733 ).\nThe high R2in (a) ( 0.9807 ) demonstrates a consistent power-law relationship between ∆DLandD,\nso we adopt this form in our main analysis.",
+      "section": "Appendix B.",
+      "char_count": 1149,
+      "chunk_index": 15,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0016",
+      "source_id": "Farseer_2025",
+      "text": "Dat fixed N(R2= 0.8484 ); (d) ∆NLvs.Nat fixed D(R2= 0.8733 ).\nThe high R2in (a) ( 0.9807 ) demonstrates a consistent power-law relationship between ∆DLandD,\nso we adopt this form in our main analysis. As detailed in Appendix I, the associated terms A(N)\nandˆB(N)further offer improved numerical behavior.\nunseen. It comprises a diverse mix of web pages, books, and academic papers, rigorously filtered to\nbe more distilled and of higher quality than the training corpus. Instead of validation loss, we employ\nBits Per Character (BPC) as our primary evaluation metric to measure the model’s compression\nefficiency on this validation set. Further details are provided in Appendix D.",
+      "section": "Appendix B.",
+      "char_count": 680,
+      "chunk_index": 16,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0017",
+      "source_id": "Farseer_2025",
+      "text": "3 Methodology\nThis section summarizes our Differential Piecewise Fitting methodology for the performance surface\nL(N, D ) =V(D) +H(N, D ) +E+U(N). Section 3.1 presents a differential analysis establishing\nthe necessity of the interaction term H(N, D ). Section 3.2 details the modeling of the combined\ndata-dependent terms V(D) +H(N, D )(Stages 1 & 2), guided by empirical observations to a\npower-law form in D. Appendix C provides the full algorithm. Finally, Section 3.3 describes fitting\nthe model-dependent term E+U(N)(Stage 3). The overall procedure yields a fitted scaling law:\nL(N, D )≈fB(N;θ∗\nB)D−fA(N;θ∗\nA)+fU(N;θ∗\nU).\n3.1 Differential Analysis for the Existence of Higher-Order Interaction Term H(N, D )\nTo understand the contributions of the terms in Eq. (4), we employ a differential technique. We\ncompute finite differences of the loss L(N, D ):\n•∆DL(N, D ) =L(N, D )−L(N, λD ), this difference primarily reflects changes in the\ndata-dependent terms: ∆DL(N, D )≈[V(D)−V(λD)] + [H(N, D )−H(N, λD )]. This\noperation cancels EandU(N).\n•∆NL(N, D ) =L(N, D )−L(λN, D ).",
+      "section": "3 Methodology",
+      "char_count": 1077,
+      "chunk_index": 17,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0018",
+      "source_id": "Farseer_2025",
+      "text": "D )−L(N, λD ), this difference primarily reflects changes in the\ndata-dependent terms: ∆DL(N, D )≈[V(D)−V(λD)] + [H(N, D )−H(N, λD )]. This\noperation cancels EandU(N).\n•∆NL(N, D ) =L(N, D )−L(λN, D ). Similarly, this difference highlights changes in\nmodel-size dependent terms: ∆NL(N, D )≈[U(N)−U(λN)]+[H(N, D )−H(N, λD )].\nThis cancels EandV(D).\nEmpirical analysis of these differential terms, as shown in Fig. 3, compellingly demonstrates the\nnecessity of a non-degenerate interaction term H(N, D ):\n•∆DL(N, D )exhibits systematic dependence on bothNandD(Fig. 3 (a)(b)).\n•∆NL(N, D )similarly depends systematically on bothNandD(Fig. 3 (c)(d)).\nThis dual dependence confirms that H(N, D )cannot be simplified to depend only on Nor only on\nD, nor can it be additively separated. This motivates a fitting approach that can capture such coupled\ninteractions.\n4\n\n3.2 Functional Form for Data-Dependent Term V(D) +H(N, D )\nThe insights from the differential analysis in Section 3.1 guide the modeling of the data-dependent\nterms V(D) +H(N, D ). Specifically, the behavior of ∆DL(N, D )when plotted against Don\nlog-log axes (Fig.",
+      "section": "3 Methodology",
+      "char_count": 1124,
+      "chunk_index": 18,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0019",
+      "source_id": "Farseer_2025",
+      "text": "nsights from the differential analysis in Section 3.1 guide the modeling of the data-dependent\nterms V(D) +H(N, D ). Specifically, the behavior of ∆DL(N, D )when plotted against Don\nlog-log axes (Fig. 3 (a)) reveals a consistent and striking linear trend across various model sizes N.\nThis indicates a robust power-law relationship for ∆DL(N, D )with respect to D.\nThis empirical power-law behavior of the difference term ∆DL(N, D )strongly motivates modeling\nthe integrated data-dependent loss component, V(D) +H(N, D ), using a power law in D. We\ntherefore propose that this component can be approximated as:\nV(D) +H(N, D ) =B(N)D−A(N)+εR(N, D ) =fB(N;θB)D−fA(N;θA)+εR(N, D )(5)\nThe functions A(N) =fA(N;θA)andB(N) =fB(N;θB)capture the model-size dependencies of\nthe exponent and coefficient, respectively. Where, εR(N, D )is a stochastic term jointly dependent\nonNandDthat aggregates two sources of variability: the experimental measurement noise inherent\nto each (N, D )setting and the residual error arising from the fit of the parametric model.\nStage 1: Initial Estimation.",
+      "section": "3 Methodology",
+      "char_count": 1079,
+      "chunk_index": 19,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0020",
+      "source_id": "Farseer_2025",
+      "text": "regates two sources of variability: the experimental measurement noise inherent\nto each (N, D )setting and the residual error arising from the fit of the parametric model.\nStage 1: Initial Estimation. For each unique model size N, we first compute the observed quantity\nof loss difference, it also can be approximated as:\nRN(D) =L(N, D )−L(N, λD )≈B(N)(1−λ−A(N))D−A(N)=˜RN(D), (6)\nwhere λ=√\n2in experiments. And ˜RN(D)is predict value of RN(D)which is projected to log-log\nspace for linear regression:\nlog(˜RN(D)) =log(ˆBN)−AN∗log(D), (7)\nwhere BN=ˆBN/(1−λ−AN). Using Normal Equation [ 15] for minimizing the error of the loss\ndifferences of each N, respectively, as ℓR,N=P\nD(RN(D)−˜RN(D))2.\nConsequently, for each model size Nwe obtain a discrete pair of parameters -the exponent ANand\nthe coefficient ˆBN-which constitute the the best linear fit for that particular model size. Collecting\nthese pairs yields the arrays {AN}and{BN}.\nStage 2: Parameterization and Iterative Refinement.",
+      "section": "3 Methodology",
+      "char_count": 985,
+      "chunk_index": 20,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0021",
+      "source_id": "Farseer_2025",
+      "text": "d\nthe coefficient ˆBN-which constitute the the best linear fit for that particular model size. Collecting\nthese pairs yields the arrays {AN}and{BN}.\nStage 2: Parameterization and Iterative Refinement. Building on the discrete estimates {AN, BN}\nobtained in Stage 1, we now seek continuous functions fA(N;θA)andfB(N;θB)that simultaneously\n(i) admit a compact analytical form and (ii) minimize the global error of the loss differences ℓR=P\nN(ℓR,N).\nLetG={g(1), g(2), . . .}denote a small dictionary of simple, monotone transformations (identity,\nlogarithm, and power functions were found sufficient in practice). For every ordered quadruple\n(gi, gj, gk, gm)∈ G4we perform the coordinate projection\ngi\u0000\nAN\u0001\n=a1gj(N) +b1+εA,N, g k\u0000\nBN\u0001\n=a2gm(N) +b2+εB,N, (8)\nwhere the coefficients (a1, b1)and(a2, b2)are obtained via the least squares method, yielding best\nestimates.\nFor every candidate transform pair we compute the projection -space residual sums of squares\nℓA=P\nNε2\nA,NandℓB=P\nNε2\nB,N. The transform quadruple that minimizes ℓA+ℓBis selected.",
+      "section": "3 Methodology",
+      "char_count": 1043,
+      "chunk_index": 21,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0022",
+      "source_id": "Farseer_2025",
+      "text": "lding best\nestimates.\nFor every candidate transform pair we compute the projection -space residual sums of squares\nℓA=P\nNε2\nA,NandℓB=P\nNε2\nB,N. The transform quadruple that minimizes ℓA+ℓBis selected.\nAs results, gi, gkis log function and gj, gmis a power-law function, minimized the residuals, implying\nthat both fAandfBfollow a stretched-exponential form:\nfA(N;θA) = exp\u0000\na1Nα+b1\u0001\n, (9)\nfB(N;θB) = exp\u0000\na2Nβ+b2\u0001\n. (10)\nFirst, we determine initial parameters for fB(N;θB)by fitting the function log(BN) =a2Nβ+b2\nto the discrete data points {(N, B N)}obtained in Stage 1. This provides an initial estimate for\nthe parameter set θB= (a2, b2, β). An analogous procedure is performed for fA(N;θA)and its\ncorresponding parameters.\nSubsequently, we refine the exponents αandβusing an iterative refinement strategy : (i) holding β\nfixed, we update αto minimize the global residual error ℓR; (ii) holding the new αfixed, we update\nβaccording to the same criterion. This process is repeated until convergence, which empirically\ntakes only 1-2 iterations. Implementation details, as well as a systematic comparison of alternative\nfunctional families and their empirical errors, are provided in Appendix C.",
+      "section": "3 Methodology",
+      "char_count": 1196,
+      "chunk_index": 22,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0023",
+      "source_id": "Farseer_2025",
+      "text": "ence, which empirically\ntakes only 1-2 iterations. Implementation details, as well as a systematic comparison of alternative\nfunctional families and their empirical errors, are provided in Appendix C. Fig 4 illustrates the quality\nof the resulting fits for fA(N)andfB(N)using these stretched exponential forms.\n5\n\n109\nN0.250.300.350.40A(N) ValueActual A(N)\nPredicted A(N)\nN02004006008001000B(N) ValueActual B(N)\nPredicted B(N)\n(a) Actual A(N) vs Predicted A(N) (b) Actual B(N) vs Predicted B(N)Figure 4: Fits of the terms A(N)andB(N)using stretched exponential functions. Blue dots denote\nactual values; orange crosses denote predictions. The fits align well across a wide range of N.\n3.3 Functional Form for Model-Dependent Residual E+U(N)\nBy construction, E+U(N) =L(N, D )−(V(D) +H(N, D )),where L(N, D )is directly obtained\nfrom experimental data whereas the exact form of V(D) +H(N, D )is not experimentally accessible.\nHence E+U(N)cannot be directly observed. It can, however, be accessed indirectly through\nO(N, D )≜L(N, D )−B(N)D−A(N)=E+U(N)−εR(N, D ), (11)\nwhere εR(N, D )is the residual defined in Section 3.2.",
+      "section": "3 Methodology",
+      "char_count": 1119,
+      "chunk_index": 23,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0024",
+      "source_id": "Farseer_2025",
+      "text": "ble.\nHence E+U(N)cannot be directly observed. It can, however, be accessed indirectly through\nO(N, D )≜L(N, D )−B(N)D−A(N)=E+U(N)−εR(N, D ), (11)\nwhere εR(N, D )is the residual defined in Section 3.2. Grouping by model size Nand averaging\noverDyields\nG(N)≜Avg\nD\u0002\nO(N, D )\u0003\n=E+U(N)−Avg\nD\u0002\nεR(N, D )\u0003\n. (12)\nThe difference\nG(N)−O(N, D ) =εR(N, D )−Avg\nD\u0002\nεR(N, D )\u0003\n(13)\nserves as a diagnostic of the accuracy of the approximation B(N)D−A(N)toV(D) +H(N, D ). If\nthe fit B(N)D−A(N)accurately approximates V(D) +H(N, D ), the residual variable εR(N, D )\nshould behave like white noise with respect to NandD. As shown in Fig. 5 (a), this quantity is\ndistributed as nearly Gaussian white noise across all N, with its amplitude shrinking from 2×10−3to\n4×10−4asNincreases. Given that G(N)>0.21, these fluctuations are negligible. From Fig. 5 (b),\nwe conclude: (a) the power-law model B(N)D−A(N)provides a sufficiently accurate approximation\ntoV(D) +H(N, D ); (b) the observable G(N)is therefore a reliable estimate of E+U(N).\nFitting E+U(N).We now model G(N)≈fU(N;θU)by repeating the transformation-fit-selection\nprocedure of Section 3.2.",
+      "section": "3 Methodology",
+      "char_count": 1130,
+      "chunk_index": 24,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0025",
+      "source_id": "Farseer_2025",
+      "text": "on\ntoV(D) +H(N, D ); (b) the observable G(N)is therefore a reliable estimate of E+U(N).\nFitting E+U(N).We now model G(N)≈fU(N;θU)by repeating the transformation-fit-selection\nprocedure of Section 3.2. For each pair gi, gj∈ G we regress gi\u0000\nG(N)\u0001\n=a3gj(N) +b3via the\nnormal equation and choose the transform pair that minimizes the residual sum of squares The\noptimal form identified was a logarithmic transformation for giand a power-law transformation\ngj(N) =Nγforgj. The optimal exponent γis identified via a grid search minimizing the fitting\nerror, leading to a stretched-exponential form\nE+U(N)≃G(N)≈exp\u0000\na3Nγ+b3\u0001\n. (14)\nFig. 5 (a) shows that this fit attains a relative error of only 0.09%. Given the negligible estimation\nerror of G(N)in approximating E+U(N), we have thus completed a robust modeling and fitting of\nthe model-dependent residual. Combining these stages yields the fully specified scaling law in Eq. 3,\nwith all functional forms and parameters fixed. Further details, ablation studies, and noise analyses\nare provided in Appendix C.",
+      "section": "3 Methodology",
+      "char_count": 1054,
+      "chunk_index": 25,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0026",
+      "source_id": "Farseer_2025",
+      "text": "ombining these stages yields the fully specified scaling law in Eq. 3,\nwith all functional forms and parameters fixed. Further details, ablation studies, and noise analyses\nare provided in Appendix C.\n4Farseer ’s Properties: Robustness, Generalization, and Extrapolation\nThis section evaluates key properties of Farseer : its robustness to fitting data amount, its gen-\neralization across different training data recipes, and its extrapolation ability beyond the fitting\nrange.\n6\n\n109\nN0.400.450.50E + U(N) ValueActual\nPredicted\nN0.002\n0.0000.0020.004Difference (E + U(N) - Mean)\n12345\nD value×1011\n(a) Actual E + U(N) vs Predicted Values (b) Difference between E + U(N) and Mean-0.09%Figure 5: Predicted vs. actual values at residuals. (a) Comparison of actual G(N)≃E+U(N)\n(blue dots) and predicted exp(a3Nγ+b3)(orange crosses) over N. (b) Residuals O(N, D )−G(N)\nvs.N, colored by D, confirming negligible variance across D.",
+      "section": "3 Methodology",
+      "char_count": 925,
+      "chunk_index": 26,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0027",
+      "source_id": "Farseer_2025",
+      "text": "residuals. (a) Comparison of actual G(N)≃E+U(N)\n(blue dots) and predicted exp(a3Nγ+b3)(orange crosses) over N. (b) Residuals O(N, D )−G(N)\nvs.N, colored by D, confirming negligible variance across D.\n/uni00000014/uni00000011/uni0000001c /uni00000015/uni00000011/uni00000016 /uni00000015/uni00000011/uni0000001a /uni00000016/uni00000011/uni00000015 /uni00000016/uni00000011/uni0000001b /uni00000017/uni00000011/uni00000018 /uni00000018/uni00000011/uni00000017/uni00000013/uni00000011/uni00000013/uni00000013/uni00000014/uni00000013/uni00000011/uni00000013/uni00000013/uni00000015/uni00000013/uni00000011/uni00000013/uni00000013/uni00000016/uni00000013/uni00000011/uni00000013/uni00000013/uni00000017/uni00000013/uni00000011/uni00000013/uni00000013/uni00000018/uni00000013/uni00000011/uni00000013/uni00000013/uni00000019/uni00000035/uni00000048/uni0000004f/uni00000044/uni00000057/uni0000004c/uni00000059/uni00000048/uni00000003/uni00000028/uni00000055/uni00000055/uni00000052/uni00000055\n/uni00000015",
+      "section": "3 Methodology",
+      "char_count": 999,
+      "chunk_index": 27,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0028",
+      "source_id": "Farseer_2025",
+      "text": "0000013/uni00000019/uni00000035/uni00000048/uni0000004f/uni00000044/uni00000057/uni0000004c/uni00000059/uni00000048/uni00000003/uni00000028/uni00000055/uni00000055/uni00000052/uni00000055\n/uni00000015/uni00000018/uni00000013\n/uni00000015/uni00000019/uni00000017\n/uni00000015/uni0000001a/uni0000001c/uni00000015/uni0000001c/uni00000015\n/uni00000016/uni00000013/uni00000018\n/uni00000016/uni00000014/uni0000001b/uni00000016/uni00000015/uni0000001c\n/uni00000013/uni00000011/uni00000019 /uni00000013/uni00000011/uni0000001b /uni00000014/uni00000011/uni00000014 /uni00000014/uni00000011/uni00000019 /uni00000015/uni00000011/uni00000016/uni00000013/uni00000011/uni00000013/uni00000013/uni00000013/uni00000011/uni00000013/uni00000014/uni00000013/uni00000011/uni00000013/uni00000015/uni00000013/uni00000011/uni00000013/uni00000016/uni00000013/uni00000011/uni00000013/uni00000017/uni00000013/uni00000011/uni00000013/uni00000018/uni00000013/uni00000011/uni00000013/uni00000019\n /uni00000018/uni00000015\n/uni0000",
+      "section": "3 Methodology",
+      "char_count": 1000,
+      "chunk_index": 28,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0029",
+      "source_id": "Farseer_2025",
+      "text": "i00000013/uni00000016/uni00000013/uni00000011/uni00000013/uni00000017/uni00000013/uni00000011/uni00000013/uni00000018/uni00000013/uni00000011/uni00000013/uni00000019\n /uni00000018/uni00000015\n/uni00000019/uni00000018\n/uni0000001a/uni0000001b/uni0000001c/uni00000014/uni00000014/uni00000013/uni00000017\n/uni00000031/uni00000003/uni00000038/uni00000053/uni00000053/uni00000048/uni00000055/uni00000003/uni00000025/uni00000052/uni00000058/uni00000051/uni00000047/uni00000003/uni00000049/uni00000052/uni00000055/uni00000003/uni00000029/uni0000004c/uni00000057/uni00000057/uni0000004c/uni00000051/uni0000004a /uni00000014/uni00000048/uni0000001c\n/uni0000000b/uni00000044/uni0000000c/uni00000003/uni00000035/uni00000052/uni00000045/uni00000058/uni00000056/uni00000057/uni00000051/uni00000048/uni00000056/uni00000056/uni00000003/uni00000052/uni00000049/uni00000003/uni00000025/uni00000044/uni00000056/uni00000048/uni0000004f/uni0000004c/uni00000051/uni00000048/uni00000003/uni00000055/uni00000048/uni00000046",
+      "section": "3 Methodology",
+      "char_count": 1000,
+      "chunk_index": 29,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0030",
+      "source_id": "Farseer_2025",
+      "text": "00000056/uni00000003/uni00000052/uni00000049/uni00000003/uni00000025/uni00000044/uni00000056/uni00000048/uni0000004f/uni0000004c/uni00000051/uni00000048/uni00000003/uni00000055/uni00000048/uni00000046/uni0000004c/uni00000053/uni00000048 /uni0000000b/uni00000045/uni0000000c/uni00000003/uni00000035/uni00000052/uni00000045/uni00000058/uni00000056/uni00000057/uni00000051/uni00000048/uni00000056/uni00000056/uni00000003/uni00000052/uni00000049/uni00000003/uni00000028/uni00000031/uni00000010/uni0000003d/uni0000002b/uni00000003/uni00000055/uni00000048/uni00000046/uni0000004c/uni00000053/uni00000048\nFigure 6: Robustness and data distribution generalizability of Farseer . (a) Relative error on excluded\n6.4 B models as a function of the maximum model size included in the fitting data, assessing\nrobustness to fitting data volume. (b) Relative error on excluded 3.2 B models trained with an\nEnglish -Chinese data recipe, demonstrating structural generalizability to different data mixes. Circle\nsize and adjacent numbers indicate the number of model-size points used for fitting in each case.",
+      "section": "3 Methodology",
+      "char_count": 1091,
+      "chunk_index": 30,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0031",
+      "source_id": "Farseer_2025",
+      "text": "nglish -Chinese data recipe, demonstrating structural generalizability to different data mixes. Circle\nsize and adjacent numbers indicate the number of model-size points used for fitting in each case.\n4.1 Robustness to Fitting Data\nWe measure how prediction accuracy changes with data size to assess Farseer ’s robustness, parameter\nstability, and prediction consistency as more model-size points become available. Specifically, we\nfitFarseer using subsets of models with progressively increasing upper bounds on model size N.\nFor each fitting process based on a subset, we consistently measure the relative error on the 6.4\nB models, which is deliberately excluded from all fitting subsets. As illustrated in Fig 6 (a), the\npredicted relative error on the excluded 6.4 B models decreases significantly as more data points are\nincluded in the fit. When fitting only models up to 1.9 B parameters, the relative error is 6.01×10−3;\nexpanding the fit to include models up to 5.4 B reduces it to only 5.87×10−4. Crucially, the relative\nerror decreases nearly monotonically as additional model-size points are incorporated.",
+      "section": "3 Methodology",
+      "char_count": 1118,
+      "chunk_index": 31,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0032",
+      "source_id": "Farseer_2025",
+      "text": "6.01×10−3;\nexpanding the fit to include models up to 5.4 B reduces it to only 5.87×10−4. Crucially, the relative\nerror decreases nearly monotonically as additional model-size points are incorporated. This trend\nhighlights Farseer ’s accuracy and robustness to fitting-data volume, yielding reliable predictions with\nlimited data and predictable gains as more data are added.\n4.2 Data Distribution Generalization\nTo investigate the generalizability of Farseer , we evaluate it on a different training data setup. All\nprior experiments used the Baseline data recipe, specified in Appendix B. Fig 6 (b) extends this\nanalysis to evaluate Farseer using data from models trained with the English -Chinese (EN -ZH) recipe\n(also detailed in Appendix B), which represents a dramatically different bilingual data mix. Similar\nto the robustness analysis, as the fitting data increases, the relative error on deliberately excluded\n3.2 B models trained with the EN -ZH recipe steadily converges and stays consistently low, reaching\n7.60×10−4at the final point. This shows that Farseer captures key scaling trends and delivers reliable\npredictions even under a dramatically altered bilingual data mix.",
+      "section": "3 Methodology",
+      "char_count": 1187,
+      "chunk_index": 32,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0033",
+      "source_id": "Farseer_2025",
+      "text": "tays consistently low, reaching\n7.60×10−4at the final point. This shows that Farseer captures key scaling trends and delivers reliable\npredictions even under a dramatically altered bilingual data mix. This result underscores Farseer ’s\n7\n\nstructural generalizability across diverse training-data compositions and suggests its applicability\nto models trained on varied datasets. As an illustration, a detailed surface comparison of different\nEnglish-Chinese data mixture ratios is provided in Appendix E.\n4.3 Extrapolation Capabilities\n25.1 B\nFigure 7: Extrapolation of Farseer . Blue circles\nrepresent the grid of (N, D )employed to fit. Red\nstars denote validation points beyond that distribu-\ntion, including a 25.1 B model, larger dataset sizes,\nand off-grid combinations. Annotated percentages\ngive the relative errors of each extrapolated point.To quantify the extrapolative capacity of\nFarseer , we fit its parameters on a√\n2-spaced\nsampling grid of small model sizes and dataset\nsizes, then predict BPC values for substan-\ntially larger and off -grid combinations. Fig. 7\npresents six such extrapolation targets (red\nstars) that situate well outside the calibration\nregion (blue circles).",
+      "section": "3 Methodology",
+      "char_count": 1195,
+      "chunk_index": 33,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0034",
+      "source_id": "Farseer_2025",
+      "text": "en predict BPC values for substan-\ntially larger and off -grid combinations. Fig. 7\npresents six such extrapolation targets (red\nstars) that situate well outside the calibration\nregion (blue circles). Most notably, the 25.1 B\nmodel extends the evaluation domain beyond\nthe largest calibrated scale by more than an\norder of magnitude. Despite this, Farseer ’s pre-\ndiction for this model exhibits a relative error\nof merely 0.47 %. The remaining validation\npoints selected to assess extrapolation at both\nincreased dataset sizes and off -grid(N, D )con-\nfigurations demonstrate similarly low relative\nerrors, ranging from 0.26 % to 0.72 %. Across\nthese extrapolation targets, Farseer ’s average\nrelative error is just 0.50 %, whereas the\nChinchilla scaling law exhibits an average\nrelative error of 2.68 %, a 433 % increase.\nThese consistently low errors demonstrate that Farseer accurately captures the smooth functional\ndependence of BPC on both model and dataset scale.",
+      "section": "3 Methodology",
+      "char_count": 971,
+      "chunk_index": 34,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0035",
+      "source_id": "Farseer_2025",
+      "text": "average\nrelative error of 2.68 %, a 433 % increase.\nThese consistently low errors demonstrate that Farseer accurately captures the smooth functional\ndependence of BPC on both model and dataset scale. In particular, the highly accurate extrapolation\nat the 25.1 B model provides compelling evidence that Farseer generalizes robustly to previously\nunfitted scales, thereby serving as a reliable instrument to forecast the performance under yet larger\ncomputational budgets.\n4.4 Formula and Monotonicity\nAs formulated in Eq. (3)and derived via our fitting method, Farseer possesses intrinsic mathematical\nproperties that align with the theoretical expectations for loss functions in machine learning. This\nsection details the fitted formula and its fundamental property of monotonicity.\nFormula. The specific fitted law for Farseer is given by:\nL(N, D ) =e−0.021·N0.169−0.091+e88.01·N−0.1−6.287·D−e−0.124·N0.123+0.424(15)\nMonotonicity. A fundamental expectation is that model performance should improve (i.e., loss\nshould decrease) with more resources. Farseer inherently satisfies this: L(N, D )is monotonically\ndecreasing with respect to both increasing NandD.",
+      "section": "3 Methodology",
+      "char_count": 1159,
+      "chunk_index": 35,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0036",
+      "source_id": "Farseer_2025",
+      "text": "is that model performance should improve (i.e., loss\nshould decrease) with more resources. Farseer inherently satisfies this: L(N, D )is monotonically\ndecreasing with respect to both increasing NandD. This behavior is a direct consequence of its\nfunctional form and the parameter constraints imposed by our fitting procedure. A detailed analysis\nof the partial derivatives confirming this monotonicity is provided in Appendix I.\n5 Comparative Analysis of Farseer and Chinchilla\nWe compare our proposed scaling law Farseer against the widely recognized Chinchilla [ 20] in\nEq.2. This comparison highlights the advantages of our approach in terms of predictive accuracy,\nextrapolation, and guidance on optimal resource allocation.\n5.1 Formula Comparison: Predictive Power\nWe compared the predictive power of Chinchilla and Farseer using our comprehensive dataset\n(Appendix B). Standard non-linear regression was used for fitting both, and Chinchilla was also\n8\n\nevaluated with our multi-round iterative method (Appendix H). As shown in Fig 1 (a), Farseer ’s\npredicted BPC aligns remarkably closely with empirical values across various NandD.",
+      "section": "3 Methodology",
+      "char_count": 1139,
+      "chunk_index": 36,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0037",
+      "source_id": "Farseer_2025",
+      "text": "inchilla was also\n8\n\nevaluated with our multi-round iterative method (Appendix H). As shown in Fig 1 (a), Farseer ’s\npredicted BPC aligns remarkably closely with empirical values across various NandD. Conversely,\nChinchilla fit systematically deviates, underestimating at low Dand overestimating at high D. This\nsuperior fit underscores Farseer ’s higher expressive capacity, enabled by its A(N)andB(N)that\ncapture decay rates specific to each model size, unlike Chinchilla’s single average trend.\n5.2 Property Comparison: Robustness and Extrapolation\nTo assess the robustness and extrapolation, we examine the generalization beyond the training domain\nin two scenarios (see Fig. 8), plotting relative error as the upper bound on model size Nused for\nfitting increases. As shown in Fig. 8 (a), with model size fixed at 6.4 B parameters, we vary Nfrom\n1.9×109to5.4×109and observe that Farseer formula yields both lower average relative error and\nsmaller error variance than the Chinchilla fit, indicating enhanced robustness to changes in the fitting\nrange. Fig. 8 (b) considers a fixed model size of 25.1 B, which is far beyond the fitting range.",
+      "section": "3 Methodology",
+      "char_count": 1146,
+      "chunk_index": 37,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0038",
+      "source_id": "Farseer_2025",
+      "text": "maller error variance than the Chinchilla fit, indicating enhanced robustness to changes in the fitting\nrange. Fig. 8 (b) considers a fixed model size of 25.1 B, which is far beyond the fitting range. As\nNincreases, Farseer ’s relative error shows a clear downward trend and reaches a low level, while\nChinchilla’s error remains persistently high. These results collectively demonstrate that Farseer\nnot only offers greater robustness within the fitting range but also generalizes more reliably when\nextrapolating to larger model scales.\n/uni00000014/uni00000011/uni0000001c /uni00000015/uni00000011/uni00000016 /uni00000015/uni00000011/uni0000001a /uni00000016/uni00000011/uni00000015 /uni00000016/uni00000011/uni0000001b /uni00000017/uni00000011/uni00000018 /uni00000018/uni00000011/uni00000017/uni00000013/uni00000011/uni00000013/uni00000013/uni00000013/uni00000013/uni00000011/uni00000013/uni00000013/uni00000018/uni00000013/uni00000011/uni00000013/uni00000014/uni00000013/uni00000013/uni00000011",
+      "section": "3 Methodology",
+      "char_count": 1000,
+      "chunk_index": 38,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0039",
+      "source_id": "Farseer_2025",
+      "text": "00000013/uni00000011/uni00000013/uni00000013/uni00000013/uni00000013/uni00000011/uni00000013/uni00000013/uni00000018/uni00000013/uni00000011/uni00000013/uni00000014/uni00000013/uni00000013/uni00000011/uni00000013/uni00000014/uni00000018/uni00000013/uni00000011/uni00000013/uni00000015/uni00000013/uni00000013/uni00000011/uni00000013/uni00000015/uni00000018/uni00000035/uni00000048/uni0000004f/uni00000044/uni00000057/uni0000004c/uni00000059/uni00000048/uni00000003/uni00000028/uni00000055/uni00000055/uni00000052/uni00000055\n/uni00000029/uni00000044/uni00000055/uni00000056/uni00000048/uni00000048/uni00000055\n/uni00000026/uni0000004b/uni0000004c/uni00000051/uni00000046/uni0000004b/uni0000004c/uni0000004f/uni0000004f/uni00000044\n/uni00000014/uni00000011/uni0000001c /uni00000015/uni00000011/uni00000016 /uni00000015/uni00000011/uni0000001a /uni00000016/uni00000011/uni00000015 /uni00000016/uni00000011/uni0000001b /uni00000017/uni00000011/uni00000018 /uni00000018/uni00000011/uni00000017\n/uni000000",
+      "section": "3 Methodology",
+      "char_count": 1000,
+      "chunk_index": 39,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0040",
+      "source_id": "Farseer_2025",
+      "text": "0016 /uni00000015/uni00000011/uni0000001a /uni00000016/uni00000011/uni00000015 /uni00000016/uni00000011/uni0000001b /uni00000017/uni00000011/uni00000018 /uni00000018/uni00000011/uni00000017\n/uni00000014/uni00000048/uni0000001c /uni00000031/uni00000003/uni00000038/uni00000053/uni00000053/uni00000048/uni00000055/uni00000003/uni00000025/uni00000052/uni00000058/uni00000051/uni00000047/uni00000003/uni00000049/uni00000052/uni00000055/uni00000003/uni00000029/uni0000004c/uni00000057/uni00000057/uni0000004c/uni00000051/uni0000004a\n/uni0000000b/uni00000044/uni0000000c/uni00000003/uni00000035/uni00000052/uni00000045/uni00000058/uni00000056/uni00000057/uni00000051/uni00000048/uni00000056/uni00000056/uni00000003/uni00000044/uni00000057/uni00000003/uni00000049/uni0000004c/uni0000005b/uni00000048/uni00000047/uni00000003N/uni00000003/uni00000020/uni00000003/uni00000019/uni00000011/uni00000017/uni00000025 /uni0000000b/uni00000045/uni0000000c/uni00000003/uni00000028/uni0000005b/uni00000057/uni00000055/u",
+      "section": "3 Methodology",
+      "char_count": 1000,
+      "chunk_index": 40,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0041",
+      "source_id": "Farseer_2025",
+      "text": "0047/uni00000003N/uni00000003/uni00000020/uni00000003/uni00000019/uni00000011/uni00000017/uni00000025 /uni0000000b/uni00000045/uni0000000c/uni00000003/uni00000028/uni0000005b/uni00000057/uni00000055/uni00000044/uni00000053/uni00000052/uni0000004f/uni00000044/uni00000057/uni0000004c/uni00000052/uni00000051/uni00000003/uni00000044/uni00000057/uni00000003/uni00000049/uni0000004c/uni0000005b/uni00000048/uni00000047/uni00000003N/uni00000003/uni00000020/uni00000003/uni00000015/uni00000018/uni00000011/uni00000014/uni00000025\nFigure 8: Farseer vs Chinchilla at robustness and extrapolation. (a) For 6.4 B models, Farseer shows\nlower and steadier errors as Nupper bound increases. (b) For 25.1 B model, far beyond the fitting\nrange, Farseer achieves a clear error reduction as Nincreases, while Chinchilla stays large.\n5.3 Application Comparison: Optimal Computing Resource Allocation\nEfficient training requires balancing model size Nand dataset size D, typically reflected in the\noptimal D/N ratio. we compare the practical guidance offered by Farseer and Chinchilla on optimal\ncompute allocation during training, where the total budget is taken as C= 6ND [22,20]. Fig.",
+      "section": "3 Methodology",
+      "char_count": 1168,
+      "chunk_index": 41,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0042",
+      "source_id": "Farseer_2025",
+      "text": "ted in the\noptimal D/N ratio. we compare the practical guidance offered by Farseer and Chinchilla on optimal\ncompute allocation during training, where the total budget is taken as C= 6ND [22,20]. Fig. 1\n(b) presents the optimal D/N ratio predicted by both Farseer and Chinchilla as a instrument of the\ntotal compute budget C. Chinchilla, suggesting an optimal D/N ratio around 20 (typically 10-30),\nis primarily derived from and applicable to training at moderate compute budgets corresponding to\nsmaller model sizes. This constant ratio provides inaccurate guidance for larger scale. In contrast,\nFarseer predicts a steadily increasing optimal D/N ratio as the compute budget (and consequently,\nthe optimal model size) grows. This predicted trend aligns remarkably well with the actual training\nconfigurations adopted for recent state-of-the-art large language models (e.g., Qwen[ 46,45], Llama\n[39,40,16]), indicating that Farseer offers more accurate and relevant guidance for optimizing\nresource",
+      "section": "3 Methodology",
+      "char_count": 999,
+      "chunk_index": 42,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0043",
+      "source_id": "Farseer_2025",
+      "text": "igurations adopted for recent state-of-the-art large language models (e.g., Qwen[ 46,45], Llama\n[39,40,16]), indicating that Farseer offers more accurate and relevant guidance for optimizing\nresource allocation in current and future large-scale model training.",
+      "section": "3 Methodology",
+      "char_count": 260,
+      "chunk_index": 43,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0044",
+      "source_id": "Farseer_2025",
+      "text": "6 Related Works\nTraining LLMs necessitates optimizing compute allocation via scaling laws. OpenAI ’s foundational\nwork [ 22] established a power-law relationship between cross-entropy loss and model/data scale\n(Eq. 1), advocating for training large models on moderate data with early stopping. However, this\nassumes oversimplified dynamics and fixed hyperparameters, limiting extrapolation reliability.\nDeepMind ’s Chinchilla [ 20] refined this by proposing proportional scaling of model and data size\nbased on an updated methodology (Eq. 2), empirically demonstrating improved efficiency. Under\n9\n\nthe same compute budget as Gopher [ 32], Chinchilla adopts a smaller model paired with more\ntraining data, yielding substantial gains on downstream tasks. Nevertheless, recent work [ 4] has\nraised concerns about the reproducibility of Chinchilla ’s findings and demonstrated that optimal\ntoken-to-parameter ratios are sensitive to data quality, suggesting current scaling laws are valuable\nheuristics but require calibration and lack universal applicability.",
+      "section": "6 Related Works",
+      "char_count": 1057,
+      "chunk_index": 44,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0045",
+      "source_id": "Farseer_2025",
+      "text": "and demonstrated that optimal\ntoken-to-parameter ratios are sensitive to data quality, suggesting current scaling laws are valuable\nheuristics but require calibration and lack universal applicability.\nThe landscape of scaling law research is rapidly evolving beyond classical formulations, exploring\nmultifaceted avenues for enhanced efficiency and generalization. Recent empirical work includes\nderiving observational scaling laws from existing models to unify performance patterns and explain\nemergent phenomena [ 33,3,18,42], while other studies apply scaling principles to improve data\ncuration, e.g., by strategically filtering datasets [ 27,26,35,30,48,13]. Theoretical inquiries are\nconcurrently advancing our comprehension of core mechanisms: some demonstrate how sophisti-\ncated feature learning can potentially double scaling rates for intricate functions [ 5], while others\nestablish direct connections between generalization error exponents and data manifold dimensional-\nity [18].",
+      "section": "6 Related Works",
+      "char_count": 993,
+      "chunk_index": 45,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0046",
+      "source_id": "Farseer_2025",
+      "text": "re learning can potentially double scaling rates for intricate functions [ 5], while others\nestablish direct connections between generalization error exponents and data manifold dimensional-\nity [18]. Furthermore, the purview of scaling laws now extends significantly beyond pre-training,\nwith investigations into their implications for inference dynamics [ 43,44,24,43,34], parameter and\ncommunication efficiency [1, 8], and downstream task [21, 9, 44, 19, 36, 10, 12, 37, 38, 28, 23].",
+      "section": "6 Related Works",
+      "char_count": 486,
+      "chunk_index": 46,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0047",
+      "source_id": "Farseer_2025",
+      "text": "7 Conclusions\nWe propose Farseer , a refined scaling law and methodology for Large Language Models. By\naccurately modeling the loss surface L(N, D )through a novel fitting approach, Farseer provides\nsignificantly better empirical fit and superior extrapolation capabilities compared to prior scaling\nlaws like Chinchilla’s. This work enables reliable prediction of large-scale model performance from\ntractable small-scale experiments, bridging the critical scaling gap and facilitating more efficient\nevaluation of training strategies and compute allocation. Validated on a large corpus of trained models,\nFarseer offers valuable insights for LLM development.",
+      "section": "7 Conclusions",
+      "char_count": 659,
+      "chunk_index": 47,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0048",
+      "source_id": "Farseer_2025",
+      "text": "References\n[1]Samira Abnar, Harshay Shah, Dan Busbridge, Alaaeldin Mohamed Elnouby Ali, Josh Susskind,\nand Vimal Thilak. Parameters vs flops: Scaling laws for optimal sparsity for mixture-of-experts\nlanguage models. arXiv preprint arXiv:2501.12370 , 2025.\n[2]Josh Achiam, Steven Adler, Sandhini Agarwal, Lama Ahmad, Ilge Akkaya, Florencia Leoni\nAleman, Diogo Almeida, Janko Altenschmidt, Sam Altman, Shyamal Anadkat, et al. Gpt-4\ntechnical report. arXiv preprint arXiv:2303.08774 , 2023.\n[3]Yasaman Bahri, Ethan Dyer, Jared Kaplan, Jaehoon Lee, and Utkarsh Sharma. Explaining\nneural scaling laws. Proceedings of the National Academy of Sciences , 121(27):e2311878121,\n2024.\n[4]Tamay Besiroglu, Ege Erdil, Matthew Barnett, and Josh You. Chinchilla scaling: A replication\nattempt. arXiv preprint arXiv:2404.10102 , 2024.\n[5]Blake Bordelon, Alexander Atanasov, and Cengiz Pehlevan. How feature learning can improve\nneural scaling laws. arXiv preprint arXiv:2409.17858 , 2024.\n[6]Tom Brown, Benjamin Mann, Nick Ryder, Melanie Subbiah, Jared D Kaplan, Prafulla Dhariwal,\nArvind Neelakantan, Pranav Shyam, Girish Sastry, Amanda Askell, et al. Language models are\nfew-shot learners.",
+      "section": "References",
+      "char_count": 1175,
+      "chunk_index": 48,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0049",
+      "source_id": "Farseer_2025",
+      "text": "]Tom Brown, Benjamin Mann, Nick Ryder, Melanie Subbiah, Jared D Kaplan, Prafulla Dhariwal,\nArvind Neelakantan, Pranav Shyam, Girish Sastry, Amanda Askell, et al. Language models are\nfew-shot learners. Advances in neural information processing systems , 33:1877–1901, 2020.\n[7]Weilin Cai, Juyong Jiang, Fan Wang, Jing Tang, Sunghun Kim, and Jiayi Huang. A survey on\nmixture of experts. arXiv preprint arXiv:2407.06204 , 2024.\n[8]Zachary Charles, Gabriel Teston, Lucio Dery, Keith Rush, Nova Fallen, Zachary Garrett, Arthur\nSzlam, and Arthur Douillard. Communication-efficient language model training scales reliably\nand robustly: Scaling laws for diloco. arXiv preprint arXiv:2503.09799 , 2025.\n[9]Yangyi Chen, Binxuan Huang, Yifan Gao, Zhengyang Wang, Jingfeng Yang, and Heng Ji.\nScaling laws for predicting downstream performance in llms. arXiv preprint arXiv:2410.08527 ,\n2024.\n10\n\n[10] Mehdi Cherti, Romain Beaumont, Ross Wightman, Mitchell Wortsman, Gabriel Ilharco, Cade\nGordon, Christoph Schuhmann, Ludwig Schmidt, and Jenia Jitsev. Reproducible scaling laws\nfor contrastive language-image learning.",
+      "section": "References",
+      "char_count": 1105,
+      "chunk_index": 49,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0050",
+      "source_id": "Farseer_2025",
+      "text": "main Beaumont, Ross Wightman, Mitchell Wortsman, Gabriel Ilharco, Cade\nGordon, Christoph Schuhmann, Ludwig Schmidt, and Jenia Jitsev. Reproducible scaling laws\nfor contrastive language-image learning. In Proceedings of the IEEE/CVF conference on\ncomputer vision and pattern recognition , pages 2818–2829, 2023.\n[11] Jacob Devlin, Ming-Wei Chang, Kenton Lee, and Kristina Toutanova. Bert: Pre-training of deep\nbidirectional transformers for language understanding. In Proceedings of the 2019 conference of\nthe North American chapter of the association for computational linguistics: human language\ntechnologies, volume 1 (long and short papers) , pages 4171–4186, 2019.\n[12] Fernando Diaz and Michael Madaio. Scaling laws do not scale. In Proceedings of the AAAI/ACM\nConference on AI, Ethics, and Society , volume 7, pages 341–357, 2024.\n[13] Yan Fang, Jingtao Zhan, Qingyao Ai, Jiaxin Mao, Weihang Su, Jia Chen, and Yiqun Liu. Scaling\nlaws for dense retrieval. In Proceedings of the 47th International ACM SIGIR Conference on\nResearch and Development in Information Retrieval , pages 1339–1349, 2024.\n[14] Philip Gage. A new algorithm for data compression.",
+      "section": "References",
+      "char_count": 1156,
+      "chunk_index": 50,
+      "page_numbers": [
+        11
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0051",
+      "source_id": "Farseer_2025",
+      "text": "val. In Proceedings of the 47th International ACM SIGIR Conference on\nResearch and Development in Information Retrieval , pages 1339–1349, 2024.\n[14] Philip Gage. A new algorithm for data compression. The C Users Journal archive , 12:23–38,\n1994.\n[15] Carl Friedrich Gauss. Theoria motus corporum coelestium in sectionibus conicis solem ambien-\ntium. Frid. Perthes et I. H. Besser, Hamburg, 1809.\n[16] Aaron Grattafiori, Abhimanyu Dubey, Abhinav Jauhri, Abhinav Pandey, Abhishek Kadian,\nAhmad Al-Dahle, Aiesha Letman, Akhil Mathur, Alan Schelten, Alex Vaughan, and Amy Yang\net al. The llama 3 herd of models. 2024.\n[17] Albert Gu and Tri Dao. Mamba: Linear-time sequence modeling with selective state spaces.\narXiv preprint arXiv:2312.00752 , 2023.\n[18] Alexander Havrilla and Wenjing Liao. Understanding scaling laws with statistical and approxi-\nmation theory for transformer neural networks on intrinsically low-dimensional data. Advances\nin Neural Information Processing Systems , 37:42162–42210, 2024.\n[19] Danny Hernandez, Jared Kaplan, Tom Henighan, and Sam McCandlish. Scaling laws for\ntransfer. arXiv preprint arXiv:2102.01293 , 2021.",
+      "section": "References",
+      "char_count": 1143,
+      "chunk_index": 51,
+      "page_numbers": [
+        11
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0052",
+      "source_id": "Farseer_2025",
+      "text": "n Neural Information Processing Systems , 37:42162–42210, 2024.\n[19] Danny Hernandez, Jared Kaplan, Tom Henighan, and Sam McCandlish. Scaling laws for\ntransfer. arXiv preprint arXiv:2102.01293 , 2021.\n[20] Jordan Hoffmann, Sebastian Borgeaud, Arthur Mensch, Elena Buchatskaya, Trevor Cai, Eliza\nRutherford, Diego de Las Casas, Lisa Anne Hendricks, Johannes Welbl, Aidan Clark, Tom\nHennigan, Eric Noland, Katie Millican, George van den Driessche, Bogdan Damoc, Aurelia\nGuy, Simon Osindero, Karen Simonyan, Erich Elsen, Jack W. Rae, Oriol Vinyals, and Laurent\nSifre. Training Compute-Optimal Large Language Models, March 2022. arXiv:2203.15556\n[cs].\n[21] Berivan Isik, Natalia Ponomareva, Hussein Hazimeh, Dimitris Paparas, Sergei Vassilvitskii, and\nSanmi Koyejo. Scaling laws for downstream task performance of large language models. In\nICLR 2024 Workshop on Mathematical and Empirical Understanding of Foundation Models ,\n2024.\n[22] Jared Kaplan, Sam McCandlish, Tom Henighan, Tom B Brown, Benjamin Chess, Rewon Child,\nScott Gray, Alec Radford, Jeffrey Wu, and Dario Amodei. Scaling laws for neural language\nmodels. arXiv preprint arXiv:2001.08361 , 2020.",
+      "section": "References",
+      "char_count": 1155,
+      "chunk_index": 52,
+      "page_numbers": [
+        11
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0053",
+      "source_id": "Farseer_2025",
+      "text": "ndlish, Tom Henighan, Tom B Brown, Benjamin Chess, Rewon Child,\nScott Gray, Alec Radford, Jeffrey Wu, and Dario Amodei. Scaling laws for neural language\nmodels. arXiv preprint arXiv:2001.08361 , 2020.\n[23] Tanishq Kumar, Zachary Ankner, Benjamin F Spector, Blake Bordelon, Niklas Muennighoff,\nMansheej Paul, Cengiz Pehlevan, Christopher Ré, and Aditi Raghunathan. Scaling laws for\nprecision. arXiv preprint arXiv:2411.04330 , 2024.\n[24] Noam Levi. A simple model of inference scaling laws. arXiv preprint arXiv:2410.16377 , 2024.\n[25] Houyi Li, Wenzhen Zheng, Jingcheng Hu, Qiufeng Wang, Hanshan Zhang, Zili Wang, Shi-\njie Xuyang, Yuantao Fan, Shuigeng Zhou, Xiangyu Zhang, et al. Predictable scale: Part\ni–optimal hyperparameter scaling law in large language model pretraining. arXiv preprint\narXiv:2503.04715 , 2025.\n11\n\n[26] Margaret Li, Sneha Kudugunta, and Luke Zettlemoyer. (mis) fitting scaling laws: A survey of\nscaling law fitting techniques in deep learning. In The Thirteenth International Conference on\nLearning Representations , 2024.\n[27] Ruihang Li, Yixuan Wei, Miaosen Zhang, Nenghai Yu, Han Hu, and Houwen Peng.",
+      "section": "References",
+      "char_count": 1128,
+      "chunk_index": 53,
+      "page_numbers": [
+        11
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0054",
+      "source_id": "Farseer_2025",
+      "text": "law fitting techniques in deep learning. In The Thirteenth International Conference on\nLearning Representations , 2024.\n[27] Ruihang Li, Yixuan Wei, Miaosen Zhang, Nenghai Yu, Han Hu, and Houwen Peng. Scal-\ningfilter: Assessing data quality through inverse utilization of scaling laws. arXiv preprint\narXiv:2408.08310 , 2024.\n[28] Chuan Liu, Huanran Chen, Yichi Zhang, Yinpeng Dong, and Jun Zhu. Scaling laws for black\nbox adversarial attacks. arXiv preprint arXiv:2411.16782 , 2024.\n[29] Ilya Loshchilov and Frank Hutter. Decoupled weight decay regularization. In International\nConference on Learning Representations , 2019.\n[30] Eric Michaud, Ziming Liu, Uzay Girit, and Max Tegmark. The quantization model of neural\nscaling. Advances in Neural Information Processing Systems , 36:28699–28722, 2023.\n[31] Alec Radford, Karthik Narasimhan, Tim Salimans, Ilya Sutskever, et al. Improving language\nunderstanding by generative pre-training. 2018.\n[32] Jack W Rae, Sebastian Borgeaud, Trevor Cai, Katie Millican, Jordan Hoffmann, Francis Song,\nJohn Aslanides, Sarah Henderson, Roman Ring, Susannah Young, et al. Scaling language\nmodels: Methods, analysis & insights from training gopher.",
+      "section": "References",
+      "char_count": 1184,
+      "chunk_index": 54,
+      "page_numbers": [
+        12
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0055",
+      "source_id": "Farseer_2025",
+      "text": "evor Cai, Katie Millican, Jordan Hoffmann, Francis Song,\nJohn Aslanides, Sarah Henderson, Roman Ring, Susannah Young, et al. Scaling language\nmodels: Methods, analysis & insights from training gopher. arXiv preprint arXiv:2112.11446 ,\n2021.\n[33] Yangjun Ruan, Chris J Maddison, and Tatsunori Hashimoto. Observational scaling laws and the\npredictability of language model performance. arXiv preprint arXiv:2405.10938 , 2024.\n[34] Nikhil Sardana, Jacob Portes, Sasha Doubov, and Jonathan Frankle. Beyond chinchilla-optimal:\naccounting for inference in language model scaling laws. In Proceedings of the 41st Interna-\ntional Conference on Machine Learning , ICML’24. JMLR.org, 2024.\n[35] Utkarsh Sharma and Jared Kaplan. Scaling laws from the data manifold dimension. Journal of\nMachine Learning Research , 23(9):1–34, 2022.\n[36] Kyuyong Shin, Hanock Kwak, Su Young Kim, Max Nihlén Ramström, Jisu Jeong, Jung-Woo\nHa, and Kyung-Min Kim. Scaling law for recommendation models: Towards general-purpose\nuser representations. In Proceedings of the AAAI conference on artificial intelligence , volume 37,\npages 4596–4604, 2023.",
+      "section": "References",
+      "char_count": 1118,
+      "chunk_index": 55,
+      "page_numbers": [
+        12
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0056",
+      "source_id": "Farseer_2025",
+      "text": "Kyung-Min Kim. Scaling law for recommendation models: Towards general-purpose\nuser representations. In Proceedings of the AAAI conference on artificial intelligence , volume 37,\npages 4596–4604, 2023.\n[37] Ben Sorscher, Robert Geirhos, Shashank Shekhar, Surya Ganguli, and Ari Morcos. Beyond\nneural scaling laws: beating power law scaling via data pruning. Advances in Neural Information\nProcessing Systems , 35:19523–19536, 2022.\n[38] Hui Su, Zhi Tian, Xiaoyu Shen, and Xunliang Cai. Unraveling the mystery of scaling laws: Part\ni.arXiv preprint arXiv:2403.06563 , 2024.\n[39] Hugo Touvron, Thibaut Lavril, Gautier Izacard, Xavier Martinet, Marie-Anne Lachaux, Timo-\nthée Lacroix, Baptiste Rozière, Naman Goyal, Eric Hambro, Faisal Azhar, Aurelien Rodriguez,\nArmand Joulin, Edouard Grave, and Guillaume Lample. Llama: Open and efficient foundation\nlanguage models. 2 2023.\n[40] Hugo Touvron, Louis Martin, Kevin Stone, Peter Albert, Amjad Almahairi, Yasmine Babaei,\nNikolay Bashlykov, Soumya Batra, Prajjwal Bhargava, and Shruti Bhosale et al. Llama 2: Open\nfoundation and fine-tuned chat models. 7 2023.",
+      "section": "References",
+      "char_count": 1104,
+      "chunk_index": 56,
+      "page_numbers": [
+        12
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0057",
+      "source_id": "Farseer_2025",
+      "text": ", Kevin Stone, Peter Albert, Amjad Almahairi, Yasmine Babaei,\nNikolay Bashlykov, Soumya Batra, Prajjwal Bhargava, and Shruti Bhosale et al. Llama 2: Open\nfoundation and fine-tuned chat models. 7 2023.\n[41] Ashish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N Gomez,\nŁukasz Kaiser, and Illia Polosukhin. Attention is all you need. Advances in neural information\nprocessing systems , 30, 2017.\n[42] Peihao Wang, Rameswar Panda, and Zhangyang Wang. Data efficient neural scaling law via\nmodel reusing. In International Conference on Machine Learning , pages 36193–36204. PMLR,\n2023.\n12\n\n[43] Yangzhen Wu, Zhiqing Sun, Shanda Li, Sean Welleck, and Yiming Yang. Inference scaling\nlaws: An empirical analysis of compute-optimal inference for llm problem-solving. In The\nThirteenth International Conference on Learning Representations , 2025.\n[44] Chengyin Xu, Kaiyuan Chen, Xiao Li, Ke Shen, and Chenggang Li. Unveiling downstream\nperformance scaling of llms: A clustering-based perspective. arXiv preprint arXiv:2502.17262 ,\n2025.",
+      "section": "References",
+      "char_count": 1053,
+      "chunk_index": 57,
+      "page_numbers": [
+        12
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0058",
+      "source_id": "Farseer_2025",
+      "text": "ns , 2025.\n[44] Chengyin Xu, Kaiyuan Chen, Xiao Li, Ke Shen, and Chenggang Li. Unveiling downstream\nperformance scaling of llms: A clustering-based perspective. arXiv preprint arXiv:2502.17262 ,\n2025.\n[45] An Yang, Anfeng Li, Baosong Yang, Beichen Zhang, Binyuan Hui, Bo Zheng, Bowen Yu,\nChang Gao, Chengen Huang, Chenxu Lv, Chujie Zheng, Dayiheng Liu, Fan Zhou, Fei Huang,\nFeng Hu, Hao Ge, Haoran Wei, Huan Lin, Jialong Tang, Jian Yang, Jianhong Tu, Jianwei Zhang,\nJianxin Yang, Jiaxi Yang, Jing Zhou, Jingren Zhou, Junyang Lin, Kai Dang, Keqin Bao, Kexin\nYang, Le Yu, Lianghao Deng, Mei Li, Mingfeng Xue, Mingze Li, Pei Zhang, Peng Wang, Qin\nZhu, Rui Men, Ruize Gao, Shixuan Liu, Shuang Luo, Tianhao Li, Tianyi Tang, Wenbiao Yin,\nXingzhang Ren, Xinyu Wang, Xinyu Zhang, Xuancheng Ren, Yang Fan, Yang Su, Yichang\nZhang, Yinger Zhang, Yu Wan, Yuqiong Liu, Zekun Wang, Zeyu Cui, Zhenru Zhang, Zhipeng\nZhou, and Zihan Qiu. Qwen3 technical report. arXiv preprint arXiv:2505.09388 , 2025.\n[46] An Yang, Baosong Yang, Binyuan Hui, Bo Zheng, Bowen Yu, Chang Zhou, Chengpeng Li,\nChengyuan Li, Dayiheng Liu, Fei Huang, Guanting Dong, Qwen Team, and Alibaba Group\net al. Qwen2 technical report. 2024.",
+      "section": "References",
+      "char_count": 1191,
+      "chunk_index": 58,
+      "page_numbers": [
+        13
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0059",
+      "source_id": "Farseer_2025",
+      "text": "n Yang, Baosong Yang, Binyuan Hui, Bo Zheng, Bowen Yu, Chang Zhou, Chengpeng Li,\nChengyuan Li, Dayiheng Liu, Fei Huang, Guanting Dong, Qwen Team, and Alibaba Group\net al. Qwen2 technical report. 2024.\n[47] Greg Yang, Edward J. Hu, Igor Babuschkin, Szymon Sidor, Xiaodong Liu, David Farhi, Nick\nRyder, Jakub Pachocki, Weizhu Chen, and Jianfeng Gao. Tensor programs v: Tuning large\nneural networks via zero-shot hyperparameter transfer. 2022.\n[48] Wenxuan Yang, Qingqu Wei, Chenxi Ma, Weimin Tan, and Bo Yan. Scaling laws for data-\nefficient visual transfer learning. arXiv preprint arXiv:2504.13219 , 2025.\n13",
+      "section": "References",
+      "char_count": 608,
+      "chunk_index": 59,
+      "page_numbers": [
+        13
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0060",
+      "source_id": "Farseer_2025",
+      "text": "Appendix\nContents\nA General Loss Function Metric Formulas 15\nA.1 Standardizing Hyperparameter Settings . . . . . . . . . . . . . . . . . . . . . . 16\nA.2 Defining an Architecturally Standardized LLM Family . . . . . . . . . . . . . . 16\nB Distribution of the Training Dataset 17\nC Ablation Study of Fitting Methods 18\nC.1 Algorithm Workflow: Differential Piecewise Fitting . . . . . . . . . . . . . . . 18\nC.2 Core Insight: Power-Law Scaling with Data Size ( D) . . . . . . . . . . . . . . . 19\nC.3 Functional Form Selection for A(N)andB(N). . . . . . . . . . . . . . . . . 21\nC.4 Functional Form Selection for Model-Dependent Residual E+U(N). . . . . . 25\nD Validation Set and Compression Rate Metrics 25\nD.1 Validation Set . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 25\nD.2 Compression Rate Metrics . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 25\nE Point, Line, and Surface Comparison 26\nF Model Parameter Configuration Table 27\nG Consideration of Parameters with Embedding Layers 28\nH Non-linear End-to-End Fitting 29\nI Analysis of Formula Properties 30\nI.1 Monotonicity . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .",
+      "section": "Appendix",
+      "char_count": 1182,
+      "chunk_index": 60,
+      "page_numbers": [
+        14
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0061",
+      "source_id": "Farseer_2025",
+      "text": "ion of Parameters with Embedding Layers 28\nH Non-linear End-to-End Fitting 29\nI Analysis of Formula Properties 30\nI.1 Monotonicity . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 30\nJ Discussion and Future Work 32\n14\n\nA General Loss Function Metric Formulas\nTo systematically evaluate and predict the scalability of various LLM training approaches, we\nintroduce a general loss formulation expressed as a loss surface L(N, D ). This surface captures the\nmodel ’s performance metrics(BPC), as a function of model size ( N) and training data size ( D). The\nloss surface L(N, D )is implicitly conditioned on a fixed underlying training strategy, serving as a\nfoundational tool for scalability analysis.\nTo formalize our analysis, we define a specific Large Language Model (LLM) instance as M≜(A, N).\nHere,Adenotes a LLM family , characterizing models that share common architectural features or\ndesign principles, such as Transformer decoder-only architectures with fixed aspect ratios. Given a\nparameter count N, a deterministic LLM instance Mis realized from the family A.",
+      "section": "Appendix",
+      "char_count": 1092,
+      "chunk_index": 61,
+      "page_numbers": [
+        14
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0062",
+      "source_id": "Farseer_2025",
+      "text": "tectural features or\ndesign principles, such as Transformer decoder-only architectures with fixed aspect ratios. Given a\nparameter count N, a deterministic LLM instance Mis realized from the family A.\nThe performance of an LLM instance, determined through a specific training regimen and measured\nby metrics, depends on intrinsic model properties (e.g., N) and various training-related factors. We\nformalize this aggregate performance metric Las a function:\nL(A,D, N, D, LR,BS, δ) (16)\nwhere:\n•A: The LLM family.\n•D: The dataset or data distribution used for training.\n•N: The parameter count of the model instance.\n•D: A measure of the training data scale (e.g., number of tokens).\n• LR,BS: The learning rate and batch size used during training.\n•δ: A term encapsulating other influential hyperparameters or training specifics, such as\noptimizer type, regularization strategies, or training duration.\nFurthermore, in studying the Scaling Law, we assume that other hyperparameters (e.g., learning rate,\nbatch size) are set to appropriate values that prevent the model training from deviating excessively\nor performing too poorly, or they follow scale-aware heuristics [ 47,25].",
+      "section": "Appendix",
+      "char_count": 1177,
+      "chunk_index": 62,
+      "page_numbers": [
+        15
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0063",
+      "source_id": "Farseer_2025",
+      "text": "ers (e.g., learning rate,\nbatch size) are set to appropriate values that prevent the model training from deviating excessively\nor performing too poorly, or they follow scale-aware heuristics [ 47,25]. Under this assumption,\nperformance Lbecomes primarily a function of NandD, and our central objective is to precisely\ncharacterize the loss surface L(N, D )for a given model family Aand data recipe D.\nAs established in 2.1, our primary objective is to accurately characterize and predict the loss surface\nL(N, D ), which describes how performance scales with model size ( N) and data size ( D) for a\nspecific model family Aand data recipe D. However, the overall performance metric L, as indicated\nby our general formulation (Equation (16)), is also sensitive to factors such as learning rate ( lr), batch\nsize (bs), and specific architectural choices within the family A.\nTo ensure a stable and deterministic relationship between the primary variables (N, D )and the\nperformance L, thereby enhancing the robustness and accuracy of subsequent scaling law fitting, it\nis crucial to control for or standardize these additional sources of variation.",
+      "section": "Appendix",
+      "char_count": 1146,
+      "chunk_index": 63,
+      "page_numbers": [
+        15
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0064",
+      "source_id": "Farseer_2025",
+      "text": "iables (N, D )and the\nperformance L, thereby enhancing the robustness and accuracy of subsequent scaling law fitting, it\nis crucial to control for or standardize these additional sources of variation. This typically involves\npreliminary experiments and adherence to fixed protocols.\nIn this study, we utilize a fixed data recipe D(details on its construction and characteristics are\ndeferred to table 1). Consequently, the main efforts in controlling variability focus on standardizing\nthe following two categories of factors:\n1.Optimization Hyperparameters: Primarily the learning rate ( lr) and batch size ( bs),\nwhich are set to suitable values (potentially following scale-aware schedules or determined\nthrough preliminary sweeps) to ensure model training does not deviate significantly or\nexhibit markedly poor performance.\n2.Architectural Hyperparameters: The specific configuration defining the LLM family A\n(e.g., layer counts, hidden dimensions relative to N, activation functions) must be consis-\ntently defined or scaled according to precise rules.",
+      "section": "Appendix",
+      "char_count": 1059,
+      "chunk_index": 64,
+      "page_numbers": [
+        15
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0065",
+      "source_id": "Farseer_2025",
+      "text": "s: The specific configuration defining the LLM family A\n(e.g., layer counts, hidden dimensions relative to N, activation functions) must be consis-\ntently defined or scaled according to precise rules.\nBy carefully controlling these factors, we ensure that for a given experimental setup defined by A\nandDand the chosen hyperparameter protocols, each (N, D )pair maps to a well-defined expected\nperformance value L. This satisfies a fundamental prerequisite for reliably fitting the loss surface\nL(N, D )and accurately assessing scaling behavior.\n15\n\nA.1 Standardizing Hyperparameter Settings\nWe first address the influence of training hyperparameters, primarily learning rate ( lr) and batch\nsize ( bs), on performance L. Prior work [ 25] and our preliminary investigations confirm their\nsignificant impact. Crucially, for a given model scale ( N) and data size ( D), while one might pursue\nstrictly optimal hyperparameters ( lropt(N, D ),bsopt(N, D )), our actual requirement is for appropriate\nhyperparameters. These are settings that ensure the model training does not deviate excessively or\nperform markedly poorly, rather than needing to be strictly optimal.",
+      "section": "Appendix",
+      "char_count": 1163,
+      "chunk_index": 65,
+      "page_numbers": [
+        15
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0066",
+      "source_id": "Farseer_2025",
+      "text": "l requirement is for appropriate\nhyperparameters. These are settings that ensure the model training does not deviate excessively or\nperform markedly poorly, rather than needing to be strictly optimal. Furthermore, the performance\nlandscape Lis often relatively flat near regions of good hyperparameter choices.\nThis flatness implies that using such appropriate hyperparameters yields stable and sufficiently good\nresults, effectively mitigating performance fluctuations due to minor hyperparameter variations,\nwithout the need to pinpoint strict optima. Since the goal of scaling law research is to understand\nmodel potential under competent, rather than necessarily strictly optimized, training conditions,\nwe operate by selecting hyperparameters—primarily determined by NandDfor a fixed model\nfamily Aand data recipe D—that ensure they are adequate for effective training and do not cause\nthe model to perform substantially worse than it otherwise could.",
+      "section": "Appendix",
+      "char_count": 956,
+      "chunk_index": 66,
+      "page_numbers": [
+        16
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0067",
+      "source_id": "Farseer_2025",
+      "text": "y determined by NandDfor a fixed model\nfamily Aand data recipe D—that ensure they are adequate for effective training and do not cause\nthe model to perform substantially worse than it otherwise could. This allows us to simplify the loss\nfunction, treating Lprimarily as a function of NandDby implicitly using these chosen, appropriate\nhyperparameters (denoted lrappr, bs appr):\nLA,D(N, D, lr, bs )≈LA,D(N, D, lr appr, bs appr)≡LA,D(N, D )\nIn practice, we leverage methods like the Step Law [ 25] to help select suitable lrandbsvalues for\nour experiments, applying these standardized settings consistently across different (N, D )points to\nensure model performance is not significantly hindered by hyperparameter selection.\nA.2 Defining an Architecturally Standardized LLM Family\nThe concept of an LLM family provides a robust framework for systematic analysis and comparison.\nIn a broad sense, a family can encompass models sharing a common set of training methods, data\nprocessing pipelines, or fundamental architectural paradigms. The core idea is that each distinct\nfamily is hypothesized to follow its own unique scaling law.",
+      "section": "Appendix",
+      "char_count": 1129,
+      "chunk_index": 67,
+      "page_numbers": [
+        16
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0068",
+      "source_id": "Farseer_2025",
+      "text": "ng a common set of training methods, data\nprocessing pipelines, or fundamental architectural paradigms. The core idea is that each distinct\nfamily is hypothesized to follow its own unique scaling law. By first defining a family and then\nempirically determining its scaling behavior, we can create a principled basis for comparing the\nefficiency and potential of different approaches—for instance, to see which family scales more\neffectively with increased compute or data.\nWe define an LLM family such that, given a parameter budget N, one can uniquely determine every\narchitectural detail of the model: including, for example, the aspect ratio, the FFN ratio, the type\nof attention mechanism (multi-head attention or group-query attention), whether the network is\npre-norm or post-norm, the activation function used in the FFN, the head dimension/number of heads,\nand whether a mixture-of-experts (MoE) architecture is employed.\nWith this definition, models of different sizes within the same LLM family share the same scaling-\nlaw characteristics. Consequently, once an LLM family Aand a data recipe Dare fixed, they\nuniquely determine a loss surface LA,D(N, D ).",
+      "section": "Appendix",
+      "char_count": 1165,
+      "chunk_index": 68,
+      "page_numbers": [
+        16
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0069",
+      "source_id": "Farseer_2025",
+      "text": "ferent sizes within the same LLM family share the same scaling-\nlaw characteristics. Consequently, once an LLM family Aand a data recipe Dare fixed, they\nuniquely determine a loss surface LA,D(N, D ). Under the same data distribution, two different LLM\nfamilies yield two distinct surfaces— LA1,D(N, D )andLA2,D(N, D )—which allows us to compare\nhow architectural choices affect scaling behaviour. Similarly, for a fixed LLM family trained on\ndifferent data distributions, the respective surfaces LA,D1(N, D )andLA,D2(N, D )reveal how data\ncharacteristics influence the scaling law.\nExample. Even within a fixed architecture—for instance, a LLaMA-style dense LLM (pre-norm +\nMHA)—variations in model shape can still impact performance. We take two critical structural ratios\nas examples that govern model shape and are known to influence performance and computational\nefficiency:\n•Aspect Ratio: The ratio of model width to depth ( dmodel / Number of Layers).\n•FFN Ratio: The ratio of the feed-forward network’s intermediate size to the hidden dimen-\nsion ( dffn/dmodel).",
+      "section": "Appendix",
+      "char_count": 1070,
+      "chunk_index": 69,
+      "page_numbers": [
+        16
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0070",
+      "source_id": "Farseer_2025",
+      "text": "ficiency:\n•Aspect Ratio: The ratio of model width to depth ( dmodel / Number of Layers).\n•FFN Ratio: The ratio of the feed-forward network’s intermediate size to the hidden dimen-\nsion ( dffn/dmodel).\nWe conducted controlled experiments to study the independent effects of these ratios on perfor-\nmance L, holding either total parameters or estimated computational cost approximately constant. As\nshown in Fig. 9, our results consistently indicate that performance exhibits a relatively flat optimum\n16\n\nwith respect to both aspect ratio and FFN ratio across different experimental constraints. Motivated\nby the patterns observed in Fig. 9, all experiments in this paper therefore fix both the aspect ratio\nand the FFN ratio. The concrete values we adopt lie in the sub-optimal plateau region identified in\nthe figure. This example illustrates that when using FARSEER to define a custom LLM family A,\none must not only keep the architectural blueprint unchanged, but also hold model-shape-related\nhyperparameters fixed. These configuration variables need not be globally optimal, but they must\nremain constant as Nvaries.",
+      "section": "Appendix",
+      "char_count": 1121,
+      "chunk_index": 70,
+      "page_numbers": [
+        16
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0071",
+      "source_id": "Farseer_2025",
+      "text": "ep the architectural blueprint unchanged, but also hold model-shape-related\nhyperparameters fixed. These configuration variables need not be globally optimal, but they must\nremain constant as Nvaries.\n0 1000 2000 3000 4000 5000\nFFN Ratio (%)0.5300.5350.5400.5450.5500.555Validation BPC(a) Validation BPC vs. FFN Ratio\nNon_embedding\nWith_embedding\nMin BPC: 0.5267\n+0.5%: 0.5293\n+1%: 0.5320\n0 100 200 300 400 500\nAspect Ratio0.5300.5350.5400.5450.5500.555Validation BPC(b) Validation BPC vs. Aspect Ratio\nNon_embedding\nWith_embedding\nMin BPC: 0.5267\n+0.5%: 0.5293\n+1%: 0.5320\nFigure 9: Validation BPC (see appendix D) under a fixed parameter Nversus (a) FFN ratio (interme-\ndiate size / hidden dimension) and (b) aspect ratio (hidden dimension / layer count). Blue circles: no\nembeddings; orange squares: with embeddings. Dashed lines mark min BPC (green), +0.5% (orange)\nand +1% (purple). Both curves exhibit a broad, flat optimum.\nB Distribution of the Training Dataset\nThis appendix details the composition of the data recipes used for training our models. Each recipe\nrepresents a specific mix of datasets, weighted to target distinct capabilities.",
+      "section": "Appendix",
+      "char_count": 1150,
+      "chunk_index": 71,
+      "page_numbers": [
+        17
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0072",
+      "source_id": "Farseer_2025",
+      "text": "he Training Dataset\nThis appendix details the composition of the data recipes used for training our models. Each recipe\nrepresents a specific mix of datasets, weighted to target distinct capabilities. All prior experiments\nutilized the Baseline data recipe. Furthermore, to evaluate Farseer under a dramatically different\nbilingual data mix, experiments were also conducted using data from models trained with the\nEnglish -Chinese (EN -ZH) recipe. The table below specifies the percentage weights of the constituent\ndatasets for these two primary recipes.\nTable 1: Distribution of dataset weights (in percent) across various training strategies . Each\nstrategy targets a distinct capability: baseline performance, enhanced coding and mathematical\nreasoning, or English-Chinese bilingual proficiency.\nDataset Baseline EN-ZH\nweb-data-en 79.53 44.99\nweb-data-cn – 34.52\ncode-the-stack 4.62 4.63\nweb-data-math – –\nbook-non-novel-en 4.35 4.35\npaper 3.38 3.38\nwikipedia-mtlg 3.24 3.25\nstackexchange 2.21 2.",
+      "section": "Appendix",
+      "char_count": 1000,
+      "chunk_index": 72,
+      "page_numbers": [
+        17
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0073",
+      "source_id": "Farseer_2025",
+      "text": "Dataset Baseline EN-ZH\nweb-data-en 79.53 44.99\nweb-data-cn – 34.52\ncode-the-stack 4.62 4.63\nweb-data-math – –\nbook-non-novel-en 4.35 4.35\npaper 3.38 3.38\nwikipedia-mtlg 3.24 3.25\nstackexchange 2.21 2.22\nwikipedia-en 1.69 1.69\nbook-novel-en 0.83 0.83\nwikipedia-cn 0.13 0.13\n17\n\nC Ablation Study of Fitting Methods\nC.1 Algorithm Workflow: Differential Piecewise Fitting\nThe Differential Piecewise Fitting procedure, detailed in Algorithm 2, systematically models data\nL(N, D ). Many steps in this procedure involve fitting functional forms, for example, to model\nhow parameters ANandBNdepend on N. Algorithm 1 describes a general method, Optimal\nTransformation Selection, for choosing appropriate data transformations (e.g., logarithmic, power-\nlaw) from a dictionary Gto linearize relationships and subsequently fit parameters.",
+      "section": "Appendix",
+      "char_count": 826,
+      "chunk_index": 73,
+      "page_numbers": [
+        17
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0074",
+      "source_id": "Farseer_2025",
+      "text": "l method, Optimal\nTransformation Selection, for choosing appropriate data transformations (e.g., logarithmic, power-\nlaw) from a dictionary Gto linearize relationships and subsequently fit parameters. The overall\nDifferential Piecewise Fitting procedure, as implemented in Algorithm 2 using specific stretched-\nexponential forms, comprises three main stages:\n1.Stage 1: Initial Estimation of ANandBN: For each model size N, the parameters AN\nandBNof the data-dependent term B(N)D−A(N)are estimated by analyzing the finite\ndifference ∆DL(N, D ), following the specific regression steps detailed in Algorithm 2.\n2.Stage 2: Parameterization and Iterative Refinement of fA(N;θA)andfB(N;θB):\nContinuous functions fA(N;θA)andfB(N;θB)are derived by fitting the discrete {AN}\nand{BN}estimates. While Algorithm 2 specifies particular functional forms (stretched-\nexponentials), the underlying task of selecting optimal transformations and fitting parameters\nis generally addressed by the methodology in Algorithm 1. This stage also includes iterative\nrefinement of power-law exponents (e.g., α, β) as specified in Algorithm 2.",
+      "section": "Appendix",
+      "char_count": 1117,
+      "chunk_index": 74,
+      "page_numbers": [
+        18
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0075",
+      "source_id": "Farseer_2025",
+      "text": "rmations and fitting parameters\nis generally addressed by the methodology in Algorithm 1. This stage also includes iterative\nrefinement of power-law exponents (e.g., α, β) as specified in Algorithm 2.\n3.Stage 3: Fitting the Model-Dependent Residual E+U(N): The residual term E+U(N)\nis estimated (typically by averaging L(N, D )−B(N;θ∗\nB)D−A(N;θ∗\nA)overDto get G(N))\nand modeled as fU(N;θ∗\nU). Similar to Stage 2, Algorithm 2 employs a specific stretched-\nexponential functional form for fU(N), and the transformation selection and fitting process\nto determine its parameters can be understood in the general context of the methods presented\nin Algorithm 1.\nAlgorithm 1: Optimal Transformation Selection for Y=f(X)\nInput: Discrete data points (Xk, Yk)fork= 1, . . . , M .\nInput: Dictionary of candidate transformation functions G={g(1), g(2), . . .}.\n// Each g∈ G is a function, e.g., identity, logarithm.\nOutput: Optimal transformations g∗\nY, g∗\nX∈ G.\nOutput: Coefficients (a∗, b∗)for the linear model g∗\nY(Yk)≈a∗g∗\nX(Xk) +b∗.\nOutput: Minimum residual sum of squares ℓmin.",
+      "section": "Appendix",
+      "char_count": 1072,
+      "chunk_index": 75,
+      "page_numbers": [
+        18
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0076",
+      "source_id": "Farseer_2025",
+      "text": "tion, e.g., identity, logarithm.\nOutput: Optimal transformations g∗\nY, g∗\nX∈ G.\nOutput: Coefficients (a∗, b∗)for the linear model g∗\nY(Yk)≈a∗g∗\nX(Xk) +b∗.\nOutput: Minimum residual sum of squares ℓmin.\n1Initialize ℓmin← ∞\n2Initialize g∗\nY←null,g∗\nX←null,a∗←null,b∗←null,p∗←null\n3forall gY∈ Gdo\n4 forall gX∈ Gdo\n// Define Y′\nk=gY(Yk). Define X′\nk=gX(Xk).\n5 Perform linear regression: Y′\nk=acandX′\nk+bcand\n6 Calculate current residual sum of squares ℓcurrent←P\nk(Y′\nk−(acandX′\nk+bcand))2\n7 ifℓcurrent < ℓ minthen\n8 ℓmin←ℓcurrent\n9 (g∗\nY, g∗\nX)←(gY, gX)\n10 (a∗, b∗)←(acand, bcand)\n11return g∗\nY, g∗\nX,(a∗, b∗),ℓmin\n18\n\nAlgorithm 2: Differential Piecewise Fitting (with Stretched-Exponential Forms)\nInput: Loss Data points L(N, D ), scale factor λ.\nOutput: Parameters θ∗\nA= (a∗\n1, b∗\n1, α∗),θ∗\nB= (a∗\n2, b∗\n2, β∗),θ∗\nU= (a∗\n3, b∗\n3, γ∗).\nOutput: Final fit L(N, D )≈exp(a∗\n2Nβ∗+b∗\n2)D−exp(a∗\n1Nα∗+b∗\n1)+ exp( a∗\n3Nγ∗+b∗\n3).\n// Stage 1: Initial estimation of discrete AN, BN\n1foreach model size Ndo\n2 Compute RN(D)←L(N, D )−L(N, λD )\n// From text: RN(D)≈ˆBND−AN\n3 Estimate AN,ˆBNvia linear fit on\n4 log(RN(D)) = log( ˆBN)−ANlog(D)\n// Linear fit parameters can be found using the Normal Equation.",
+      "section": "Appendix",
+      "char_count": 1188,
+      "chunk_index": 76,
+      "page_numbers": [
+        18
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0077",
+      "source_id": "Farseer_2025",
+      "text": "Ndo\n2 Compute RN(D)←L(N, D )−L(N, λD )\n// From text: RN(D)≈ˆBND−AN\n3 Estimate AN,ˆBNvia linear fit on\n4 log(RN(D)) = log( ˆBN)−ANlog(D)\n// Linear fit parameters can be found using the Normal Equation.\n5 BN←ˆBN/(1−λ−AN)\n6Collect discrete sets {AN}and{BN}\n// Stage 2: Parameterization and Iterative Refinement of fA(N;θA)andfB(N;θB)\n// Assumed forms: fA(N;θA) = exp( a1Nα+b1),fB(N;θB) = exp( a2Nβ+b2).\n7Fitlog(BN) =a2Nβ+b2to{(N, B N)}to find initial a2, b2, β\n// Similarly, for each β,(a2, b2)are found via linear regression (e.g., Normal\nEquation) minimizingP\nN(log(BN)−(a2Nβ+b2))2.\n// Iterative refinement of exponents α, β\n8Let˜RN(D;θA, θB) =fB(N;θB)(1−λ−fA(N;θA))D−fA(N;θA)\n9Let global residual error ℓR=P\nNP\nD(RN(D)−˜RN(D;θA, θB))2\n10repeat\n11 Fixβ, a2, b2. Update α(and re-estimate a1, b1) to minimize ℓR\n// This involves finding α(e.g., via grid search). For each candidate α,(a1, b1)\nare re-calculated by fitting log(AN) =a1Nα+b1. The set (α, a 1, b1)that\nminimizes the global residual ℓRis chosen.\n12 Fix updated α, a1, b1. Update β(and re-estimate a2, b2) to minimize ℓR\n// Similarly, this involves finding β. For each candidate β,(a2, b2)are\nre-calculated by fitting log(BN) =a2Nβ+b2.",
+      "section": "Appendix",
+      "char_count": 1193,
+      "chunk_index": 77,
+      "page_numbers": [
+        19
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0078",
+      "source_id": "Farseer_2025",
+      "text": "Ris chosen.\n12 Fix updated α, a1, b1. Update β(and re-estimate a2, b2) to minimize ℓR\n// Similarly, this involves finding β. For each candidate β,(a2, b2)are\nre-calculated by fitting log(BN) =a2Nβ+b2. The set (β, a 2, b2)that minimizes\nthe global residual ℓRis chosen.\n13until convergence (e.g., 1-2 iterations or small change in ℓR)\n14Obtain refined parameters θ∗\nA= (a∗\n1, b∗\n1, α∗)andθ∗\nB= (a∗\n2, b∗\n2, β∗)from the best fit\n// Stage 3: Fit model-dependent residual E+U(N)\n// Assumed form: fU(N;θU) = exp( a3Nγ+b3).\n15Compute O(N, D )←L(N, D )−fB(N;θ∗\nB)D−fA(N;θ∗\nA)\n16G(N)←AvgD[O(N, D )]\n17Fitlog(G(N)) =a3Nγ+b3to{(N, G(N))}to find a3, b3, γ\n// This involves finding γ(e.g., grid search); for each γ,(a3, b3)are found via\nlinear regression (e.g., Normal Equation) minimizingP\nN(log(G(N))−(a3Nγ+b3))2.",
+      "section": "Appendix",
+      "char_count": 803,
+      "chunk_index": 78,
+      "page_numbers": [
+        19
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0079",
+      "source_id": "Farseer_2025",
+      "text": ")) =a3Nγ+b3to{(N, G(N))}to find a3, b3, γ\n// This involves finding γ(e.g., grid search); for each γ,(a3, b3)are found via\nlinear regression (e.g., Normal Equation) minimizingP\nN(log(G(N))−(a3Nγ+b3))2.\n18Obtain final parameters θ∗\nU= (a∗\n3, b∗\n3, γ∗)\n// Final fitted Scaling Law\n19The final scaling law is:\nL(N, D )≈exp(a∗\n2Nβ∗+b∗\n2)D−exp(a∗\n1Nα∗+b∗\n1)+ exp( a∗\n3Nγ∗+b∗\n3)\nreturn θ∗\nA, θ∗\nB, θ∗\nU\nC.2 Core Insight: Power-Law Scaling with Data Size ( D)\nThe entire methodology hinges on a key empirical observation: the finite difference of the loss with\nrespect to data size, ∆DL(N, D ) =L(N, λD )−L(N, D ), exhibits a robust power-law relationship\nwithDwhen plotted on log-log axes. This is illustrated in Figures 12, 13, and14, which shows a\n19\n\nstriking linear trend for ∆DL(N, D )vs.Dacross various model sizes N. The left panel shows the\npower-law fit on a log-log scale, while the right panel shows the relative residuals of the fit, which are\nsmall and randomly distributed, indicating a good fit. This observation is consistent across all studied\nranges of model size N, achieving a high average R2value of 0.9807 .",
+      "section": "Appendix",
+      "char_count": 1122,
+      "chunk_index": 79,
+      "page_numbers": [
+        19
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0080",
+      "source_id": "Farseer_2025",
+      "text": "uals of the fit, which are\nsmall and randomly distributed, indicating a good fit. This observation is consistent across all studied\nranges of model size N, achieving a high average R2value of 0.9807 .\nThis observation, ∆DL(N, D )∝D−A(N), constitutes the central empirical insight derived directly\nfrom the data analysis concerning the functional form of the data-dependent loss components\nV(D) +H(N, D ). This insight allows us to approximate V(D) +H(N, D )≈B(N)D−A(N),\nwhere A(N)andB(N)capture model-size dependencies. The cancellation of EandU(N)terms\nin∆DL(N, D )simplifies the analysis, focusing it on data-dependent effects. This power-law\nrelationship is pivotal, as all subsequent fitting stages for A(N),B(N), and consequently U(N),\nbuild upon this initial characterization.\nTo establish the most reliable functional forms for the components of the loss L(N, D ), we analyzed\nvarious differential perspectives. The general form of the loss is L(N, D ) =V(D) +H(N, D ) +\nE+U(N).",
+      "section": "Appendix",
+      "char_count": 985,
+      "chunk_index": 80,
+      "page_numbers": [
+        20
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0081",
+      "source_id": "Farseer_2025",
+      "text": "establish the most reliable functional forms for the components of the loss L(N, D ), we analyzed\nvarious differential perspectives. The general form of the loss is L(N, D ) =V(D) +H(N, D ) +\nE+U(N). We consider two primary types of finite differences:\n•∆DL(N, D ) =L(N, D )−L(N, λD )≈[V(D)−V(λD)] + [H(N, D )−H(N, λD )]\n•∆NL(N, D ) =L(N, D )−L(λN, D )≈[U(N)−U(λN)] + [H(N, D )−H(λN, D )]\nEach of these differences can be analyzed as a function of N(with Dfixed) or D(with Nfixed),\npotentially revealing power-law relationships. This gives four primary perspectives to model the\ninteraction term H(N, D )and its associated main effects:\n1.∆DL(N, D )vs.D(for fixed N):Leads to fitting ˆBD(N)D−AD(N). The terms AD(N)\nandˆBD(N)are coefficients and exponents that depend on N.\n2.∆DL(N, D )vs.N(for fixed D):Leads to fitting ˆEN(D)N−CN(D). Here, ˆEN(D)and\nCN(D)are coefficients and exponents that depend on D.\n3.∆NL(N, D )vs.D(for fixed N):Leads to fitting ˆGD(N)D−FD(N). Here, ˆGD(N)and\nFD(N)are coefficients and exponents that depend on N.\n4.∆NL(N, D )vs.N(for fixed D):Leads to fitting ˆIN(D)N−HN(D). Here, ˆIN(D)and\nHN(D)are coefficients and exponents that depend on D.",
+      "section": "Appendix",
+      "char_count": 1168,
+      "chunk_index": 81,
+      "page_numbers": [
+        20
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0082",
+      "source_id": "Farseer_2025",
+      "text": "ere, ˆGD(N)and\nFD(N)are coefficients and exponents that depend on N.\n4.∆NL(N, D )vs.N(for fixed D):Leads to fitting ˆIN(D)N−HN(D). Here, ˆIN(D)and\nHN(D)are coefficients and exponents that depend on D.\nFigures 10 and 11 illustrate the behavior of the coefficient and exponent functions derived from these\nfour perspectives.\nModel Size N (parameters)0.40\n0.35\n0.30\n0.25\n0.20\nCoefficient B(N)\n1010\n1011\nData Size D (tokens)0.00.10.20.30.4Coefficient E(D)\nModel Size N (parameters)0.0250.0500.0750.1000.1250.1500.1750.200Coefficient G(N)\n1010\n1011\nData Size D (tokens)0.375\n0.350\n0.325\n0.300\n0.275\n0.250\n0.225\n0.200\nCoefficient I(D)\n(a) Coefficient B(N) in DL=B(N)×DA(N)\n(b) Coefficient E(D) in DL=E(D)×NC(D)\n(c) Coefficient G(N) in NL=G(N)×DF(N)\n(d) Coefficient I(D) in NL=I(D)×NH(D)\nFigure 10: Log-Log projections of the coefficient functions derived from four differential loss\nperspectives: (a) ˆB(N)in∆DL=ˆB(N)D−A(N)vs.N; (b) ˆE(D)in∆DL=ˆE(D)N−C(D)\nvs.D; (c) ˆG(N)in∆NL=ˆG(N)D−F(N)vs.N; (d) ˆI(D)in∆NL=ˆI(D)N−H(D)vs.D.\nPerspective (a), B(N)vs.N, exhibits the most consistent and regular scaling, motivating its use in\nthe primary analysis.",
+      "section": "Appendix",
+      "char_count": 1140,
+      "chunk_index": 82,
+      "page_numbers": [
+        20
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0083",
+      "source_id": "Farseer_2025",
+      "text": "(D)N−C(D)\nvs.D; (c) ˆG(N)in∆NL=ˆG(N)D−F(N)vs.N; (d) ˆI(D)in∆NL=ˆI(D)N−H(D)vs.D.\nPerspective (a), B(N)vs.N, exhibits the most consistent and regular scaling, motivating its use in\nthe primary analysis.\nAs indicated in Figure 10(a), the coefficient B(N)(derived from ∆DL(N, D )vs.D) displays an ex-\nceptionally tight and consistent scaling with N. Similarly, Figure 11(a) shows that the corresponding\nexponent A(N)varies smoothly and predictably over a wide range of N. This regularity and stability\nare significantly more pronounced than those observed for analogous coefficient and exponent terms\nderived from the other three perspectives (Figures 10(b-d) and 11(b-d)).\nThe superior numerical behavior and clearer trends of A(N)andB(N)obtained from the\n∆DL(N, D )vs.Danalysis (corroborated by the high R2in Figure 3(a)) strongly justify prior-\nitizing this specific differential view. Thus, we adopt the form ∆DL(N, D )≈B(N)D−A(N)as the\nbasis for modeling the data-dependent terms.",
+      "section": "Appendix",
+      "char_count": 981,
+      "chunk_index": 83,
+      "page_numbers": [
+        20
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0084",
+      "source_id": "Farseer_2025",
+      "text": "oborated by the high R2in Figure 3(a)) strongly justify prior-\nitizing this specific differential view. Thus, we adopt the form ∆DL(N, D )≈B(N)D−A(N)as the\nbasis for modeling the data-dependent terms.\n20\n\n109\nModel Size N (parameters)0.51.01.52.0Exponent A(N)\n1010\n1011\nData Size D (tokens)6\n4\n2\nExponent C(D)\nModel Size N (parameters)4.5\n4.0\n3.5\n3.0\n2.5\n2.0\nExponent F(N)\n1010\n1011\nData Size D (tokens)0.00.20.40.60.81.01.2Exponent H(D)\n(a) Exponent A(N) in DL=B(N)×DA(N)\n(b) Exponent C(D) in DL=E(D)×NC(D)\n(c) Exponent F(N) in NL=G(N)×DF(N)\n(d) Exponent H(D) in NL=I(D)×NH(D)\nFigure 11: Log-Log projections of the exponent functions derived from four differential loss perspec-\ntives: (a) A(N)in∆DL=ˆB(N)D−A(N)vs.N; (b)C(D)in∆DL=ˆE(D)N−C(D)vs.D; (c)\nF(N)in∆NL=ˆG(N)D−F(N)vs.N; (d)H(D)in∆NL=ˆI(D)N−H(D)vs.D. Perspective\n(a),A(N)vs.N, exhibits the most stable trend, reinforcing the choice of modeling ∆DLas a\nfunction of D.\nC.3 Functional Form Selection for A(N)andB(N)\nOnce the discrete sets of parameters {AN}and{BN}are obtained for each model size N\n(Stage 1), continuous functions fA(N;θA)andfB(N;θB)are determined (Stage 2).",
+      "section": "Appendix",
+      "char_count": 1130,
+      "chunk_index": 84,
+      "page_numbers": [
+        20
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0085",
+      "source_id": "Farseer_2025",
+      "text": "unctional Form Selection for A(N)andB(N)\nOnce the discrete sets of parameters {AN}and{BN}are obtained for each model size N\n(Stage 1), continuous functions fA(N;θA)andfB(N;θB)are determined (Stage 2). This se-\nlection is guided by a systematic search over a dictionary of simple, monotone transformations\nG={identity, logarithm, power functions }.\nFor every ordered quadruple of transformations (gi, gj, gk, gm)∈ G4, we perform coordinate projec-\ntions:\ngi(AN) =a1gj(N) +b1+εA,N (17)\ngk(BN) =a2gm(N) +b2+εB,N (18)\nThe coefficients (a1, b1)and(a2, b2)are found via least squares for each combination. The transform\nquadruple (g∗\ni, g∗\nj, g∗\nk, g∗\nm)that minimizes the sum of projection-space residual sums of squares,\nℓA+ℓB=P\nNε2\nA,N+P\nNε2\nB,N, is selected.\nAs stated in Section 3.2, empirical results indicated that applying a logarithmic transformation to\nANandBN, and a power-law transformation to N, yielded the best fit. That is, g∗\ni(AN) = log( AN),\ng∗\nj(N) =Nα,g∗\nk(BN) = log( BN), and g∗\nm(N) =Nβ.",
+      "section": "Appendix",
+      "char_count": 1004,
+      "chunk_index": 85,
+      "page_numbers": [
+        21
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0086",
+      "source_id": "Farseer_2025",
+      "text": "icated that applying a logarithmic transformation to\nANandBN, and a power-law transformation to N, yielded the best fit. That is, g∗\ni(AN) = log( AN),\ng∗\nj(N) =Nα,g∗\nk(BN) = log( BN), and g∗\nm(N) =Nβ. These choices lead to the stretched-\nexponential forms:\nfA(N;θA) = exp( a1Nα+b1) (19)\nfB(N;θB) = exp( a2Nβ+b2) (20)\nThe exponents αandβare subsequently refined via an iterative strategy to minimize the global error\nof the loss differences ℓR=P\nNP\nD(RN(D)−˜RN(D))2.\nA wide range of functional form combinations from G4was evaluated. Table 2 presents a comparison\nof the top-performing candidates, thereby illustrating the types of transformations considered and\nhighlighting the combination that empirically minimized the ℓA+ℓBerror.\nTable 2: Summary of the functional form selection strategy for A(N)andB(N)using the transforma-\ntion dictionary G. The combination (gi= log , gj=power , gk= log , gm=power )was empirically\nfound to minimize ℓA+ℓB, leading to stretched-exponential forms.",
+      "section": "Appendix",
+      "char_count": 987,
+      "chunk_index": 86,
+      "page_numbers": [
+        21
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0087",
+      "source_id": "Farseer_2025",
+      "text": "ategy for A(N)andB(N)using the transforma-\ntion dictionary G. The combination (gi= log , gj=power , gk= log , gm=power )was empirically\nfound to minimize ℓA+ℓB, leading to stretched-exponential forms.\ngi(AN)gj(N)gk(BN)gm(N) Functional Form Type Relative ℓA+ℓB\nIdentity Power Identity Power Power-law + Power-law 0.1322\nLog Power Log Power Stretched Exp + Stretched Exp 0.1125\nLog Power Identity Power Stretched Exp + Power-law 0.1148\nIdentity Power Log Power Power-law + Stretched Exp 0.1306\nThe quality of fit using these stretched exponential forms is demonstrated in Figure 4 in the main\npaper.\n21\n\nFigure 12: Example of the power-law relationship between the finite difference of the loss, denoted\nhere as Minus _L_diff , and the data size Dfor model sizes ( N) from 201228288 to 676012032. (a)\nThe left panel log-log plot shows a clear linear trend, indicative of a power law. (b) The right panel\nrelative residuals of the fit are shown as a function of D, demonstrating the quality of the power-law\napproximation.",
+      "section": "Appendix",
+      "char_count": 1019,
+      "chunk_index": 87,
+      "page_numbers": [
+        21
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0088",
+      "source_id": "Farseer_2025",
+      "text": "og plot shows a clear linear trend, indicative of a power law. (b) The right panel\nrelative residuals of the fit are shown as a function of D, demonstrating the quality of the power-law\napproximation.\n22\n\nFigure 13: Example of the power-law relationship between the finite difference of the loss, denoted\nhere as Minus _L_diff , and the data size Dfor model sizes ( N) from 798470400 to 2697992704.\n(a) The left panel log-log plot shows a clear linear trend, indicative of a power law. (b) The right panel\nrelative residuals of the fit are shown as a function of D, demonstrating the quality of the power-law\napproximation.\n23\n\nFigure 14: Example of the power-law relationship between the finite difference of the loss, denoted\nhere as Minus _L_diff , and the data size Dfor model sizes ( N) from 3184435200 to 6369572352.\n(a) The left panel log-log plot shows a clear linear trend, indicative of a power law. (b) The right panel\nrelative residuals of the fit are shown as a function of D, demonstrating the quality of the power-law\napproximation.",
+      "section": "Appendix",
+      "char_count": 1047,
+      "chunk_index": 88,
+      "page_numbers": [
+        22
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0089",
+      "source_id": "Farseer_2025",
+      "text": "og plot shows a clear linear trend, indicative of a power law. (b) The right panel\nrelative residuals of the fit are shown as a function of D, demonstrating the quality of the power-law\napproximation.\n24\n\nC.4 Functional Form Selection for Model-Dependent Residual E+U(N)\nAfter fitting V(D) +H(N, D )≈fB(N;θ∗\nB)D−fA(N;θ∗\nA), the model-dependent residual term E+\nU(N)is estimated. This is done by first computing O(N, D ) =L(N, D )−fB(N;θ∗\nB)D−fA(N;θ∗\nA)\nand then averaging over Dto get G(N) = AvgD[O(N, D )]≈E+U(N).\nThe functional form for fU(N;θU)(which models G(N), absorbing Eas a constant within the fit) is\ndetermined by repeating a similar transformation-fit-selection procedure as for A(N)andB(N). For\neach pair of transformations (gp, gq)∈ G2, we regress:\ngp(G(N)) =a3gq(N) +b3+εU,N (21)\nThe pair (g∗\np, g∗\nq)that minimizes the residual sum of squares ℓU=P\nNε2\nU,Nis chosen.\nAs detailed in Section 3.3, the optimal transformations identified were a logarithmic transformation\nforG(N)(g∗\np(G(N)) = log( G(N))) and a power-law transformation for N(g∗\nq(N) =Nγ).",
+      "section": "Appendix",
+      "char_count": 1066,
+      "chunk_index": 89,
+      "page_numbers": [
+        22
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0090",
+      "source_id": "Farseer_2025",
+      "text": "2\nU,Nis chosen.\nAs detailed in Section 3.3, the optimal transformations identified were a logarithmic transformation\nforG(N)(g∗\np(G(N)) = log( G(N))) and a power-law transformation for N(g∗\nq(N) =Nγ). This\nselection results in a stretched-exponential form for E+U(N):\nE+U(N)≃G(N)≈exp(a3Nγ+b3) (22)\nThe exponent γis identified via a grid search minimizing the fitting error.\nTable 3 summarizes this selection process, illustrating the types of transformations explored and\nhighlighting the empirically optimal choice. The \"Minimized Error\" column refers to the ℓUcriterion.\nTable 3: Summary of the functional form selection strategy for G(N)≈E+U(N)using the\ntransformation dictionary G. The combination (gp= log , gq=power )was empirically found to\nminimize ℓU, leading to a stretched-exponential form.\ngp(G(N))gq(N)Resulting Functional Form Type Relative ℓU\nIdentity Power Power-law 0.0083\nLog Power Stretched Exponential 0.0011\nD Validation Set and Compression Rate Metrics\nD.1 Validation Set\nA validation set must be based on the following principles: (1) Unseen integrity: All validation\nsamples are rigorously excluded from the training data of any model.",
+      "section": "Appendix",
+      "char_count": 1159,
+      "chunk_index": 90,
+      "page_numbers": [
+        25
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0091",
+      "source_id": "Farseer_2025",
+      "text": "on Rate Metrics\nD.1 Validation Set\nA validation set must be based on the following principles: (1) Unseen integrity: All validation\nsamples are rigorously excluded from the training data of any model. (2) Bias-free composition: Strict\nprohibition of model-generated or model-processed content to prevent overfitting towards specific\nmodel families. (3) Diversity: Ensuring coverage in various fields through extensive collection and\nrandom sampling protocols. (4) High quality: Validation samples must maintain strict syntactic\ncorrectness and logical integrity to avoid distortion of measurements. We construct a specialized\nEnglish validation set comprising web pages, books, and academic papers, with each data category\ncontaining approximately 10 million tokens. The web data originated from SERP (Search Engine\nResults Page) pages crawled via Google searches targeting Wikipedia entities. Book data was digitized\nfrom newly published textbooks through our proprietary PDF parser pipeline, while academic papers\nare sourced from arXiv publications after 2024.",
+      "section": "Appendix",
+      "char_count": 1063,
+      "chunk_index": 91,
+      "page_numbers": [
+        25
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0092",
+      "source_id": "Farseer_2025",
+      "text": "targeting Wikipedia entities. Book data was digitized\nfrom newly published textbooks through our proprietary PDF parser pipeline, while academic papers\nare sourced from arXiv publications after 2024. This composite dataset is systematically organized\ninto 55 distinct domains spanning culture, arts, history, entertainment, and other fields. For each\ndata category, we implemented a rigorous filtering pipeline: preliminary data pruning including\nremoval of books/papers with character lengths <2,000 and webpages scoring below 0.6 via our defect\ndetection model, domain-stratified downsampling, and GPT-4o-based quality scoring with subsequent\nselection of top-ranked samples. Through the multi-stage refinement process, we ultimately develop\na high-quality validation set containing 30 million tokens.\nD.2 Compression Rate Metrics\nWe adopt bits per character (BPC) as the quantitative metric for evaluating LLM compression\nefficiency. BPC measures the cross-entropy between the model’s predicted distribution and the\ntrue character distribution.",
+      "section": "Appendix",
+      "char_count": 1047,
+      "chunk_index": 92,
+      "page_numbers": [
+        25
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0093",
+      "source_id": "Farseer_2025",
+      "text": "per character (BPC) as the quantitative metric for evaluating LLM compression\nefficiency. BPC measures the cross-entropy between the model’s predicted distribution and the\ntrue character distribution. Crucially, when the predicted distribution aligns perfectly with the\n25\n\ntrue distribution, this cross-entropy formulation becomes mathematically equivalent to lossless\ncompression. This equivalence establishes BPC as a theoretically grounded metric for quantifying\nhow effectively LLMs compress given text in our validation set. Formally, BPC is defined as:\nBPC =NX\ni=1log\u00121\npi\u0013\n·1\nM=1\nNNX\ni=1(−log(pi))\n| {z }\ntrain loss·N\nM=R1·R2=R(23)\nwhere M,Ndenote corpus size and vocabulary size, respectively. R1, the first term of the BPC\nformula, captures model compression through next-token prediction loss, which is equivalent to the\ntraining loss upon first exposure. R2, the second term of the BPC formula, represents vocabulary\ncompression rate. It is worth noting that due to differences in vocabulary size, cross-family model\ncomparisons need to consider R1·R2, while analysis within the same family can focus solely on R1.",
+      "section": "Appendix",
+      "char_count": 1126,
+      "chunk_index": 93,
+      "page_numbers": [
+        25
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0094",
+      "source_id": "Farseer_2025",
+      "text": "ry\ncompression rate. It is worth noting that due to differences in vocabulary size, cross-family model\ncomparisons need to consider R1·R2, while analysis within the same family can focus solely on R1.\nE Point, Line, and Surface Comparison\nOne of the key applications of Farseer is to enable systematic comparison across different set-\ntings—such as alternative model architectures or pre-training data mixtures—using only modest\ncomputational resources. By fitting two Farseer curves on relatively small-scale experiments, we\nobtain predicted loss surfaces L(N, D )that faithfully capture performance across the full (N, D )\nplane for each setting. This gives rise to a comprehensive surface comparison that subsumes and\nextends traditional point and line analyses: a point comparison highlights performance at individual\n(N, D )coordinates; a line comparison reveals trends along fixed NorDslices; and the surface\ncomparison synthesizes these insights into a continuous two-dimensional map of relative behavior.\nTo illustrate, we apply this to two pre-training mixtures with 85% versus 50% English data (balanced\nby Chinese for the remainder).",
+      "section": "Appendix",
+      "char_count": 1144,
+      "chunk_index": 94,
+      "page_numbers": [
+        26
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0095",
+      "source_id": "Farseer_2025",
+      "text": "insights into a continuous two-dimensional map of relative behavior.\nTo illustrate, we apply this to two pre-training mixtures with 85% versus 50% English data (balanced\nby Chinese for the remainder). We sample a modest grid of model sizes Nand English token counts\nD, fitFarseer to each subset, and compute the normalized relative BPC difference\n∆ =BPC 85%−BPC 50%\nBPC 50%.\nFig. 15 shows the 3D surface of ∆overlog10Nandlog10D, with the zero plane marking parity\nbetween the two mixtures. Regions above the plane indicate that the 50% English mixture yields\nlower error, while regions below favor the 85% mixture. Green squares denote individual point\n8 9.0\n9 9.5\n1111.010.510.0\n1211.5\n13 12.0\n0.02\n0.00\n0.02\n0.04\nRelative Difference\n0.06\n0.02\n0.00\n0.02\n0.04\n0.06Point Comparison \nLine Comparison \nFigure 15: Farseer ’s normalized 3D surface of relative BPC difference between datasets with 85%\nand 50% English proportions. The translucent pink plane marks ∆ = 0 : above it, the 50% -English\nconfiguration outperforms; below it, the 85% -English configuration outperforms.",
+      "section": "Appendix",
+      "char_count": 1073,
+      "chunk_index": 95,
+      "page_numbers": [
+        26
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0096",
+      "source_id": "Farseer_2025",
+      "text": "ween datasets with 85%\nand 50% English proportions. The translucent pink plane marks ∆ = 0 : above it, the 50% -English\nconfiguration outperforms; below it, the 85% -English configuration outperforms. Green squares show\nsmall -scale experiments at individual (N, D )points, and the yellow dashed curve connects several\nsuch points—conclusions from these point/line comparisons do not hold at larger scales.\n26\n\ncomparison experiments at specific (N, D )coordinates, and the yellow line connects several such\npoints for a line comparison. Although these smaller scale analyses can suggest one mixture is better,\nthe surface comparison reveals how those conclusions can reverse at larger scales. Farseer ’s exhibits\npower for low-cost, high-fidelity extrapolation across any two training recipes or model designs.\nF Model Parameter Configuration Table\nTable 4: Model configurations used in the Farseer study with Baseline data recipe, detailing architec-\ntural and training dataset properties across 21 systematically scaled transformer models.",
+      "section": "Appendix",
+      "char_count": 1042,
+      "chunk_index": 96,
+      "page_numbers": [
+        26
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0097",
+      "source_id": "Farseer_2025",
+      "text": "n Table\nTable 4: Model configurations used in the Farseer study with Baseline data recipe, detailing architec-\ntural and training dataset properties across 21 systematically scaled transformer models.\nModel N D count Drange dmodel dff Nhead Nlayer Nwith _emb\n1 201228288 17 [1.41×109,3.62×1011]1024 2728 16 16 335446016\n2 239005312 18 [1.19×109,4.31×1011]1088 2856 17 17 381611648\n3 284207616 18 [1.00×109,3.62×1011]1152 3032 18 18 435202560\n4 336994944 18 [1.19×109,4.31×1011]1216 3240 19 19 496378496\n5 397772800 17 [1.41×109,3.62×1011]1280 3472 20 20 565544960\n6 476931840 18 [1.19×109,4.31×1011]1344 3584 21 22 653092608\n7 568468736 18 [1.00×109,3.62×1011]1472 3888 23 22 761406720\n8 676012032 18 [1.19×109,4.31×1011]1536 4064 24 24 877338624\n9 798470400 18 [1.41×109,5.12×1011]1600 4264 25 26 1008185600\n10 956354688 18 [1.19×109,4.31×1011]1728 4528 27 27 1182847104\n11 1125938688 18 [1.00×109,3.62×1011]1792 4832 28 29 1360819712\n12 1338278400 18 [1.19×109,4.31×1011]1920 5184 30 30 1589936640",
+      "section": "Appendix",
+      "char_count": 999,
+      "chunk_index": 97,
+      "page_numbers": [
+        27
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0098",
+      "source_id": "Farseer_2025",
+      "text": "08185600\n10 956354688 18 [1.19×109,4.31×1011]1728 4528 27 27 1182847104\n11 1125938688 18 [1.00×109,3.62×1011]1792 4832 28 29 1360819712\n12 1338278400 18 [1.19×109,4.31×1011]1920 5184 30 30 1589936640\n13 1608122368 17 [1.41×109,3.62×1011]2048 5448 32 32 1876557824\n14 1911894528 17 [1.19×109,3.04×1011]2176 5712 34 34 2197107200\n15 2273495040 14 [1.41×109,1.81×1011]2304 6064 36 36 2575484928\n16 2697992704 15 [1.68×109,2.15×1011]2432 6488 38 38 3016759808\n17 3184435200 13 [2.00×109,1.28×1011]2560 6952 40 40 3519979520\n18 3816352512 13 [2.38×109,1.52×1011]2752 7336 43 42 4177062656\n19 4504118400 12 [2.00×109,9.05×1010]2880 7744 45 45 4881605760\n20 5354047488 11 [3.36×109,1.08×1011]3072 8264 48 47 5756700672\n21 6369572352 11 [2.00×109,9.05×1010]3328 9136 52 47 6805779968\nOur model configurations are built upon the architectural principles of the LLama [ 39,40], scaling\ndepth, width, and attention mechanisms in a systematic grid to explore performance across a broad\nspectrum of model sizes. Table 4 provides an overview of the 21 distinct configurations (Model 1\nthrough Model 21) used to fit the Farseer with Baseline training data in Tab. B.",
+      "section": "Appendix",
+      "char_count": 1151,
+      "chunk_index": 98,
+      "page_numbers": [
+        27
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0099",
+      "source_id": "Farseer_2025",
+      "text": "ormance across a broad\nspectrum of model sizes. Table 4 provides an overview of the 21 distinct configurations (Model 1\nthrough Model 21) used to fit the Farseer with Baseline training data in Tab. B. Each model (from\nthe most compact Model 1 to the most expansive Model 21) was trained on an exceptionally large\nand diverse corpus, ensuring robust generalization and comprehensive coverage of the underlying\nphysical phenomena:\n•Parameter scale: The second column Nreports the number of trainable parameters outside\nof the embedding layers, ranging from 2.01×108up to 6.37×109. This systematic scaling\nof model size enables us to rigorously examine how parameter count Ninfluences the\nbehavior captured by Farseer for modeling scaling laws.\n•Data coverage: Column Dcount indicates the number of distinct data subsets incorporated\ninto each model ’s training process. The corresponding column Drange (expressed in sci-\nentific notation) reports the minimum and maximum token counts used for training each\nmodel.",
+      "section": "Appendix",
+      "char_count": 1011,
+      "chunk_index": 99,
+      "page_numbers": [
+        27
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0100",
+      "source_id": "Farseer_2025",
+      "text": "ubsets incorporated\ninto each model ’s training process. The corresponding column Drange (expressed in sci-\nentific notation) reports the minimum and maximum token counts used for training each\nmodel. Across all models, the training corpus spans roughly 1.00×109to5.12×1011\ntokens, highlighting the substantial scale and heterogeneity of the data leveraged to capture\nFarseer ’s complex Dscaling behavior.\n•Architectural details: Following the LLama design [ 39,40], each configuration specifies\nthe transformer hidden dimension dmodel , feed-forward sublayer size dff, number of atten-\ntion heads Nhead, number of transformer layers Nlayer, and total embedding parameters\nNwith _emb. This structured sweep follows common design principles established by existing\nmodels, helping ensure that Farseer ’s results remain compatible and comparable with prior\nscaling studies.\n•Data -rich training: By combining extensive token budgets with carefully designed models,\nwe ensure that even our largest architectures remain data -saturated, avoiding under -fitting\n27\n\nin any scale regime.",
+      "section": "Appendix",
+      "char_count": 1081,
+      "chunk_index": 100,
+      "page_numbers": [
+        27
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0101",
+      "source_id": "Farseer_2025",
+      "text": "ch training: By combining extensive token budgets with carefully designed models,\nwe ensure that even our largest architectures remain data -saturated, avoiding under -fitting\n27\n\nin any scale regime. This abundance of training examples is critical for capturing the\nmulti-scale interactions inherent in the Farseer phenomena.\nThis systematic sweep of model scales, grounded in widely adopted architectural designs and\nsupported by substantial and diverse training data, provides a consistent and robust foundation for\nanalyzing the scaling behavior captured by Farseer .\nAdditionally, Section 4.2 investigates the impact of different dataset compositions on Farseer . Under\nthe EN -ZH configuration in Tab. B, we conducted experiments using the model settings presented\nin Table 5 to demonstrate the data generalization capabilities of Farseer , with settings analogous to\nthose described above.\nTable 5: Model configurations used in the Farseer study with EN -ZH data recipe, detailing architec-\ntural and training dataset properties across 9 systematically scaled transformer models.",
+      "section": "Appendix",
+      "char_count": 1086,
+      "chunk_index": 101,
+      "page_numbers": [
+        27
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0102",
+      "source_id": "Farseer_2025",
+      "text": "bed above.\nTable 5: Model configurations used in the Farseer study with EN -ZH data recipe, detailing architec-\ntural and training dataset properties across 9 systematically scaled transformer models.\nModel N D count Drange dmodel dff Nhead Nlayer Nwith _emb\n1 201228288 13 [2.00×109,1.28×1011]1024 2728 16 16 335446016\n2 284207616 13 [2.00×109,1.28×1011]1152 3032 18 18 435202560\n3 397772800 13 [2.00×109,1.28×1011]1280 3472 20 20 565544960\n4 585641088 13 [2.00×109,1.28×1011]1472 3888 22 23 778579072\n5 778000000 13 [2.00×109,1.28×1011]1600 4264 26 25 987715200\n6 1099958272 13 [2.00×109,1.28×1011]1792 4832 29 28 1334839296\n7 1608122368 13 [2.00×109,1.28×1011]2048 5448 32 32 1876557824\n8 2273495040 13 [2.00×109,1.28×1011]2304 6064 36 36 2575484928\n9 3184435200 13 [2.00×109,1.28×1011]2560 6952 40 40 3519979520\nG Consideration of Parameters with Embedding Layers\nA persistent question in the formulation and analysis of scaling laws for language models revolves\naround the inclusion of embedding layer parameters when defining the total model size, denoted as\nN.",
+      "section": "Appendix",
+      "char_count": 1067,
+      "chunk_index": 102,
+      "page_numbers": [
+        28
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0103",
+      "source_id": "Farseer_2025",
+      "text": "A persistent question in the formulation and analysis of scaling laws for language models revolves\naround the inclusion of embedding layer parameters when defining the total model size, denoted as\nN. This is not a trivial accounting detail, as the embedding layer can constitute a significant fraction\nof a model’s parameters, particularly for models with large vocabularies. Different perspectives on\nthis issue have been adopted in seminal works. For instance, the scaling laws proposed by OpenAI\noften focused on non-embedding parameters, whereas the Chinchilla scaling laws by DeepMind\ntypically accounted for the total number of parameters, including embeddings. This divergence in\nmethodology highlights an underlying uncertainty regarding the effective contribution of embedding\nparameters to model capacity as characterized by scaling laws.\nTo investigate this ambiguity and determine a more empirically grounded approach, we conducted a\ntargeted ablation study. The study aimed to directly compare the predictive power of scaling laws\nfitted using two distinct definitions of N: one that includes the parameters of the embedding layer\nand another that excludes them.",
+      "section": "Appendix",
+      "char_count": 1175,
+      "chunk_index": 103,
+      "page_numbers": [
+        28
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0104",
+      "source_id": "Farseer_2025",
+      "text": "study aimed to directly compare the predictive power of scaling laws\nfitted using two distinct definitions of N: one that includes the parameters of the embedding layer\nand another that excludes them. We fitted separate scaling law functions to our experimental data\nunder these two conditions.\nThe findings, as illustrated in Fig 16. In the vicinity of the data points used for fitting the scaling\nlaws, both formulations – Nwith and without embedding parameters – yield comparable predictions,\nexhibiting good local fits. However, a crucial distinction emerges when extrapolating to model\nsizes significantly larger than those in the fitting set. We validated the fitted laws at a 25.1 billion\nparameter scale (denoted as Nval= 25.1B). At this larger validation point, the discrepancy between\nthe two an N with embedding layers scaled law, the error in prediction increased substantially to\n0.029. In contrast, the scaling law derived using N exclusive of embedding parameters demonstrated\nsignificantly better extrapolation, with an error more than four times smaller than its counterpart.",
+      "section": "Appendix",
+      "char_count": 1092,
+      "chunk_index": 104,
+      "page_numbers": [
+        28
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0105",
+      "source_id": "Farseer_2025",
+      "text": "0.029. In contrast, the scaling law derived using N exclusive of embedding parameters demonstrated\nsignificantly better extrapolation, with an error more than four times smaller than its counterpart.\nThis ablation study provides compelling evidence that, from the perspective of achieving robust\nand generalizable scaling laws, it is preferable to exclude embedding layer parameters from the\ncalculation of N. The improved extrapolation accuracy observed when omitting these parameters\nsuggests that they may not contribute to the model’s scalable capacity in the same manner as the core\n\"compute\" parameters of the transformer architecture. This finding has important implications for\naccurately predicting the performance of much larger models and for optimally allocating parameter\nbudgets in future language model development.",
+      "section": "Appendix",
+      "char_count": 830,
+      "chunk_index": 105,
+      "page_numbers": [
+        28
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0106",
+      "source_id": "Farseer_2025",
+      "text": "chitecture. This finding has important implications for\naccurately predicting the performance of much larger models and for optimally allocating parameter\nbudgets in future language model development.\n28\n\n/uni00000014/uni00000011/uni0000001c /uni00000015/uni00000011/uni00000016 /uni00000015/uni00000011/uni0000001a /uni00000016/uni00000011/uni00000015 /uni00000016/uni00000011/uni0000001b /uni00000017/uni00000011/uni00000018 /uni00000018/uni00000011/uni00000017/uni00000013/uni00000011/uni00000013/uni00000013/uni00000013/uni00000013/uni00000011/uni00000013/uni00000014/uni00000013/uni00000013/uni00000011/uni00000013/uni00000015/uni00000013/uni00000013/uni00000011/uni00000013/uni00000016/uni00000013/uni00000013/uni00000011/uni00000013/uni00000017/uni00000013/uni00000013/uni00000011/uni00000013/uni00000018/uni00000013/uni00000013/uni00000011/uni00000013/uni00000019/uni00000013/uni00000013/uni00000011/uni00000013/uni0000001a/uni00000013/uni00000035/uni00000048/uni0000004f/uni00000044/uni00000",
+      "section": "Appendix",
+      "char_count": 1000,
+      "chunk_index": 106,
+      "page_numbers": [
+        28
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0107",
+      "source_id": "Farseer_2025",
+      "text": "uni00000018/uni00000013/uni00000013/uni00000011/uni00000013/uni00000019/uni00000013/uni00000013/uni00000011/uni00000013/uni0000001a/uni00000013/uni00000035/uni00000048/uni0000004f/uni00000044/uni00000057/uni0000004c/uni00000059/uni00000048/uni00000003/uni00000028/uni00000055/uni00000055/uni00000052/uni00000055\n/uni00000031/uni00000003/uni0000005a/uni00000012/uni00000052/uni00000003/uni00000028/uni00000050/uni00000045/uni00000048/uni00000047/uni00000047/uni0000004c/uni00000051/uni0000004a/uni00000003/uni0000000b/uni00000029/uni00000044/uni00000055/uni00000056/uni00000048/uni00000048/uni00000055/uni0000000c\n/uni00000031/uni00000003/uni0000005a/uni0000004c/uni00000057/uni0000004b/uni00000003/uni00000028/uni00000050/uni00000045/uni00000048/uni00000047/uni00000047/uni0000004c/uni00000051/uni0000004a\n/uni00000014/uni00000011/uni0000001c /uni00000015/uni00000011/uni00000016 /uni00000015/uni00000011/uni0000001a /uni00000016/uni00000011/uni00000015 /uni00000016/uni00000011/uni0000001b /uni00000",
+      "section": "Appendix",
+      "char_count": 1000,
+      "chunk_index": 107,
+      "page_numbers": [
+        29
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0108",
+      "source_id": "Farseer_2025",
+      "text": "0004a\n/uni00000014/uni00000011/uni0000001c /uni00000015/uni00000011/uni00000016 /uni00000015/uni00000011/uni0000001a /uni00000016/uni00000011/uni00000015 /uni00000016/uni00000011/uni0000001b /uni00000017/uni00000011/uni00000018 /uni00000018/uni00000011/uni00000017\n/uni00000014/uni00000048/uni0000001c /uni00000031/uni00000003/uni00000038/uni00000053/uni00000053/uni00000048/uni00000055/uni00000003/uni00000025/uni00000052/uni00000058/uni00000051/uni00000047/uni00000003/uni00000049/uni00000052/uni00000055/uni00000003/uni00000029/uni0000004c/uni00000057/uni00000057/uni0000004c/uni00000051/uni0000004a\n/uni0000000b/uni00000044/uni0000000c/uni00000003/uni00000039/uni00000044/uni0000004f/uni0000004c/uni00000047/uni00000044/uni00000057/uni0000004c/uni00000052/uni00000051/uni00000003/uni00000052/uni00000051/uni00000003Nval/uni00000003/uni00000020/uni00000003/uni00000019/uni00000011/uni00000017/uni00000025 /uni0000000b/uni00000045/uni0000000c/uni00000003/uni00000039/uni00000044/uni0000004f/uni0000",
+      "section": "Appendix",
+      "char_count": 1000,
+      "chunk_index": 108,
+      "page_numbers": [
+        29
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0109",
+      "source_id": "Farseer_2025",
+      "text": "0000051/uni00000003Nval/uni00000003/uni00000020/uni00000003/uni00000019/uni00000011/uni00000017/uni00000025 /uni0000000b/uni00000045/uni0000000c/uni00000003/uni00000039/uni00000044/uni0000004f/uni0000004c/uni00000047/uni00000044/uni00000057/uni0000004c/uni00000052/uni00000051/uni00000003/uni00000052/uni00000051/uni00000003Nval/uni00000003/uni00000020/uni00000003/uni00000015/uni00000018/uni00000011/uni00000014/uni00000025Figure 16: Scaling law extrapolation with and without counting embedding parameters in model\nsizeN. While both versions fit the training range well, only the formulation excluding embeddings\nextrapolates accurately to Nval= 25.1B. This indicates that embedding parameters may not scale\nwith model capacity in the same way as transformer parameters, and excluding them yield more\npredictive scaling laws.\nH Non-linear End-to-End Fitting\nTo ensure a robust and equitable comparison of the predictive capabilities of the Farseer and Chinchilla\nscaling laws, we meticulously evaluated two fitting methodologies for both. This appendix details the\nprocedures undertaken and the rationale behind the specific fitting choices reported in the main text.",
+      "section": "Appendix",
+      "char_count": 1169,
+      "chunk_index": 109,
+      "page_numbers": [
+        29
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0110",
+      "source_id": "Farseer_2025",
+      "text": "ing laws, we meticulously evaluated two fitting methodologies for both. This appendix details the\nprocedures undertaken and the rationale behind the specific fitting choices reported in the main text.\nInitially, our Differential Piecewise Fitting method (as detailed in Section 3 and Appendix C) was\napplied to both the Farseer and Chinchilla formulations using our comprehensive dataset (Appendix B).\nThis allowed for a direct comparison of the models when subjected to the same fitting paradigm.\nSubsequently, we also employed standard end-to-end non-linear regression for both models, mirroring\nthe conventional approach used for Chinchilla. For the Farseer model, this process was particularly\nintensive due to its more complex functional form. To thoroughly explore the parameter space\nand mitigate issues with local minima, we conducted an extensive search involving over 30,000\noptimization runs, each initiated with different prior-informed parameter initialization.",
+      "section": "Appendix",
+      "char_count": 974,
+      "chunk_index": 110,
+      "page_numbers": [
+        29
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0111",
+      "source_id": "Farseer_2025",
+      "text": "parameter space\nand mitigate issues with local minima, we conducted an extensive search involving over 30,000\noptimization runs, each initiated with different prior-informed parameter initialization.\nFarseer Chinchilla0.00000.00250.00500.00750.01000.01250.01500.01750.0200Relative error0.0167\n0.0028\n0.00180.0056Standard Non-Linear Regression\nDifferential Piecewise Fitting\n(a) Relative errors of Chinchilla and Farseer models\nfitted with standard non-linear regression and differ-\nential piecewise fitting.\nChinchilla Farseer Chinchilla Farseer\nMethod0.0000.0050.0100.0150.0200.0250.0300.0350.040Relative Extrapolation Error6B 25B\nStandard Non-Linear Regression\nDifferential Piecewise Fitting(b) Relative extrapolation error at 6 B and 25 B for\nChinchilla and Farseer, comparing standard end-to-end\nregression v.s. Differential Piecewise fitting.\nFigure 17: (a) Chinchilla performs slightly better with standard regression, while Farseer shows a\nsignificant gain from piecewise fitting. (b) For the Farseer, differential piecewise fitting reduces the\nextrapolation error by an order of magnitude.\n29\n\nOur evaluations revealed distinct behaviors for the two models under these fitting regimes.",
+      "section": "Appendix",
+      "char_count": 1193,
+      "chunk_index": 111,
+      "page_numbers": [
+        29
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0112",
+      "source_id": "Farseer_2025",
+      "text": "or the Farseer, differential piecewise fitting reduces the\nextrapolation error by an order of magnitude.\n29\n\nOur evaluations revealed distinct behaviors for the two models under these fitting regimes. For the\nChinchilla model, the standard non-linear regression yielded a marginally better fit compared to our\nmethod, as illustrated by Fig 17.\nIn contrast, the Farseer model exhibited significantly different results. Due to its inherent complexity,\nthe standard non-linear regression approach struggled to converge to an optimal global solution, even\nwith the extensive initialization strategy. The resulting fit produced errors approximately an order of\nmagnitude (10 times) higher than those achieved with our method. The superior performance of the\nDifferential Piecewise Fitting method for Farseer suggests that its piecewise or iterative refinement\nis better suited to navigate the intricate loss landscape of our formulation, indirectly validating the\nstructural accuracy of the Farseer model itself.",
+      "section": "Appendix",
+      "char_count": 1007,
+      "chunk_index": 112,
+      "page_numbers": [
+        29
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0113",
+      "source_id": "Farseer_2025",
+      "text": "ests that its piecewise or iterative refinement\nis better suited to navigate the intricate loss landscape of our formulation, indirectly validating the\nstructural accuracy of the Farseer model itself.\nGiven these findings, and to ensure each model was represented by its most effective and accurately\nfitted version, the comparisons presented in the main body of this paper are based on:\nThe Chinchilla model fitted using standard non-linear regression. The Farseer model fitted using our\nDifferential Piecewise Fitting method. This approach allows for a fair comparison by leveraging the\nfitting technique that best captures the predictive power of each respective scaling law according to\nour empirical evaluations.\nI Analysis of Formula Properties\nAs defined by the fitted form\nL(N, D ) =e−0.021·N0.169−0.091+e88.01·N−0.1−6.287·D−e−0.124·N0.123+0.424(24)\nFig. 18 exhibited the trend of BPC L(N, D )with model size Nand data size D.Farseer exhibits\na fundamental property: it strictly decreases with both NandD. This guarantees that additional\ncompute or data never degrades performance. This feature makes Farseer both intuitively and\nformally well-behaved as a large-scale scaling law.",
+      "section": "Appendix",
+      "char_count": 1189,
+      "chunk_index": 113,
+      "page_numbers": [
+        30
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0114",
+      "source_id": "Farseer_2025",
+      "text": "creases with both NandD. This guarantees that additional\ncompute or data never degrades performance. This feature makes Farseer both intuitively and\nformally well-behaved as a large-scale scaling law.\nI.1 Monotonicity\nStarting from the general form in Eq. (4) and other mentioned definitions, we group terms as\nL(N, D ) =U(N) +B(N)D−A(N),\nwith\nU(N) =e−0.021·N0.169−0.091, B (N) =e88.01·N−0.1−6.287, A (N) =e−0.124·N0.123+0.424.\nEach of these terms is strictly positive for all admissible values of NandD.\n1. Partial derivative w.r.t. D.\nDifferentiating with respect to D, we obtain:\n∂L\n∂D=∂\n∂Dh\nU(N) +B(N)D−A(N)i\n=−A(N)B(N)D−A(N)−1.\nThis expression is strictly negative since all multiplicative components— A(N),B(N), and\nD−A(N)−1—are positive for admissible values of NandD. Consequently, the loss L(N, D )\nmonotonically decreases with increasing data size D, aligning with the intuitive expectation that\nmore data improves generalization. This behavior is visualized in Fig. 19, which shows the surface of\n∂L/∂D over a wide range of (logN,logD).\n2. Partial derivative w.r.t. N.\nBy the product and chain rules,\n∂L\n∂N=U′(N) +B′(N)D−A(N)+B(N)d\ndN\u0000\nD−A(N)\u0001\n.",
+      "section": "Appendix",
+      "char_count": 1156,
+      "chunk_index": 114,
+      "page_numbers": [
+        30
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0115",
+      "source_id": "Farseer_2025",
+      "text": "s visualized in Fig. 19, which shows the surface of\n∂L/∂D over a wide range of (logN,logD).\n2. Partial derivative w.r.t. N.\nBy the product and chain rules,\n∂L\n∂N=U′(N) +B′(N)D−A(N)+B(N)d\ndN\u0000\nD−A(N)\u0001\n.\nBecause the analytical form of ∂L/∂N is prohibitively complex, we resort to numerical verification\nto determine its sign. As illustrated in Fig. 20, the numerically computed ∂L/∂N remains negative\nacross the entire range of N. Therefore, Lis confirmed to decrease monotonically as Nincreases.\n30\n\nlog10N\n8910111213\nlog10D8\n10\n12\n14\n15L(N,D)\n0.30.40.50.60.70.80.91.0L(N,D) Surface\n0.30.40.50.60.70.80.91.0\nL(N,D)Figure 18: Visualization of L(N, D )as a function of model size Nand data size D.\nlog10(N)\n8910111213\nlog10(D)8\n10\n12\n14\n15L/D\n1e9\n2.0\n1.5\n1.0\n0.5\n0.0L/D\n2.00\n1.75\n1.50\n1.25\n1.00\n0.75\n0.50\n0.25\n0.00\nL/D\n1e9\nFigure 19: Visualization of ∂L/∂D as a function of model size Nand data size D, showing a\nconsistently negative gradient across the domain.\n31\n\nlog10(N)\n8910111213\nlog10(D)8\n10\n12\n14\n15L/N\n1e10\n3\n1\n0L/N\n4.0\n3.5\n3.0\n2.5\n2.0\n1.5\n1.0\n0.5\nL/N\n1e10\nFigure 20: Visualization of ∂L/∂N over varying NandD, also showing a consistently negative\ngradient across the domain.",
+      "section": "Appendix",
+      "char_count": 1181,
+      "chunk_index": 115,
+      "page_numbers": [
+        30
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0116",
+      "source_id": "Farseer_2025",
+      "text": "3\nlog10(D)8\n10\n12\n14\n15L/N\n1e10\n3\n1\n0L/N\n4.0\n3.5\n3.0\n2.5\n2.0\n1.5\n1.0\n0.5\nL/N\n1e10\nFigure 20: Visualization of ∂L/∂N over varying NandD, also showing a consistently negative\ngradient across the domain.\nJ Discussion and Future Work\nThrough a rigorous experimental design, a massive number of experiments, and extensive experimen-\ntal data collected over 18 months of experimentation and analysis, we have discovered a law that is\nmore fundamental than the Chinchilla law, which we name the Farseer . On one hand, we believe\nthis paper opens up a new field with a vast amount of potential work, such as deeper explorations of\nthe Law based on Farseer, or comprehensive comparisons of various model architectures and data\nmethodologies using Farseer. On the other hand, Farseer has some limitations. We will now delve\ninto a detailed discussion of these two aspects.\nComputational Power Limitations Due to computational constraints, our evaluations have been\nrestricted to Llama-style, decoder-only Transformers. Different model architecture paradigm’s distinct\ncoupling and optimization dynamics may alter the scaling coefficients and predictive accuracy.",
+      "section": "Appendix",
+      "char_count": 1152,
+      "chunk_index": 116,
+      "page_numbers": [
+        32
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0117",
+      "source_id": "Farseer_2025",
+      "text": "en\nrestricted to Llama-style, decoder-only Transformers. Different model architecture paradigm’s distinct\ncoupling and optimization dynamics may alter the scaling coefficients and predictive accuracy. We\nhave already begun experiments on MoE-based LLMs. Furthermore, due to computational limitations,\nthis work only evaluates the applicability on two pre-training data distributions (an English-dominant\ndistribution and a Chinese-English bilingual one). As this research began in early 2024, there was\nless focus on code data than there is now, hence our primary consideration of Chinese and English.\nHowever, we are currently investigating its applicability on code/math-dominant data distributions,\nvalidating on a code validation set. Please follow our subsequent work for updates. We are confident\nthat the Farseer Scaling Law is applicable across different data distributions.\nLarger-scale Validation This paper provides validation points up to a 25 B parameter LLM but\ndoes not include experiments on larger models, primarily due to computational power limitations.",
+      "section": "Appendix",
+      "char_count": 1072,
+      "chunk_index": 117,
+      "page_numbers": [
+        32
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0118",
+      "source_id": "Farseer_2025",
+      "text": "ributions.\nLarger-scale Validation This paper provides validation points up to a 25 B parameter LLM but\ndoes not include experiments on larger models, primarily due to computational power limitations.\nOther reasons include: (a) Farseer has maintained consistent prediction accuracy without any trend of\nincreasing error across various extrapolation points of different sizes (3 B/6.5 B/25 B). Therefore,\nthere is reason to believe it can be generalized to larger models. (b) Larger models inherently have\nsignificant engineering implementation differences compared to smaller models. For instance, our\nmodels below 6.5 B used only Data-Parallel distributed configurations, whereas for the 25 B model\ntraining, we employed Pipeline Parallelism (Rank = 8) and Virtual Pipeline Parallelism (Rank = 5).\nValidating even larger models would require adopting further distributed training techniques, such as\nTensor Parallelism. These distributed techniques themselves can introduce noise into the model’s\nfinal performance.",
+      "section": "Appendix",
+      "char_count": 1016,
+      "chunk_index": 118,
+      "page_numbers": [
+        32
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0119",
+      "source_id": "Farseer_2025",
+      "text": "arger models would require adopting further distributed training techniques, such as\nTensor Parallelism. These distributed techniques themselves can introduce noise into the model’s\nfinal performance. Therefore, for larger validation points (e.g., 135 B), it would be necessary to run\nmultiple different engineering implementations to reduce this noise, which poses further challenges\n32\n\nto computational resources. Balancing these complexities and benefits led to our decision to forgo\nlarger-scale validations. (c) In numerous previous studies, a 25 B dense model is already past the\nthreshold where various intelligent emergent phenomena appear. We believe this size is sufficient to\nsupport the adequacy of our extrapolation validation.\nBPC & Downstream Tasks We chose to use Bits Per Character (BPC) instead of specific tasks\nfor evaluation based on the following reasons: (a) Compression rates measured on a large and\ndiverse validation set reflect a model’s general intelligence level, aligning with our goal of evaluating\noverall intelligence rather than task-specific performance.",
+      "section": "Appendix",
+      "char_count": 1090,
+      "chunk_index": 119,
+      "page_numbers": [
+        32
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0120",
+      "source_id": "Farseer_2025",
+      "text": "sion rates measured on a large and\ndiverse validation set reflect a model’s general intelligence level, aligning with our goal of evaluating\noverall intelligence rather than task-specific performance. (b) As part of our experimental rigor,\nwe meticulously constructed a validation set characterized by four properties: Unseen Integrity,\nBias-free Composition, Diversity, and High Quality. Compared to individual benchmarks, it offers a\nmore comprehensive assessment of intelligence and is guaranteed to be isolated from the training\nset. (c) Specific downstream tasks are highly susceptible to contamination and overfitting from\ntraining sets. In terms of magnitude, these benchmarks are more easily overfitted as evaluation\ntargets. Consequently, pre-training datasets with varying degrees of contamination would exhibit\ndifferent scaling laws, rendering such laws non-universal. (d) BPC possesses deep physical meaning\nrelated directly to compressibility, and numerous studies correlate a model’s compressibility strongly\nwith downstream task performance.",
+      "section": "Appendix",
+      "char_count": 1057,
+      "chunk_index": 120,
+      "page_numbers": [
+        33
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0121",
+      "source_id": "Farseer_2025",
+      "text": "uch laws non-universal. (d) BPC possesses deep physical meaning\nrelated directly to compressibility, and numerous studies correlate a model’s compressibility strongly\nwith downstream task performance. Although our carefully constructed validation set has numerous\nadvantages over downstream task benchmarks, with the continuous advancement of post-training\ntechniques, whether a base model with a low BPC on the validation set necessarily implies a good\nmodel remains an open question. In summary, using BPC testing on a meticulously constructed\nvalidation set is the best method available to us at the current level of public technology. Its limitations\nare primarily constrained by the state of contemporary technology.\nTheoretical Explanation This work is a characterization of scaling laws based on massive observa-\ntional experimental data, and it does not provide a theoretical explanation. This is similar to all other\nwork in the field of scaling laws, none of which have derived the specific formula of a scaling law\nfrom fundamental machine learning theory. This limitation, common across scaling law research,\nremains a significant open challenge in machine learning theory.",
+      "section": "Appendix",
+      "char_count": 1185,
+      "chunk_index": 121,
+      "page_numbers": [
+        33
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0122",
+      "source_id": "Farseer_2025",
+      "text": "ed the specific formula of a scaling law\nfrom fundamental machine learning theory. This limitation, common across scaling law research,\nremains a significant open challenge in machine learning theory.\nBroader Generalization Our research primarily investigates decoder-only Transformers optimized\nvia Next Token Prediction. Generalizing Farseer -like formulations to broader machine learning\ntasks—such as multimodal or diffusion-based models—remains unexplored in this work.\nOpen Source We believe that our experimental data can be used for much further analysis, inter-\npretation, or discovery of new patterns. Therefore, we have decided to open source our massive\nexperimental data, worth millions of dollars, including 1000 LLM models trained from scratch and\ntheir entire training processes. We may even open source the training dataset and the meticulously\nconstructed validation set. Based on this, We anticipate further research in at least the following\ndirections: Formula and Fitting , we believe there may exist a more concise scaling law or a better\nfitting method.",
+      "section": "Appendix",
+      "char_count": 1077,
+      "chunk_index": 122,
+      "page_numbers": [
+        33
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0123",
+      "source_id": "Farseer_2025",
+      "text": "idation set. Based on this, We anticipate further research in at least the following\ndirections: Formula and Fitting , we believe there may exist a more concise scaling law or a better\nfitting method. More Applications , while compute-optimal guidance is valuable for model training,\nthe entire L(N, D )surface obtained from Farseer certainly holds more valuable conclusions to be\nmined, such as the analysis of first-order partial derivatives, etc. Training Dynamics , this paper only\nevaluates the final performance of the models. The training dynamics of 1000 models of different\nmodel sizes and token sizes could be further studied to reveal underlying patterns.\nThis paper pioneers a new experimental methodology for the era of large models. Consider two\nexperimental settings: base A and experimental B. Within each group, all settings are kept identical,\nincluding but not limited to LLM Architecture Family, Data Distribution, and Training Strategy.\nUnder settings A and B, two sets of small models, Models A and Models B, are trained. Using the\nmethod provided in this paper, two bivariate functions, LA(N, D )andLB(N, D ), are fitted.",
+      "section": "Appendix",
+      "char_count": 1144,
+      "chunk_index": 123,
+      "page_numbers": [
+        33
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0124",
+      "source_id": "Farseer_2025",
+      "text": "ing Strategy.\nUnder settings A and B, two sets of small models, Models A and Models B, are trained. Using the\nmethod provided in this paper, two bivariate functions, LA(N, D )andLB(N, D ), are fitted. These\ntwo functions share the same functional form (Farseer) but have different parameters. We can then\ncompare the superiority of the two settings under infinite and arbitrary configurations of N and D.\nUnder the previous methodology, if both Setting A and Setting B use a 3B parameter size and 100B\ntokens, and the model from Setting A outperforms the model from Setting B, it only proves that A is\nbetter than B at that specific N, D size. Unlike conventional methods limited to specific configurations\n(e.g., fixed at 3B parameters, 100B tokens), our method identifies precise conditions under which\none setting outperforms another. This extensibility fundamentally reshapes key insights, examples\nincluding:\nCode/Math What is the performance of code and math data with different mixture ratios on the\nscaling law?",
+      "section": "Appendix",
+      "char_count": 1019,
+      "chunk_index": 124,
+      "page_numbers": [
+        33
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0125",
+      "source_id": "Farseer_2025",
+      "text": "tperforms another. This extensibility fundamentally reshapes key insights, examples\nincluding:\nCode/Math What is the performance of code and math data with different mixture ratios on the\nscaling law? Will the Code Scaling Law differ from the Nature Language Scaling Law in various\n33\n\nparameters, thus leading to completely different compute-optimal character or different first-order\nderivatives with respect to N and D? Does a good Code/Math model require an ultra-large model size\nlike nature language models do? We have already completed a portion of the relevant experiments,\nand this research is ongoing and will be published in a subsequent paper.\nSparse LLM Do LLMs based on the MoE architecture [ 7] also follow the same functional form\nand predictive accuracy? And how should an \"Architecture Family\" be defined within the MoE\narchitecture? We have already run some experiments, and this research is ongoing and will be\npublished in a subsequent paper.\nLinear Attention This paper uses Multi-Head Attention (MHA), a full attention paradigm. However,\nsome studies suggest that certain types of Linear Attention-based LLMs perform better than full\nattention on smaller models [ 17].",
+      "section": "Appendix",
+      "char_count": 1191,
+      "chunk_index": 125,
+      "page_numbers": [
+        33
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0126",
+      "source_id": "Farseer_2025",
+      "text": "uses Multi-Head Attention (MHA), a full attention paradigm. However,\nsome studies suggest that certain types of Linear Attention-based LLMs perform better than full\nattention on smaller models [ 17]. The Farseer experimental methodology allows for a comprehensive\ncomparison of the performance of different types of linear attention and full attention under various\nN and D configurations. This could answer the key question, such as whether linear attention is\nonly suitable for a smaller D/N ratio. We look forward to the community building upon Farseer to\ncomplete this type of work.\nModel Architecture There are many more innovations at the model architecture level that need to be\ncompared from a comprehensive scaling law perspective, such as Loop Transformer, etc. From this\nviewpoint, the focus is on whether the relevant innovations can maintain performance as N scales up\nand whether performance saturates quickly as D increases.\nData Quality and Repetition Using high-quality data and employing different data repetition\nstrategies, can performance be maintained as N and D increase?",
+      "section": "Appendix",
+      "char_count": 1094,
+      "chunk_index": 126,
+      "page_numbers": [
+        34
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0127",
+      "source_id": "Farseer_2025",
+      "text": "performance saturates quickly as D increases.\nData Quality and Repetition Using high-quality data and employing different data repetition\nstrategies, can performance be maintained as N and D increase? From the perspective of scaling laws,\nwhat is the trade-off relationship with larger amounts of middle-quality data?\nSynthetic Data What patterns does synthetic data exhibit from a scaling law perspective? Is Long\nCoT-like synthetic data more difficult to saturate with learning as D increases compared to general\nsynthetic data?\nAlthough we are working on many future projects, our research team cannot complete them all. It\nrequires the entire community to build upon this work.\nFarseer’s experimental methodology will spark an cognitive revolution, translating academic\nadvances into practical pre-training for ultra-large models, bridging academia and industry.\n34",
+      "section": "Appendix",
+      "char_count": 869,
+      "chunk_index": 127,
+      "page_numbers": [
+        34
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    },
+    {
+      "chunk_id": "Farseer_2025_chunk_0128",
+      "source_id": "Farseer_2025",
+      "text": "e-training for ultra-large models, bridging academia and industry.\n34",
+      "section": "Appendix",
+      "char_count": 69,
+      "chunk_index": 128,
+      "page_numbers": [
+        34
+      ],
+      "source_file": "1_Claim_Evidence_Scale_2506.10972v3.pdf",
+      "total_source_pages": 34
+    }
+  ]
+}

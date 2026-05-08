@@ -1,0 +1,1559 @@
+{
+  "source_id": "DualDensity_2025",
+  "metadata": {
+    "title": "Dual-Density Inference for Efficient Language Model Reasoning",
+    "authors": "Research Team",
+    "year": "2025",
+    "venue": "arXiv",
+    "url": "https://arxiv.org/abs/2512.15358",
+    "source_type": "peer-reviewed",
+    "relevance_note": "Efficient reasoning inference technique (Dec 17, 2025)"
+  },
+  "pdf_metadata": {
+    "title": "Dual-Density Inference for Efficient Language Model Reasoning",
+    "author": "Zhengyi Zhao; Shubo Zhang; Yuxi Zhang; Huimin Wang; Binyang Li; Kam-Fai Wong",
+    "total_pages": 26
+  },
+  "statistics": {
+    "total_pages": 26,
+    "total_chunks": 118,
+    "avg_chunk_size": 1027.3389830508474,
+    "ingestion_timestamp": "2026-02-02T19:04:01.932277"
+  },
+  "chunks": [
+    {
+      "chunk_id": "DualDensity_2025_chunk_0000",
+      "source_id": "DualDensity_2025",
+      "text": "Dual-Density Inference for Efficient Language Model Reasoning\nZhengyi Zhao1, Shubo Zhang2, Yuxi Zhang2, Huimin Wang3,\nBinyang Li2,Kam-Fai Wong1\n1The Chinese University of Hong Kong\n2University of International Relations3Shenzhen University",
+      "section": "Header/Title",
+      "char_count": 239,
+      "chunk_index": 0,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0001",
+      "source_id": "DualDensity_2025",
+      "text": "Abstract\nLarge Language Models (LLMs) have shown\nimpressive capabilities in complex reasoning\ntasks. However, current approaches employ\nuniform language density for both intermediate\nreasoning and final answers, leading to com-\nputational inefficiency. Our observation found\nthat reasoning process serves a computational\nfunction for the model itself, while answering\nserves a communicative function for human un-\nderstanding. This distinction enables the use of\ncompressed, symbol-rich language for interme-\ndiate computations while maintaining human-\nreadable final explanations. To address this\ninefficiency, we present Denser: Dual-d ensity\ninference, a novel framework that optimizes in-\nformation density separately for reasoning and\nanswering phases. Our framework implements\nthis through three components: a query pro-\ncessing module that analyzes input problems, a\nhigh-density compressed reasoning mechanism\nfor efficient intermediate computations, and an\nanswer generation component that translates\ncompressed reasoning into human-readable so-\nlutions.",
+      "section": "Abstract",
+      "char_count": 1063,
+      "chunk_index": 1,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0002",
+      "source_id": "DualDensity_2025",
+      "text": "roblems, a\nhigh-density compressed reasoning mechanism\nfor efficient intermediate computations, and an\nanswer generation component that translates\ncompressed reasoning into human-readable so-\nlutions. Experimental evaluation across multi-\nple reasoning question answering benchmarks\ndemonstrates that Denser reduces token con-\nsumption by up to 62% compared to standard\nChain-of-Thought methods while preserving or\nimproving accuracy. These efficiency gains are\nparticularly significant for complex multi-step\nreasoning problems where traditional methods\ngenerate extensive explanations.",
+      "section": "Abstract",
+      "char_count": 587,
+      "chunk_index": 2,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0003",
+      "source_id": "DualDensity_2025",
+      "text": "1 Introduction\nLarge Language Models (LLMs) have achieved re-\nmarkable success by scaling model parameters and\ntraining data (Wei et al., 2022; Kiciman et al., 2023;\nXu et al., 2025; Li et al., 2025). However, for com-\nplex problem-solving, the focus has shifted toward\nTest-Time Scaling (TTS) which allocates additional\ncomputation during inference to improve reason-\ning depth (Chen et al., 2024; Snell et al., 2025;\nZhao et al., 2025). While effective, current TTSProblem:Solve the system of equations: x+y= 10\n2x−3y= 5\nI’ll solve this system of linear equations by elimination\nmethod. First, x+y= 10 is our first equation, and I need\nto manipulate it to eliminate a variable when combined\nwith the second equation.\nTo eliminate the xterms, I’ll multiply the first equation by\n2.2(x+y) = 2(10) Distributing the 2, I get: 2x+ 2y=\nNow I have: 2x+ 2y= 20 (from the modified first\nequation)2x−3y= 5(the original second equation)\nI’ll subtract the second equation from the first equation to\neliminate t",
+      "section": "1 Introduction",
+      "char_count": 1000,
+      "chunk_index": 3,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0004",
+      "source_id": "DualDensity_2025",
+      "text": "tributing the 2, I get: 2x+ 2y=\nNow I have: 2x+ 2y= 20 (from the modified first\nequation)2x−3y= 5(the original second equation)\nI’ll subtract the second equation from the first equation to\neliminate the xterm: (2x+ 2y)−(2x−3y) = 20−5\nSimplifying the left side: 2x+2y−2x+3y= 15 5y= 15\ny= 3\nNow that I know y= 3 , I’ll substitute this value back into\nthe first equation to findx:x+ 3 = 10x= 7\nTherefore, the solution to the system of equations is x= 7\nandy= 3\nTable 1: An illustration of the representational mismatch\nin current LLM reasoning. The model wraps the com-\nputational core (black text) in verbose natural language\n(gray text). This redundancy serves communicative\ngoals but hinders computational efficiency in structured\nreasoning tasks.\nparadigms rely heavily on Chain-of-Thought (CoT)\nprompting (Wei et al., 2022), where the model\n“thinks” in the same natural language (NL) space\nused for user interaction. We posit that this uncon-\nstrained usage of NL for internal reasoning intro-\nduces a fundamental inefficiency: a misalignment\nbetween thecommunicativeutility of language and\nthecomputationalrequirements of reasoning.\nNatural language is evolutionarily optimized for\ncommunication.",
+      "section": "1 Introduction",
+      "char_count": 1199,
+      "chunk_index": 4,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0005",
+      "source_id": "DualDensity_2025",
+      "text": "es a fundamental inefficiency: a misalignment\nbetween thecommunicativeutility of language and\nthecomputationalrequirements of reasoning.\nNatural language is evolutionarily optimized for\ncommunication. It prioritizes redundancy, polite-\nness, and ambiguity management to facilitate hu-\nman understanding. In contrast, not only reasoning\ntasks (e.g., mathematics, coding), but also almost\nall question answering tasks that require critical\nthinking are governed by strict structures, determin-\nistic rules, and high information density. As illus-\ntrated in Table 1, when LLMs use conversational\nNL to process structured problems, they expend\n1arXiv:2512.15358v1 [cs.CL] 17 Dec 2025\n\nsignificant computational resources on syntactic\nsugar that contributes little to the actual state tran-\nsition of the reasoning process. This observation\nsuggests that while NL is essential for the interface\n(answering), it is a suboptimal representation for\nthe inference process (reasoning) in domains that\nadmit formal structure.\nMotivated by this distinction, we argue that the\nideal inference framework should decouple the\nrepresentation of reasoning from the representa-\ntion of the final response.",
+      "section": "1 Introduction",
+      "char_count": 1186,
+      "chunk_index": 5,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0006",
+      "source_id": "DualDensity_2025",
+      "text": "that\nadmit formal structure.\nMotivated by this distinction, we argue that the\nideal inference framework should decouple the\nrepresentation of reasoning from the representa-\ntion of the final response. To this end, we intro-\nduce a novel information-theoretic framework and\nproposeDenser: Dual-d ensity inf erence. Unlike\ngeneric acceleration methods, Denser is explicitly\ndesigned to exploit the categorization and structural\npatterns inherent in reasoning tasks. The frame-\nwork operates via three components: (1) a Query\nAnalysis Module that identifies the structural re-\nquirements of the input; (2) a High-density Reason-\ning Module where the model employs telegraphic,\nsymbol-rich language to perform intermediate de-\nductions; and (3) a Low-density Answering Mod-\nule that expands the compressed reasoning path\ninto a user-friendly, natural language explanation.\nWe evaluate Denser across a comprehensive\nsuite of benchmarks spanning math, logic, and cod-\ning, domains where reasoning patterns are most\nstructured and thus most amenable to density opti-\nmization.",
+      "section": "1 Introduction",
+      "char_count": 1069,
+      "chunk_index": 6,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0007",
+      "source_id": "DualDensity_2025",
+      "text": "We evaluate Denser across a comprehensive\nsuite of benchmarks spanning math, logic, and cod-\ning, domains where reasoning patterns are most\nstructured and thus most amenable to density opti-\nmization. Our empirical results demonstrate that by\naligning the information density of the reasoning\nchain with the structural nature of the task, Denser\nreduces token consumption by up to 62% while\npreserving, and in some cases enhancing, accuracy\ncompared to standard CoT. This confirms that for\ncomplex, multi-step reasoning problems, the ver-\nbosity of natural language is not merely a cost issue,\nbut a representational burden that can be optimized\naway. Our contributions are as follows:\n•We propose a theoretical perspective that distin-\nguishes thecomputationalfunction of language\n(internal reasoning) from itscommunicativefunc-\ntion (external answering), identifying a represen-\ntational mismatch in current CoT approaches for\nstructured tasks.\n•We develop Denser, a dual-density inference sys-\ntem that dynamically modulates language density,\nemploying compressed symbolic representations\nfor intermediate steps and natural language for\nfinal outputs.",
+      "section": "1 Introduction",
+      "char_count": 1154,
+      "chunk_index": 7,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0008",
+      "source_id": "DualDensity_2025",
+      "text": "elop Denser, a dual-density inference sys-\ntem that dynamically modulates language density,\nemploying compressed symbolic representations\nfor intermediate steps and natural language for\nfinal outputs.\n•We provide extensive empirical evidence on\nreasoning-intensive benchmarks, demonstrating\nthat Denser significantly improves computationalefficiency without sacrificing performance, vali-\ndating the efficacy of representational alignment\nin structured problem solving.",
+      "section": "1 Introduction",
+      "char_count": 469,
+      "chunk_index": 8,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0009",
+      "source_id": "DualDensity_2025",
+      "text": "2 Related Work\nReasoning Strategies.Chain-of-Thought (CoT)\nprompting (Wei et al., 2022; Kojima et al., 2022)\nhas established itself as the dominant approach for\neliciting step-by-step reasoning from LLMs. This\ntechnique has been extended in various directions:\nSelf-consistency (Wang et al., 2022) aggregates\nsolutions from multiple reasoning paths, Tree-of-\nThought (Yao et al., 2023) explores multiple reason-\ning trajectories, Least-to-Most (Zhou et al., 2022)\nbreaks complex problems into simpler subprob-\nlems, and Retrieval-Augmented Generation (Lewis\net al., 2020; Shi et al., 2023) incorporates external\nknowledge. While these approaches improve rea-\nsoning accuracy, they typically increase rather than\ndecrease token consumption, often generating even\nmore verbose explanations.\nEfficient Reasoning.Efficiency optimization\nin language models has primarily focused on\narchitectural improvements (Dao et al., 2022;\nShazeer, 2019) or inference acceleration techniques\n(Leviathan et al., 2023; Cai et al., 2024).",
+      "section": "2 Related Work",
+      "char_count": 1018,
+      "chunk_index": 9,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0010",
+      "source_id": "DualDensity_2025",
+      "text": "y optimization\nin language models has primarily focused on\narchitectural improvements (Dao et al., 2022;\nShazeer, 2019) or inference acceleration techniques\n(Leviathan et al., 2023; Cai et al., 2024). From a\ntheoretical perspective, works on computational\ncomplexity in transformers (Poli et al., 2023; Lu\net al., 2022) analyze the computational costs of dif-\nferent operations but rarely address the information-\ntheoretic aspects of generated content. Other ap-\nproaches include distillation (Chen et al., 2025;\nLiao et al., 2025) and quantization (Jin et al., 2024),\nwhich compress models rather than optimizing rea-\nsoning strategies. Our work introduces a novel\nperspective by identifying the different information\ndensity between reasoning and answering. Besides,\nwe provide a detailed theoretical discussion on the\nscalability of symbolic versus natural language rep-\nresentations, and the generalization scope of our\nmethod, in Appendix A.",
+      "section": "2 Related Work",
+      "char_count": 947,
+      "chunk_index": 10,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0011",
+      "source_id": "DualDensity_2025",
+      "text": "nd answering. Besides,\nwe provide a detailed theoretical discussion on the\nscalability of symbolic versus natural language rep-\nresentations, and the generalization scope of our\nmethod, in Appendix A.\n3 Empirical Analysis of Information\nDensity in LLM Reasoning\nWhile we identify the theoretical distinction be-\ntween computational and communicative functions\nof language in LLM reasoning, this section pro-\nvides empirical evidence for this distinction and\nreveals specific patterns that our method exploits.\nWe analyze how current reasoning approaches dis-\n2\n\nComponent Information Density % of Tokens\nCore computations 0.81 32.4%\nExplanatory language 0.19 67.6%\nOverall reasoning 0.38 100%\nTable 2: Information Density Analysis by Component.\nCore computational elements contain 4.3× higher infor-\nmation density than surrounding explanatory language,\nyet occupy only a third of total tokens.\ntribute information and why this creates ineffi-\nciency that a dual-density approach can address.\n3.1 Information Density Patterns in LLM\nReasoning\nWe analyzed 500 reasoning traces from o1 on\nGSM8K and MATH500 datasets to characterize\ninformation density patterns.",
+      "section": "2 Related Work",
+      "char_count": 1159,
+      "chunk_index": 11,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0012",
+      "source_id": "DualDensity_2025",
+      "text": "ual-density approach can address.\n3.1 Information Density Patterns in LLM\nReasoning\nWe analyzed 500 reasoning traces from o1 on\nGSM8K and MATH500 datasets to characterize\ninformation density patterns. To quantify informa-\ntion density, we employed a compression-based\nmeasure:\nD(s) = 1−|C(s)|\n|s|(1)\nwhere|s|is the segment length in tokens and |C(s)|\nis its compressed length using adaptive arithmetic\ncoding. Higher values indicate greater information\ndensity. We validated this measure against human\nexpert ratings (r= 0.85).\nReasoning phases were identified through a com-\nbination of regex pattern matching and supervised\nclassification, targeting distinct reasoning modes:\nproblem restatement, approach planning, formula\nsetup, calculation steps, intermediate reflection, re-\nsult explanation, and final answer.\nFigure 1 shows how information density varies\nacross different components of reasoning traces.\nComputational phases (formula setup, calculation)\nconsistently demonstrate high density, while ex-\nplanatory phases exhibit substantially lower den-\nsity, creating a bimodal distribution.",
+      "section": "2 Related Work",
+      "char_count": 1099,
+      "chunk_index": 12,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0013",
+      "source_id": "DualDensity_2025",
+      "text": "ning traces.\nComputational phases (formula setup, calculation)\nconsistently demonstrate high density, while ex-\nplanatory phases exhibit substantially lower den-\nsity, creating a bimodal distribution. The prelim-\ninary experimental results reveal that 68% of to-\nkens in reasoning steps serve primarily explana-\ntory functions rather than advancing computation.\nWhen scaling, the proportion of low-density ex-\nplanatory language increases with problem com-\nplexity. These patterns appear consistently across\ndifferent models and problem domains, suggesting\nthey are inherent to current reasoning approaches\nrather than model-specific artifacts.\nThese findings motivate our approach: by recog-\nnizing and exploiting these density differentials, we\ncan develop more token-efficient reasoning tech-\nniques that preserve computational fidelity whileExample 1: Verbose reasoning with highlighted com-\nputational core\n\"To find the solution, I need to solve x2−6x+9 = 0 . I’ll\napproach this by factoring the left side of the equation. The\nexpression x2−6x+ 9 can be rewritten using the perfect\nsquare formula as (x−3)2. So the equation becomes\n(x−3)2= 0.",
+      "section": "2 Related Work",
+      "char_count": 1147,
+      "chunk_index": 13,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0014",
+      "source_id": "DualDensity_2025",
+      "text": "lve x2−6x+9 = 0 . I’ll\napproach this by factoring the left side of the equation. The\nexpression x2−6x+ 9 can be rewritten using the perfect\nsquare formula as (x−3)2. So the equation becomes\n(x−3)2= 0. This equation has the single solution\nx= 3.\"\nExample 2: Reasoning style across complexity levels\nSimple problem:\"7 + 8 = 15\"\nMedium problem:\"To find the area, I’ll multiply length\nand width. Area = 7 × 4 = 28 square meters.\"\nComplex problem:\"To find the probability, I first need\nto calculate the total number of outcomes. There are 52\ncards in total. For a flush, all 5 cards must be of the same\nsuit. There are 4 suits, and each suit has 13 cards. So for\neach suit, the number of possible 5-card combinations is\u000013\n5\u0001\n= 1,287 . Since there are 4 suits, the total number of\nflush hands is 4×1,287 = 5,148 . The total number of\npossible 5-card hands is\u000052\n5\u0001\n= 2,598,960 . Therefore,\nthe probability of getting a flush is5,148\n2,598,960=33\n16,660≈\n0.00198.\"\nTable 3: Structural Patterns in LLM Reasoning. As prob-\nlem complexity increases, models produce increasingly\nverbose explanatory language (shown in gray) surround-\ning the core computational elements.\nreducing explanatory overhead.",
+      "section": "2 Related Work",
+      "char_count": 1191,
+      "chunk_index": 14,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0015",
+      "source_id": "DualDensity_2025",
+      "text": "LLM Reasoning. As prob-\nlem complexity increases, models produce increasingly\nverbose explanatory language (shown in gray) surround-\ning the core computational elements.\nreducing explanatory overhead.\n3.2 Structural Analysis of Reasoning\nLanguage\nTo understand why models produce low-density\nreasoning, we performed a linguistic analysis of\nreasoning traces, examining syntactic patterns and\ndiscourse structures. Table 3 presents examples that\nillustrate the key structural patterns we identified.\nOur analysis reveals the training alignment is in-\ncentives as models are trained to produce explana-\ntory reasoning that mimics human tutoring styles,\nleading to verbose explanations even when per-\nforming simple computations. At the mean while,\nthe verbose language serves as scaffolding for the\nmodel’s own reasoning process, helping maintain\ncoherence through complex multi-step problems.\nAnd simple computations are often expressed di-\nrectly, while complex computations trigger more\nextensive explanatory language—precisely when\nefficiency becomes most critical.",
+      "section": "2 Related Work",
+      "char_count": 1067,
+      "chunk_index": 15,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0016",
+      "source_id": "DualDensity_2025",
+      "text": "lex multi-step problems.\nAnd simple computations are often expressed di-\nrectly, while complex computations trigger more\nextensive explanatory language—precisely when\nefficiency becomes most critical.\nThese findings directly motivate our dual-density\napproach: by recognizing and exploiting the struc-\ntural patterns in reasoning language, we can de-\nsign an inference system that compresses the com-\nputational aspects of reasoning while preserving\nhuman-readable final outputs. The consistent pat-\nterns across problems, models, and domains sug-\n3\n\nProblem\nrestatementApproach\nplanning1st Step-by-step\ncalculationIntermediate\nreflection2nd Step-by-step\ncalculationResult\nexplanationFinal\nanswer0.00.20.40.60.81.0Information Density\nHigh-density calculation phase\n(mathematical operations)\nLow-density explanatory phase\n(verbose descriptions)(a) Information Density Throughout Reasoning Process\nSimple Problems\nMedium Problems\nComplex Problems\nComputational\nLanguageExplanatory\nLanguage0.00.51.0Info",
+      "section": "2 Related Work",
+      "char_count": 1000,
+      "chunk_index": 16,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0017",
+      "source_id": "DualDensity_2025",
+      "text": "ty explanatory phase\n(verbose descriptions)(a) Information Density Throughout Reasoning Process\nSimple Problems\nMedium Problems\nComplex Problems\nComputational\nLanguageExplanatory\nLanguage0.00.51.0Information\nDensity(b) Component Density\nComputational\nLanguageExplanatory\nLanguage050% of Tokens(c) Token Distribution\nSimple Medium Complex0100% of Tokens(d) By Problem Complexity\nComputational\nExplanatoryFigure 1: Information Density Throughout Reasoning Process which shows information density throughout\nreasoning processing.\ngest that a systematic approach to optimizing in-\nformation density can yield substantial efficiency\ngains without sacrificing accuracy.\n4 Denser: Dual-Density Inference\nBuilding on our observation, we introduce Denser:\nDual-density inference, a framework that optimizes\ntoken efficiency in LLM reasoning by employing\ndistinct information densities for computational\nreasoning versus human communication. This ap-\nproach is motivated by our empirical observations\nshowing significant redundancy in LLM reasoning\nprocesses.",
+      "section": "2 Related Work",
+      "char_count": 1049,
+      "chunk_index": 17,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0018",
+      "source_id": "DualDensity_2025",
+      "text": "inct information densities for computational\nreasoning versus human communication. This ap-\nproach is motivated by our empirical observations\nshowing significant redundancy in LLM reasoning\nprocesses.\n4.1 Problem Formulation\nGiven a reasoning task Tand a language model M,\nwe represent the reasoning process as a sequence\nof reasoning steps R={r 1, r2, . . . , r n}followed\nby an answera. The token consumption is:\nCtotal=nX\ni=1|ri|+|a|(2)\nOur goal is to transform the reasoning sequence\ninto a compressed formR′such that:\nnX\ni=1|r′\ni|<nX\ni=1|ri|whileI(r′\ni)≈ I(r i)(3)\nwhereI(r i)represents the computational informa-\ntion in reasoning stepi.\nBased on this analysis, we select a density strat-\negySfor reasoning. For mathematical reasoning,\nthis involves symbolic notation; for logical reason-\ning, propositional calculus; and for algorithmic rea-\nsoning, pseudocode. We implement high-density\nreasoning through a prompt template PSthat in-\nstructs the model to employ domain-specific nota-\ntion and eliminate verbose explanations.The density transformation function τconverts\nstandard reasoning rito compressed reasoning\nr′\ni=τ(r i,S).",
+      "section": "2 Related Work",
+      "char_count": 1137,
+      "chunk_index": 18,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0019",
+      "source_id": "DualDensity_2025",
+      "text": "in-\nstructs the model to employ domain-specific nota-\ntion and eliminate verbose explanations.The density transformation function τconverts\nstandard reasoning rito compressed reasoning\nr′\ni=τ(r i,S).\nAfter completing high-density reasoning, we\ntranslate the compressed reasoning into a human-\nreadable answer through a=γ(R′, q), where γ\nis the answer generation function that extracts and\nformats the final result.\n4.2 Framework Components\nQuery Analysis Module.The framework begins\nwith query analysis, which processes input ques-\ntions through a classification function that maps\nqueries to specialized reasoning domains:\nΦ(q)→ D,D ∈ {D math,Dlogic,Dcode,Dgeneral}\n(4)\nFor each domain, we extract parameters that\nguide the reasoning process:\nα(q,D) = (S D, λD, κD)(5)\nwhereSDrepresents the domain-specific reasoning\nstrategy, λDdefines notation systems, and κDcon-\ntrols compression intensity. For instance, in mathe-\nmatical reasoning, the system identifies algebraic\nmanipulation requirements and selects symbolic\nnotation over verbose descriptions.",
+      "section": "2 Related Work",
+      "char_count": 1053,
+      "chunk_index": 19,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0020",
+      "source_id": "DualDensity_2025",
+      "text": "s, and κDcon-\ntrols compression intensity. For instance, in mathe-\nmatical reasoning, the system identifies algebraic\nmanipulation requirements and selects symbolic\nnotation over verbose descriptions. We analyse the\nadaptivity of domains and density-aware control in",
+      "section": "2 Related Work",
+      "char_count": 266,
+      "chunk_index": 20,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0021",
+      "source_id": "DualDensity_2025",
+      "text": "Appendix B.\nHigh-density Reasoning.The high-density rea-\nsoning component constitutes the core of our frame-\nwork. Given the domain parameters identified in\nquery analysis, we construct a density-optimized\nreasoning prompt that instructs the model to em-\nploy domain-specific compression techniques. The\nhigh-density reasoning process is formalized as:\nR′={r′\n1, r′\n2, . . . , r′\nm}=M(P HD)(6)\n4\n\nwhereR′is the sequence of compressed reasoning\nsteps. The innovation of our approach lies in the\ncompression operator CDthat we apply to each\nreasoning stepr i:\nr′\ni=CD(ri) = arg min\nr′∈R′{|r′|:I(r′)≥θ· I(r i)}\n(7)\nThis operator minimizes token count while pre-\nserving at least θfraction (typically 0.95) of the\noriginal computational information I(r i). The\ncompression operator decomposes into two func-\ntionsCD=σD◦ϕD, where σDperforms symbolic\ntransformation and ϕDfilters low-information con-\ntent according to domain-specific rules.\nLow-density Answering.The final component\ntranslates compressed reasoning into human-\nreadable answers.",
+      "section": "Appendix B.",
+      "char_count": 1039,
+      "chunk_index": 21,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0022",
+      "source_id": "DualDensity_2025",
+      "text": "bolic\ntransformation and ϕDfilters low-information con-\ntent according to domain-specific rules.\nLow-density Answering.The final component\ntranslates compressed reasoning into human-\nreadable answers. This process preserves the com-\nputational path while expanding key insights for\nhuman understanding:\na=γ(R′, q) =M(P AG(q,R′))(8)\nwhere PAGis the answer generation prompt. We\nimplement selective expansion through an impor-\ntance function ω(r′\ni)→[0,1] that estimates how\ncrucial each compressed step is for human under-\nstanding. Steps with higher importance receive\nmore detailed expansions:\nγ(R′, q) =|R′|X\ni=1ω(r′\ni)·E(r′\ni)(9)\nwhere E(r′\ni)is the expansion function for step r′\ni.\nThis approach maintains the dual-density principle:\nhigh-density language for internal computation and\nappropriately detailed language for human com-\nmunication. All used prompts can be found in",
+      "section": "Appendix B.",
+      "char_count": 881,
+      "chunk_index": 22,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0023",
+      "source_id": "DualDensity_2025",
+      "text": "ely detailed language for human com-\nmunication. All used prompts can be found in",
+      "section": "Appendix B.",
+      "char_count": 81,
+      "chunk_index": 23,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0024",
+      "source_id": "DualDensity_2025",
+      "text": "5 Experiments\n5.1 Experimental Setup\nDatasets.Our experimental evaluation encom-\npasses eight datasets across four core reasoning\ndomains:Math(GSM8K (Cobbe et al., 2021),\nMATH (Hendrycks et al., 2021)),Logic(LogiQA\n(Liu et al., 2021), ProofWriter (Tafjord et al.,\n2021)),Code(MBPP (Austin et al., 2021), Hu-\nmanEval (Chen et al., 2021)), andGeneral QA\n(MMLU (Hendrycks et al., 2020), StrategyQA\n(Geva et al., 2021)).Baselines and Evaluation.We employ Qwen3-\n14B (Yang et al., 2025) as our primary backbone\nmodel for all primary experiments, while also con-\nducting comprehensive experiments with several\nAPI-based models including GPT-4o and o1-mini\n(Jaech et al., 2024), DeepSeek-V3 and DeepSeek-\nR1 (Liu et al., 2024), and Claude-3.7-Sonnet (with\nthinking). We benchmark against two categories of\nmethods:(1) Test-Time Scaling (TTS) Methods:\nChain-of-Thought (CoT) (Wei et al., 2022), Self-\nConsistency (Wang et al., 2022), Tree-of-Thought\n(ToT) (Yao et al., 2023), Think-to-Think (T2) (Zhao\net al., 2025), Reflection (Shinn et al., 2023), Pro-\ncess Supervision (Lightman et al., 2023), and Self-\nVerification (Weng et al., 2023).",
+      "section": "5 Experiments",
+      "char_count": 1132,
+      "chunk_index": 24,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0025",
+      "source_id": "DualDensity_2025",
+      "text": "f-Thought\n(ToT) (Yao et al., 2023), Think-to-Think (T2) (Zhao\net al., 2025), Reflection (Shinn et al., 2023), Pro-\ncess Supervision (Lightman et al., 2023), and Self-\nVerification (Weng et al., 2023). These methods\nprioritize accuracy via increased token consump-\ntion. And(2) Reasoning Compression Baselines:\nTo address potential overlap with token-level com-\npression and pruning techniques, we include a com-\nparison against state-of-the-art token-pruning work,\nTokenSkip (Xia et al., 2025), as well as heuris-\ntic compression methods proposed by Xia et al.\n(2025):BeConcise(prompting for conciseness),\nOnlyNumbers(restricting output to numbers and\nsymbols), andAbbreWords(using common abbre-\nviations).\nThe evaluation metrics include:Performance\nAccuracyby using domain-specific metrics,Token\nEfficiency, andComputational Latency. Addi-\ntionally, we introduce the Reasoning Efficiency In-\ndex (REI) to quantify the accuracy-efficiency trade-\noff relative to standard CoT. Details can be found\nin Appendix D.",
+      "section": "5 Experiments",
+      "char_count": 1011,
+      "chunk_index": 25,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0026",
+      "source_id": "DualDensity_2025",
+      "text": "dComputational Latency. Addi-\ntionally, we introduce the Reasoning Efficiency In-\ndex (REI) to quantify the accuracy-efficiency trade-\noff relative to standard CoT. Details can be found\nin Appendix D.\n5.2 Main Experimental Results\nTable 4 presents our experimental results.Denser\nconsistently outperforms all existing TTS meth-\nodsacross all domains, achieving an average ac-\ncuracy improvement of 1.8% over the strongest\nbaseline. The improvements are most pronounced\nin math and logic domains where the adoption of\nhigh-density symbolic representation is particularly\nbeneficial. Even in general QA tasks, Denser main-\ntains accuracy improvements. Besides, the results\nshow that Denser’sinformation-theoretic com-\npressionis superior to simple heuristic and token-\npruning methods. TokenSkip achieves reasonable\naccuracy, but Denser surpasses it while using even\nfewer tokens.",
+      "section": "5 Experiments",
+      "char_count": 878,
+      "chunk_index": 26,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0027",
+      "source_id": "DualDensity_2025",
+      "text": "at Denser’sinformation-theoretic com-\npressionis superior to simple heuristic and token-\npruning methods. TokenSkip achieves reasonable\naccuracy, but Denser surpasses it while using even\nfewer tokens. Heuristic methods likeOnlyNumbers\nyield the highest token reduction but suffer a signif-\nicant accuracy drop, confirming that indiscriminate\ncompression removes crucial computational infor-\n5\n\nMethodPerformance Accuracy (%)Token\nCost (%) Math Logic Code General\nGSM8K MATH LogiQA ProofW MBPP HumanE MMLU StratQA\nQwen3-14B as backbone model w/\nCategory 1: Test-Time Scaling Baselines\nChain-of-Thought (CoT) 83.6 41.2 68.4 72.1 61.8 72.9 77.3 75.2 0.0\nSelf-Consistency 85.2 43.5 69.7 73.6 63.4 74.1 78.5 76.8 +289.4\nTree-of-Thought 85.7 44.8 70.2 74.9 64.5 75.0 78.2 77.1 +345.7\nThink-to-Think 84.9 42.7 71.3 74.2 62.7 73.8 79.1 76.5 +187.2\nReflection-CoT 86.1 45.2 71.8 75.3 64.9 75.4 79.5 78.0 +127.6\nProcess Supervision 86.5 46.1 72.3 76.8 65.8 76.3 80.1 78.6 +156.3\nSelf-Verification 87.0 46.8 72.",
+      "section": "5 Experiments",
+      "char_count": 1000,
+      "chunk_index": 27,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0028",
+      "source_id": "DualDensity_2025",
+      "text": ".7 71.3 74.2 62.7 73.8 79.1 76.5 +187.2\nReflection-CoT 86.1 45.2 71.8 75.3 64.9 75.4 79.5 78.0 +127.6\nProcess Supervision 86.5 46.1 72.3 76.8 65.8 76.3 80.1 78.6 +156.3\nSelf-Verification 87.0 46.8 72.9 76.2 66.1 76.9 80.4 79.2 +142.8\nCategory 2: Reasoning Compression Baselines\nBeConcise 83.2 40.5 66.8 70.4 60.1 71.5 76.4 74.1 -54.2\nOnlyNumbers 81.9 36.8 - - - - - - -66.2\nAbbreWords 82.2 39.7 65.9 69.8 58.5 70.2 75.9 73.5 -50.8\nTokenSkip (0.9 ratio) 86.4 44.5 71.5 75.1 64.2 75.8 79.4 77.9 -53.5\nDenser (Ours) 88.2 47.9 74.1 77.5 67.3 78.2 81.5 80.3 -58.7\nTable 4: Performance comparison across reasoning domains using Qwen3-14B. Positive token cost values indicate\nmethods that consume more tokens than standard CoT.\nMethod GSM8K (s) LogiQA (s) MBPP (s)\nCategory 1: Test-Time Scaling Baselines\nCoT 58.3 45.7 63.9\nSelf-Consistency 227.4 178.6 249.8\nTree-of-Thought 259.6 204.1 283.7\nThink-to-Think 167.5 131.2 183.6\nReflection-CoT 131.2 102.6 140.8\nProcess Supervision 149.3 116.8 163.5\nSelf-Verif",
+      "section": "5 Experiments",
+      "char_count": 1000,
+      "chunk_index": 28,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0029",
+      "source_id": "DualDensity_2025",
+      "text": "T 58.3 45.7 63.9\nSelf-Consistency 227.4 178.6 249.8\nTree-of-Thought 259.6 204.1 283.7\nThink-to-Think 167.5 131.2 183.6\nReflection-CoT 131.2 102.6 140.8\nProcess Supervision 149.3 116.8 163.5\nSelf-Verification 139.6 108.2 152.4\nCategory 2: Reasoning Compression Baselines\nBeConcise 46.7 36.5 51.2\nOnlyNumbers 31.3 - -\nAbbreWords 61.5 48.2 67.5\nTokenSkip (0.9 ratio) 41.1 32.2 45.1\nDenser (Ours) 42.1 33.5 46.2\nTable 5: Computational latency comparison on repre-\nsentative datasets. The results demonstrate the average\nseconds per problem.\nmation. Denser’s domain-specific, dual-density\nstrategy successfully retains computational fidelity\nwhile maximizing compression.\n5.3 Computational Latency\nTo quantify the real-world efficiency gains, we\nconduct a wall-time analysis. The results in Ta-\nble 5 demonstrate thatDenser achieves signifi-\ncantly faster overall inference timesthan all base-\nlines, including standard CoT. Specifically, Denser\nachieves a 27.8% reduction in latency compared to\nCoT on GSM8K, while simultaneously improving\naccuracy by 4.6 percentage points.",
+      "section": "5 Experiments",
+      "char_count": 1070,
+      "chunk_index": 29,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0030",
+      "source_id": "DualDensity_2025",
+      "text": "imesthan all base-\nlines, including standard CoT. Specifically, Denser\nachieves a 27.8% reduction in latency compared to\nCoT on GSM8K, while simultaneously improving\naccuracy by 4.6 percentage points. This confirms\nthat the computational overhead from the QueryModel Variant Accuracy Token Reduction\nDenser (Full) 78.2% 57%\nw/o Query Analysis 76.9% (-1.3%) 54% (-3%)\nw/o HD Reasoning 74.6% (-3.6%) 8% (-49%)\nw/o LD Answering 77.5% (-0.7%) 61% (+4%)\nFixed Density Strategy 75.8% (-2.4%) 42% (-15%)\nw/o Domain Adaptation 76.3% (-1.9%) 48% (-9%)\nTable 6: Ablation study results. Impact of removing\neach component of Denser on average accuracy and\ntoken reduction across all datasets. HD = High-density,\nLD = Low-density.\nAnalysis and Low-density Answering modules is\nminimal and is far outweighed by the time saved\nfrom processing fewer tokens during the core High-\ndensity Reasoning phase. And we provide the full\nset of main experimental results in Appendix E.\n5.4 Ablation Study\nTable 6 shows that removing high-density reason-\ning causes the largest performance drop, confirm-\ning it as the core innovation of our approach.",
+      "section": "5 Experiments",
+      "char_count": 1124,
+      "chunk_index": 30,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0031",
+      "source_id": "DualDensity_2025",
+      "text": "experimental results in Appendix E.\n5.4 Ablation Study\nTable 6 shows that removing high-density reason-\ning causes the largest performance drop, confirm-\ning it as the core innovation of our approach. The\nquery analysis module also proves important, par-\nticularly for adaptive density selection across do-\nmains. Removing the low-density answering mod-\nule has a smaller impact on accuracy but affects\nhuman readability. Using fixed rather than adap-\ntive density strategies leads to a -2.4% accuracy\ndrop, demonstrating the importance of tailoring\ncompression to each domain and problem type. Fi-\nnally, removing domain adaptation reduces accu-\n6\n\nReasoning Type CoT SC SV Denser\nAlgebraic 80.3 82.1 84.289.6\nGeometric 75.2 77.4 80.286.5\nPropositional 71.7 72.9 75.981.3\nArithmetic 84.5 85.9 88.189.4\nPredicate 67.9 69.2 72.074.8\nAlgorithmic 69.3 70.8 73.977.2\nProcedural 75.5 76.9 79.081.7\nCausal 79.8 81.2 82.983.8\nComparative 76.4 77.5 79.380.1\nToken Cost – +289.4% +142.8%-58.7%\nTable 7: Performance by reasoning type. Accuracy\n(%) and token reduction compared to CoT across differ-\nent reasoning types.",
+      "section": "5 Experiments",
+      "char_count": 1109,
+      "chunk_index": 31,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0032",
+      "source_id": "DualDensity_2025",
+      "text": "82.983.8\nComparative 76.4 77.5 79.380.1\nToken Cost – +289.4% +142.8%-58.7%\nTable 7: Performance by reasoning type. Accuracy\n(%) and token reduction compared to CoT across differ-\nent reasoning types. Denser shows particularly strong\nimprovements for reasoning types with well-defined\nsymbolic representations.\nracy by 1.9%, highlighting the value of specialized\nhigh-density representations for different reasoning\ndomains.\n5.5 Further Analysis Experiments\n(i) Denser can achieve less token consumption\nand more efficiency.Figure 2 reveals that Denser\nsubstantially outperforms other reasoning meth-\nods in computational efficiency, reducing token\nusage by 52-62% compared to standard Chain-of-\nThought reasoning while other methods like ToT\nand SC consume up to 3.5x more tokens than the\nbaseline. When measured by our computational\nefficiency metric, Denser achieves 2.4-3.1x higher\nefficiency across domains, directly resulting from\nour dual-answer framework that optimizes repre-\nsentational density according to functional require-\nments.",
+      "section": "5 Experiments",
+      "char_count": 1043,
+      "chunk_index": 32,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0033",
+      "source_id": "DualDensity_2025",
+      "text": "y metric, Denser achieves 2.4-3.1x higher\nefficiency across domains, directly resulting from\nour dual-answer framework that optimizes repre-\nsentational density according to functional require-\nments.\n(ii) Denser can adapt to various problem com-\nplexity.We investigate how Denser’s adapt to\nproblem complexity by categorizing problems into\nthree complexity levels based on the number of rea-\nsoning steps required for solution. Figure 3 shows\nthat as problem complexity increases, the token\nefficiency advantage of Denser becomes increas-\ningly pronounced. For high-complexity problems,\nDenser reduces token consumption by 71% com-\npared to CoT, while for low-complexity problems,\nthe reduction is 38%. Similarly, accuracy improve-\nments are most substantial for complex problems.\nResults show that the inefficiency of verbose rea-\nsoning becomes more severe as problems require\nmore steps, and high-density reasoning provides in-\ncreasingly valuable efficiency as complexity grows.(iii) Denser is robust to various reasoning types.\nTo understand where density optimization pro-\nvides the most benefit, we analyze Denser’s per-\nformance across different reasoning types.",
+      "section": "5 Experiments",
+      "char_count": 1171,
+      "chunk_index": 33,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0034",
+      "source_id": "DualDensity_2025",
+      "text": "exity grows.(iii) Denser is robust to various reasoning types.\nTo understand where density optimization pro-\nvides the most benefit, we analyze Denser’s per-\nformance across different reasoning types. As\nshown in Table 7, Denser demonstrates improve-\nments for reasoning types with well-established\nsymbolic notations like algebraic, geometric, and\npropositional logic. These domains benefit most\nfrom our approach because they possess mature,\ninformation-dense notational systems that effi-\nciently encode complex relationships with minimal\ntoken usage. In contrast, domains where natural\nlanguage already serves as the primary representa-\ntional medium show more modest gains. Particu-\nlarly noteworthy is the case of arithmetic reason-\ning, which despite being mathematically structured\nshows relatively modest improvements compared\nto other mathematical domains, likely because stan-\ndard arithmetic notation is already reasonably ef-\nficient and employed in CoT approaches. We also\nconduct analysis experiments on Reasoning Effi-\nciency in Appendix F.1, Statistics Significant in Ap-\npendix F.2, Various Model Sizes in Appendix F.3.",
+      "section": "5 Experiments",
+      "char_count": 1137,
+      "chunk_index": 34,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0035",
+      "source_id": "DualDensity_2025",
+      "text": "-\nficient and employed in CoT approaches. We also\nconduct analysis experiments on Reasoning Effi-\nciency in Appendix F.1, Statistics Significant in Ap-\npendix F.2, Various Model Sizes in Appendix F.3.\n5.6 Case Studies and Qualitative Analysis\nTable 8 presents detailed case study illustrating\nhow Denser works in practice1. The CoT approach\nmakes a calculation error when evaluating the fi-\nnal fraction. The high-density reasoning in Denser\nuses mathematical notation efficiently, making the\nsolution path clearer and avoiding the arithmetic er-\nror. Notably, the HD representation uses symbolic\nexpressions and systematic step-by-step evaluation\nthat helps track intermediate values more precisely.\nThe final Denser answer translates this compact\nreasoning into a more verbose but human-readable\nexplanation while preserving accuracy.",
+      "section": "5 Experiments",
+      "char_count": 836,
+      "chunk_index": 35,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0036",
+      "source_id": "DualDensity_2025",
+      "text": "planation while preserving accuracy.",
+      "section": "5 Experiments",
+      "char_count": 36,
+      "chunk_index": 36,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0037",
+      "source_id": "DualDensity_2025",
+      "text": "6 Conclusion\nIn this paper, we introduced Denser, a novel dual-\ndensity inference framework that distinguishes be-\ntween the computational and communicative func-\ntions of language in LLM reasoning. By imple-\nmenting compressed, symbol-rich language for\nintermediate reasoning steps while maintaining\nhuman-readable final answers, our approach ad-\ndresses a fundamental inefficiency in current LLM\nreasoning methods. Experimental results across\nmultiple reasoning benchmarks demonstrate that\nDenser reduces token consumption by up to 62%\n1More cases can be found in Appendix G.\n7\n\nMath Logic Code General050010001500Average Tokens per ProblemToken Consumption by Method\nMath Logic Code General0123Relative Computational EfficiencyAccuracy-to-Token Ratio (Normalized to CoT)\nMethods\nCoT\nSC\nToT\nT2\nR-CoT\nPS\nSV\nDenserFigure 2: Token consumption and computational efficiency. Left: Average tokens consumed per problem by\ndifferent methods across domains. Right: Computational efficiency (accuracy-to-token ratio) normalized to CoT\nbaseline (higher is better). Denser achieves superior efficiency across all domains.",
+      "section": "6 Conclusion",
+      "char_count": 1111,
+      "chunk_index": 37,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0038",
+      "source_id": "DualDensity_2025",
+      "text": "em by\ndifferent methods across domains. Right: Computational efficiency (accuracy-to-token ratio) normalized to CoT\nbaseline (higher is better). Denser achieves superior efficiency across all domains.\nLow Medium High\nProblem Complexity05,00010,00015,000Token ConsumptionGSM8K\nLow Medium High\nProblem Complexity05,00010,00015,000Token ConsumptionMATH\nLow Medium High\nProblem Complexity05,00010,000Token ConsumptionBBH\nLow Medium High\nProblem Complexity05,00010,00015,000Token ConsumptionHumanEval\nLow Medium High\nProblem Complexity02,5005,0007,500Token ConsumptionMMLU\nLow Medium High\nProblem Complexity02,5005,0007,500Token ConsumptionTruthfulQA\nLow Medium High\nProblem Complexity05,00010,000Token ConsumptionARC-C\nLow Medium High\nProblem Complexity05,00010,00015,000Token ConsumptionLogiQA758085\nAccuracy (%)\n657075\nAccuracy (%)\n 7580\nAccuracy (%)\n707580\nAccuracy (%)\n8085\nAccuracy (%)\n85.087.590.0\nAccuracy (%)\n 80.082.585.0\nAccuracy (%)\n707580\nAccuracy (%)\nFigure 3: Scaling behavior with problem complexity. Red, Green, and Blue denotes CoT, SV and Denser,\nrespectively. Left y-axis denotes token consumption and right y-axis means accuracy improvement.",
+      "section": "6 Conclusion",
+      "char_count": 1157,
+      "chunk_index": 38,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0039",
+      "source_id": "DualDensity_2025",
+      "text": "%)\nFigure 3: Scaling behavior with problem complexity. Red, Green, and Blue denotes CoT, SV and Denser,\nrespectively. Left y-axis denotes token consumption and right y-axis means accuracy improvement.\nCase Study: Mathematical Reasoning\nProblem:Find the value ofR1\n0x3(1−x)4dx.\nCoT:To calculate this integral, I need to expand (1−x)4using the binomial theorem. We have (1−x)4=P4\nk=0\u00004\nk\u0001\n(1)4−k(−x)k=P4\nk=0\u00004\nk\u0001\n(−1)kxk=\u00004\n0\u0001\n−\u00004\n1\u0001\nx+\u00004\n2\u0001\nx2−\u00004\n3\u0001\nx3+\u00004\n4\u0001\nx4= 1−4x+ 6x2−4x3+x4. Now I\nmultiply this by x3:x3(1−x)4=x3−4x4+ 6x5−4x6+x7. Now I integrate term by term:R\nx3dx=x4\n4,R\n4x4dx=4x5\n5,R\n6x5dx=6x6\n6=x6,R\n4x6dx=4x7\n7,R\nx7dx=x8\n8. So the antiderivative isx4\n4−4x5\n5+x6−4x7\n7+x8\n8. Evaluating from 0 to\n1: Atx= 1 :1\n4−4\n5+1−4\n7+1\n8. Atx= 0 , all terms are 0. So the result is1\n4−4\n5+1−4\n7+1\n8=280−224+280−160+35\n280=211\n280=1\n120[ERROR in calculation]\nDenser (HD reasoning):R1\n0x3(1−x)4dx=R1\n0x3P4\nk=0\u00004\nk\u0001\n(−1)kxkdx=R1\n0P4\nk=0\u00004\nk\u0001\n(−1)kx3+kdx=P4\nk=0\u00004\nk\u0001\n(−1)kR1\n0x3+kdx=P4\nk=0\u00004\nk\u0001\n(−1)k 1\n3+k+1",
+      "section": "6 Conclusion",
+      "char_count": 1000,
+      "chunk_index": 39,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0040",
+      "source_id": "DualDensity_2025",
+      "text": "24+280−160+35\n280=211\n280=1\n120[ERROR in calculation]\nDenser (HD reasoning):R1\n0x3(1−x)4dx=R1\n0x3P4\nk=0\u00004\nk\u0001\n(−1)kxkdx=R1\n0P4\nk=0\u00004\nk\u0001\n(−1)kx3+kdx=P4\nk=0\u00004\nk\u0001\n(−1)kR1\n0x3+kdx=P4\nk=0\u00004\nk\u0001\n(−1)k 1\n3+k+1[x3+k+1]1\n0=P4\nk=0\u00004\nk\u0001\n(−1)k1\nk+4=1\n4−4\n5+6\n6−4\n7+1\n8=\n4−4\n5+ 1−4\n7+1\n8=1\n4−4\n5+ 1−4\n7+1\n8=30\n120−96\n120+120\n120−68.57\n120+15\n120=30−96+120−68.57+15\n120=0.43\n120=1\nDenser (Final answer):To find the value ofR1\n0x3(1−x)4dx, I’ll use the binomial expansion of (1−x)4and integrate term\nby term.\nFirst, I expand(1−x)4using the binomial theorem:(1−x)4=P4\nk=0\u00004\nk\u0001\n(−1)kxk= 1−4x+ 6x2−4x3+x4\nMultiplying byx3:x3(1−x)4=x3−4x4+ 6x5−4x6+x7\nIntegrating term by term and evaluating from 0 to 1:R1\n0x3(1−x)4dx= [x4\n4−4x5\n5+x6−4x7\n7+x8\n8]1\n0=1\n4−4\n5+ 1−4\n7+1\nConverting to a common denominator of 280:=70−224+280−160+35\n280=1\nTherefore,R1\n0x3(1−x)4dx=1\n280.\nTable 8: Case study example. HD denotes the high-density information. Compared with solution of CoT, our Denser\nhas more concise and notation-structured reasoning process.",
+      "section": "6 Conclusion",
+      "char_count": 1015,
+      "chunk_index": 40,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0041",
+      "source_id": "DualDensity_2025",
+      "text": "refore,R1\n0x3(1−x)4dx=1\n280.\nTable 8: Case study example. HD denotes the high-density information. Compared with solution of CoT, our Denser\nhas more concise and notation-structured reasoning process.\ncompared to Chain-of-Thought approaches while\npreserving or improving accuracy, with particular\ngains on complex multi-step problems.Limitations\nDespite the effectiveness of our test-time scal-\ning approach, several limitations remain. Our\nmethod introduces additional computational over-\n8\n\nhead at inference time, which may be prohibitive\nfor latency-sensitive applications or deployment on\nresource-constrained devices. While we demon-\nstrate improvements across several benchmarks,\nperformance gains vary across different tasks and\nmodel architectures, suggesting that our approach\nmay not uniformly benefit all NLP applications. Al-\nthough computational demands present challenges,\nour method effectively addresses the fundamen-\ntal trade-off between model performance and effi-\nciency that plagues many NLP systems.",
+      "section": "6 Conclusion",
+      "char_count": 1022,
+      "chunk_index": 41,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0042",
+      "source_id": "DualDensity_2025",
+      "text": "pplications. Al-\nthough computational demands present challenges,\nour method effectively addresses the fundamen-\ntal trade-off between model performance and effi-\nciency that plagues many NLP systems. Unlike ap-\nproaches requiring complete model retraining or ar-\nchitectural modifications, our test-time scaling tech-\nnique enables substantial performance improve-\nments with existing models while avoiding the car-\nbon footprint and resource costs of training new,\nlarger models from scratch. Furthermore, while\nperformance varies across tasks, our approach con-\nsistently improves results on complex reasoning\nand knowledge-intensive benchmarks where tradi-\ntional scaling methods often plateau, demonstrating\nits value for advancing state-of-the-art capabilities\nin the most challenging NLP domains.",
+      "section": "6 Conclusion",
+      "char_count": 803,
+      "chunk_index": 42,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0043",
+      "source_id": "DualDensity_2025",
+      "text": "ns.",
+      "section": "6 Conclusion",
+      "char_count": 3,
+      "chunk_index": 43,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0044",
+      "source_id": "DualDensity_2025",
+      "text": "References\nJacob Austin, Augustus Odena, Maxwell Nye, Maarten\nBosma, Henryk Michalewski, David Dohan, Ellen\nJiang, Carrie Cai, Michael Terry, Quoc Le, and 1\nothers. 2021. Program synthesis with large language\nmodels.arXiv preprint arXiv:2108.07732.\nTianle Cai, Yuhong Li, Zhengyang Geng, Hongwu Peng,\nJason D Lee, Deming Chen, and Tri Dao. 2024.\nMedusa: Simple llm inference acceleration frame-\nwork with multiple decoding heads.arXiv preprint\narXiv:2401.10774.\nMark Chen, Jerry Tworek, Heewoo Jun, Qiming Yuan,\nHenrique Ponde De Oliveira Pinto, Jared Kaplan,\nHarri Edwards, Yuri Burda, Nicholas Joseph, Greg\nBrockman, and 1 others. 2021. Evaluating large\nlanguage models trained on code.arXiv preprint\narXiv:2107.03374.\nXiaoshu Chen, Sihang Zhou, Ke Liang, and Xinwang\nLiu. 2025. Distilling reasoning ability from large lan-\nguage models with adaptive thinking.IEEE Transac-\ntions on Neural Networks and Learning Systems.\nZhe Chen, Weiyun Wang, Yue Cao, Yangzhou Liu,\nZhangwei Gao, Erfei Cui, Jinguo Zhu, Shenglong\nYe, Hao Tian, Zhaoyang Liu, and 1 others. 2024.",
+      "section": "References",
+      "char_count": 1063,
+      "chunk_index": 44,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0045",
+      "source_id": "DualDensity_2025",
+      "text": "EEE Transac-\ntions on Neural Networks and Learning Systems.\nZhe Chen, Weiyun Wang, Yue Cao, Yangzhou Liu,\nZhangwei Gao, Erfei Cui, Jinguo Zhu, Shenglong\nYe, Hao Tian, Zhaoyang Liu, and 1 others. 2024.\nExpanding performance boundaries of open-source\nmultimodal models with model, data, and test-time\nscaling.arXiv preprint arXiv:2412.05271.\nKarl Cobbe, Vineet Kosaraju, Mohammad Bavarian,\nMark Chen, Heewoo Jun, Lukasz Kaiser, MatthiasPlappert, Jerry Tworek, Jacob Hilton, Reiichiro\nNakano, and 1 others. 2021. Training verifiers\nto solve math word problems.arXiv preprint\narXiv:2110.14168.\nTri Dao, Dan Fu, Stefano Ermon, Atri Rudra, and\nChristopher Ré. 2022. Flashattention: Fast and\nmemory-efficient exact attention with io-awareness.\nAdvances in neural information processing systems,\n35:16344–16359.\nMor Geva, Daniel Khashabi, Elad Segal, Tushar Khot,\nDan Roth, and Jonathan Berant. 2021. Did aristotle\nuse a laptop? a question answering benchmark with\nimplicit reasoning strategies.Transactions of the\nAssociation for Computational Linguistics, 9:346–\n361.\nDan Hendrycks, Collin Burns, Steven Basart, Andy Zou,\nMantas Mazeika, Dawn Song, and Jacob Steinhardt.\n2020.",
+      "section": "References",
+      "char_count": 1170,
+      "chunk_index": 45,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0046",
+      "source_id": "DualDensity_2025",
+      "text": "oning strategies.Transactions of the\nAssociation for Computational Linguistics, 9:346–\n361.\nDan Hendrycks, Collin Burns, Steven Basart, Andy Zou,\nMantas Mazeika, Dawn Song, and Jacob Steinhardt.\n2020. Measuring massive multitask language under-\nstanding.arXiv preprint arXiv:2009.03300.\nDan Hendrycks, Collin Burns, Saurav Kadavath, Akul\nArora, Steven Basart, Eric Tang, Dawn Song, and Ja-\ncob Steinhardt. 2021. Measuring mathematical prob-\nlem solving with the math dataset.arXiv preprint\narXiv:2103.03874.\nAaron Jaech, Adam Kalai, Adam Lerer, Adam Richard-\nson, Ahmed El-Kishky, Aiden Low, Alec Helyar,\nAleksander Madry, Alex Beutel, Alex Carney, and 1\nothers. 2024. Openai o1 system card.arXiv preprint\narXiv:2412.16720.\nRenren Jin, Jiangcun Du, Wuwei Huang, Wei Liu, Jian\nLuan, Bin Wang, and Deyi Xiong. 2024. A com-\nprehensive evaluation of quantization strategies for\nlarge language models. InFindings of the Associa-\ntion for Computational Linguistics ACL 2024, pages\n12186–12215.\nEmre Kiciman, Robert Ness, Amit Sharma, and Chen-\nhao Tan. 2023. Causal reasoning and large language\nmodels: Opening a new frontier for causality.Trans-\nactions on Machine Learning Research.",
+      "section": "References",
+      "char_count": 1178,
+      "chunk_index": 46,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0047",
+      "source_id": "DualDensity_2025",
+      "text": "86–12215.\nEmre Kiciman, Robert Ness, Amit Sharma, and Chen-\nhao Tan. 2023. Causal reasoning and large language\nmodels: Opening a new frontier for causality.Trans-\nactions on Machine Learning Research.\nTakeshi Kojima, Shixiang Shane Gu, Machel Reid, Yu-\ntaka Matsuo, and Yusuke Iwasawa. 2022. Large lan-\nguage models are zero-shot reasoners.Advances in\nneural information processing systems, 35:22199–\n22213.\nYaniv Leviathan, Matan Kalman, and Yossi Matias.\n2023. Fast inference from transformers via spec-\nulative decoding. InInternational Conference on\nMachine Learning, pages 19274–19286. PMLR.\nPatrick Lewis, Ethan Perez, Aleksandra Piktus, Fabio\nPetroni, Vladimir Karpukhin, Naman Goyal, Hein-\nrich Küttler, Mike Lewis, Wen-tau Yih, Tim Rock-\ntäschel, and 1 others. 2020. Retrieval-augmented gen-\neration for knowledge-intensive nlp tasks.Advances\nin neural information processing systems, 33:9459–\n9474.\n9\n\nZhong-Zhi Li, Duzhen Zhang, Ming-Liang Zhang, Ji-\naxin Zhang, Zengyan Liu, Yuxuan Yao, Haotian Xu,\nJunhao Zheng, Pei-Jie Wang, Xiuyi Chen, and 1 oth-\ners. 2025. From system 1 to system 2: A survey\nof reasoning large language models.arXiv preprint\narXiv:2502.17419.",
+      "section": "References",
+      "char_count": 1176,
+      "chunk_index": 47,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0048",
+      "source_id": "DualDensity_2025",
+      "text": "ngyan Liu, Yuxuan Yao, Haotian Xu,\nJunhao Zheng, Pei-Jie Wang, Xiuyi Chen, and 1 oth-\ners. 2025. From system 1 to system 2: A survey\nof reasoning large language models.arXiv preprint\narXiv:2502.17419.\nHuanxuan Liao, Shizhu He, Yao Xu, Yuanzhe Zhang,\nKang Liu, and Jun Zhao. 2025. Neural-symbolic\ncollaborative distillation: Advancing small language\nmodels for complex reasoning tasks. InProceedings\nof the AAAI Conference on Artificial Intelligence,\nvolume 39, pages 24567–24575.\nHunter Lightman, Vineet Kosaraju, Yuri Burda, Harri-\nson Edwards, Bowen Baker, Teddy Lee, Jan Leike,\nJohn Schulman, Ilya Sutskever, and Karl Cobbe.\n2023. Let’s verify step by step. InThe Twelfth Inter-\nnational Conference on Learning Representations.\nAixin Liu, Bei Feng, Bing Xue, Bingxuan Wang,\nBochao Wu, Chengda Lu, Chenggang Zhao, Chengqi\nDeng, Chenyu Zhang, Chong Ruan, and 1 others.\n2024. Deepseek-v3 technical report.arXiv preprint\narXiv:2412.19437.\nJian Liu, Leyang Cui, Hanmeng Liu, Dandan Huang,\nYile Wang, and Yue Zhang. 2021. Logiqa: a\nchallenge dataset for machine reading comprehen-\nsion with logical reasoning.",
+      "section": "References",
+      "char_count": 1106,
+      "chunk_index": 48,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0049",
+      "source_id": "DualDensity_2025",
+      "text": "rXiv preprint\narXiv:2412.19437.\nJian Liu, Leyang Cui, Hanmeng Liu, Dandan Huang,\nYile Wang, and Yue Zhang. 2021. Logiqa: a\nchallenge dataset for machine reading comprehen-\nsion with logical reasoning. InProceedings of the\nTwenty-Ninth International Conference on Interna-\ntional Joint Conferences on Artificial Intelligence,\npages 3622–3628.\nKevin Lu, Aditya Grover, Pieter Abbeel, and Igor Mor-\ndatch. 2022. Frozen pretrained transformers as uni-\nversal computation engines. InProceedings of the\nAAAI conference on artificial intelligence, volume 36,\npages 7628–7636.\nMichael Poli, Stefano Massaroli, Eric Nguyen, Daniel Y\nFu, Tri Dao, Stephen Baccus, Yoshua Bengio, Ste-\nfano Ermon, and Christopher Ré. 2023. Hyena hierar-\nchy: Towards larger convolutional language models.\nInInternational Conference on Machine Learning,\npages 28043–28078. PMLR.\nNoam Shazeer. 2019. Fast transformer decoding:\nOne write-head is all you need.arXiv preprint\narXiv:1911.02150.\nWeijia Shi, Sewon Min, Michihiro Yasunaga, Min-\njoon Seo, Rich James, Mike Lewis, Luke Zettle-\nmoyer, and Wen-tau Yih. 2023. Replug: Retrieval-\naugmented black-box language models.arXiv\npreprint arXiv:2301.12652.",
+      "section": "References",
+      "char_count": 1172,
+      "chunk_index": 49,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0050",
+      "source_id": "DualDensity_2025",
+      "text": "Sewon Min, Michihiro Yasunaga, Min-\njoon Seo, Rich James, Mike Lewis, Luke Zettle-\nmoyer, and Wen-tau Yih. 2023. Replug: Retrieval-\naugmented black-box language models.arXiv\npreprint arXiv:2301.12652.\nNoah Shinn, Federico Cassano, Ashwin Gopinath,\nKarthik Narasimhan, and Shunyu Yao. 2023. Re-\nflexion: Language agents with verbal reinforcement\nlearning.Advances in Neural Information Process-\ning Systems, 36:8634–8652.\nCharlie Victor Snell, Jaehoon Lee, Kelvin Xu, and Avi-\nral Kumar. 2025. Scaling llm test-time compute opti-\nmally can be more effective than scaling parametersfor reasoning. InThe Thirteenth International Con-\nference on Learning Representations.\nOyvind Tafjord, Bhavana Dalvi, and Peter Clark. 2021.\nProofwriter: Generating implications, proofs, and\nabductive statements over natural language. InFind-\nings of the Association for Computational Linguistics:\nACL-IJCNLP 2021, pages 3621–3634.\nXuezhi Wang, Jason Wei, Dale Schuurmans, Quoc Le,\nEd Chi, Sharan Narang, Aakanksha Chowdhery, and\nDenny Zhou. 2022. Self-consistency improves chain\nof thought reasoning in language models.arXiv\npreprint arXiv:2203.11171.",
+      "section": "References",
+      "char_count": 1133,
+      "chunk_index": 50,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0051",
+      "source_id": "DualDensity_2025",
+      "text": "ei, Dale Schuurmans, Quoc Le,\nEd Chi, Sharan Narang, Aakanksha Chowdhery, and\nDenny Zhou. 2022. Self-consistency improves chain\nof thought reasoning in language models.arXiv\npreprint arXiv:2203.11171.\nJason Wei, Xuezhi Wang, Dale Schuurmans, Maarten\nBosma, Fei Xia, Ed Chi, Quoc V Le, Denny Zhou,\nand 1 others. 2022. Chain-of-thought prompting elic-\nits reasoning in large language models.Advances\nin neural information processing systems, 35:24824–\n24837.\nYixuan Weng, Minjun Zhu, Fei Xia, Bin Li, Shizhu He,\nShengping Liu, Bin Sun, Kang Liu, and Jun Zhao.\n2023. Large language models are better reasoners\nwith self-verification. InFindings of the Association\nfor Computational Linguistics: EMNLP 2023, pages\n2550–2575.\nHeming Xia, Chak Tou Leong, Wenjie Wang, Yongqi Li,\nand Wenjie Li. 2025. TokenSkip: Controllable chain-\nof-thought compression in LLMs. InProceedings of\nthe 2025 Conference on Empirical Methods in Natu-\nral Language Processing, pages 3351–3363, Suzhou,\nChina. Association for Computational Linguistics.\nFengli Xu, Qianyue Hao, Zefang Zong, Jingwei Wang,\nYunke Zhang, Jingyi Wang, Xiaochong Lan, Jiahui\nGong, Tianjian Ouyang, Fanjin Meng, and 1 others.\n2025.",
+      "section": "References",
+      "char_count": 1178,
+      "chunk_index": 51,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0052",
+      "source_id": "DualDensity_2025",
+      "text": "a. Association for Computational Linguistics.\nFengli Xu, Qianyue Hao, Zefang Zong, Jingwei Wang,\nYunke Zhang, Jingyi Wang, Xiaochong Lan, Jiahui\nGong, Tianjian Ouyang, Fanjin Meng, and 1 others.\n2025. Towards large reasoning models: A survey\nof reinforced reasoning with large language models.\narXiv preprint arXiv:2501.09686.\nAn Yang, Anfeng Li, Baosong Yang, Beichen Zhang,\nBinyuan Hui, Bo Zheng, Bowen Yu, Chang\nGao, Chengen Huang, Chenxu Lv, and 1 others.\n2025. Qwen3 technical report.arXiv preprint\narXiv:2505.09388.\nShunyu Yao, Dian Yu, Jeffrey Zhao, Izhak Shafran,\nTom Griffiths, Yuan Cao, and Karthik Narasimhan.\n2023. Tree of thoughts: Deliberate problem solving\nwith large language models.Advances in neural\ninformation processing systems, 36:11809–11822.\nZhengyi Zhao, Shubo Zhang, Zezhong Wang, Huimin\nWang, Yutian Zhao, Bin Liang, Yefeng Zheng,\nBinyang Li, Kam-Fai Wong, and Xian Wu. 2025.\nT2: An adaptive test-time scaling strategy for\ncontextual question answering.arXiv preprint\narXiv:2505.17427.\nDenny Zhou, Nathanael Schärli, Le Hou, Jason Wei,\nNathan Scales, Xuezhi Wang, Dale Schuurmans,\nClaire Cui, Olivier Bousquet, Quoc Le, and 1 oth-\ners. 2022.",
+      "section": "References",
+      "char_count": 1168,
+      "chunk_index": 52,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0053",
+      "source_id": "DualDensity_2025",
+      "text": "n answering.arXiv preprint\narXiv:2505.17427.\nDenny Zhou, Nathanael Schärli, Le Hou, Jason Wei,\nNathan Scales, Xuezhi Wang, Dale Schuurmans,\nClaire Cui, Olivier Bousquet, Quoc Le, and 1 oth-\ners. 2022. Least-to-most prompting enables complex\n10\n\nreasoning in large language models.arXiv preprint\narXiv:2205.10625.\nA Scalability Discussion\nA core motivation ofDenseris the recognition that\n“reasoning” as a cognitive task possesses distinct\nstructural properties that differentiate it from gen-\neral open-ended generation. In this section, we\ndiscuss the scalability of symbolic representations\ncompared to natural language and define the gener-\nalization boundaries of our framework.\nThe Scalability of Symbolic vs. Natural Lan-\nguage Representations.Current LLMs predomi-\nnantly utilize natural language (NL) as the medium\nfor both internal deliberation and external commu-\nnication. However, extensive research in formal\nlogic and information theory suggests that NL is\ninherently suboptimal for scalable reasoning due to\nits low information density and high ambiguity.",
+      "section": "References",
+      "char_count": 1070,
+      "chunk_index": 53,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0054",
+      "source_id": "DualDensity_2025",
+      "text": "mu-\nnication. However, extensive research in formal\nlogic and information theory suggests that NL is\ninherently suboptimal for scalable reasoning due to\nits low information density and high ambiguity. As\nproblem complexity increases linearly, the token\nvolume required to express the reasoning process\nin NL often grows super-linearly, leading to con-\ntext window exhaustion and “lost-in-the-middle”\nphenomena (?).\nConversely, symbolic languages (mathematical\nnotation, code, formal logic) are designed forcom-\npositional scalability, they allow complex concepts\nto be nested and manipulated with minimal syn-\ntactic overhead. By shifting the internal reasoning\nmechanism to a high-density symbolic space, our\nframework effectively decouples the computational\ncost of reasoning from the communicative cost of\nexplanation. This suggests that for tasks requiring\ndeep inference steps (e.g., multi-step mathematical\nproofs or algorithmic planning), symbolic compres-\nsion is not merely an optimization but a prerequisite\nfor scaling to higher orders of complexity.\nGeneralization Across Structured Domains.",
+      "section": "References",
+      "char_count": 1103,
+      "chunk_index": 54,
+      "page_numbers": [
+        11
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0055",
+      "source_id": "DualDensity_2025",
+      "text": "hematical\nproofs or algorithmic planning), symbolic compres-\nsion is not merely an optimization but a prerequisite\nfor scaling to higher orders of complexity.\nGeneralization Across Structured Domains.\nRegarding the scope of our method, we argue that\nthe distinction should not be drawn between “sym-\nbolic” and “non-symbolic” tasks, but rather be-\ntweenstructured reasoningandsemantic gener-\nation. Critics might argue that a density-based\napproach is limited because it cannot be applied\nto creative writing or conversational nuances. We\nacknowledge this boundary and frame it as a nec-\nessary specialization.\nReasoning tasks, whether in mathematics, cod-\ning, or logical deduction, share a common underly-\ning characteristic: they are governed by rigid struc-\ntural priors and deterministic state transitions. Ourmethod generalizes across these domains because\nit exploits this shared structure. For instance, the\n“elimination pattern” in solving linear equations\nshares isomorphic properties with “variable state\ntracking” in code execution. Therefore,Denseris\ndesigned to generalize specifically within the do-\nmain ofcomputational reasoning.",
+      "section": "References",
+      "char_count": 1146,
+      "chunk_index": 55,
+      "page_numbers": [
+        11
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0056",
+      "source_id": "DualDensity_2025",
+      "text": "ng linear equations\nshares isomorphic properties with “variable state\ntracking” in code execution. Therefore,Denseris\ndesigned to generalize specifically within the do-\nmain ofcomputational reasoning. Attempting to\napply high-density inference to tasks lacking this\nstructure (e.g., literary analysis) would likely re-\nsult in information loss, as the “verbosity” in those\ndomains often carries essential semantic nuance.\nThus, our work advocates for a specialized infer-\nence paradigm where the representation mode is\ndynamically aligned with the structural rigidity of\nthe task.\nB Further Extended Denser Framework\nB.1 Domain-Specific Adaptations\nDenser adapts its compression strategies to differ-\nent reasoning domains based on their unique char-\nacteristics. For mathematical problems, we formal-\nize the compression operator as:\nCmath(r) =nX\nj=1I(tj∈ T comp)·σ math(tj)(10)\nwhere Tcomp represents computationally essential\ntokens and σmathmaps verbose mathematical ex-\npressions to symbolic notation.",
+      "section": "References",
+      "char_count": 1006,
+      "chunk_index": 56,
+      "page_numbers": [
+        11
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0057",
+      "source_id": "DualDensity_2025",
+      "text": "the compression operator as:\nCmath(r) =nX\nj=1I(tj∈ T comp)·σ math(tj)(10)\nwhere Tcomp represents computationally essential\ntokens and σmathmaps verbose mathematical ex-\npressions to symbolic notation. This approach re-\nplaces expressions like “To solve this equation, I’ll\nfirst isolate the variable by subtracting 3 from both\nsides” with concise notation like “2x + 3 = 7 →\n2x = 4 →x = 2”, achieving compression ratios of\n3.2-4.5× for intermediate steps.\nFor logical reasoning, we implement:\nClogic(r) =τ(Λ(r))(11)\nwhere Λextracts logical propositions and τcon-\nverts them to symbolic form using propositional\ncalculus notation ( ∧,∨,¬,→,↔) rather than\nwords (“and,” “or,” “not”).\nFor coding and algorithmic problems, we em-\nploy:\nCcode(r) =ρ(r,A)(12)\nwhere ρmaps verbose algorithm descriptions to\npseudocode using algorithm templates A. Variable\nassignments, loops, and conditionals use concise\nprogramming syntax rather than natural language\ndescriptions.\n11\n\nThe compression strategy for each domain is\nselected during query analysis and applied con-\nsistently throughout the reasoning process.",
+      "section": "References",
+      "char_count": 1098,
+      "chunk_index": 57,
+      "page_numbers": [
+        11
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0058",
+      "source_id": "DualDensity_2025",
+      "text": "rogramming syntax rather than natural language\ndescriptions.\n11\n\nThe compression strategy for each domain is\nselected during query analysis and applied con-\nsistently throughout the reasoning process. Our\napproach automatically adjusts compression inten-\nsity based on problem complexity, applying more\naggressive compression to more complex problems\nwhere the inefficiency of standard approaches is\nmost pronounced.\nB.2 Density-Aware Prompting Strategy\nTo implement Denser without model modifications,\nwe develop density-aware prompts that guide lan-\nguage models to adopt appropriate information den-\nsities for different reasoning phases. Our prompt-\ning strategy is formalized as:\nPHD(q) =P base⊕ E(D)⊕∆(κ(q))(13)\nwhere Pbasecontains core instructions, E(D) pro-\nvides domain-specific exemplars, and ∆(κ(q)) ad-\njusts density parameters based on complexity. The\nframework employs dynamic adjustment of com-\npression level:\nκ(q) =β 0+β 1·η(q)(14)\nwhere η(q) quantifies reasoning complexity\nthrough input features such as token length, pres-\nence of mathematical notation, and estimated rea-\nsoning steps. Parameters β0andβ1control the base\ncompression level and its scaling with complexity.",
+      "section": "References",
+      "char_count": 1193,
+      "chunk_index": 58,
+      "page_numbers": [
+        11
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0059",
+      "source_id": "DualDensity_2025",
+      "text": "through input features such as token length, pres-\nence of mathematical notation, and estimated rea-\nsoning steps. Parameters β0andβ1control the base\ncompression level and its scaling with complexity.\nThis information-theoretically motivated ap-\nproach addresses the inefficiencies in standard rea-\nsoning methods, particularly for complex multi-\nstep problems. By preserving the 32.4% of tokens\ncontaining core computational content while dra-\nmatically reducing the 67.6% that serve merely ex-\nplanatory functions, Denser achieves significant ef-\nficiency gains while maintaining or improving rea-\nsoning accuracy. The framework naturally scales\nwith problem complexity, applying stronger com-\npression precisely when token efficiency matters\nmost—a novel contribution that optimizes both\ncomputational and communicative aspects of lan-\nguage model reasoning.\nC Prompts\nThis section provides the complete prompts used in\nour Denser framework. The prompts are organized\nby module and by domain specialization.",
+      "section": "References",
+      "char_count": 1010,
+      "chunk_index": 59,
+      "page_numbers": [
+        12
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0060",
+      "source_id": "DualDensity_2025",
+      "text": "ommunicative aspects of lan-\nguage model reasoning.\nC Prompts\nThis section provides the complete prompts used in\nour Denser framework. The prompts are organized\nby module and by domain specialization. Table 9\nto Table 18 shows the prompts.D Detailed Experimental Settings\nD.1 Dataset Specifications and Preprocessing\nOur experimental evaluation spans eight care-\nfully selected datasets that represent diverse rea-\nsoning challenges across four primary domains.\nFor mathematical reasoning, we utilize GSM8K,\nwhich contains 8,500 grade school math word\nproblems requiring multi-step arithmetic reason-\ning, and MATH500, a subset of the original MATH\ndataset comprising 500 competition-level mathe-\nmatics problems spanning algebra, geometry, num-\nber theory, and calculus. Each problem in GSM8K\nrequires an average of 3.2 reasoning steps, while\nMATH500 problems demand significantly more\ncomplex reasoning with an average of 7.8 steps per\nsolution.",
+      "section": "References",
+      "char_count": 947,
+      "chunk_index": 60,
+      "page_numbers": [
+        12
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0061",
+      "source_id": "DualDensity_2025",
+      "text": "er theory, and calculus. Each problem in GSM8K\nrequires an average of 3.2 reasoning steps, while\nMATH500 problems demand significantly more\ncomplex reasoning with an average of 7.8 steps per\nsolution.\nIn the logical reasoning domain, we employ\nLogiQA, consisting of 651 multiple-choice ques-\ntions that test logical reasoning abilities through\nreading comprehension scenarios, and ProofWriter,\nwhich contains 5,000 problems requiring formal\nlogical deduction from given premises. LogiQA\nproblems typically involve identifying logical rela-\ntionships, drawing inferences, and evaluating argu-\nment validity, while ProofWriter focuses on multi-\nhop reasoning through logical rules and fact verifi-\ncation.\nFor code reasoning evaluation, we select MBPP\n(Mostly Basic Python Problems), containing 974\nprogramming tasks that require algorithm de-\nsign and implementation, and HumanEval, which\nprovides 164 function-level programming chal-\nlenges with detailed docstring specifications.",
+      "section": "References",
+      "char_count": 980,
+      "chunk_index": 61,
+      "page_numbers": [
+        12
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0062",
+      "source_id": "DualDensity_2025",
+      "text": ", containing 974\nprogramming tasks that require algorithm de-\nsign and implementation, and HumanEval, which\nprovides 164 function-level programming chal-\nlenges with detailed docstring specifications. Both\ndatasets evaluate the model’s ability to translate nat-\nural language problem descriptions into executable\ncode, with MBPP focusing on basic programming\nconstructs and HumanEval emphasizing more so-\nphisticated algorithmic thinking.\nThe general reasoning category incorporates\nMMLU (Massive Multitask Language Understand-\ning), from which we sample 1,000 questions across\nSTEM subjects, humanities, and social sciences\nthat require factual knowledge integration with rea-\nsoning, and StrategyQA, containing 2,290 ques-\ntions that demand multi-hop reasoning and implicit\nstrategy formulation to reach correct conclusions.\nData preprocessing follows consistent protocols\nacross all datasets. We standardize question for-\nmats to ensure compatibility with our framework\ncomponents, remove any examples with incom-\nplete or ambiguous ground truth annotations, and\n12\n\nQuery Analysis Prompt\nYou are an expert problem solver. I’ll give you a problem.",
+      "section": "References",
+      "char_count": 1150,
+      "chunk_index": 62,
+      "page_numbers": [
+        12
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0063",
+      "source_id": "DualDensity_2025",
+      "text": "ity with our framework\ncomponents, remove any examples with incom-\nplete or ambiguous ground truth annotations, and\n12\n\nQuery Analysis Prompt\nYou are an expert problem solver. I’ll give you a problem. First, analyze what type of problem it is (mathematical,\nlogical, computational, or general reasoning). Then, formulate a plan outlining the key steps needed to solve it.\nFor your analysis, provide:\n1. Problem Type: [math/logic/code/general]\n2. Complexity Estimate: [simple/moderate/complex]\n3. Key Knowledge Areas Required: [list relevant areas]\n4. Solution Approach: [brief description of approach]\nFormat your response as:\nProblem Type: [type]\nComplexity: [complexity]\nKnowledge Areas: [areas]\nSolution Plan:\n- Step 1: [brief description]\n- Step 2: [brief description] ...\nProblem: [PROBLEM]\nTable 9: Query Analysis Module Prompt\nHigh-density Mathematical Reasoning Prompt\nYou are a mathematical problem solver that uses compact symbolic notation and minimal natural language. Solve\nthe problem step-by-step using high-density mathematical notation following these guidelines:\n1. Use standard mathematical notation (P,R\n,Q, etc.) wherever possible\n2. Skip obvious steps and explanatory text\n3.",
+      "section": "References",
+      "char_count": 1197,
+      "chunk_index": 63,
+      "page_numbers": [
+        12
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0064",
+      "source_id": "DualDensity_2025",
+      "text": "m step-by-step using high-density mathematical notation following these guidelines:\n1. Use standard mathematical notation (P,R\n,Q, etc.) wherever possible\n2. Skip obvious steps and explanatory text\n3. Write equations directly without phrases like \"I’ll calculate\" or \"Now I compute\"\n4. Omit introductory and concluding sentences\n5. Use compact algebraic expressions without expanding unless necessary\n6. Include only the computational core of each step\n7. For derivatives, integrals, and algebraic manipulations, show transformations directly\n8. Use abbreviated notation for vectors, matrices, and sets\n9. Present your solution as a sequence of expressions, each building on the previous\nProblem: [PROBLEM]\nSolution Plan: [SOLUTION PLAN]\nProvide your solution with maximum mathematical density:\nTable 10: High-density Mathematical Reasoning Prompt\nHigh-density Logical Reasoning Prompt\nYou are a logical problem solver that uses propositional calculus and symbolic notation with minimal natural\nlanguage. Solve the problem step-by-step using high-density logical notation following these guidelines:\n1. Use logical symbols (∧,∨,¬,→,↔,∀,∃) rather than words\n2.",
+      "section": "References",
+      "char_count": 1159,
+      "chunk_index": 64,
+      "page_numbers": [
+        13
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0065",
+      "source_id": "DualDensity_2025",
+      "text": "bolic notation with minimal natural\nlanguage. Solve the problem step-by-step using high-density logical notation following these guidelines:\n1. Use logical symbols (∧,∨,¬,→,↔,∀,∃) rather than words\n2. Represent premises and conclusions with single letters or clear abbreviations 3. Skip explanatory text and\njustifications\n4. Present each inference rule application directly\n5. Use symbols for logical rules (MP for Modus Ponens, MT for Modus Tollens)\n6. Minimize parenthetical text and verbose explanations\n7. Represent arguments in formal proof notation with numbered lines\n8. For complex logical arguments, use truth tables or proof trees without explanation\n9. Present only the essential logical structure of each deduction\nProblem: [PROBLEM]\nSolution Plan: [SOLUTION PLAN]\nProvide your solution with maximum logical density:\nTable 11: High-density Logical Reasoning Prompt\napply minimal text normalization while preserv-\ning mathematical notation and code structure.",
+      "section": "References",
+      "char_count": 971,
+      "chunk_index": 65,
+      "page_numbers": [
+        13
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0066",
+      "source_id": "DualDensity_2025",
+      "text": "PLAN]\nProvide your solution with maximum logical density:\nTable 11: High-density Logical Reasoning Prompt\napply minimal text normalization while preserv-\ning mathematical notation and code structure. For\ndatasets with multiple-choice formats, we convert\nthem to generation tasks to better evaluate reason-\ning quality, and for coding tasks, we establish exe-\ncution environments with appropriate timeout and\nmemory constraints.D.2 Model Configurations and\nImplementation Details\nOur primary experimental backbone utilizes\nQwen3-14B, chosen for its strong performance\nacross diverse reasoning tasks and its accessibil-\nity for controlled experimentation. We configure\nthe model with a temperature of 0.7 for genera-\n13\n\nHigh-density Computational Reasoning Prompt\nYou are a computational problem solver that uses compact pseudocode and algorithmic notation with minimal natural\nlanguage. Solve the problem step-by-step using high-density computational notation following these guidelines:\n1. Use pseudocode rather than fully implemented code\n2. Skip comments and explanatory text\n3. Use standard algorithmic notation (Big O, loops, conditionals)\n4. Minimize variable declarations and boilerplate\n5.",
+      "section": "References",
+      "char_count": 1197,
+      "chunk_index": 66,
+      "page_numbers": [
+        13
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0067",
+      "source_id": "DualDensity_2025",
+      "text": "eudocode rather than fully implemented code\n2. Skip comments and explanatory text\n3. Use standard algorithmic notation (Big O, loops, conditionals)\n4. Minimize variable declarations and boilerplate\n5. Use mathematical notation for array/set operations\n6. Employ standard abbreviations (arr for array, idx for index)\n7. Skip obvious implementation details\n8. Use compact control flow representation\n9. Represent data structures schematically rather than with detailed implementations\nProblem: [PROBLEM]\nSolution Plan: [SOLUTION PLAN]\nProvide your solution with maximum computational density:\nTable 12: High-density Computational Reasoning Prompt\nHigh-density General Reasoning Prompt\nYou are a problem solver that uses compact, telegraphic language with minimal verbosity. Solve the problem\nstep-by-step using high-density reasoning following these guidelines:\n1. Use brief, telegraphic sentences without articles or connecting words\n2. Skip obvious steps and explanatory text\n3. Use abbreviations where meaning is clear\n4. Present reasoning as bullet points or numbered steps\n5. Use symbolic notation where applicable\n6. Minimize repetition\n7. Skip introductory and concluding statements\n8.",
+      "section": "References",
+      "char_count": 1190,
+      "chunk_index": 67,
+      "page_numbers": [
+        14
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0068",
+      "source_id": "DualDensity_2025",
+      "text": "ations where meaning is clear\n4. Present reasoning as bullet points or numbered steps\n5. Use symbolic notation where applicable\n6. Minimize repetition\n7. Skip introductory and concluding statements\n8. Focus only on essential information for solving\n9. Structure response as sequence of direct operations\nProblem: [PROBLEM]\nSolution Plan: [SOLUTION PLAN]\nProvide your solution with maximum reasoning density:\nTable 13: High-density General Reasoning Prompt\nLow-density Answering Module Prompt\nYou are an expert problem solver tasked with creating a human-readable explanation of a solution. I’ll provide a\nproblem, a plan, and a high-density reasoning trace. Your task is to convert this into a clear, well-explained answer\nfollowing these guidelines:\n1. Begin with a brief restatement of the approach\n2. Explain key steps from the reasoning trace in natural language\n3. Include all important mathematical operations, but explain them clearly\n4. Connect steps with logical transitions\n5. Highlight critical insights and turning points in the solution\n6. Expand abbreviated notation into clear explanations\n7. Conclude with a clearly stated final answer\n8.",
+      "section": "References",
+      "char_count": 1154,
+      "chunk_index": 68,
+      "page_numbers": [
+        14
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0069",
+      "source_id": "DualDensity_2025",
+      "text": "teps with logical transitions\n5. Highlight critical insights and turning points in the solution\n6. Expand abbreviated notation into clear explanations\n7. Conclude with a clearly stated final answer\n8. Ensure the explanation would be understandable to someone with basic knowledge of the field\nProblem: [PROBLEM]\nSolution Plan: [SOLUTION PLAN]\nHigh-density Reasoning: [HD REASONING]\nProvide a well-explained, human-readable solution:\nTable 14: Low-density Answering Module Prompt\ntion diversity while maintaining reproducibility\nthrough fixed random seeds. The maximum se-\nquence length is set to 4,096 tokens for input and\n2,048 tokens for output generation, with early stop-\nping triggered when the model generates explicit\ntermination tokens.\nFor API-based model evaluation, we employconsistent parameter settings across providers to\nensure fair comparison. GPT-4o and o1-mini exper-\niments use the default API parameters with temper-\nature set to 0.7 and max tokens configured based on\ntask requirements.",
+      "section": "References",
+      "char_count": 1007,
+      "chunk_index": 69,
+      "page_numbers": [
+        14
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0070",
+      "source_id": "DualDensity_2025",
+      "text": "settings across providers to\nensure fair comparison. GPT-4o and o1-mini exper-\niments use the default API parameters with temper-\nature set to 0.7 and max tokens configured based on\ntask requirements. DeepSeek-V3 and DeepSeek-\nR1 evaluations follow similar configurations, with\nspecial attention to their reasoning-optimized archi-\n14\n\nMathematical Low-density Answer Extensions\nAdditional guidance for mathematical explanation:\n1. Explain the mathematical intuition behind key steps\n2. Present equations in a readable format with clear explanation of variables\n3. Provide rationale for using specific techniques or formulas\n4. Highlight connections to mathematical principles\n5. Explain any non-obvious algebraic manipulations\n6. Show complete calculations for critical steps\n7. Structure the explanation to follow the logical progression of the solution\nFinal answer should include:\n- Clear statement of the numerical or symbolic result\n- Units if applicable\n- Verification of solution if possible\nTable 15: Mathematical Low-density Answer Extensions\nLogical Low-density Answer Extensions\nAdditional guidance for logical explanation:\n1. Explain the logical principles applied at each key step\n2.",
+      "section": "References",
+      "char_count": 1197,
+      "chunk_index": 70,
+      "page_numbers": [
+        14
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0071",
+      "source_id": "DualDensity_2025",
+      "text": "le\nTable 15: Mathematical Low-density Answer Extensions\nLogical Low-density Answer Extensions\nAdditional guidance for logical explanation:\n1. Explain the logical principles applied at each key step\n2. Translate symbolic representation into natural language\n3. Clarify the relationship between premises and conclusions\n4. Explain the application of logical rules and theorems\n5. Highlight the structure of the logical argument\n6. Connect the logical reasoning to real-world implications where relevant\nFinal answer should include:\n- Clear statement of the conclusion\n- Assessment of argument validity\n- Discussion of any limitations or assumptions\nTable 16: Logical Low-density Answer Extensions\nComputational Low-density Answer Extensions\nAdditional guidance for computational explanation:\n1. Explain the algorithmic approach and its rationale\n2. Clarify the function of each major code block or operation\n3. Discuss time and space complexity considerations\n4. Explain data structure choices and tradeoffs\n5. Highlight key algorithmic insights\n6. Use concrete examples to illustrate algorithm behavior\n7.",
+      "section": "References",
+      "char_count": 1104,
+      "chunk_index": 71,
+      "page_numbers": [
+        15
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0072",
+      "source_id": "DualDensity_2025",
+      "text": "n\n3. Discuss time and space complexity considerations\n4. Explain data structure choices and tradeoffs\n5. Highlight key algorithmic insights\n6. Use concrete examples to illustrate algorithm behavior\n7. Explain how edge cases are handled\nFinal answer should include:\n- Complete algorithmic solution\n- Runtime and space complexity analysis\n- Discussion of alternative approaches if relevant\nTable 17: Computational Low-density Answer Extensions\ntectures. Claude-3.7-Sonnet experiments leverage\nthe thinking mode when available, allowing direct\ncomparison with our dual-density approach.\nThe implementation of our Denser framework\ninvolves carefully designed prompt templates for\neach reasoning domain. Mathematical reasoning\nprompts incorporate LaTeX notation support and al-\ngebraic manipulation shortcuts. Logical reasoning\ntemplates emphasize propositional logic notation\nand truth table representations. Code reasoning\nprompts encourage pseudocode development and\nalgorithmic abstraction. General reasoning tem-\nplates focus on structured argumentation with min-imal verbosity.",
+      "section": "References",
+      "char_count": 1078,
+      "chunk_index": 72,
+      "page_numbers": [
+        15
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0073",
+      "source_id": "DualDensity_2025",
+      "text": "uth table representations. Code reasoning\nprompts encourage pseudocode development and\nalgorithmic abstraction. General reasoning tem-\nplates focus on structured argumentation with min-imal verbosity.\nHyperparameter optimization for domain-\nspecific components follows a grid search\nmethodology over compression intensity parame-\ntersκD∈ {0.3,0.5,0.7} , information preservation\nthresholds θ∈ {0.90,0.95,0.99} , and importance\nweighting schemes for answer generation. We\nselect optimal configurations through validation set\nperformance on a held-out subset of 100 examples\nper dataset.\n15\n\nPreliminary Experiment: Compression-Oriented Prompt\nYou are an expert problem solver who uses compact, information-dense language for reasoning. When solving problems, follow\nthese guidelines:\n1. Use symbolic notation instead of verbose descriptions\n2. Skip obvious steps that don’t require explanation\n3. Use mathematical expressions and equations directly\n4. Minimize explanatory phrases like \"I’ll now calculate\" or \"Next, I need to find\"\n5. Present each step as concisely as possible while maintaining clarity\n6. Use standard abbreviations and symbols when appropriate\n7.",
+      "section": "References",
+      "char_count": 1165,
+      "chunk_index": 73,
+      "page_numbers": [
+        15
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0074",
+      "source_id": "DualDensity_2025",
+      "text": "natory phrases like \"I’ll now calculate\" or \"Next, I need to find\"\n5. Present each step as concisely as possible while maintaining clarity\n6. Use standard abbreviations and symbols when appropriate\n7. Focus on the computational core of each reasoning step\nFor example, instead of writing:\n\"To find the derivative of f(x) = x2, I’ll use the power rule which states that the derivative of xnis nx(n−1). Applying this rule to\nx2, where n = 2, I get 2x1, which simplifies to 2x.\"\nWrite:\n\"f(x) = x2\nf′(x) = 2x\"\nSolve the following problem step-by-step using this compressed reasoning style: [PROBLEM]\nTable 18: Preliminary Experiment Compression-Oriented Prompt\nD.3 Baseline Implementation and Evaluation\nProtocols\nWe implement seven established baseline methods\nwith careful attention to fair comparison principles.\nChain-of-Thought prompting follows the original\nformulation with “Let’s think step by step” instruc-\ntions and detailed intermediate reasoning genera-\ntion. Self-Consistency employs five independent\nreasoning paths with majority voting for final an-\nswer selection.",
+      "section": "References",
+      "char_count": 1077,
+      "chunk_index": 74,
+      "page_numbers": [
+        16
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0075",
+      "source_id": "DualDensity_2025",
+      "text": "“Let’s think step by step” instruc-\ntions and detailed intermediate reasoning genera-\ntion. Self-Consistency employs five independent\nreasoning paths with majority voting for final an-\nswer selection. Tree-of-Thought implementation\nuses breadth-first search with three candidate paths\nper reasoning step and evaluation-based pruning.\nThink-to-Think baseline follows the original pa-\nper’s implementation with recursive thinking pat-\nterns and meta-cognitive reflection. Reflection\nmethodology incorporates self-critique and answer\nrefinement through iterative improvement cycles.\nProcess Supervision integrates step-wise verifica-\ntion with intermediate correctness checking. Self-\nVerification implements answer validation through\nindependent verification pathways.\nAll baseline implementations use identical under-\nlying models and generation parameters to ensure\ncontrolled comparison. We standardize the eval-\nuation environment through consistent hardware\nconfigurations and maintaining stable network con-\nditions for API-based assessments.\nEvaluation protocols follow rigorous statistical\ntesting procedures.",
+      "section": "References",
+      "char_count": 1115,
+      "chunk_index": 75,
+      "page_numbers": [
+        16
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0076",
+      "source_id": "DualDensity_2025",
+      "text": "ation environment through consistent hardware\nconfigurations and maintaining stable network con-\nditions for API-based assessments.\nEvaluation protocols follow rigorous statistical\ntesting procedures. We compute performance met-\nrics across three independent runs with different\nrandom seeds and report mean values with stan-\ndard deviations. Accuracy evaluation uses exact\nmatch for mathematical problems, execution suc-\ncess for coding tasks, and semantic equivalence for\nlogical reasoning. Token counting includes bothinput prompt tokens and generated output tokens,\nwith consistent tokenization using the respective\nmodel’s native tokenizer.\nStatistical significance testing employs paired\nt-tests with Bonferroni correction for multiple com-\nparisons across datasets and methods. We establish\nsignificance thresholds at p <0.05 after correc-\ntion and report confidence intervals for all primary\nmetrics. Runtime measurements exclude model\nloading time and focus on actual inference compu-\ntation, averaged across multiple runs to account for\nsystem variability.",
+      "section": "References",
+      "char_count": 1066,
+      "chunk_index": 76,
+      "page_numbers": [
+        16
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0077",
+      "source_id": "DualDensity_2025",
+      "text": "fidence intervals for all primary\nmetrics. Runtime measurements exclude model\nloading time and focus on actual inference compu-\ntation, averaged across multiple runs to account for\nsystem variability.\nThe Reasoning Efficiency Index (REI) compu-\ntation normalizes token usage relative to Chain-\nof-Thought baseline performance, providing a uni-\nfied metric that balances accuracy improvements\nagainst computational overhead. This metric en-\nables direct comparison across different reasoning\napproaches and highlights methods that achieve\nsuperior efficiency-accuracy trade-offs in practical\ndeployment scenarios.\nE Comprehensive Experimental Results\nThis section provides detailed experimental results\nacross multiple model architectures, sizes, and con-\nfigurations, demonstrating the broad applicability\nand consistent effectiveness of our dual-density in-\nference framework. We evaluate Denser against\nseven baseline methods across four reasoning do-\nmains to establish comprehensive performance\nbenchmarks.\n16\n\nE.1 Complete Baseline Comparison Across\nModel Variants\nTable 19 presents exhaustive comparisons be-\ntween Denser and all baseline methods across the\nQwen3 model family.",
+      "section": "References",
+      "char_count": 1183,
+      "chunk_index": 77,
+      "page_numbers": [
+        16
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0078",
+      "source_id": "DualDensity_2025",
+      "text": "ive performance\nbenchmarks.\n16\n\nE.1 Complete Baseline Comparison Across\nModel Variants\nTable 19 presents exhaustive comparisons be-\ntween Denser and all baseline methods across the\nQwen3 model family. The results demonstrate that\nDenser consistently outperforms all existing ap-\nproaches while maintaining substantial token effi-\nciency gains.\nE.2 Token Efficiency Analysis with Detailed\nBreakdown\nTable 20 provides granular token consumption anal-\nysis across all baselines and model configurations,\nrevealing the substantial computational advantages\nof dual-density inference.\nE.3 Cross-Architecture Validation on API\nModels\nTo establish broader generalizability beyond the\nQwen3 family, Table 21 presents results across\ndiverse API-based models, including reasoning-\nspecialized architectures.\nF Extended Analysis Experiments\nF.1 Analysis on Reasoning Efficiency Index\nTable 22 provides a detailed efficiency analysis us-\ning the Reasoning Efficiency Index (REI). The REI\nscore rigorously quantifies the trade-off between\naccuracy and token consumption. Traditional TTS\nmethods, while increasing accuracy, have heavily\nnegative REI scores due to their substantial token\noverhead.",
+      "section": "References",
+      "char_count": 1182,
+      "chunk_index": 78,
+      "page_numbers": [
+        16
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0079",
+      "source_id": "DualDensity_2025",
+      "text": "igorously quantifies the trade-off between\naccuracy and token consumption. Traditional TTS\nmethods, while increasing accuracy, have heavily\nnegative REI scores due to their substantial token\noverhead. In contrast, Denser achieves the highest\naccuracy with significantly fewer tokens, resulting\nin positive and high REI scores across all tested\ndomains.\nF.2 Statistical Significance Analysis\nTo ensure the reliability of our reported improve-\nments, we conducted stability analysis by repeating\nexperiments across five random seeds ( N= 5 ) for\nrepresentative datasets from each domain. Table 23\nreports the mean accuracy and standard deviation\ncomparing Denser against the strongest baseline.\nWe performed a one-tailed paired t-test to assess\nstatistical significance. The results demonstrate\nthat Denser maintains low variance across runs and\nthat the performance improvements are statistically\nsignificant ( p <0.05 ) across all domains, confirm-\ning that the observed gains stem from the efficacy\nof our dual-density framework rather than stochas-\ntic variance in generation.",
+      "section": "References",
+      "char_count": 1078,
+      "chunk_index": 79,
+      "page_numbers": [
+        17
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0080",
+      "source_id": "DualDensity_2025",
+      "text": "are statistically\nsignificant ( p <0.05 ) across all domains, confirm-\ning that the observed gains stem from the efficacy\nof our dual-density framework rather than stochas-\ntic variance in generation.\n0.5B 1.5B 3B 7B 14B\nModel Size556065707580Average Accuracy (%)\n56.3%60.2%62.1%70.8%\n67.6%74.4%\n62.5%70.3%76.3%Model Families\nQwen2\nQwen2.5\nQwen3-no-think\nQwen3-thinkFigure 4: Performance across model sizes.\nF.3 Denser outperforms for all sizes of model.\nTo investigate the generalizability of Denser across\nparameter scales, we evaluate its performance on\nmodels of varying sizes: Qwen2 from 0.5B to 57B-\nA14B, Qwen2.5 from 0.5B to 14B, Qwen3 from\n0.6B to 14B with both think and no-think mode. As\nillustrated in Figure 4, the results demonstrate that\nDenser consistently improves performance across\nall model sizes and architectures, with accuracy\ngenerally increasing with parameter count despite\nsome non-linear scaling behaviors.",
+      "section": "References",
+      "char_count": 934,
+      "chunk_index": 80,
+      "page_numbers": [
+        17
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0081",
+      "source_id": "DualDensity_2025",
+      "text": "s demonstrate that\nDenser consistently improves performance across\nall model sizes and architectures, with accuracy\ngenerally increasing with parameter count despite\nsome non-linear scaling behaviors. Notably, the\nthink variant of Qwen3 maintains a performance\nadvantage over its no-think counterpart across all\nscales, with their gap varying at different parame-\nter counts which highlights that Denser effectively\nleverages sophisticated reasoning capabilities re-\ngardless of model scale.\nG More Case Studies\nTable 24 to 32 show the extended case study exam-\nples.\n17\n\nModel MethodPerformance Accuracy (%)\nMath Logic Code General\nGSM8K MATH LogiQA ProofW MBPP HumanE MMLU StratQA\nQwen3-4BChain-of-Thought 76.2 32.4 61.7 65.8 54.3 68.2 72.1 69.5\nSelf-Consistency 78.1 34.9 63.8 67.4 56.7 70.5 74.3 71.8\nTree-of-Thought 78.6 35.4 64.2 68.1 57.2 71.0 74.7 72.3\nThink-to-Think 77.5 33.8 63.1 66.9 55.8 69.7 73.5 70.9\nReflection-CoT 79.3 36.1 65.5 69.2 58.4 72.1 75.8 73.4\nProcess Supervision 79.8 36.7",
+      "section": "References",
+      "char_count": 1000,
+      "chunk_index": 81,
+      "page_numbers": [
+        17
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0082",
+      "source_id": "DualDensity_2025",
+      "text": "71.8\nTree-of-Thought 78.6 35.4 64.2 68.1 57.2 71.0 74.7 72.3\nThink-to-Think 77.5 33.8 63.1 66.9 55.8 69.7 73.5 70.9\nReflection-CoT 79.3 36.1 65.5 69.2 58.4 72.1 75.8 73.4\nProcess Supervision 79.8 36.7 66.0 69.8 59.1 72.7 76.2 74.0\nSelf-Verification 79.1 35.6 64.9 68.4 57.8 71.3 75.2 72.8\nDenser (Ours) 80.7 37.2 66.8 70.1 59.4 73.6 76.9 74.6\nQwen3-4B-thinkChain-of-Thought 78.9 34.7 63.5 67.9 56.8 70.4 74.3 71.8\nSelf-Consistency 80.8 37.2 65.9 69.7 59.1 72.8 76.5 74.2\nTree-of-Thought 81.3 37.8 66.4 70.3 59.7 73.4 77.0 74.8\nThink-to-Think 80.1 36.5 65.2 69.0 58.4 72.1 75.8 73.5\nReflection-CoT 82.0 38.5 67.8 71.5 60.9 74.6 78.2 76.1\nProcess Supervision 82.4 39.1 68.3 72.1 61.5 75.2 78.6 76.7\nSelf-Verification 81.6 38.2 67.1 71.0 60.3 73.7 77.5 75.2\nDenser (Ours) 83.4 40.1 69.4 73.2 62.5 76.1 79.1 77.4\nQwen3-8BChain-of-Thought 80.4 37.8 65.2 69.3 58.7 71.5 75.8 73.1\nSelf-Consistency 82.3 40.5 67.6 71.5 61.2 73.9 77.9 75.8\nTree-of-Thought 82.8 41.1 68.1 72.2 61.8 74.5 78.4 76.4\nThink-to-Thin",
+      "section": "References",
+      "char_count": 1000,
+      "chunk_index": 82,
+      "page_numbers": [
+        18
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0083",
+      "source_id": "DualDensity_2025",
+      "text": "9.1 77.4\nQwen3-8BChain-of-Thought 80.4 37.8 65.2 69.3 58.7 71.5 75.8 73.1\nSelf-Consistency 82.3 40.5 67.6 71.5 61.2 73.9 77.9 75.8\nTree-of-Thought 82.8 41.1 68.1 72.2 61.8 74.5 78.4 76.4\nThink-to-Think 81.7 39.2 66.9 70.7 60.5 73.2 77.2 75.1\nReflection-CoT 83.9 42.0 69.4 73.4 63.1 75.7 79.6 77.6\nProcess Supervision 84.3 42.6 69.9 74.0 63.7 76.3 80.0 78.2\nSelf-Verification 83.7 41.5 68.8 72.6 62.4 74.8 78.6 76.5\nDenser (Ours) 85.1 43.2 70.9 74.8 64.7 77.3 80.2 78.9\nQwen3-8B-thinkChain-of-Thought 82.1 39.6 66.9 71.2 60.5 73.8 77.4 74.7\nSelf-Consistency 84.2 42.4 69.4 73.7 63.1 76.2 79.6 77.5\nTree-of-Thought 84.7 43.0 69.9 74.4 63.7 76.8 80.1 78.1\nThink-to-Think 83.5 41.1 68.7 72.9 62.4 75.5 78.9 76.8\nReflection-CoT 85.8 44.3 71.2 75.6 65.0 77.9 81.3 79.3\nProcess Supervision 86.2 44.9 71.7 76.2 65.6 78.5 81.7 79.9\nSelf-Verification 85.3 43.9 70.5 74.9 64.2 76.9 80.1 78.3\nDenser (Ours) 86.8 45.7 72.6 76.7 66.8 79.1 81.8 80.1\nQwen3-14B-no-thinkChain-of-Thought 81.9 39.5 66.7 70.4 59.8 71.2",
+      "section": "References",
+      "char_count": 999,
+      "chunk_index": 83,
+      "page_numbers": [
+        18
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0084",
+      "source_id": "DualDensity_2025",
+      "text": ".2 65.6 78.5 81.7 79.9\nSelf-Verification 85.3 43.9 70.5 74.9 64.2 76.9 80.1 78.3\nDenser (Ours) 86.8 45.7 72.6 76.7 66.8 79.1 81.8 80.1\nQwen3-14B-no-thinkChain-of-Thought 81.9 39.5 66.7 70.4 59.8 71.2 75.9 73.8\nSelf-Consistency 83.8 42.3 69.2 72.9 62.4 73.6 78.1 76.5\nTree-of-Thought 84.3 42.9 69.7 73.6 63.0 74.2 78.6 77.1\nThink-to-Think 83.2 41.0 68.5 72.1 61.7 72.9 77.4 75.8\nReflection-CoT 85.4 43.8 70.9 74.8 64.3 75.4 79.8 78.3\nProcess Supervision 85.8 44.4 71.4 75.4 64.9 76.0 80.2 78.9\nSelf-Verification 84.6 44.1 70.3 73.9 63.7 74.6 78.7 77.1\nDenser (Ours) 86.4 45.8 72.5 75.8 65.9 76.8 80.3 78.9\nQwen3-32BChain-of-Thought 87.3 48.7 71.8 76.4 66.2 77.8 81.5 79.6\nSelf-Consistency 89.4 51.9 74.5 79.2 69.1 80.3 83.8 82.4\nTree-of-Thought 90.0 52.6 75.1 79.9 69.8 80.9 84.3 83.0\nThink-to-Think 88.7 50.2 73.8 78.5 68.4 79.6 83.1 81.7\nReflection-CoT 90.8 53.9 76.3 81.1 71.1 82.1 85.5 84.2\nProcess Supervision 91.2 54.5 76.8 81.7 71.7 82.7 85.9 84.8\nSelf-Verification 90.2 53.4 75.6 80.1 70.8 81.",
+      "section": "References",
+      "char_count": 1000,
+      "chunk_index": 84,
+      "page_numbers": [
+        18
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0085",
+      "source_id": "DualDensity_2025",
+      "text": "8.7 50.2 73.8 78.5 68.4 79.6 83.1 81.7\nReflection-CoT 90.8 53.9 76.3 81.1 71.1 82.1 85.5 84.2\nProcess Supervision 91.2 54.5 76.8 81.7 71.7 82.7 85.9 84.8\nSelf-Verification 90.2 53.4 75.6 80.1 70.8 81.4 84.7 83.2\nDenser (Ours) 91.7 55.1 77.3 82.0 72.5 83.6 86.2 85.1\nQwen3-32B-thinkChain-of-Thought 89.1 50.9 73.5 78.2 68.4 79.7 83.2 81.4\nSelf-Consistency 91.4 54.3 76.3 81.1 71.2 82.4 85.6 84.2\nTree-of-Thought 92.0 55.0 76.9 81.8 71.9 83.0 86.1 84.8\nThink-to-Think 90.7 52.6 75.6 80.3 70.5 81.7 84.9 83.5\nReflection-CoT 92.8 56.3 78.1 82.9 73.2 84.2 87.3 86.0\nProcess Supervision 93.2 56.9 78.6 83.5 73.8 84.8 87.7 86.6\nSelf-Verification 92.0 55.8 77.2 81.9 72.6 83.1 86.4 84.8\nDenser (Ours) 93.4 57.6 78.9 83.7 74.3 85.2 87.8 86.5\nTable 19: Comprehensive baseline comparison across Qwen3 model family.\n18\n\nModel MethodAvg. Tokens per DatasetOverall Avg.",
+      "section": "References",
+      "char_count": 855,
+      "chunk_index": 85,
+      "page_numbers": [
+        18
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0086",
+      "source_id": "DualDensity_2025",
+      "text": "1.9 72.6 83.1 86.4 84.8\nDenser (Ours) 93.4 57.6 78.9 83.7 74.3 85.2 87.8 86.5\nTable 19: Comprehensive baseline comparison across Qwen3 model family.\n18\n\nModel MethodAvg. Tokens per DatasetOverall Avg. Reduction (%) REI Score\nGSM8K LogiQA MBPP MMLU\nQwen3-4BChain-of-Thought 3,124 2,456 3,189 2,619 2,847 - -\nSelf-Consistency 9,341 7,364 9,567 7,857 8,532 +199.6 -2.18\nTree-of-Thought 10,782 8,519 11,056 9,085 9,861 +246.4 -2.44\nThink-to-Think 5,982 4,731 6,143 5,050 5,477 +92.4 -1.31\nReflection-CoT 7,124 5,632 7,314 6,012 6,521 +129.1 -1.46\nProcess Supervision 7,891 6,241 8,103 6,666 7,225 +153.8 -1.52\nSelf-Verification 7,341 5,804 7,538 6,201 6,721 +136.1 -1.51\nDenser (Ours) 1,468 1,203 1,389 1,254 1,329 -53.3 0.48\nQwen3-14BChain-of-Thought 4,021 3,487 4,234 3,609 3,838 - -\nSelf-Consistency 12,063 10,461 12,702 10,827 11,513 +200.1 -1.98\nTree-of-Thought 13,925 12,080 14,672 12,510 13,297 +246.5 -2.34\nThink-to-Think 7,519 6,523 7,918 6,753 7,178 +87.0 -1.19\nReflection-CoT 8,730 7,574 9,203",
+      "section": "References",
+      "char_count": 1000,
+      "chunk_index": 86,
+      "page_numbers": [
+        18
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0087",
+      "source_id": "DualDensity_2025",
+      "text": "2,063 10,461 12,702 10,827 11,513 +200.1 -1.98\nTree-of-Thought 13,925 12,080 14,672 12,510 13,297 +246.5 -2.34\nThink-to-Think 7,519 6,523 7,918 6,753 7,178 +87.0 -1.19\nReflection-CoT 8,730 7,574 9,203 7,842 8,337 +117.3 -1.32\nProcess Supervision 9,652 8,373 10,168 8,670 9,216 +140.2 -1.41\nSelf-Verification 9,053 7,854 9,541 8,135 8,646 +125.3 -1.38\nDenser (Ours) 1,591 1,347 1,653 1,425 1,504 -60.8 0.82\nQwen3-32BChain-of-Thought 4,347 3,821 4,562 3,926 4,164 - -\nSelf-Consistency 13,041 11,463 13,686 11,778 12,492 +199.8 -1.87\nTree-of-Thought 15,054 13,226 15,795 13,596 14,418 +246.3 -2.21\nThink-to-Think 8,127 7,143 8,533 7,342 7,786 +87.0 -1.07\nReflection-CoT 9,441 8,298 9,912 8,533 9,046 +117.3 -1.19\nProcess Supervision 10,437 9,171 10,959 9,433 10,000 +140.2 -1.27\nSelf-Verification 9,797 8,608 10,283 8,848 9,384 +125.3 -1.24\nDenser (Ours) 1,521 1,298 1,639 1,376 1,459 -65.0 0.95\nTable 20: Detailed token efficiency breakdown across datasets and model sizes.",
+      "section": "References",
+      "char_count": 971,
+      "chunk_index": 87,
+      "page_numbers": [
+        19
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0088",
+      "source_id": "DualDensity_2025",
+      "text": "1.27\nSelf-Verification 9,797 8,608 10,283 8,848 9,384 +125.3 -1.24\nDenser (Ours) 1,521 1,298 1,639 1,376 1,459 -65.0 0.95\nTable 20: Detailed token efficiency breakdown across datasets and model sizes.\n19\n\nModel MethodPerformance Accuracy (%)\nMath Logic Code General\nGSM8K MATH LogiQA ProofW MBPP HumanE MMLU StratQA\nGPT-4oChain-of-Thought 89.7 52.4 74.6 78.9 68.5 79.8 85.7 83.1\nSelf-Consistency 91.8 55.7 77.1 81.6 71.2 82.5 87.4 85.8\nTree-of-Thought 92.4 56.4 77.7 82.3 71.9 83.2 87.9 86.4\nThink-to-Think 91.2 54.1 76.4 80.9 70.5 81.8 86.7 85.1\nReflection-CoT 92.9 57.2 78.4 83.0 72.6 84.0 88.6 87.2\nProcess Supervision 93.3 57.8 78.9 83.6 73.2 84.6 89.0 87.8\nSelf-Verification 92.3 56.9 77.8 82.4 72.6 83.7 87.9 86.4\nDenser (Ours) 93.5 58.2 79.1 83.5 73.8 84.9 88.7 87.1\no1-miniChain-of-Thought 85.8 44.6 70.2 75.1 64.7 75.8 80.2 77.9\nSelf-Consistency 87.9 47.8 72.8 77.9 67.1 78.2 82.1 80.4\nTree-of-Thought 88.5 48.5 73.4 78.6 67.8 78.9 82.6 81.0\nThink-to-Think 87.2 46.1 71.9 77.2 66.4 77.5 81.4",
+      "section": "References",
+      "char_count": 1000,
+      "chunk_index": 88,
+      "page_numbers": [
+        19
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0089",
+      "source_id": "DualDensity_2025",
+      "text": ".8 44.6 70.2 75.1 64.7 75.8 80.2 77.9\nSelf-Consistency 87.9 47.8 72.8 77.9 67.1 78.2 82.1 80.4\nTree-of-Thought 88.5 48.5 73.4 78.6 67.8 78.9 82.6 81.0\nThink-to-Think 87.2 46.1 71.9 77.2 66.4 77.5 81.4 79.7\nReflection-CoT 89.2 49.6 74.8 79.3 68.9 80.1 83.9 82.3\nProcess Supervision 89.6 50.2 75.3 79.9 69.5 80.7 84.3 82.9\nSelf-Verification 88.9 49.2 74.3 78.7 68.3 79.5 82.8 81.6\nDenser (Ours) 90.4 50.7 75.8 80.1 69.5 80.8 84.0 82.7\nDeepSeek-V3Chain-of-Thought 88.2 50.1 72.5 77.4 66.9 78.2 83.8 81.5\nSelf-Consistency 90.1 53.2 75.0 80.1 69.6 80.9 85.7 84.2\nTree-of-Thought 90.7 53.9 75.6 80.8 70.3 81.6 86.2 84.8\nThink-to-Think 89.4 51.5 74.3 79.4 68.9 80.2 85.0 83.5\nReflection-CoT 91.4 55.0 76.9 81.5 71.0 82.3 87.4 85.9\nProcess Supervision 91.8 55.6 77.4 82.1 71.6 82.9 87.8 86.5\nSelf-Verification 91.0 54.3 75.6 80.9 70.4 81.9 86.2 84.7\nDenser (Ours) 92.1 55.8 76.9 82.0 71.7 83.1 87.1 85.6\nTable 21: Comprehensive baseline comparison on API-based models.",
+      "section": "References",
+      "char_count": 960,
+      "chunk_index": 89,
+      "page_numbers": [
+        20
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0090",
+      "source_id": "DualDensity_2025",
+      "text": "2.1 71.6 82.9 87.8 86.5\nSelf-Verification 91.0 54.3 75.6 80.9 70.4 81.9 86.2 84.7\nDenser (Ours) 92.1 55.8 76.9 82.0 71.7 83.1 87.1 85.6\nTable 21: Comprehensive baseline comparison on API-based models.\nMethod Accuracy (%) Total Tokens REI Score\nGSM8K (Math)\nCoT 83.6 3,842 -\nReflection-CoT 86.1 8,738 -1.27\nSelf-Verification 87.0 9,304 -1.42\nDenser (Ours) 88.2 1,587 0.79\nLogiQA (Logic)\nCoT 68.4 2,973 -\nReflection-CoT 71.8 6,794 -0.64\nSelf-Verification 72.9 7,213 -0.75\nDenser (Ours) 74.1 1,356 0.64\nMBPP (Code)\nCoT 61.8 4,217 -\nReflection-CoT 64.9 9,341 -0.81\nSelf-Verification 66.1 10,175 -0.92\nDenser (Ours) 67.3 1,703 0.60\nTable 22: Detailed efficiency analysis on representa-\ntive datasets. Denser achieves REI scores of 0.60-0.79\nacross domains, demonstrating the highest accuracy-\nefficiency trade-off.Dataset Metric Self-Verification Denser (Ours)p-value\nGSM8K Acc (%) 87.0±0.4288.2±0.350.002∗∗\nLogiQA Acc (%) 72.9±0.5874.1±0.440.015∗\nMBPP  66.1±0.6567.3±0.510.011∗\nMMLU Acc (%) 80.4±0.3181.5±0.280.004∗∗\nTable 23: Statistical significance testing over 5 runs\nwith different seeds. We compare Mean ±Standard\nDeviation against the strongest baseline. * indicates\np <0.05, ** indicatesp <0.01.",
+      "section": "References",
+      "char_count": 1199,
+      "chunk_index": 90,
+      "page_numbers": [
+        20
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0091",
+      "source_id": "DualDensity_2025",
+      "text": "5±0.280.004∗∗\nTable 23: Statistical significance testing over 5 runs\nwith different seeds. We compare Mean ±Standard\nDeviation against the strongest baseline. * indicates\np <0.05, ** indicatesp <0.01.\n20\n\nCase Study 2: Logical Reasoning\nProblem:All lawyers are liars. Some liars are rich. Therefore, some lawyers are rich. Is this a valid argument?\nCoT:Let me analyze this logical argument step by step. The first premise is \"All lawyers are liars.\" This can be expressed as:\nIf x is a lawyer, then x is a liar. The second premise is \"Some liars are rich.\" This means that there exists at least one person\nwho is both a liar and rich. Now, let’s examine the conclusion: \"Some lawyers are rich.\" This states that there exists at least one\nperson who is both a lawyer and rich. To determine if the argument is valid, I need to check if the conclusion necessarily follows\nfrom the premises. From the first premise, we know that all lawyers are liars, so the set of lawyers is a subset of the set of liars.\nFrom the second premise, we know that the intersection of the set of liars and the set of rich people is non-empty.",
+      "section": "References",
+      "char_count": 1118,
+      "chunk_index": 91,
+      "page_numbers": [
+        20
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0092",
+      "source_id": "DualDensity_2025",
+      "text": "w that all lawyers are liars, so the set of lawyers is a subset of the set of liars.\nFrom the second premise, we know that the intersection of the set of liars and the set of rich people is non-empty. However, this\ndoesn’t guarantee that the intersection of lawyers and rich people is non-empty. The liars who are rich might not be lawyers.\nConsider a Venn diagram: we have lawyers (all of whom are liars), liars (some of whom are rich), and rich people. It’s possible\nthat the rich liars are not from the lawyer subset of liars. Therefore, the conclusion does not necessarily follow from the premises,\nand the argument is not valid.\nDenser (HD reasoning):\nDefine sets:\nL = lawyers\nR = liars\nS = rich people\nP1: L⊆R (All lawyers are liars)\nP2: R∩S̸=θ(Some liars are rich)\nC: L∩S̸=θ(Some lawyers are rich)\nCheck validity:\nP1+P2→C?\nL⊆R∧R∩S̸=θ→L∩S̸=θ?\nCounterexample:\nL = a, b\nR = a, b, c, d\nS = c, e\nHere:\n- L⊆R (satisfied)\n- R∩S ≠=θ(satisfied)\n- But L∩S =θ(conclusion false)\nHence Invalid argument\nDenser (Final answer):This argument is not valid.",
+      "section": "References",
+      "char_count": 1047,
+      "chunk_index": 92,
+      "page_numbers": [
+        21
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0093",
+      "source_id": "DualDensity_2025",
+      "text": "?\nCounterexample:\nL = a, b\nR = a, b, c, d\nS = c, e\nHere:\n- L⊆R (satisfied)\n- R∩S ≠=θ(satisfied)\n- But L∩S =θ(conclusion false)\nHence Invalid argument\nDenser (Final answer):This argument is not valid. Let me analyze it using set theory:\nGiven: - All lawyers are liars (All members of set L are in set R) - Some liars are rich (The intersection of sets R and S is\nnon-empty)\nConclusion: - Some lawyers are rich (The intersection of sets L and S is non-empty)\nWhile we know that lawyers are a subset of liars, and some liars are rich, this doesn’t guarantee that any lawyers are among those\nrich liars.\nConsider this counterexample: - Lawyers = Alice, Bob - Liars = Alice, Bob, Charlie, David - Rich people = Charlie, Eve\nIn this example: - All lawyers are liars (Alice and Bob are both liars) - Some liars are rich (Charlie is both a liar and rich) - But\nno lawyers are rich (Alice and Bob are not rich)\nSince we can construct a counterexample where the premises are true but the conclusion is false, this argument is invalid. The\nconclusion doesn’t necessarily follow from the premises.",
+      "section": "References",
+      "char_count": 1086,
+      "chunk_index": 93,
+      "page_numbers": [
+        21
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0094",
+      "source_id": "DualDensity_2025",
+      "text": "ob are not rich)\nSince we can construct a counterexample where the premises are true but the conclusion is false, this argument is invalid. The\nconclusion doesn’t necessarily follow from the premises.\nTable 24: Extended case study example 2\n21\n\nCase Study 3: Mathematical Reasoning\nProblem:Find the number of positive integers less than 1000 that are relatively prime to 210.\nCoT:To solve this problem, I need to find the number of positive integers less than 1000 that are relatively prime to 210.\nFirst, let me find the prime factorization of 210. I’ll start by dividing by small primes: 210 ÷ 2 = 105, so 2 is a factor. Then\n105 ÷ 3 = 35, so 3 is a factor. Then 35 ÷ 5 = 7, so 5 is a factor. And 7 is prime. Therefore, 210 = 2 × 3 × 5 × 7. Now\nI need to use Euler’s totient function. For any integer n with prime factorization n=pa1\n1×pa2\n2×. . .×pak\nk, we have\nϕ(n) =n×(1−1\np1)×(1−1\np2)×. . .×(1−1\npk). Soϕ(210) = 210×(1−1\n2)×(1−1\n3)×(1−1\n5)×(1−1\n7) =\n210×1\n2×2\n3×4\n5×6\n7= 210×1×2×4×6\n2×3×5×7= 210×48\n210= 48 . This gives us the count for one complete period of 210.",
+      "section": "References",
+      "char_count": 1070,
+      "chunk_index": 94,
+      "page_numbers": [
+        21
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0095",
+      "source_id": "DualDensity_2025",
+      "text": "=n×(1−1\np1)×(1−1\np2)×. . .×(1−1\npk). Soϕ(210) = 210×(1−1\n2)×(1−1\n3)×(1−1\n5)×(1−1\n7) =\n210×1\n2×2\n3×4\n5×6\n7= 210×1×2×4×6\n2×3×5×7= 210×48\n210= 48 . This gives us the count for one complete period of 210. Since\nwe want numbers less than 1000, I need to consider how many complete periods of 210 fit into 1000, and handle the remainder\nseparately. We have 1000 ÷ 210 = 4 remainder 160. So there are 4 complete periods, each contributing 48 numbers. For the\nremainder (numbers from 841 to 999), I need to count those relatively prime to 210.\nDenser (HD reasoning):210 = 2·3·5·7ϕ(210) = 210·(1−1\n2)(1−1\n3)(1−1\n5)(1−1\n7) = 210·1·2·4·6\n2·3·5·7= 48\n1000 = 4·210 + 160Complete periods:4·48 = 192\nFor remainder[841,999](length 159): Needgcd(n,210) = 1forn∈[841,999]≡n∈[1,159] (mod 210)\nCount using inclusion-exclusion: |A|= 159|A 2|=⌊159\n2⌋= 79|A 3|=⌊159\n3⌋= 53|A 5|=⌊159\n5⌋= 31|A 7|=⌊159\n7⌋= 22\n|A2,3|=⌊159\n6⌋= 26,|A 2,5|= 15,|A 2,7|= 11|A 3,5|= 10,|A 3,7|= 7,|A 5,7|= 4\n|A2,3,5|= 5,|A 2,3,7|= 3,|A 2,5,7|= 2,|A",
+      "section": "References",
+      "char_count": 1000,
+      "chunk_index": 95,
+      "page_numbers": [
+        22
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0096",
+      "source_id": "DualDensity_2025",
+      "text": "usion: |A|= 159|A 2|=⌊159\n2⌋= 79|A 3|=⌊159\n3⌋= 53|A 5|=⌊159\n5⌋= 31|A 7|=⌊159\n7⌋= 22\n|A2,3|=⌊159\n6⌋= 26,|A 2,5|= 15,|A 2,7|= 11|A 3,5|= 10,|A 3,7|= 7,|A 5,7|= 4\n|A2,3,5|= 5,|A 2,3,7|= 3,|A 2,5,7|= 2,|A 3,5,7|= 1|A 2,3,5,7|= 0\nRemainder count:159−(79 + 53 + 31 + 22) + (26 + 15 + 11 + 10 + 7 + 4)−(5 + 3 + 2 + 1) + 0 = 36\nTotal:192 + 36 = 228\nDenser (Final answer):To find positive integers less than 1000 that are relatively prime to 210, I’ll use Euler’s totient function\nand inclusion-exclusion principle.\nFirst, I find the prime factorization:210 = 2×3×5×7.\nUsing Euler’s totient function:ϕ(210) = 210×(1−1\n2)×(1−1\n3)×(1−1\n5)×(1−1\n7) = 210×48\n210= 48\nSince 1000 = 4×210 + 160 , there are 4 complete periods of 210, each contributing 48 relatively prime numbers, giving us\n4×48 = 192.\nFor the remaining numbers from 841 to 999 (159 numbers), I use inclusion-exclusion to count those relatively prime to 210. This\ninvolves counting numbers divisible by 2, 3, 5, or 7, then applying the inclusion-exclusion principle.\nAfter calculation, 36 numbers in the range [841, 999] are relatively prime to 210.\nTherefore, the total count is192 + 36 = 228.",
+      "section": "References",
+      "char_count": 1144,
+      "chunk_index": 96,
+      "page_numbers": [
+        22
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0097",
+      "source_id": "DualDensity_2025",
+      "text": "sible by 2, 3, 5, or 7, then applying the inclusion-exclusion principle.\nAfter calculation, 36 numbers in the range [841, 999] are relatively prime to 210.\nTherefore, the total count is192 + 36 = 228.\nTable 25: Extended case study example 3\nCase Study 4: Mathematical Reasoning\nProblem:In how many ways can 8 people be seated around a circular table such that 3 specific people must sit together?\nCoT:I need to find the number of ways to seat 8 people around a circular table where 3 specific people must sit together.\nLet me call these 3 specific people A, B, and C. Since they must sit together, I can treat them as a single unit. So instead of\narranging 8 individual people, I’m arranging 6 units around a circular table (the ABC group plus 5 other individuals). For circular\narrangements, we fix one position to account for rotational symmetry. The number of ways to arrange n distinct objects in a\ncircle is (n-1)!. So I have 6 units to arrange in a circle, which can be done in (6-1)! = 5! = 120 ways. But within the ABC group,\nthe 3 people can be arranged among themselves. A, B, and C can be arranged in 3! = 6 different ways. Therefore, the total\nnumber of arrangements is 5! × 3!",
+      "section": "References",
+      "char_count": 1189,
+      "chunk_index": 97,
+      "page_numbers": [
+        22
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0098",
+      "source_id": "DualDensity_2025",
+      "text": "! = 5! = 120 ways. But within the ABC group,\nthe 3 people can be arranged among themselves. A, B, and C can be arranged in 3! = 6 different ways. Therefore, the total\nnumber of arrangements is 5! × 3! = 120 × 6 = 720.\nDenser (HD reasoning):Treat 3 specific people as single unit. Units: ABC-group, P 4, P5, P6, P7, P8= 6 units Circular\narrangement:(6−1)! = 5! = 120Internal arrangement of ABC-group:3! = 6Total:5!×3! = 120×6 = 720\nDenser (Final answer):To solve this problem, I’ll treat the 3 specific people who must sit together as a single unit.\nSince the 3 specific people must sit together, I can consider them as one \"super-person.\" This reduces the problem to arranging 6\nunits around a circular table: the group of 3 people plus the 5 other individuals.\nFor circular arrangements, we account for rotational symmetry by fixing one position. The number of ways to arrange 6 units in\na circle is(6−1)! = 5! = 120.\nHowever, within their group, the 3 specific people can be arranged among themselves in3! = 6different ways.\nTherefore, the total number of arrangements is5!×3! = 120×6 = 720.",
+      "section": "References",
+      "char_count": 1093,
+      "chunk_index": 98,
+      "page_numbers": [
+        22
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0099",
+      "source_id": "DualDensity_2025",
+      "text": "rcle is(6−1)! = 5! = 120.\nHowever, within their group, the 3 specific people can be arranged among themselves in3! = 6different ways.\nTherefore, the total number of arrangements is5!×3! = 120×6 = 720.\nTable 26: Extended case study example 4\n22\n\nCase Study 5: Coding\nProblem:Write an algorithm to find the longest increasing subsequence in an array of integers. Analyze its time complexity.\nCoT:To find the longest increasing subsequence (LIS), I need to design an efficient algorithm. There are several approaches, but\nI’ll use dynamic programming with binary search for optimal time complexity. The idea is to maintain an array that stores the\nsmallest ending element of all increasing subsequences of length i+1 at index i. Let me call this array ’tails’. I’ll also use binary\nsearch to efficiently find the position to update. Here’s how the algorithm works: Initialize an empty array ’tails’. For each\nelement in the input array, if the element is larger than all elements in ’tails’, append it to ’tails’. Otherwise, find the smallest\nelement in ’tails’ that is greater than or equal to the current element and replace it. The length of ’tails’ at the end gives us the\nlength of the LIS.",
+      "section": "References",
+      "char_count": 1192,
+      "chunk_index": 99,
+      "page_numbers": [
+        22
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0100",
+      "source_id": "DualDensity_2025",
+      "text": "end it to ’tails’. Otherwise, find the smallest\nelement in ’tails’ that is greater than or equal to the current element and replace it. The length of ’tails’ at the end gives us the\nlength of the LIS. For the binary search, I need to find the leftmost position where I can place the current element. The time\ncomplexity analysis: For each of the n elements, I perform a binary search on the ’tails’ array, which has at most n elements.\nBinary search takes O(log n) time. Therefore, the overall time complexity is O(n log n). The space complexity is O(n) for the\n’tails’ array.\nDenser (HD reasoning):\nAlgorithm: LIS_BinarySearch(arr)\ntails = []\nfor x in arr:\npos = binary_search_left(tails, x)\nif pos == len(tails):\ntails.append(x)\nelse:\ntails[pos] = x\nreturn len(tails)\nbinary_search_left(arr, target):\nleft, right = 0, len(arr)\nwhile left < right:\nmid = (left + right) // 2\nif arr[mid] < target:\nleft = mid + 1\nelse:\nright = mid\nreturn left\nInvariant: ‘tails[i]‘ = min ending element of all inc. subseq.",
+      "section": "References",
+      "char_count": 1004,
+      "chunk_index": 100,
+      "page_numbers": [
+        23
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0101",
+      "source_id": "DualDensity_2025",
+      "text": "eft, right = 0, len(arr)\nwhile left < right:\nmid = (left + right) // 2\nif arr[mid] < target:\nleft = mid + 1\nelse:\nright = mid\nreturn left\nInvariant: ‘tails[i]‘ = min ending element of all inc. subseq. of length ‘i+1‘ Time: O(n logn) - n elements ×O(logn) binary\nsearch Space: O(n)\nDenser (Final answer):Here’s an efficient algorithm to find the longest increasing subsequence (LIS) using dynamic program-\nming with binary search:\n**Algorithm:**\ndef longest_increasing_subsequence(arr):\ntails = []\nfor num in arr:\n# Binary search for the position to insert/replace\nleft, right = 0, len(tails)\nwhile left < right:\nmid = (left + right) // 2\nif tails[mid] < num:\nleft = mid + 1\nelse:\nright = mid\n# If num is larger than all elements in tails, append it\nif left == len(tails):\ntails.append(num)\nelse:\n# Replace the element at position'left'\ntails[left] = num\nreturn len(tails)\n**Key Insight:** The ‘tails‘ array maintains the invariant that ‘tails[i]‘ stores the smallest ending element of all increasing\nsubsequences of length ‘i+1‘.",
+      "section": "References",
+      "char_count": 1029,
+      "chunk_index": 101,
+      "page_numbers": [
+        23
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0102",
+      "source_id": "DualDensity_2025",
+      "text": "'left'\ntails[left] = num\nreturn len(tails)\n**Key Insight:** The ‘tails‘ array maintains the invariant that ‘tails[i]‘ stores the smallest ending element of all increasing\nsubsequences of length ‘i+1‘.\n**Time Complexity:** O(n logn) - We process each of the n elements once - For each element, we perform binary search on the\ntails array (at most n elements) - Binary search takes O(logn) time\n**Space Complexity:** O(n) for the tails array.\nThis algorithm is optimal for the LIS problem and significantly more efficient than the naive O(n2) dynamic programming\napproach.\nTable 27: Extended case study example 5\n23\n\nCase Study 6: Coding\nProblem:Design a data structure that supports insert, delete, and getRandom operations in O(1) average time.\nCoT:I need to design a data structure that supports three operations in O(1) average time: insert, delete, and getRandom. The\nkey challenge is the getRandom operation, which requires accessing a random element efficiently. Let me think about this step\nby step. For insert and delete to be O(1), I need a hash-based structure. For getRandom to be O(1), I need to be able to access\nelements by index.",
+      "section": "References",
+      "char_count": 1143,
+      "chunk_index": 102,
+      "page_numbers": [
+        23
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0103",
+      "source_id": "DualDensity_2025",
+      "text": "dom element efficiently. Let me think about this step\nby step. For insert and delete to be O(1), I need a hash-based structure. For getRandom to be O(1), I need to be able to access\nelements by index. The solution is to use a combination of an array (or list) and a hash map. The array will store the actual\nvalues, and the hash map will store the mapping from values to their indices in the array. For insert operation: Add the value\nto the end of the array and update the hash map with the value and its index. For delete operation: This is the tricky part. To\nmaintain O(1) time, I can’t just remove an element from the middle of the array (that would be O(n)). Instead, I’ll swap the\nelement to be deleted with the last element, then remove the last element. I also need to update the hash map accordingly. For\ngetRandom operation: Generate a random index between 0 and the current size of the array, then return the element at that index.\nLet me write the code implementation with proper handling of edge cases and the hash map updates.",
+      "section": "References",
+      "char_count": 1041,
+      "chunk_index": 103,
+      "page_numbers": [
+        24
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0104",
+      "source_id": "DualDensity_2025",
+      "text": "ate a random index between 0 and the current size of the array, then return the element at that index.\nLet me write the code implementation with proper handling of edge cases and the hash map updates.\nDenser (HD reasoning):\nData Structure: RandomizedSet\n- values: dynamic array\n- indices: hashmap (value -> index)\ninsert(val):\nif val in indices: return false\nindices[val] = len(values)\nvalues.append(val)\nreturn true\ndelete(val):\nif val not in indices: return false\nidx = indices[val]\nlast_val = values[-1]\nvalues[idx] = last_val\nindices[last_val] = idx\nvalues.pop()\ndel indices[val]\nreturn true\ngetRandom():\nreturn values[random.randint(0, len(values)-1)]\nTime: O(1) avg for all ops Space: O(n)\nDenser (Final answer):I’ll design a randomized set using a combination of a dynamic array and hash map to achieve O(1)\naverage time for all operations.",
+      "section": "References",
+      "char_count": 847,
+      "chunk_index": 104,
+      "page_numbers": [
+        24
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0105",
+      "source_id": "DualDensity_2025",
+      "text": "lues)-1)]\nTime: O(1) avg for all ops Space: O(n)\nDenser (Final answer):I’ll design a randomized set using a combination of a dynamic array and hash map to achieve O(1)\naverage time for all operations.\n**Data Structure Design:**\nimport random\nclass RandomizedSet:\ndef __init__(self):\nself.values = [] # Dynamic array to store values\nself.indices = {} # Hash map: value -> index in array\ndef insert(self, val):\nif val in self.indices:\nreturn False\n# Add to end of array and update hash map\nself.indices[val] = len(self.values)\nself.values.append(val)\nreturn True\ndef delete(self, val):\nif val not in self.indices:\nreturn False\n# Get index of element to delete\nidx = self.indices[val]\nlast_element = self.values[-1]\n# Move last element to position of deleted element\nself.values[idx] = last_element\nself.indices[last_element] = idx\n# Remove last element and update hash map\nself.values.pop()\ndel self.indices[val]\nreturn True\ndef getRandom(self):\nreturn self.values[random.randint(0, len(self.values) - 1)]\nTable 28: Extended case study example 6\n24\n\nCase Study 7: Logical Reasoning\nProblem:Determine if the following argument is valid using formal logic: \"If it rains, then the ground gets wet.",
+      "section": "References",
+      "char_count": 1192,
+      "chunk_index": 105,
+      "page_numbers": [
+        24
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0106",
+      "source_id": "DualDensity_2025",
+      "text": "lues) - 1)]\nTable 28: Extended case study example 6\n24\n\nCase Study 7: Logical Reasoning\nProblem:Determine if the following argument is valid using formal logic: \"If it rains, then the ground gets wet. If the ground\ngets wet, then the plants grow. It is raining. Therefore, the plants are growing.\"\nCoT:I need to analyze this argument using formal logic to determine its validity. Let me first identify the premises and\nconclusion, then translate them into logical statements. Let me define my propositional variables: Let R = \"it rains\", W = \"the\nground gets wet\", and G = \"the plants grow\". Now I can translate the argument: Premise 1: \"If it rains, then the ground gets wet\"\ntranslates to R →W. Premise 2: \"If the ground gets wet, then the plants grow\" translates to W →G. Premise 3: \"It is raining\"\ntranslates to R. Conclusion: \"Therefore, the plants are growing\" translates to G. So the argument structure is: (R →W)∧(W→\nG)∧R⊢G. To check validity, I need to verify if the conclusion logically follows from the premises. I can use the transitivity\nof implication and modus ponens. From premises 1 and 2, using transitivity: R →W and W →G gives us R →G.",
+      "section": "References",
+      "char_count": 1155,
+      "chunk_index": 106,
+      "page_numbers": [
+        24
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0107",
+      "source_id": "DualDensity_2025",
+      "text": "eed to verify if the conclusion logically follows from the premises. I can use the transitivity\nof implication and modus ponens. From premises 1 and 2, using transitivity: R →W and W →G gives us R →G. From this\nderived statement R →G and premise 3 R, using modus ponens, we get G. Since I can derive the conclusion from the premises\nusing valid inference rules, this argument is valid.\nDenser (HD reasoning):Premises: P1: R→W P2: W→G P3: R Conclusion: G\nProof: 1. R→W (P1) 2. W→G (P2) 3. R→G (1,2, transitivity) 4. R (P3) 5. G (3,4, modus ponens)\nHence Valid argument\nDenser (Final answer):I’ll analyze this argument using formal propositional logic.\n**Translation to logical form:** Let: - R = \"it rains\" - W = \"the ground gets wet\" - G = \"the plants grow\"\nThe argument becomes: - Premise 1: R →W (If it rains, then the ground gets wet) - Premise 2: W →G (If the ground gets wet,\nthen the plants grow) - Premise 3: R (It is raining) - Conclusion: G (The plants are growing)\n**Validity Check:** I can prove the conclusion follows from the premises:\n1. From premises 1 and 2, using transitivity of implication: If R →W and W →G, then R →G 2.",
+      "section": "References",
+      "char_count": 1140,
+      "chunk_index": 107,
+      "page_numbers": [
+        25
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0108",
+      "source_id": "DualDensity_2025",
+      "text": "lusion: G (The plants are growing)\n**Validity Check:** I can prove the conclusion follows from the premises:\n1. From premises 1 and 2, using transitivity of implication: If R →W and W →G, then R →G 2. From the derived statement R\n→G and premise 3 (R), using modus ponens: G\nSince I can derive the conclusion G from the premises using valid logical inference rules (transitivity and modus ponens), this\nargument is **valid**.\nThe logical structure demonstrates a clear chain of reasoning where the conclusion necessarily follows from the premises.\nTable 29: Extended case study example 7\nCase Study 8: Logical Reasoning\nProblem:Five friends (Alice, Bob, Carol, Dave, Eve) live on different floors (1-5) of an apartment building. Using these clues,\ndetermine who lives on which floor: (1) Alice lives two floors above Carol. (2) Bob lives on an even-numbered floor. (3) Dave\nlives on floor 3. (4) Eve lives on a higher floor than Alice. (5) No one lives on the same floor.\nCoT:I need to solve this logic puzzle step by step using the given constraints. Let me work through each clue systematically.\nFrom clue 3, I know Dave lives on floor 3. This is a fixed point.",
+      "section": "References",
+      "char_count": 1162,
+      "chunk_index": 108,
+      "page_numbers": [
+        25
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0109",
+      "source_id": "DualDensity_2025",
+      "text": "e floor.\nCoT:I need to solve this logic puzzle step by step using the given constraints. Let me work through each clue systematically.\nFrom clue 3, I know Dave lives on floor 3. This is a fixed point. From clue 1, Alice lives two floors above Carol. This means the\npossible combinations are: Carol on floor 1 and Alice on floor 3, Carol on floor 2 and Alice on floor 4, or Carol on floor 3 and\nAlice on floor 5. But Dave is already on floor 3, so Carol can’t be on floor 3, and Alice can’t be on floor 3. This eliminates the\nfirst option. So either Carol is on floor 2 and Alice on floor 4, or Carol is on floor 3 and Alice on floor 5. Wait, Carol can’t be on\nfloor 3 because Dave is there. So Carol must be on floor 2 and Alice on floor 4, or Carol could be on floor 1 and Alice on floor 3,\nbut Alice can’t be on floor 3 because Dave is there. Actually, let me reconsider: if Carol is on floor 1, Alice would be on floor 3,\nbut Dave is on floor 3. If Carol is on floor 2, Alice would be on floor 4. If Carol is on floor 3, Alice would be on floor 5, but Dave\nis on floor 3. So Carol must be on floor 2, and Alice on floor 4. From clue 4, Eve lives on a higher floor than Alice.",
+      "section": "References",
+      "char_count": 1178,
+      "chunk_index": 109,
+      "page_numbers": [
+        25
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0110",
+      "source_id": "DualDensity_2025",
+      "text": "would be on floor 4. If Carol is on floor 3, Alice would be on floor 5, but Dave\nis on floor 3. So Carol must be on floor 2, and Alice on floor 4. From clue 4, Eve lives on a higher floor than Alice. Since Alice\nis on floor 4, Eve must be on floor 5. From clue 2, Bob lives on an even-numbered floor. The even floors are 2 and 4. Alice is on\nfloor 4, Carol is on floor 2, so Bob must be on floor 2. But Carol is on floor 2. This is a contradiction. Let me reconsider...\nDenser (HD reasoning):Given: Floors 1,2,3,4,5 for Alice,Bob,Carol,Dave,Eve\nC3: Dave→3 C1: Alice = Carol + 2 C4: Eve > Alice C2: Bob∈2,4\nFrom C3: Dave = 3 From C1: (Carol,Alice) ∈(1,3),(2,4),(3,5) Since Dave = 3: (Carol,Alice) ∈(2,4),(3,5) But Dave = 3 ̸=Carol,\nso Carol̸=3 Therefore: (Carol,Alice) = (2,4)\nFrom C4: Eve > 4, so Eve = 5 From C2: Bob∈2,4, but Alice = 4, Carol = 2 Contradiction: Bob cannot occupy floor 2 or 4\nCheck (Carol,Alice) = (1,3): Dave = 3, Alice = 3→Contradiction\nRecheck C1: Alice = Carol + 2 Only valid: Carol = 1, Alice = 3 But Dave = 3→Impossible\nNo solution exists.\nDenser (Final answer):I’ll solve this step-by-step using logical deduction.\n**Given constraints:** 1.",
+      "section": "References",
+      "char_count": 1165,
+      "chunk_index": 110,
+      "page_numbers": [
+        25
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0111",
+      "source_id": "DualDensity_2025",
+      "text": "C1: Alice = Carol + 2 Only valid: Carol = 1, Alice = 3 But Dave = 3→Impossible\nNo solution exists.\nDenser (Final answer):I’ll solve this step-by-step using logical deduction.\n**Given constraints:** 1. Alice lives two floors above Carol 2. Bob lives on an even-numbered floor (2 or 4) 3. Dave lives on\nfloor 3 4. Eve lives on a higher floor than Alice 5. Each person lives on a different floor\n**Solution process:**\nFrom constraint 3: Dave = floor 3\nFrom constraint 1: Alice = Carol + 2 Possible combinations: (Carol=1, Alice=3), (Carol=2, Alice=4), or (Carol=3, Alice=5)\nSince Dave occupies floor 3, Alice cannot be on floor 3, eliminating (Carol=1, Alice=3). Since Dave occupies floor 3, Carol\ncannot be on floor 3, eliminating (Carol=3, Alice=5). Therefore: Carol = floor 2, Alice = floor 4\nFrom constraint 4: Eve > Alice = 4, so Eve = floor 5\nFrom constraint 2: Bob must be on floor 2 or 4 But Carol = floor 2 and Alice = floor 4, so both even floors are occupied.\n**Conclusion:** This puzzle has **no solution**. The constraints create a logical contradiction - Bob cannot be placed on any\neven-numbered floor because floors 2 and 4 are already occupied by Carol and Alice respectively.",
+      "section": "References",
+      "char_count": 1190,
+      "chunk_index": 111,
+      "page_numbers": [
+        25
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0112",
+      "source_id": "DualDensity_2025",
+      "text": "uzzle has **no solution**. The constraints create a logical contradiction - Bob cannot be placed on any\neven-numbered floor because floors 2 and 4 are already occupied by Carol and Alice respectively.\nTable 30: Extended case study example 8\n25\n\nCase Study 9: General QA (MMLU\nProblem:A 2 kg block slides down a frictionless inclined plane that makes a 30° angle with the horizontal. What is the\nacceleration of the block down the plane? (A) 4.9 m/s2(B) 9.8 m/s2(C) 8.5 m/s2(D) 19.6 m/s2\nCoT:I need to find the acceleration of a block sliding down a frictionless inclined plane. Let me set up the problem systematically.\nThe forces acting on the block are: the gravitational force (weight) mg acting vertically downward, and the normal force from\nthe inclined plane acting perpendicular to the surface. Since the plane is frictionless, there’s no friction force. I need to resolve\nthe gravitational force into components parallel and perpendicular to the inclined plane. The component of gravitational force\nparallel to the plane (down the slope) is mg sin θ, where θis the angle of inclination. The component perpendicular to the plane\nis mg cos θ, which is balanced by the normal force.",
+      "section": "References",
+      "char_count": 1187,
+      "chunk_index": 112,
+      "page_numbers": [
+        25
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0113",
+      "source_id": "DualDensity_2025",
+      "text": "gravitational force\nparallel to the plane (down the slope) is mg sin θ, where θis the angle of inclination. The component perpendicular to the plane\nis mg cos θ, which is balanced by the normal force. Applying Newton’s second law along the plane: The net force down the\nplane is mg sin θ. Using F = ma, we get: ma = mg sin θ, so a = g sinθ . Given that g = 9.8 m/s2andθ= 30°, I calculate: a = 9.8\n×sin(30°) = 9.8 × 0.5 = 4.9 m/s2. Notice that the mass of the block (2 kg) doesn’t affect the acceleration - this is a characteristic\nfeature of motion under gravity alone.\nDenser (HD reasoning):Forces on block: - Weight: mg (vertical) - Normal: N (⊥to plane) - Friction: 0 (frictionless)\nForce components:∥to plane: mg sinθ(down)⊥to plane: mg cosθ(balanced by N)\nNewton’s 2nd law: ma = mg sinθa = g sinθ= 9.8 sin(30°) = 9.8 × 0.5 = 4.9 m/s2\nAnswer: (A)\nDenser (Final answer):To find the acceleration of the block down the inclined plane, I need to analyze the forces and apply\nNewton’s second law.\n**Force Analysis:** The weight (mg) acts vertically downward.",
+      "section": "References",
+      "char_count": 1057,
+      "chunk_index": 113,
+      "page_numbers": [
+        26
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0114",
+      "source_id": "DualDensity_2025",
+      "text": "(Final answer):To find the acceleration of the block down the inclined plane, I need to analyze the forces and apply\nNewton’s second law.\n**Force Analysis:** The weight (mg) acts vertically downward. I’ll resolve this into components: - Parallel to plane: mg sinθ\n(down the slope) - Perpendicular to plane: mg cosθ(balanced by normal force)\nSince the plane is frictionless, the only unbalanced force is the component parallel to the plane.\n**Applying Newton’s Second Law:** Along the inclined plane: F net= ma mg sinθ= ma Therefore: a = g sinθ\n**Calculation:** Given:θ= 30°, g = 9.8 m/s2a = 9.8 × sin(30°) = 9.8 × 0.5 = 4.9 m/s2\nNote that the mass (2 kg) cancels out, so the acceleration is independent of the block’s mass.\n**Answer: (A) 4.9 m/s2**\nTable 31: Extended case study example 9\nCase Study 10: General QA\nProblem:Could a professional basketball player dunk while standing on the shoulders of an average-height person?\nCoT:To answer this question, I need to consider the heights involved and what’s required for dunking. Let me break this down\nsystematically. First, let me establish the relevant measurements: A standard basketball hoop is 10 feet (3.05 meters) above the\nground.",
+      "section": "References",
+      "char_count": 1189,
+      "chunk_index": 114,
+      "page_numbers": [
+        26
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0115",
+      "source_id": "DualDensity_2025",
+      "text": "nvolved and what’s required for dunking. Let me break this down\nsystematically. First, let me establish the relevant measurements: A standard basketball hoop is 10 feet (3.05 meters) above the\nground. The average height of an adult male in the US is approximately 5’9\" (1.75 meters). A professional basketball player is\ntypically much taller - let’s use an average NBA player height of about 6’7\" (2.01 meters). For a successful dunk, a player needs\ntheir hand to reach significantly above the rim to actually slam the ball down. This typically requires the hand to be at least 10’6\"\nto 11’ above the ground (3.2 to 3.35 meters). Now, if an NBA player stands on the shoulders of an average person: The average\nperson’s shoulder height is roughly at their total height minus their head height, so about 5’4\" (1.63 meters) from the ground.\nAdding the NBA player’s height: 5’4\" + 6’7\" = 11’11\" (3.63 meters). This would put the NBA player’s head at nearly 12 feet\nabove ground, meaning their hand could easily reach 13+ feet (4+ meters). This is far more than enough to dunk comfortably. So\nyes, a professional basketball player could definitely dunk while standing on someone’s shoulders.",
+      "section": "References",
+      "char_count": 1186,
+      "chunk_index": 115,
+      "page_numbers": [
+        26
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0116",
+      "source_id": "DualDensity_2025",
+      "text": "ir hand could easily reach 13+ feet (4+ meters). This is far more than enough to dunk comfortably. So\nyes, a professional basketball player could definitely dunk while standing on someone’s shoulders.\nDenser (HD reasoning):Required for dunk: hand ≥10.5 ft above ground Basketball hoop: 10 ft Average person height: 5’9\"\n(1.75m) Shoulder height≈5’4\" (1.63m) NBA player avg height: 6’7\" (2.01m)\nStanding configuration: Shoulder height + NBA player height = 5’4\" + 6’7\" = 11’11\" (3.63m) NBA player’s hand reach ≈13+ ft\n(4m+)\n13 ft> >10.5 ft→Yes, easily possible\nDenser (Final answer):Yes, a professional basketball player could easily dunk while standing on the shoulders of an average-\nheight person.\n**Analysis:** - Basketball rim height: 10 feet - Dunking requires hand to reach ∼10.5 feet (to get above rim) - Average adult\nshoulder height:∼5’4\" - Average NBA player height:∼6’7\"\n**Combined reach:** Standing on shoulders: 5’4\" + 6’7\" = 11’11\" This puts the player’s hands at approximately 13+ feet above\nground.\nSince 13+ feet far exceeds the 10.5 feet needed for dunking, this would not only be possible but quite easy. The player would\nhave over 2 feet of clearance above the rim.",
+      "section": "References",
+      "char_count": 1184,
+      "chunk_index": 116,
+      "page_numbers": [
+        26
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    },
+    {
+      "chunk_id": "DualDensity_2025_chunk_0117",
+      "source_id": "DualDensity_2025",
+      "text": "mately 13+ feet above\nground.\nSince 13+ feet far exceeds the 10.5 feet needed for dunking, this would not only be possible but quite easy. The player would\nhave over 2 feet of clearance above the rim.\n**Conclusion:** Not only is this possible, but the basketball player would have an enormous amount of extra height, making it a\nvery comfortable dunk.\nTable 32: Extended case study example 10\n26",
+      "section": "References",
+      "char_count": 395,
+      "chunk_index": 117,
+      "page_numbers": [
+        26
+      ],
+      "source_file": "DualDensity_2025_2512_15358.pdf",
+      "total_source_pages": 26
+    }
+  ]
+}

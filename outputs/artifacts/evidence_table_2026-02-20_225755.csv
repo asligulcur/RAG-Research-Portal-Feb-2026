@@ -1,0 +1,64 @@
+Claim,Evidence Snippet,Citation,Confidence,Notes
+"and
+6
+
+Gemma 2: Improving Open Language Models at a Practical Size
+Gemma-1 Gemma-2 Mistral LLaMA-3 Gemma-1 Gemma-2 Gemma-2
+Benchmark metric 2B 2B 7B 8...","and
+6
+
+Gemma 2: Improving Open Language Models at a Practical Size
+Gemma-1 Gemma-2 Mistral LLaMA-3 Gemma-1 Gemma-2 Gemma-2
+Benchmark metric 2B 2B 7B 8B 7B 9B 27B
+MMLU 5-shot 42.3 52.2 62.5 66.6 64.4 71.3 75.2
+ARC-C 25-shot 48.5 55.7 60.5 59.2 61.1 68.4 71.4
+GSM8K 5-shot 15.1 24.3 39.6 45.7 51.8 68.6...","Gemma2_2024, Gemma2_2024_chunk_0023",High,Relevance: 0.70
+"urrent techniques, and for enabling
+the development of the next wave of innovations.
+While thorough testing of all Gemma models has
+1See Contributions...","urrent techniques, and for enabling
+the development of the next wave of innovations.
+While thorough testing of all Gemma models has
+1See Contributions and Acknowledgments section for full author list. Please send correspondence to  .
+©2024 Google DeepMind. All rights reservedarXiv:2403.08295v4 [cs.C...","Gemma_2024, Gemma_2024_chunk_0004",High,Relevance: 0.70
+"n
+7
+
+Gemma: Open Models Based on Gemini Research and Technology
+Mistral v0.2 Gemma 1.1 IT
+Benchmark metric 7B* 2B 7B
+RealToxicity avg 8.44 7.03 8.04
+B...","n
+7
+
+Gemma: Open Models Based on Gemini Research and Technology
+Mistral v0.2 Gemma 1.1 IT
+Benchmark metric 7B* 2B 7B
+RealToxicity avg 8.44 7.03 8.04
+BOLD 46.0 47.76 45.2
+CrowS-Pairs top-1 32.76 45.89 49.67
+BBQ Ambig 1-shot, top-1 97.53 58.97 86.06
+BBQ Disambig top-1 84.45 53.9 85.08
+Winogender top-1...","Gemma_2024, Gemma_2024_chunk_0026",High,Relevance: 0.70
+"Campbell, P. Guo,
+R. Ren, A. Pan, X. Yin, M. Mazeika, A.-K. Dom-
+browski, S. Goel, N. Li, M. J. Byun, Z. Wang,
+A. Mallen, S. Basart, S. Koyejo, D. Son...","Campbell, P. Guo,
+R. Ren, A. Pan, X. Yin, M. Mazeika, A.-K. Dom-
+browski, S. Goel, N. Li, M. J. Byun, Z. Wang,
+A. Mallen, S. Basart, S. Koyejo, D. Song,
+M. Fredrikson, J. Z. Kolter, and D. Hendrycks.
+Representation engineering: A top-down ap-
+proach to ai transparency, 2023.
+16
+
+Gemma: Open Models B...","Gemma_2024, Gemma_2024_chunk_0055",High,Relevance: 0.70
+".5%
+Table 9|Win rate of Gemma 1.0 IT models versus Mistral 7B v0.2 Instruct with 95% confidence
+intervals. We report breakdowns of wins, ties, and los...",".5%
+Table 9|Win rate of Gemma 1.0 IT models versus Mistral 7B v0.2 Instruct with 95% confidence
+intervals. We report breakdowns of wins, ties, and losses. Ties are broken evenly in the final win rate.
+Mistral v0.2 Gemma IT
+Benchmark metric 7B* 2B 7B
+RealToxicity avg 8.44 6.86 7.90
+BOLD 46.0 45.57 49...","Gemma_2024, Gemma_2024_chunk_0056",High,Relevance: 0.70

@@ -1,0 +1,883 @@
+{
+  "source_id": "GPTQ_2022",
+  "metadata": {
+    "title": "GPTQ: Accurate Post-Training Quantization for Generative Pre-trained Transformers",
+    "authors": "Elias Frantar, Saleh Ashkboos, Torsten Hoefler, Dan Alistarh",
+    "year": "2022",
+    "venue": "arXiv",
+    "url": "https://arxiv.org/abs/2210.17323",
+    "source_type": "peer-reviewed",
+    "relevance_note": "Standard quantization method for LLMs/SLMs - enables 4-bit deployment with minimal quality loss"
+  },
+  "pdf_metadata": {
+    "title": "",
+    "author": "",
+    "total_pages": 16
+  },
+  "statistics": {
+    "total_pages": 16,
+    "total_chunks": 66,
+    "avg_chunk_size": 1039.909090909091,
+    "ingestion_timestamp": "2026-02-02T19:03:48.770791"
+  },
+  "chunks": [
+    {
+      "chunk_id": "GPTQ_2022_chunk_0000",
+      "source_id": "GPTQ_2022",
+      "text": "Published as a conference paper at ICLR 2023\nGPTQ: A CCURATE POST-TRAINING QUANTIZATION\nFOR GENERATIVE PRE-TRAINED TRANSFORMERS\nElias Frantar\u0003\nIST AustriaSaleh Ashkboos\nETH ZurichTorsten Hoefler\nETH ZurichDan Alistarh\nIST Austria & NeuralMagic",
+      "section": "Header/Title",
+      "char_count": 243,
+      "chunk_index": 0,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0001",
+      "source_id": "GPTQ_2022",
+      "text": "ABSTRACT\nGenerative Pre-trained Transformer models, known as GPT or OPT, set them-\nselves apart through breakthrough performance across complex language mod-\nelling tasks, but also by their extremely high computational and storage costs.\nSpecifically, due to their massive size, even inference for large, highly-accurate\nGPT models may require multiple performant GPUs, which limits the usability\nof such models. While there is emerging work on relieving this pressure via\nmodel compression, the applicability and performance of existing compression\ntechniques is limited by the scale and complexity of GPT models. In this paper,\nwe address this challenge, and propose GPTQ, a new one-shot weight quantiza-\ntion method based on approximate second-order information, that is both highly-\naccurate and highly-efficient. Specifically, GPTQ can quantize GPT models with\n175 billion parameters in approximately four GPU hours, reducing the bitwidth\ndown to 3 or 4 bits per weight, with negligible accuracy degradation relative to the\nuncompressed baseline.",
+      "section": "ABSTRACT",
+      "char_count": 1051,
+      "chunk_index": 1,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0002",
+      "source_id": "GPTQ_2022",
+      "text": "PT models with\n175 billion parameters in approximately four GPU hours, reducing the bitwidth\ndown to 3 or 4 bits per weight, with negligible accuracy degradation relative to the\nuncompressed baseline. Our method more than doubles the compression gains rel-\native to previously-proposed one-shot quantization methods, preserving accuracy,\nallowing us for the first time to execute an 175 billion-parameter model inside a\nsingle GPU for generative inference. Moreover, we also show that our method\ncan still provide reasonable accuracy in the extreme quantization regime, in which\nweights are quantized to 2-bit or even ternary quantization levels. We show ex-\nperimentally that these improvements can be leveraged for end-to-end inference\nspeedups over FP16, of around 3.25x when using high-end GPUs (NVIDIA A100)\nand 4.5x when using more cost-effective ones (NVIDIA A6000). The implemen-\ntation is available at  .",
+      "section": "ABSTRACT",
+      "char_count": 913,
+      "chunk_index": 2,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0003",
+      "source_id": "GPTQ_2022",
+      "text": "for end-to-end inference\nspeedups over FP16, of around 3.25x when using high-end GPUs (NVIDIA A100)\nand 4.5x when using more cost-effective ones (NVIDIA A6000). The implemen-\ntation is available at  .\n1 I NTRODUCTION\nPre-trained generative models from the Transformer (Vaswani et al., 2017) family, commonly known\nas GPT or OPT (Radford et al., 2019; Brown et al., 2020; Zhang et al., 2022), have shown break-\nthrough performance for complex language modelling tasks, leading to massive academic and prac-\ntical interest. One major obstacle to their usability is computational and storage cost, which ranks\namong the highest for known models. For instance, the best-performing model variants, e.g. GPT3-\n175B, have in the order of 175 billion parameters and require tens-to-hundreds of GPU years to\ntrain (Zhang et al., 2022). Even the simpler task of inferencing over a pre-trained model, which is\nour focus in this paper, is highly challenging: for instance, the parameters of GPT3-175B occupy\n326GB (counting in multiples of 1024) of memory when stored in a compact float16 format.",
+      "section": "ABSTRACT",
+      "char_count": 1084,
+      "chunk_index": 3,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0004",
+      "source_id": "GPTQ_2022",
+      "text": "odel, which is\nour focus in this paper, is highly challenging: for instance, the parameters of GPT3-175B occupy\n326GB (counting in multiples of 1024) of memory when stored in a compact float16 format. This\nexceeds the capacity of even the highest-end single GPUs, and thus inference must be performed\nusing more complex and expensive setups, such as multi-GPU deployments.\nAlthough a standard approach to eliminating these overheads is model compression , e.g. (Hoefler\net al., 2021; Gholami et al., 2021), surprisingly little is known about compressing such models for\ninference. One reason is that more complex methods for low-bitwidth quantization or model prun-\ning usually require model retraining , which is extremely expensive for billion-parameter models.\nAlternatively, post-training methods (Nagel et al., 2020; Wang et al., 2020; Hubara et al., 2020;\nNahshan et al., 2021), which compress the model in one shot, without retraining, would be very\nappealing.",
+      "section": "ABSTRACT",
+      "char_count": 967,
+      "chunk_index": 4,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0005",
+      "source_id": "GPTQ_2022",
+      "text": "ernatively, post-training methods (Nagel et al., 2020; Wang et al., 2020; Hubara et al., 2020;\nNahshan et al., 2021), which compress the model in one shot, without retraining, would be very\nappealing. Unfortunately, the more accurate variants of such methods (Li et al., 2021; Hubara et al.,\n2021; Frantar et al., 2022) are complex and challenging to scale to billions of parameters (Yao et al.,\n\u0003Corresponding author: \n1arXiv:2210.17323v2 [cs.LG] 22 Mar 2023\n\nPublished as a conference paper at ICLR 2023\n2022). To date, only basic variants of round-to-nearest quantization (Yao et al., 2022; Dettmers\net al., 2022) have been applied at the scale of GPT-175B; while this works well for low compression\ntargets, e.g., 8-bit weights, they fail to preserve accuracy at higher rates. It therefore remains open\nwhether one-shot post-training quantization to higher compression rates is generally-feasible.",
+      "section": "ABSTRACT",
+      "char_count": 901,
+      "chunk_index": 5,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0006",
+      "source_id": "GPTQ_2022",
+      "text": "n\ntargets, e.g., 8-bit weights, they fail to preserve accuracy at higher rates. It therefore remains open\nwhether one-shot post-training quantization to higher compression rates is generally-feasible.\n100101102\n#params in billions5101520253035404550Perplexity on WikiText2\n110.OPT Model Family\n4bit RTN\n4bit GPTQ\nFP16\n100101102\n#params in billions102030405060Perplexity on WikiText2\n571.BLOOM Model Family\n3bit RTN\n3bit GPTQ\nFP16\nFigure 1: Quantizing OPT models to 4 and BLOOM models to 3 bit precision, comparing GPTQ\nwith the FP16 baseline and round-to-nearest (RTN) (Yao et al., 2022; Dettmers et al., 2022).\nContribution. In this paper, we present a new post-training quantization method, called GPTQ,1\nwhich is efficient enough to execute on models with hundreds of billions of parameters in at most\na few hours, and precise enough to compress such models to 3 or 4 bits per parameter without\nsignificant loss of accuracy. For illustration, GPTQ can quantize the largest publicly-available mod-\nels, OPT-175B and BLOOM-176B, in approximately four GPU hours, with minimal increase in\nperplexity, known to be a very stringent accuracy metric.",
+      "section": "ABSTRACT",
+      "char_count": 1145,
+      "chunk_index": 6,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0007",
+      "source_id": "GPTQ_2022",
+      "text": "GPTQ can quantize the largest publicly-available mod-\nels, OPT-175B and BLOOM-176B, in approximately four GPU hours, with minimal increase in\nperplexity, known to be a very stringent accuracy metric.\nFurther, we show that our model can also provide robust results in the extreme quantization regime,\nin which models are quantized to 2 bits per component, or even ternary values . On the practical\nside, we develop an execution harness which allows us to execute the resulting compressed models\nefficiently for generative tasks. Specifically, we are able to run the compressed OPT-175B model\nfor the first time on a single NVIDIA A100 GPU, or using only two more cost-effective NVIDIA\nA6000 GPUs. We also implement bespoke GPU kernels which are able to leverage compression for\nfaster memory loading, resulting in speedups of \u00193:25\u0002when using A100 GPUs, and 4:5\u0002when\nusing A6000 GPUs.",
+      "section": "ABSTRACT",
+      "char_count": 883,
+      "chunk_index": 7,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0008",
+      "source_id": "GPTQ_2022",
+      "text": "A6000 GPUs. We also implement bespoke GPU kernels which are able to leverage compression for\nfaster memory loading, resulting in speedups of \u00193:25\u0002when using A100 GPUs, and 4:5\u0002when\nusing A6000 GPUs.\nTo our knowledge, we are the first to show that extremely accurate language models with hundreds\nof billions of parameters can be quantized to 3-4 bits/component: prior post-training methods only\nremain accurate at 8 bits (Yao et al., 2022; Dettmers et al., 2022), while prior training-based tech-\nniques have only tackled models that are smaller by one to two orders of magnitude (Wu et al., 2022).\nThis high degree of compression may appear natural, as these networks are overparametrized; yet,\nas we discuss in our detailed analysis of results, compression induces non-trivial tradeoffs between\nthe accuracy of the language modeling (perplexity), bit-width, and the size of the original model.\nWe hope that our work will stimulate further research in this area, and can be a further step towards\nmaking these models available to a wider audience.",
+      "section": "ABSTRACT",
+      "char_count": 1049,
+      "chunk_index": 8,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0009",
+      "source_id": "GPTQ_2022",
+      "text": "bit-width, and the size of the original model.\nWe hope that our work will stimulate further research in this area, and can be a further step towards\nmaking these models available to a wider audience. In terms of limitations, our method currently\ndoes not provide speedups for the actual multiplications, due to the lack of hardware support for\nmixed-precision operands (e.g. FP16 x INT4) on mainstream architectures. Moreover, our current\nresults do not include activation quantization, as they are not a significant bottleneck in our target\nscenarios; however, this can be supported using orthogonal techniques (Yao et al., 2022).\n2 R ELATED WORK\nQuantization methods fall broadly into two categories: quantization during training, and post-\ntraining methods. The former quantize models during typically extensive retraining and/or fine-\ntuning, using some approximate differentiation mechanism for the rounding operation (Gholami\net al., 2021; Nagel et al., 2021). By contrast, post-training (“one-shot”) methods quantize a pre-\n1This merges the name of the OPT model family with the abbreviation for post-training quantization (PTQ).",
+      "section": "ABSTRACT",
+      "char_count": 1136,
+      "chunk_index": 9,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0010",
+      "source_id": "GPTQ_2022",
+      "text": "l., 2021; Nagel et al., 2021). By contrast, post-training (“one-shot”) methods quantize a pre-\n1This merges the name of the OPT model family with the abbreviation for post-training quantization (PTQ).\n2\n\nPublished as a conference paper at ICLR 2023\ntrained model using modest resources, typically a few thousand data samples and a few hours of\ncomputation. Post-training approaches are particularly interesting for massive models, for which\nfull model training or even finetuning can be expensive. We focus on this scenario here.\nPost-training Quantization. Most post-training methods have focused on vision models. Usually,\naccurate methods operate by quantizing either individual layers, or small blocks of consecutive\nlayers. (See Section 3 for more details.) The AdaRound method (Nagel et al., 2020) computes a\ndata-dependent rounding by annealing a penalty term, which encourages weights to move towards\ngrid points corresponding to quantization levels. BitSplit (Wang et al., 2020) constructs quantized\nvalues bit-by-bit using a squared error objective on the residual error, while AdaQuant (Hubara et al.,\n2021) performs direct optimization based on straight-through estimates.",
+      "section": "ABSTRACT",
+      "char_count": 1184,
+      "chunk_index": 10,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0011",
+      "source_id": "GPTQ_2022",
+      "text": "20) constructs quantized\nvalues bit-by-bit using a squared error objective on the residual error, while AdaQuant (Hubara et al.,\n2021) performs direct optimization based on straight-through estimates. BRECQ (Li et al., 2021)\nintroduces Fisher information into the objective, and optimizes layers within a single residual block\njointly. Finally, Optimal Brain Quantization (OBQ) (Frantar et al., 2022) generalizes the classic\nOptimal Brain Surgeon (OBS) second-order weight pruning framework (Hassibi et al., 1993; Singh\n& Alistarh, 2020; Frantar et al., 2021) to apply to quantization. OBQ quantizes weights one-by-one,\nin order of quantization error, always adjusting the remaining weights. While these approaches can\nproduce good results for models up to \u0019100million parameters in a few GPU hours, scaling them\nto networks orders of magnitude larger is challenging.\nLarge-model Quantization. With the recent open-source releases of language models like\nBLOOM (Laurenc ¸on et al., 2022) or OPT-175B (Zhang et al., 2022), researchers have started to\ndevelop affordable methods for compressing such giant networks for inference.",
+      "section": "ABSTRACT",
+      "char_count": 1127,
+      "chunk_index": 11,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0012",
+      "source_id": "GPTQ_2022",
+      "text": "ses of language models like\nBLOOM (Laurenc ¸on et al., 2022) or OPT-175B (Zhang et al., 2022), researchers have started to\ndevelop affordable methods for compressing such giant networks for inference. While all exist-\ning works—ZeroQuant (Yao et al., 2022), LLM.int8() (Dettmers et al., 2022), and nuQmm (Park\net al., 2022)— carefully select quantization granularity, e.g., vector-wise, they ultimately just round\nweights to the nearest (RTN) quantization level, in order to maintain acceptable runtimes for very\nlarge models. ZeroQuant further proposes layer-wise knowledge distillation, similar to AdaQuant,\nbut the largest model it can apply this approach to has only 1.3 billion parameters. At this scale,\nZeroQuant already takes \u00193hours of compute; GPTQ quantizes models 100 \u0002larger in\u00194hours.\nLLM.int8() observes that activation outliers in a few feature dimensions break the quantization\nof larger models, and proposes to fix this problem by keeping those dimensions in higher preci-\nsion. Lastly, nuQmm develops efficient GPU kernels for a specific binary-coding based quantization\nscheme.",
+      "section": "ABSTRACT",
+      "char_count": 1097,
+      "chunk_index": 12,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0013",
+      "source_id": "GPTQ_2022",
+      "text": "larger models, and proposes to fix this problem by keeping those dimensions in higher preci-\nsion. Lastly, nuQmm develops efficient GPU kernels for a specific binary-coding based quantization\nscheme.\nRelative to this line of work, we show that a significantly more complex and accurate quantizer can\nbe implemented efficiently at large model scale. Specifically, GPTQ more than doubles the amount\nof compression relative to these prior techniques, at similar accuracy.\n3 B ACKGROUND\nLayer-Wise Quantization. At a high level, our method follows the structure of state-of-the-art\npost-training quantization methods (Nagel et al., 2020; Wang et al., 2020; Hubara et al., 2021; Fran-\ntar et al., 2022), by performing quantization layer-by-layer, solving a corresponding reconstruction\nproblem for each layer. Concretely, let W`be the weights corresponding to a linear layer `and let\nX`denote the layer input corresponding to a small set of mdata points running through the network.\nThen, the objective is to find a matrix of quantized weights cWwhich minimizes the squared error,\nrelative to the full precision layer output.",
+      "section": "ABSTRACT",
+      "char_count": 1120,
+      "chunk_index": 13,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0014",
+      "source_id": "GPTQ_2022",
+      "text": "a small set of mdata points running through the network.\nThen, the objective is to find a matrix of quantized weights cWwhich minimizes the squared error,\nrelative to the full precision layer output. Formally, this can be restated as\nargmincWjjWX\u0000cWXjj2\n2: (1)\nFurther, similar to (Nagel et al., 2020; Li et al., 2021; Frantar et al., 2022), we assume that the\nquantization grid for cWis fixed before the process, and that individual weights can move freely as\nin (Hubara et al., 2021; Frantar et al., 2022).\nOptimal Brain Quantization. Our approach builds on the recently-proposed Optimal Brain\nQuanization (OBQ) method (Frantar et al., 2022) for solving the layer-wise quantization problem\ndefined above, to which we perform a series of major modifications, which allow it to scale to large\nlanguage models, providing more than three orders of magnitude computational speedup. To aid\nunderstanding, we first briefly summarize the original OBQ method.\nThe OBQ method starts from the observation that Equation (1) can be written as the sum of the\nsquared errors, over each row of W.",
+      "section": "ABSTRACT",
+      "char_count": 1082,
+      "chunk_index": 14,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0015",
+      "source_id": "GPTQ_2022",
+      "text": "aid\nunderstanding, we first briefly summarize the original OBQ method.\nThe OBQ method starts from the observation that Equation (1) can be written as the sum of the\nsquared errors, over each row of W. Then, OBQ handles each row windependently, quantizing one\nweight at a time while always updating all not-yet-quantized weights, in order to compensate for\nthe error incurred by quantizing a single weight. Since the corresponding objective is a quadratic,\n3\n\nPublished as a conference paper at ICLR 2023\nwhose Hessian is HF= 2XFX>\nF, whereFdenotes the set of remaining full-precision weights,\nthe greedy-optimal weight to quantize next, which we denote by wq, and the corresponding optimal\nupdate of all weights in F, denoted by \u000eF, are given by the following formulas, where quant (w)\nroundswto the nearest value on the quantization grid:\nwq=argminwq(quant (wq)\u0000wq)2\n[H\u00001\nF]qq;\u000eF=\u0000wq\u0000quant (wq)\n[H\u00001\nF]qq\u0001(H\u00001\nF):;q: (2)\nOBQ quantizes weights iteratively using these two equations, until all the weights of ware quan-\ntized.",
+      "section": "ABSTRACT",
+      "char_count": 1025,
+      "chunk_index": 15,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0016",
+      "source_id": "GPTQ_2022",
+      "text": "tization grid:\nwq=argminwq(quant (wq)\u0000wq)2\n[H\u00001\nF]qq;\u000eF=\u0000wq\u0000quant (wq)\n[H\u00001\nF]qq\u0001(H\u00001\nF):;q: (2)\nOBQ quantizes weights iteratively using these two equations, until all the weights of ware quan-\ntized. This is done efficiently, avoiding expensive full recomputations of H\u00001, by removing the qth\nrow and column of H, which is necessary after quantizing wq, directly in the inverse via one step of\nGaussian elimination. Namely, the updated inverse is given by the formula\nH\u00001\n\u0000q=\u0010\nH\u00001\u00001\n[H\u00001]qqH\u00001\n:;qH\u00001\nq;:\u0011\n\u0000p: (3)\nThis method comes with a vectorized implementation, handling multiple rows of Win parallel.\nEventually, the algorithm can achieve reasonable runtimes on medium-sized models: for instance, it\ncan fully quantize the ResNet-50 model (25M parameters) in \u00191hour on a single GPU, which is\nroughly in line with other post-training methods achieving state-of-the-art accuracy (Frantar et al.,\n2022). However, the fact that OBQ’s runtime for a drow\u0002dcolmatrix Whascubic input dependency\nO(drow\u0001d3\ncol)means that applying it to models with billions of parameters is extremely expensive.\n4 T HEGPTQ A LGORITHM\nStep 1: Arbitrary Order Insight.",
+      "section": "ABSTRACT",
+      "char_count": 1146,
+      "chunk_index": 16,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0017",
+      "source_id": "GPTQ_2022",
+      "text": "r a drow\u0002dcolmatrix Whascubic input dependency\nO(drow\u0001d3\ncol)means that applying it to models with billions of parameters is extremely expensive.\n4 T HEGPTQ A LGORITHM\nStep 1: Arbitrary Order Insight. As explained in the previous section, OBQ quantizes weights in\ngreedy order, i.e. it always picks the weight which currently incurs the least additional quantization\nerror. Interestingly, we find that, while this quite natural strategy does indeed seem to perform very\nwell, its improvement over quantizing the weights in arbitrary order is generally small, in particular\non large, heavily-parametrized layers. Most likely, this is because the slightly lower number of\nquantized weights with large individual error is balanced out by those weights being quantized\ntowards the end of the process, when only few other unquantized weights that can be adjusted for\ncompensation remain. As we will now discuss, this insight that any fixed order may perform well ,\nespecially on large models, has interesting ramifications.",
+      "section": "ABSTRACT",
+      "char_count": 1018,
+      "chunk_index": 17,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0018",
+      "source_id": "GPTQ_2022",
+      "text": "nquantized weights that can be adjusted for\ncompensation remain. As we will now discuss, this insight that any fixed order may perform well ,\nespecially on large models, has interesting ramifications.\nInverse Layer Hessian\n(Cholesky Form)\ncomputed initiallyblock i quantized recursively\ncolumn-by-columnWeight Matrix / Block\nunquantized weights\nthat are updatedquantized weights\nFigure 2: GPTQ quantization procedure. Blocks\nof consecutive columns (bolded) are quantized at\na given step, using the inverse Hessian informa-\ntion stored in the Cholesky decomposition, and\nthe remaining weights (blue) are updated at the\nend of the step. The quantization procedure is\napplied recursively inside each block: the white\nmiddle column is currently being quantized.The original OBQ method quantizes rows of W\nindependently, in a specific order defined by the\ncorresponding errors. By contrast, we will aim\nto quantize the weights of all rows in the same\norder , and will show that this typically yields\nresults with a final squared error that is simi-\nlar to the original solutions.",
+      "section": "ABSTRACT",
+      "char_count": 1074,
+      "chunk_index": 18,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0019",
+      "source_id": "GPTQ_2022",
+      "text": "y contrast, we will aim\nto quantize the weights of all rows in the same\norder , and will show that this typically yields\nresults with a final squared error that is simi-\nlar to the original solutions. As a consequence,\nthe set of unquantized weights Fand similarly\nH\u00001\nFis always the same for all rows (see Fig-\nure 2 for an illustration). In more detail, the lat-\nter is due to the fact that HFdepends only on\nthe layer inputs XF, which are the same for all\nrows, and not on any weights. Therefore, we\nhave to perform the update of H\u00001\nFgiven by\nEquation (3) only dcoltimes, once per column,\nrather thandrow\u0001dcoltimes, once per weight. This\nreduces the overall runtime from O(drow\u0001d3\ncol)\ntoO(maxfdrow\u0001d2\ncol;d3\ncolg), i.e., by a factor of\nminfdrow;dcolg. For larger models, this differ-\nence consists of several orders of magnitude.\nHowever, before this algorithm can actually be\napplied to very large models in practice, two ad-\nditional major problems need to be addressed.\nStep 2: Lazy Batch-Updates. First, a direct implementation of the scheme described previously\nwill not be fast in practice, because the algorithm has a relatively low compute-to-memory-access\nratio.",
+      "section": "ABSTRACT",
+      "char_count": 1176,
+      "chunk_index": 19,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0020",
+      "source_id": "GPTQ_2022",
+      "text": ".\nStep 2: Lazy Batch-Updates. First, a direct implementation of the scheme described previously\nwill not be fast in practice, because the algorithm has a relatively low compute-to-memory-access\nratio. For example, Equation (3) needs to update all elements of a potentially huge matrix using just a\n4\n\nPublished as a conference paper at ICLR 2023\nfew FLOPs for each entry. Such operations cannot properly utilize the massive compute capabilities\nof modern GPUs, and will be bottlenecked by the significantly lower memory bandwidth.\nFortunately, this problem can be resolved by the following observation: The final rounding decisions\nfor columniare only affected by updates performed on this very column, and so updates to later\ncolumns are irrelevant at this point in the process. This makes it possible to “lazily batch” updates\ntogether, thus achieving much better GPU utilization. Concretely, we apply the algorithm to B=\n128columns at a time, keeping updates contained to those columns and the corresponding B\u0002B\nblock of H\u00001(see also Figure 2).",
+      "section": "ABSTRACT",
+      "char_count": 1047,
+      "chunk_index": 20,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0021",
+      "source_id": "GPTQ_2022",
+      "text": "ieving much better GPU utilization. Concretely, we apply the algorithm to B=\n128columns at a time, keeping updates contained to those columns and the corresponding B\u0002B\nblock of H\u00001(see also Figure 2). Only once a block has been fully processed, we perform global\nupdates of the entire H\u00001andWmatrices using the multi-weight versions of Equations (2) and\n(3) given below, with Qdenoting a set of indices, and H\u00001\n\u0000Qdenoting the inverse matrix with the\ncorresponding rows and columns removed:\n\u000eF=\u0000(wQ\u0000quant (wQ))([H\u00001\nF]QQ)\u00001(H\u00001\nF):;Q; (4)\nH\u00001\n\u0000Q=\u0010\nH\u00001\u0000H\u00001\n:;Q([H\u00001]QQ)\u00001H\u00001\nQ;:\u0011\n\u0000Q: (5)\nAlthough this strategy does not reduce the theoretical amount of compute, it effectively addresses\nthe memory-throughput bottleneck. This provides an order of magnitude speedup for very large\nmodels in practice, making it a critical component of our algorithm.\nStep 3: Cholesky Reformulation. The final technical issue we have to address is given by numeri-\ncal inaccuracies, which can become a major problem at the scale of existing models, especially when\ncombined with the block updates discussed in the previous step.",
+      "section": "ABSTRACT",
+      "char_count": 1108,
+      "chunk_index": 21,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0022",
+      "source_id": "GPTQ_2022",
+      "text": "have to address is given by numeri-\ncal inaccuracies, which can become a major problem at the scale of existing models, especially when\ncombined with the block updates discussed in the previous step. Specifically, it can occur that the\nmatrix H\u00001\nFbecomes indefinite, which we notice can cause the algorithm to aggressively update the\nremaining weights in incorrect directions, resulting in an arbitrarily-bad quantization of the corre-\nsponding layer. In practice, we observed that the probability of this happening increases with model\nsize: concretely, it almost certainly occurs for at least a few layers on models that are larger than\na few billion parameters. The main issue appears to be the repeated applications of Equation (5),\nwhich accumulate various numerical errors, especially through the additional matrix inversion.\nFor smaller models, applying dampening, that is adding a small constant \u0015(we always choose 1% of\nthe average diagonal value) to the diagonal elements of Happears to be sufficient to avoid numerical\nissues. However, larger models require a more robust and general approach.",
+      "section": "ABSTRACT",
+      "char_count": 1105,
+      "chunk_index": 22,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0023",
+      "source_id": "GPTQ_2022",
+      "text": "\u0015(we always choose 1% of\nthe average diagonal value) to the diagonal elements of Happears to be sufficient to avoid numerical\nissues. However, larger models require a more robust and general approach.\nTo address this, we begin by noting that the only information required from H\u00001\nFq, whereFqdenotes\nthe set of unquantized weights when quantizing weight q, is rowq, or more precisely, the elements in\nthis row starting with the diagonal. The consequence is that we could precompute all of these rows\nusing a more numerically-stable method without any significant increase in memory consumption.\nIndeed, the row removal via (3) for our symmetric H\u00001essentially corresponds to taking a Cholesky\ndecomposition, except for the minor difference that the latter divides row qby([H\u00001\nFq]qq)1=2. Hence,\nwe can leverage state-of-the-art Cholesky kernels to compute all information we will need from H\u00001\nupfront. In combination with mild dampening, the resulting method is robust enough to execute on\nhuge models without issues. As a bonus, using a well-optimized Cholesky kernel also yields further\nspeedup. We detail all small changes necessary for the Cholesky version of the algorithm next.",
+      "section": "ABSTRACT",
+      "char_count": 1184,
+      "chunk_index": 23,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0024",
+      "source_id": "GPTQ_2022",
+      "text": "ute on\nhuge models without issues. As a bonus, using a well-optimized Cholesky kernel also yields further\nspeedup. We detail all small changes necessary for the Cholesky version of the algorithm next.\nThe Full Algorithm. Finally, we present the full pseudocode for GPTQ in Algorithm 1, including\nthe optimizations discussed above.\nAlgorithm 1 Quantize Wgiven inverse Hessian H\u00001= (2XX>+\u0015I)\u00001and blocksize B.\nQ 0drow\u0002dcol // quantized output\nE 0drow\u0002B // block quantization errors\nH\u00001 Cholesky (H\u00001)>// Hessian inverse information\nfori= 0; B;2B; : : : do\nforj=i; : : : ; i +B\u00001do\nQ:;j quant(W:;j) // quantize column\nE:;j\u0000i (W:;j\u0000Q:;j)=[H\u00001]jj // quantization error\nW:;j:(i+B) W:;j:(i+B)\u0000E:;j\u0000i\u0001H\u00001\nj;j:(i+B)// update weights in block\nend for\nW:;(i+B): W:;(i+B):\u0000E\u0001H\u00001\ni:(i+B);(i+B):// update all remaining weights\nend for\n5\n\nPublished as a conference paper at ICLR 2023\n5 E XPERIMENTAL VALIDATION\nOverview. We begin our experiments by validating the accuracy of GPTQ relative to other accurate-\nbut-expensive quantizers, on smaller models, for which these methods provide reasonable runtimes.\nNext, we examine GPTQ’s runtime scaling for very large models.",
+      "section": "ABSTRACT",
+      "char_count": 1154,
+      "chunk_index": 24,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0025",
+      "source_id": "GPTQ_2022",
+      "text": "acy of GPTQ relative to other accurate-\nbut-expensive quantizers, on smaller models, for which these methods provide reasonable runtimes.\nNext, we examine GPTQ’s runtime scaling for very large models. Then, we present 3- and 4-bit\nquantization results for the entire BLOOM and OPT model families, evaluated via perplexity on\nchallenging language generation tasks. In addition, we show that our method is also stable for 2-bit\nquantization when the granularity is reduced to small blocks of consecutive weights. To complement\nthis perplexity analysis, we also evaluate the resulting quantized models on a series of standard zero-\nshot tasks. Finally, we focus on the two largest (and interesting) openly-available models, Bloom-\n176B and OPT-175B, where we perform a detailed evaluation on several tasks. For these models, we\nalso present practical improvements, namely reducing the number of GPUs required for inference\nas well as end-to-end speedups for generative tasks.\nSetup. We implemented GPTQ in PyTorch (Paszke et al., 2019) and worked with the HuggingFace\nintegrations of the BLOOM (Laurenc ¸on et al., 2022) and OPT (Zhang et al., 2022) model families.",
+      "section": "ABSTRACT",
+      "char_count": 1162,
+      "chunk_index": 25,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0026",
+      "source_id": "GPTQ_2022",
+      "text": "ive tasks.\nSetup. We implemented GPTQ in PyTorch (Paszke et al., 2019) and worked with the HuggingFace\nintegrations of the BLOOM (Laurenc ¸on et al., 2022) and OPT (Zhang et al., 2022) model families.\nWe quantized all models (including the 175 billion parameter variants) using a single NVIDIA A100\nGPU with 80GB of memory. Our entire GPTQ calibration data consists of 128 random 2048 token\nsegments from the C4 dataset (Raffel et al., 2020), i.e., excerpts from randomly crawled websites,\nwhich represents generic text data. We emphasize that this means that GPTQ does not see any\ntask-specific data, and our results thus remain actually “zero-shot”. We perform standard uniform\nper-row asymmetric quantization on the min-max grid, similar to Dettmers et al. (2022). Additional\nevaluation details can be found in Appendix A.2.1.\nTo ensure that the entire compression procedure can be performed with significantly less GPU mem-\nory than what would be required to run the full precision model, some care must be taken. Specif-\nically, we always load one Transformer block, consisting of 6 layers, at a time into GPU memory\nand then accumulate the layer-Hessians and perform quantization.",
+      "section": "ABSTRACT",
+      "char_count": 1186,
+      "chunk_index": 26,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0027",
+      "source_id": "GPTQ_2022",
+      "text": "model, some care must be taken. Specif-\nically, we always load one Transformer block, consisting of 6 layers, at a time into GPU memory\nand then accumulate the layer-Hessians and perform quantization. Finally, the current block inputs\nare sent through the fully quantized block again to produce the new inputs for the quantization of\nthe next block. Hence, the quantization process operates not on the layer inputs in the full precision\nmodel but on the actual layer inputs in the already partially quantized one. We find that this brings\nnoticeable improvements at negligible extra cost.\nBaselines. Our primary baseline, denoted by RTN, consists of rounding all weights to the nearest\nquantized value on exactly the same asymmetric per-row grid that is also used for GPTQ, meaning\nthat it corresponds precisely to the state-of-the-art weight quantization of LLM.int8(). This is cur-\nrently the method of choice in all works on quantization of very large language models (Dettmers\net al., 2022; Yao et al., 2022; Park et al., 2022): its runtime scales well to networks with many bil-\nlions of parameters, as it simply performs direct rounding.",
+      "section": "ABSTRACT",
+      "char_count": 1143,
+      "chunk_index": 27,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0028",
+      "source_id": "GPTQ_2022",
+      "text": "very large language models (Dettmers\net al., 2022; Yao et al., 2022; Park et al., 2022): its runtime scales well to networks with many bil-\nlions of parameters, as it simply performs direct rounding. As we will also discuss further, more\naccurate methods, such as AdaRound (Nagel et al., 2020) or BRECQ (Li et al., 2021), are currently\ntoo slow for models with many billions of parameters, the main focus of this work. Nevertheless,\nwe also show that GPTQ is competitive with such methods for small models, while scaling to huge\nones like OPT-175B as well.\nQuantizing Small Models. As a first ablation study, we compare GPTQ’s performance relative to\nstate-of-the-art post-training quantization (PTQ) methods, on ResNet18 and ResNet50, which are\nstandard PTQ benchmarks, in the same setup as (Frantar et al., 2022). As can be seen in Table 1,\nGPTQ performs on par at 4-bit, and slightly worse than the most accurate methods at 3-bit. At the\nsame time, it significantly outperforms AdaQuant, the fastest amongst prior PTQ methods. Further,\nwe compare against the full greedy OBQ method on two smaller language models: BERT-base (De-\nvlin et al., 2019) and OPT-125M.",
+      "section": "ABSTRACT",
+      "char_count": 1164,
+      "chunk_index": 28,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0029",
+      "source_id": "GPTQ_2022",
+      "text": "ntly outperforms AdaQuant, the fastest amongst prior PTQ methods. Further,\nwe compare against the full greedy OBQ method on two smaller language models: BERT-base (De-\nvlin et al., 2019) and OPT-125M. The results are shown in Appendix Table 8. At 4 bits, both methods\nperform similarly, and for 3 bits, GPTQ surprisingly performs slightly better. We suspect that this\nis because some of the additional heuristics used by OBQ, such as early outlier rounding, might\nrequire careful adjustments for optimal performance on non-vision models. Overall, GPTQ appears\nto be competitive with state-of-the-art post-training methods for smaller models, while taking only\n<1minute rather than \u00191hour. This enables scaling to much larger models.\nRuntime. Next we measure the full model quantization time (on a single NVIDIA A100 GPU) via\nGPTQ; the results are shown in Table 2. As can be seen, GPTQ quantizes 1-3 billion parameter\nmodels in a matter of minutes and 175B ones in a few hours.",
+      "section": "ABSTRACT",
+      "char_count": 977,
+      "chunk_index": 29,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0030",
+      "source_id": "GPTQ_2022",
+      "text": "tization time (on a single NVIDIA A100 GPU) via\nGPTQ; the results are shown in Table 2. As can be seen, GPTQ quantizes 1-3 billion parameter\nmodels in a matter of minutes and 175B ones in a few hours. For reference, the straight-through\nbased method ZeroQuant-LKD (Yao et al., 2022) reports a 3 hour runtime (on the same hardware)\nfor a 1.3B model, which would linearly extrapolate to several hundred hours (a few weeks) for 175B\n6\n\nPublished as a conference paper at ICLR 2023\nMethodRN18 – 69.76 % RN50 – 76.13%\n4bit 3bit 4bit 3bit\nAdaRound 69.34 68.37 75.84 75.14\nAdaQuant 68.12 59.21 74.68 64.98\nBRECQ 69.37 68.47 75.88 75.32\nOBQ 69.56 68.69 75.72 75.24\nGPTQ 69.37 67.88 75.71 74.87\nTable 1: Comparison with state-of-the-art\npost-training methods for vision models.OPT 13B 30B 66B 175B\nRuntime 20.9m 44.9m 1.6h 4.2h\nBLOOM 1.7B 3B 7.1B 176B\nRuntime 2.9m 5.2m 10.0m 3.8h\nTable 2: GPTQ runtime for full quantization\nof the 4 largest OPT and BLOOM models.\nmodels. Adaptive rounding-based methods typically employ a lot more SGD steps and would thus\nbe even more expensive (Nagel et al., 2020; Li et al., 2021).\nLanguage Generation.",
+      "section": "ABSTRACT",
+      "char_count": 1130,
+      "chunk_index": 30,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0031",
+      "source_id": "GPTQ_2022",
+      "text": "st OPT and BLOOM models.\nmodels. Adaptive rounding-based methods typically employ a lot more SGD steps and would thus\nbe even more expensive (Nagel et al., 2020; Li et al., 2021).\nLanguage Generation. We begin our large-scale study by compressing the entire OPT and BLOOM\nmodel families to 3- and 4-bit. We then evaluate those models on several language tasks including\nWikiText2 (Merity et al., 2016) (see Figure 1 as well as Tables 3 and 4), Penn Treebank (PTB) (Mar-\ncus et al., 1994) and C4 (Raffel et al., 2020) (both in Appendix A.3). We focus on these perplexity-\nbased tasks, as they are known to be particularly sensitive to model quantization (Yao et al., 2022).\nOn OPT models, GPTQ clearly outperforms RTN, by significant margins. For example, GPTQ loses\nonly 0.03 perplexity at 4-bit on the 175B model, while RTN drops 2.2 points, performing worse than\nthe10\u0002smaller full-precision 13B model. At 3-bit, RTN collapses completely, while GPTQ can still\nmaintain reasonable perplexity, in particular for larger models. BLOOM shows a similar pattern: the\ngaps between methods are however usually a bit smaller, indicating that this model family might be\neasier to quantize.",
+      "section": "ABSTRACT",
+      "char_count": 1180,
+      "chunk_index": 31,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0032",
+      "source_id": "GPTQ_2022",
+      "text": "e perplexity, in particular for larger models. BLOOM shows a similar pattern: the\ngaps between methods are however usually a bit smaller, indicating that this model family might be\neasier to quantize. One interesting trend (see also Figure 1) is that larger models generally (with the\nexception of OPT-66B2) appear easier to quantize. This is good news for practical applications, as\nthese are the cases where compression is also the most necessary.\nOPT Bits 125M 350M 1.3B 2.7B 6.7B 13B 30B 66B 175B\nfull 16 27.65 22.00 14.63 12.47 10.86 10.13 9.56 9.34 8.34\nRTN 4 37.28 25.94 48.17 16.92 12.10 11.32 10.98 110 10.54\nGPTQ 4 31.12 24.24 15.47 12.87 11.39 10.31 9.63 9.55 8.37\nRTN 3 1.3e3 64.57 1.3e4 1.6e4 5.8e3 3.4e3 1.6e3 6.1e3 7.3e3\nGPTQ 3 53.85 33.79 20.97 16.88 14.86 11.61 10.27 14.16 8.68\nTable 3: OPT perplexity results on WikiText2.\nBLOOM Bits 560M 1.1B 1.7B 3B 7.1B 176B\nfull 16 22.42 17.69 15.39 13.48 11.37 8.11\nRTN 4 25.90 22.00 16.97 14.76 12.10 8.37\nGPTQ 4 24.03 19.05 16.48 14.20 11.73 8.21\nRTN 3 57.08 50.19 63.59 39.36 17.38 571\nGPTQ 3 32.31 25.08 21.11 17.40 13.47 8.64\nTable 4: BLOOM perplexity results for WikiText2.\n175 Billion Parameter Models.",
+      "section": "ABSTRACT",
+      "char_count": 1167,
+      "chunk_index": 32,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0033",
+      "source_id": "GPTQ_2022",
+      "text": "TQ 4 24.03 19.05 16.48 14.20 11.73 8.21\nRTN 3 57.08 50.19 63.59 39.36 17.38 571\nGPTQ 3 32.31 25.08 21.11 17.40 13.47 8.64\nTable 4: BLOOM perplexity results for WikiText2.\n175 Billion Parameter Models. We now examine BLOOM-176B and OPT-175B, the largest dense\nopenly-available models. Table 5 summarizes results across Wikitext-2, PTB, C4. We observe that,\nat 4 bits, GPTQ models reach only \u00140:25lower perplexity than the full-precision versions, with a\nlarge gap to RTN results on OPT-175B. At 3-bit, RTN collapses, while GPTQ is still able to maintain\ngood performance on most tasks, losing only 0:3\u00000:6points for more than 5\u0002compression. We\nnote that GPTQ’s accuracy can be further improved via finer-granularity grouping (Park et al., 2022):\ngroup-size 1024 (\u00190.02 extra bits) improves perplexities by about 0:2on average and group-size\n128 (\u00190.15 extra bits) by another 0:1, which is only 0:1\u00000:3off from the uncompressed accuracy.\n2Upon closer inspection of the OPT-66B model, it appears that this is correlated with the fact that this trained\nmodel has a significant fraction of dead units in the early layers, which may make it harder to compress.",
+      "section": "ABSTRACT",
+      "char_count": 1154,
+      "chunk_index": 33,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0034",
+      "source_id": "GPTQ_2022",
+      "text": "ction of the OPT-66B model, it appears that this is correlated with the fact that this trained\nmodel has a significant fraction of dead units in the early layers, which may make it harder to compress.\n7\n\nPublished as a conference paper at ICLR 2023\nWe note that grouping interacts very well with GPTQ, as the group parameters can be determined\nduring the quantization process of each layer, always using the most current updated weights.\nMethod BitsOPT-175B BLOOM-176B\nWiki2 PTB C4 LAMB.\"Wiki2 PTB C4 LAMB.\"\nBaseline 16 8.34 12.01 10.13 75.59 8.11 14.59 11.71 67.40\nRTN 4 10.54 14.22 11.61 71.34 8.37 15.00 12.04 66.70\nGPTQ 4 8.37 12.26 10.28 76.80 8.21 14.75 11.81 67.71\nRTN 3 7.3e3 8.0e3 4.6e3 0 571. 107. 598. 0.17\nGPTQ 3 8.68 12.68 10.67 76.19 8.64 15.57 12.27 65.10\nGPTQ 3/g1024 8.45 12.48 10.47 77.39 8.35 15.01 11.98 67.47\nGPTQ 3/g128 8.45 12.37 10.36 76.42 8.26 14.89 11.85 67.86\nTable 5: Results summary for OPT-175B and BLOOM-176B. “g1024” and “g128” denote results\nwith groupings of size 1024 and 128, respectively.\nPractical Speedups. Finally, we study practical applications.",
+      "section": "ABSTRACT",
+      "char_count": 1088,
+      "chunk_index": 34,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0035",
+      "source_id": "GPTQ_2022",
+      "text": "Table 5: Results summary for OPT-175B and BLOOM-176B. “g1024” and “g128” denote results\nwith groupings of size 1024 and 128, respectively.\nPractical Speedups. Finally, we study practical applications. As an interesting use-case, we focus\non the OPT-175B model: quantized to 3 bits, this model takes approximately 63GB of memory,\nincluding the embeddings and the output layer, which are kept in full FP16 precision. Additionally,\nstoring the complete history of keys and values for all layers, a common optimization for generation\ntasks, consumes another \u00199GB for the maximum of 2048 tokens. Hence, we can actually fit\nthe entire quantized model into a single 80GB A100 GPU, which can be executed by dynamically\ndequantizing layers as they are required during inference (the model would not fully fit using 4\nbits). For reference, standard FP16 execution requires 5x80GB GPUs, and the state-of-the-art 8bit\nLLM.int8() quantizer (Dettmers et al., 2022) requires 3 such GPUs.\nNext, we consider language generation, one of the most appealing applications of these models, with\nthe goal of latency reduction.",
+      "section": "ABSTRACT",
+      "char_count": 1103,
+      "chunk_index": 35,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0036",
+      "source_id": "GPTQ_2022",
+      "text": "it\nLLM.int8() quantizer (Dettmers et al., 2022) requires 3 such GPUs.\nNext, we consider language generation, one of the most appealing applications of these models, with\nthe goal of latency reduction. Unlike LLM.int8(), which reduces memory costs but has the same\nruntime as the FP16 baseline, we show that our quantized models can achieve significant speedups\nfor this application. For language generation, the model processes and outputs one token at-a-time,\nwhich for OPT-175B can easily take a few 100s of milliseconds per token. Increasing the speed at\nwhich the user receives generated results is challenging, as compute is dominated by matrix-vector\nproducts. Unlike matrix-matrix products, these are primarily limited by memory bandwidth. We\naddress this problem by developing a quantized-matrix full-precision-vector product kernel which\nperforms a matrix vector product by dynamically dequantizing weights when needed. Most notably,\nthis does notrequire any activation quantization. While dequantization consumes extra compute,\nthe kernel has to access a lot less memory, leading to significant speedups, as shown in Table 6.",
+      "section": "ABSTRACT",
+      "char_count": 1135,
+      "chunk_index": 36,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0037",
+      "source_id": "GPTQ_2022",
+      "text": "otably,\nthis does notrequire any activation quantization. While dequantization consumes extra compute,\nthe kernel has to access a lot less memory, leading to significant speedups, as shown in Table 6. We\nnote that almost all of the speedup is due to our kernels, as communication costs are negligible in\nour standard HuggingFace-accelerate-like setting (see Appendix A.2.2 for details).\nGPU FP16 3bit Speedup GPU reduction\nA6000 – 48GB 589ms 130ms 4:53\u0002 8!2\nA100 – 80GB 230ms 71ms 3:24\u0002 5!1\nTable 6: Average per-token latency (batch size 1) when generating sequences of length 128.\nFor example, using our kernels, the 3-bit OPT-175B model obtained via GPTQ running on a single\nA100 is about 3:25\u0002faster than the FP16 version (running on 5 GPUs) in terms of average time per\ntoken. More accessible GPUs, such as the NVIDIA A6000, have much lower memory bandwidth,\nso this strategy is even more effective: executing the 3-bit OPT-175B model on 2x A6000 GPUs\nreduces latency from 589 milliseconds for FP16 inference (on 8 GPUs) to 130 milliseconds, a 4:5\u0002\nlatency reduction.\nZero-Shot Tasks.",
+      "section": "ABSTRACT",
+      "char_count": 1088,
+      "chunk_index": 37,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0038",
+      "source_id": "GPTQ_2022",
+      "text": "more effective: executing the 3-bit OPT-175B model on 2x A6000 GPUs\nreduces latency from 589 milliseconds for FP16 inference (on 8 GPUs) to 130 milliseconds, a 4:5\u0002\nlatency reduction.\nZero-Shot Tasks. While our focus is on language generation, we also evaluate the performance\nof quantized models on some popular zero-shot tasks, namely LAMBADA (Paperno et al., 2016),\nARC (Easy and Challenge) (Boratko et al., 2018) and PIQA (Tata & Patel, 2003). Figure 3 visualizes\nmodel performance on LAMBADA (and see also “Lamb.” results in Table 5). We observe similar\nbehavior as before: the outliers are that 1) quantization appears “easier” across the whole spectrum\nof models at 4-bit, where even RTN performs relatively well, and 2) at 3-bit, RTN breaks down,\nwhile GPTQ still provides good accuracy. We provide additional results in Appendix A.4.\n8\n\nPublished as a conference paper at ICLR 2023\n100101102\n#params in billions0.00.20.40.60.8Accuracy on LAMBADA\nOPT Family\n100101102\n#params in billions\nBLOOM FamilyFP16 4bit GPTQ 4bit RTN 3bit GPTQ 3bit RTN\nFigure 3: The accuracy of OPT and BLOOM models post-GPTQ, measured on LAMBADA.\nAdditional Tricks.",
+      "section": "ABSTRACT",
+      "char_count": 1148,
+      "chunk_index": 38,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0039",
+      "source_id": "GPTQ_2022",
+      "text": "AMBADA\nOPT Family\n100101102\n#params in billions\nBLOOM FamilyFP16 4bit GPTQ 4bit RTN 3bit GPTQ 3bit RTN\nFigure 3: The accuracy of OPT and BLOOM models post-GPTQ, measured on LAMBADA.\nAdditional Tricks. While our experiments so far have focused exclusively on vanilla row-wise\nquantization, we want to emphasize that GPTQ is compatible with essentially any choice of quanti-\nzation grid . For example, it is easily combined with standard grouping (Alistarh et al., 2017; Park\net al., 2022), i.e. applying independent quantization to groups of gconsecutive weights. As shown in\nthe last rows of Table 5, this can bring noticeable extra accuracy for the largest models at 3-bit. Fur-\nther, as visualized in Figure 4, it significantly reduces the accuracy losses for medium sized models\nat 4-bit precision.\nModel FP16 g128 g64 g32 3-bit\nOPT-175B 8.34 9.58 9.18 8.94 8.68\nBLOOM 8.11 9.55 9.17 8.83 8.64\nTable 7: 2-bit GPTQ quantization results with\nvarying group-sizes; perplexity on WikiText2.\n100101\n#params in billions910111213141516Perplexity on WikiText2\nOPT Models 1.3B to 30B\n4bit\n4bit/g1024\n4bit/g128\nFP16\nFigure 4: GPTQ at 4-bit with different\ngroup-sizes on medium sized OPT models.",
+      "section": "ABSTRACT",
+      "char_count": 1186,
+      "chunk_index": 39,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0040",
+      "source_id": "GPTQ_2022",
+      "text": "2.\n100101\n#params in billions910111213141516Perplexity on WikiText2\nOPT Models 1.3B to 30B\n4bit\n4bit/g1024\n4bit/g128\nFP16\nFigure 4: GPTQ at 4-bit with different\ngroup-sizes on medium sized OPT models.\nExtreme Quantization. Lastly, grouping also makes it possible to achieve reasonable performance\nfor extreme quantization, to around 2-bits per component on average. Table 7 shows results on\nWikiText2 when quantizing the biggest models to 2-bit with varying group-sizes. At \u00192:2bit\n(group-size 128; using FP16 scale and 2-bit zero point per group) the perplexity increase is already\nless than 1.5 points, while dropping to 0.6 - 0.7 at \u00192:6bit (group-size 32), which is only slightly\nworse than vanilla 3-bit and might be interesting for practical kernel implementations. Further,\nif we reduce group size to 8, we can apply ternary (-1, 0, +1) quantization, which achieves 9.20\nWikiText2 PPL on OPT-175B, a less than 1 point drop. While this leads to worse compression on\naverage relative to the 2-bit numbers above, this pattern could be efficiently implemented on custom\nhardware such as FPGAs.",
+      "section": "ABSTRACT",
+      "char_count": 1096,
+      "chunk_index": 40,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0041",
+      "source_id": "GPTQ_2022",
+      "text": "PT-175B, a less than 1 point drop. While this leads to worse compression on\naverage relative to the 2-bit numbers above, this pattern could be efficiently implemented on custom\nhardware such as FPGAs. In summary, these results are an encouraging first step towards pushing\nhighly-accurate one-shot compression of very large language models, even lower than 3 bits per\nvalue on average.\n6 S UMMARY AND LIMITATIONS\nWe have presented GPTQ, an approximate second-order method for quantizing truly large language\nmodels. GPTQ can accurately compress some of the largest publicly-available models down to 3\nand 4 bits, which leads to significant usability improvements, and to end-to-end speedups, at low\naccuracy loss. We hope that our method will make these models accessible to more researchers and\npractitioners. At the same time, we emphasize some significant limitations: On the technical side,\nour method obtains speedups from reduced memory movement, and does not lead to computational\nreductions. In addition, our study focuses on generative tasks, and does not consider activation\nquantization.",
+      "section": "ABSTRACT",
+      "char_count": 1098,
+      "chunk_index": 41,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0042",
+      "source_id": "GPTQ_2022",
+      "text": "method obtains speedups from reduced memory movement, and does not lead to computational\nreductions. In addition, our study focuses on generative tasks, and does not consider activation\nquantization. These are natural directions for future work, and we believe this can be achieved with\ncarefully-designed GPU kernels and existing techniques (Yao et al., 2022; Wu et al., 2022).\n9\n\nPublished as a conference paper at ICLR 2023\nACKNOWLEDGMENTS\nElias Frantar and Dan Alistarh gratefully acknowledge funding from the European Research Coun-\ncil (ERC) under the European Union’s Horizon 2020 programme (grant agreement No. 805223\nScaleML), as well as experimental support from Eldar Kurtic, and from the IST Austria IT de-\npartment, in particular Stefano Elefante, Andrei Hornoiu, and Alois Schloegl. The work of Saleh\nAshkboos and Torsten Hoefler was supported by the PASC DaCeMI project, received EuroHPC-JU\nfunding under grant MAELSTROM, No. 955513. We thank the Swiss National Supercomputing\nCenter (CSCS) for supporting us with compute infrastructure.",
+      "section": "ABSTRACT",
+      "char_count": 1052,
+      "chunk_index": 42,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0043",
+      "source_id": "GPTQ_2022",
+      "text": "orted by the PASC DaCeMI project, received EuroHPC-JU\nfunding under grant MAELSTROM, No. 955513. We thank the Swiss National Supercomputing\nCenter (CSCS) for supporting us with compute infrastructure.\n7 E THICS STATEMENT\nOur work introduces a general method for compressing large language models (LLMs) via quan-\ntization, with little-to-no accuracy loss in terms of standard accuracy metrics such as perplexity.\nOur method is task-agnostic, as it only uses a tiny amount of randomly-chosen data for calibration.\nWe therefore do not foresee any significant ethical implications arising directly from the technical\ndetails of our method. However, one possible consideration is that our study focused on “leading\naccuracy” metrics that are standard in the literature, such as perplexity, which is essentially standard\nin the literature (Dettmers et al., 2022; Yao et al., 2022). We believe a thorough study of the impact\nof compression upon secondary measures, and in particular bias effects (Bender et al., 2021) is war-\nranted, and may be rendered easier through our work. At the same time, our work makes inference\non extremely large language models more accessible, for better or for worse.",
+      "section": "ABSTRACT",
+      "char_count": 1192,
+      "chunk_index": 43,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0044",
+      "source_id": "GPTQ_2022",
+      "text": "ender et al., 2021) is war-\nranted, and may be rendered easier through our work. At the same time, our work makes inference\non extremely large language models more accessible, for better or for worse. We believe that, in\ntime, such tools will become much easier to use and deploy, making the need to understand their\npower and limitations even more stringent.\n8 R EPRODUCIBILITY STATEMENT\nIn the Supplementary Materials, we provide code to reproduce all experiments in this paper. More\nspecifically, this includes:\n• Compressing all models from the OPT and BLOOM model families to 2/3/4 bits.\n• Evaluating perplexity of the quantized models.\n• Our 3-bit CUDA kernel together with compressed inference benchmarking features.\n• Code for the ZeroShot experiments.\n• A README file providing sample commands and information on how to run all scripts.",
+      "section": "ABSTRACT",
+      "char_count": 845,
+      "chunk_index": 44,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0045",
+      "source_id": "GPTQ_2022",
+      "text": "ds and information on how to run all scripts.",
+      "section": "ABSTRACT",
+      "char_count": 45,
+      "chunk_index": 45,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0046",
+      "source_id": "GPTQ_2022",
+      "text": "REFERENCES\nDan Alistarh, Demjan Grubic, Jerry Li, Ryota Tomioka, and Milan V ojnovic. QSGD: Randomized\nquantization for communication-efficient stochastic gradient descent. In Conference on Neural\nInformation Processing Systems (NeurIPS) , 2017.\nEmily M Bender, Timnit Gebru, Angelina McMillan-Major, and Shmargaret Shmitchell. On the\ndangers of stochastic parrots: Can language models be too big? In 2021 ACM Conference on\nFairness, Accountability, and Transparency , 2021.\nMichael Boratko, Harshit Padigela, Divyendra Mikkilineni, Pritish Yuvraj, Rajarshi Das, Andrew\nMcCallum, Maria Chang, Achille Fokoue-Nkoutche, Pavan Kapanipathi, Nicholas Mattei, et al.\nA systematic classification of knowledge, reasoning, and context within the ARC dataset. arXiv\npreprint arXiv:1806.00358 , 2018.\nTom Brown, Benjamin Mann, Nick Ryder, Melanie Subbiah, Jared D Kaplan, Prafulla Dhariwal,\nArvind Neelakantan, Pranav Shyam, Girish Sastry, Amanda Askell, et al. Language models are\nfew-shot learners. In Conference on Neural Information Processing Systems (NeurIPS) , 2020.\nTri Dao, Daniel Y Fu, Stefano Ermon, Atri Rudra, and Christopher R ´e.",
+      "section": "REFERENCES",
+      "char_count": 1133,
+      "chunk_index": 46,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0047",
+      "source_id": "GPTQ_2022",
+      "text": "da Askell, et al. Language models are\nfew-shot learners. In Conference on Neural Information Processing Systems (NeurIPS) , 2020.\nTri Dao, Daniel Y Fu, Stefano Ermon, Atri Rudra, and Christopher R ´e. FlashAttention: Fast and\nmemory-efficient exact attention with io-awareness. arXiv preprint arXiv:2205.14135 , 2022.\n10\n\nPublished as a conference paper at ICLR 2023\nTim Dettmers, Mike Lewis, Younes Belkada, and Luke Zettlemoyer. LLM.int8(): 8-bit matrix\nmultiplication for transformers at scale. arXiv preprint arXiv:2208.07339 , 2022.\nJacob Devlin, Ming-Wei Chang, Kenton Lee, and Kristina Toutanova. BERT: Pre-training of deep\nbidirectional transformers for language understanding. In North American Chapter of the Associ-\nation for Computational Linguistics (NAACL) , 2019.\nElias Frantar, Eldar Kurtic, and Dan Alistarh. M-FAC: Efficient matrix-free approximations of\nsecond-order information. In Conference on Neural Information Processing Systems (NeurIPS) ,\n2021.\nElias Frantar, Sidak Pal Singh, and Dan Alistarh. Optimal Brain Compression: A framework for ac-\ncurate post-training quantization and pruning. arXiv preprint arXiv:2208.11580 , 2022. Accepted\nto NeurIPS 2022, to appear.",
+      "section": "REFERENCES",
+      "char_count": 1192,
+      "chunk_index": 47,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0048",
+      "source_id": "GPTQ_2022",
+      "text": "Pal Singh, and Dan Alistarh. Optimal Brain Compression: A framework for ac-\ncurate post-training quantization and pruning. arXiv preprint arXiv:2208.11580 , 2022. Accepted\nto NeurIPS 2022, to appear.\nAmir Gholami, Sehoon Kim, Zhen Dong, Zhewei Yao, Michael W Mahoney, and Kurt Keutzer.\nA survey of quantization methods for efficient neural network inference. arXiv preprint\narXiv:2103.13630 , 2021.\nBabak Hassibi, David G Stork, and Gregory J Wolff. Optimal brain surgeon and general network\npruning. In IEEE International Conference on Neural Networks , 1993.\nTorsten Hoefler, Dan Alistarh, Tal Ben-Nun, Nikoli Dryden, and Alexandra Peste. Sparsity in\ndeep learning: Pruning and growth for efficient inference and training in neural networks. arXiv\npreprint arXiv:2102.00554 , 2021.\nItay Hubara, Yury Nahshan, Yair Hanani, Ron Banner, and Daniel Soudry. Improving post\ntraining neural quantization: Layer-wise calibration and integer programming. arXiv preprint\narXiv:2006.10518 , 2020.\nItay Hubara, Yury Nahshan, Yair Hanani, Ron Banner, and Daniel Soudry. Accurate post train-\ning quantization with small calibration sets. In International Conference on Machine Learning\n(ICML) , 2021.",
+      "section": "REFERENCES",
+      "char_count": 1188,
+      "chunk_index": 48,
+      "page_numbers": [
+        11
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0049",
+      "source_id": "GPTQ_2022",
+      "text": "Itay Hubara, Yury Nahshan, Yair Hanani, Ron Banner, and Daniel Soudry. Accurate post train-\ning quantization with small calibration sets. In International Conference on Machine Learning\n(ICML) , 2021.\nHugo Laurenc ¸on, Lucile Saulnier, Thomas Wang, Christopher Akiki, Albert Villanova del Moral,\nTeven Le Scao, Leandro V on Werra, Chenghao Mou, Eduardo Gonz ´alez Ponferrada, Huu Nguyen,\net al. The BigScience corpus: A 1.6 TB composite multilingual dataset. 2022.\nYuhang Li, Ruihao Gong, Xu Tan, Yang Yang, Peng Hu, Qi Zhang, Fengwei Yu, Wei Wang, and\nShi Gu. BRECQ: Pushing the limit of post-training quantization by block reconstruction. In\nInternational Conference on Learning Representations (ICLR) , 2021.\nMitch Marcus, Grace Kim, Mary Ann Marcinkiewicz, Robert MacIntyre, Ann Bies, Mark Ferguson,\nKaren Katz, and Britta Schasberger. The penn treebank: Annotating predicate argument structure.\nInHuman Language Technology: Proceedings of a Workshop held at Plainsboro, New Jersey,\nMarch 8-11, 1994 , 1994.\nStephen Merity, Caiming Xiong, James Bradbury, and Richard Socher. Pointer sentinel mixture\nmodels. arXiv preprint arXiv:1609.07843 , 2016.",
+      "section": "REFERENCES",
+      "char_count": 1151,
+      "chunk_index": 49,
+      "page_numbers": [
+        11
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0050",
+      "source_id": "GPTQ_2022",
+      "text": "hop held at Plainsboro, New Jersey,\nMarch 8-11, 1994 , 1994.\nStephen Merity, Caiming Xiong, James Bradbury, and Richard Socher. Pointer sentinel mixture\nmodels. arXiv preprint arXiv:1609.07843 , 2016.\nMarkus Nagel, Rana Ali Amjad, Mart Van Baalen, Christos Louizos, and Tijmen Blankevoort. Up or\ndown? Adaptive rounding for post-training quantization. In International Conference on Machine\nLearning (ICML) , 2020.\nMarkus Nagel, Marios Fournarakis, Rana Ali Amjad, Yelysei Bondarenko, Mart van Baalen,\nand Tijmen Blankevoort. A white paper on neural network quantization. arXiv preprint\narXiv:2106.08295 , 2021.\nYury Nahshan, Brian Chmiel, Chaim Baskin, Evgenii Zheltonozhskii, Ron Banner, Alex M Bron-\nstein, and Avi Mendelson. Loss aware post-training quantization. Machine Learning , 110(11):\n3245–3262, 2021.\nDenis Paperno, Germ ´an Kruszewski, Angeliki Lazaridou, Quan Ngoc Pham, Raffaella Bernardi,\nSandro Pezzelle, Marco Baroni, Gemma Boleda, and Raquel Fern ´andez. The LAMBADA dataset:\nWord prediction requiring a broad discourse context. arXiv preprint arXiv:1606.06031 , 2016.",
+      "section": "REFERENCES",
+      "char_count": 1087,
+      "chunk_index": 50,
+      "page_numbers": [
+        11
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0051",
+      "source_id": "GPTQ_2022",
+      "text": "ffaella Bernardi,\nSandro Pezzelle, Marco Baroni, Gemma Boleda, and Raquel Fern ´andez. The LAMBADA dataset:\nWord prediction requiring a broad discourse context. arXiv preprint arXiv:1606.06031 , 2016.\n11\n\nPublished as a conference paper at ICLR 2023\nGunho Park, Baeseong Park, Se Jung Kwon, Byeongwook Kim, Youngjoo Lee, and Dongsoo Lee.\nnuQmm: Quantized matmul for efficient inference of large-scale generative language models.\narXiv preprint arXiv:2206.09557 , 2022.\nAdam Paszke, Sam Gross, Francisco Massa, Adam Lerer, James Bradbury, Gregory Chanan, Trevor\nKilleen, Zeming Lin, Natalia Gimelshein, Luca Antiga, et al. Pytorch: An imperative style, high-\nperformance deep learning library. In Conference on Neural Information Processing Systems\n(NeurIPS) , 2019.\nAlec Radford, Jeffrey Wu, Rewon Child, David Luan, Dario Amodei, and Ilya Sutskever. Language\nmodels are unsupervised multitask learners. OpenAI blog , 1(8):9, 2019.\nColin Raffel, Noam Shazeer, Adam Roberts, Katherine Lee, Sharan Narang, Michael Matena, Yanqi\nZhou, Wei Li, and Peter Liu. Exploring the limits of transfer learning with a unified text-to-text\ntransformer. Journal of Machine Learning Research , 21(140):1–67, 2020.",
+      "section": "REFERENCES",
+      "char_count": 1196,
+      "chunk_index": 51,
+      "page_numbers": [
+        11
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0052",
+      "source_id": "GPTQ_2022",
+      "text": "Narang, Michael Matena, Yanqi\nZhou, Wei Li, and Peter Liu. Exploring the limits of transfer learning with a unified text-to-text\ntransformer. Journal of Machine Learning Research , 21(140):1–67, 2020.\nPranav Rajpurkar, Jian Zhang, Konstantin Lopyrev, and Percy Liang. SQuAD: 100,000+ questions\nfor machine comprehension of text. In Conference on Empirical Methods in Natural Language\nProcessing (EMNLP) , 2016.\nSidak Pal Singh and Dan Alistarh. WoodFisher: Efficient second-order approximation for neural\nnetwork compression. In Conference on Neural Information Processing Systems (NeurIPS) , 2020.\nSandeep Tata and Jignesh M Patel. PiQA: An algebra for querying protein data sets. In International\nConference on Scientific and Statistical Database Management , 2003.\nAshish Vaswani, Noam Shazeer, Niki Parmar, Jakob Uszkoreit, Llion Jones, Aidan N Gomez,\nŁukasz Kaiser, and Illia Polosukhin. Attention is all you need. In Conference on Neural In-\nformation Processing Systems (NeurIPS) , 2017.\nPeisong Wang, Qiang Chen, Xiangyu He, and Jian Cheng. Towards accurate post-training network\nquantization via bit-split and stitching. In International Conference on Machine Learning (ICML) ,\n2020.",
+      "section": "REFERENCES",
+      "char_count": 1192,
+      "chunk_index": 52,
+      "page_numbers": [
+        12
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0053",
+      "source_id": "GPTQ_2022",
+      "text": "7.\nPeisong Wang, Qiang Chen, Xiangyu He, and Jian Cheng. Towards accurate post-training network\nquantization via bit-split and stitching. In International Conference on Machine Learning (ICML) ,\n2020.\nXiaoxia Wu, Zhewei Yao, Minjia Zhang, Conglong Li, and Yuxiong He. Extreme compression for\npre-trained transformers made simple and efficient. arXiv preprint arXiv:2206.01859 , 2022.\nZhewei Yao, Reza Yazdani Aminabadi, Minjia Zhang, Xiaoxia Wu, Conglong Li, and Yuxiong He.\nZeroQuant: Efficient and affordable post-training quantization for large-scale transformers. arXiv\npreprint arXiv:2206.01861 , 2022.\nSusan Zhang, Stephen Roller, Naman Goyal, Mikel Artetxe, Moya Chen, Shuohui Chen, Christo-\npher Dewan, Mona Diab, Xian Li, Xi Victoria Lin, et al. OPT: Open pre-trained transformer\nlanguage models. arXiv preprint arXiv:2205.01068 , 2022.\nLianmin Zheng, Zhuohan Li, Hao Zhang, Yonghao Zhuang, Zhifeng Chen, Yanping Huang, Yida\nWang, Yuanzhong Xu, Danyang Zhuo, Joseph E Gonzalez, et al. Alpa: Automating inter-and\nintra-operator parallelism for distributed deep learning. arXiv preprint arXiv:2201.12023 , 2022.",
+      "section": "REFERENCES",
+      "char_count": 1118,
+      "chunk_index": 53,
+      "page_numbers": [
+        12
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0054",
+      "source_id": "GPTQ_2022",
+      "text": "ing Huang, Yida\nWang, Yuanzhong Xu, Danyang Zhuo, Joseph E Gonzalez, et al. Alpa: Automating inter-and\nintra-operator parallelism for distributed deep learning. arXiv preprint arXiv:2201.12023 , 2022.\n12\n\nPublished as a conference paper at ICLR 2023\nA A PPENDIX\nA.1 A DDITIONAL COMPARISON WITH OBQ\nWe now provide an additional comparison between GPTQ and OBQ on BERT-base/SQuAD Ra-\njpurkar et al. (2016) and OPT-125M/WikiText2, which is one of the largest models to which OBQ\ncan be reasonably applied.\nMethodBERT-base OPT-125M\n88.53 F1\" 27.66 PPL#\n4bit 3bit 4bit 3bit\nOBQ 88.23 85.29 32.52 69.32\nGPTQ 88.18 86.02 31.12 53.85\nTable 8: Comparison of GPTQ relative to OBQ on BERT-base/SQuAD and OPT-125M/WikiText2.\nA.2 E XPERIMENT DETAILS\nThis section provides additional details about our experiment setup, in particular regarding the model\nevaluation and the setup of our timing experiments.\nA.2.1 E VALUATION\nFor language generation experiments, we calculate the perplexity, in standard fashion like Radford\net al. (2019), as follows: First, the entire validation set is concatenated using two linebreaks as\nseparators and encoded using the default HuggingFace tokenizer of each model.",
+      "section": "REFERENCES",
+      "char_count": 1186,
+      "chunk_index": 54,
+      "page_numbers": [
+        12
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0055",
+      "source_id": "GPTQ_2022",
+      "text": "d fashion like Radford\net al. (2019), as follows: First, the entire validation set is concatenated using two linebreaks as\nseparators and encoded using the default HuggingFace tokenizer of each model. Next, the sequence\nis split into non-overlapping segments of width 2048, the full context size of our models. These are\nsent through the model to collect the log-probabilities corresponding to the next token each. Their\nexponentiated average is the final perplexity we report.\nFor zero-shot tasks we follow the EleutherAI evaluation harness3in terms of data preprocessing and\nfinal score calculation. We note that we evaluate all individual samples separately and thus do not\napply any padding.\nA.2.2 T IMING EXPERIMENT SETUP\nOur timing experiments are performed following the standard HuggingFace/accelerate4setup also\nused by the recent work LLM.int8() (Dettmers et al., 2022). In this setting, the model is split by\ndistributing chunks of consecutive layers across GPUs. Importantly, in this setup the communication\ncosts are minimal, <5%of the total runtime even when working with 8 GPUs.",
+      "section": "REFERENCES",
+      "char_count": 1093,
+      "chunk_index": 55,
+      "page_numbers": [
+        13
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0056",
+      "source_id": "GPTQ_2022",
+      "text": "ing, the model is split by\ndistributing chunks of consecutive layers across GPUs. Importantly, in this setup the communication\ncosts are minimal, <5%of the total runtime even when working with 8 GPUs. This means almost\nall of the reported speedups are due to our quantized-matrix full-precision vector product kernels.\nWe emphasize that the only difference between the FP16 baseline and our quantized models are the\nkernels used to perform the underlying matrix-vector products.\nThis means all overheads due to HuggingFace, attention or non-quantized operations like residuals\nor LayerNorms are exactly the same. Consequently, our quantized models should benefit from more\nadvanced distribution strategies (Zheng et al., 2022) or more efficient attention kernels (Dao et al.,\n2022) just as much as our baseline.\nIn general, our kernels target generative inference in the low batch-size setting (for simplicity, we\nconsider only batchsize 1) where the underlying (close to) matrix-vector products are memory-\nbound. For non-generative and large-batch applications, operations may be compute- rather than\nmemory-bound and our kernels thus not directly applicable.",
+      "section": "REFERENCES",
+      "char_count": 1161,
+      "chunk_index": 56,
+      "page_numbers": [
+        13
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0057",
+      "source_id": "GPTQ_2022",
+      "text": "(close to) matrix-vector products are memory-\nbound. For non-generative and large-batch applications, operations may be compute- rather than\nmemory-bound and our kernels thus not directly applicable. Instead, one could simply decompress\nthe matrix before performing the corresponding matrix-matrix calculations: this takes <1.5ms on\nan A100 and <3ms on an A6000 compared to 76ms/365ms for the subsequent OPT-175B FC2 layer\ncomputation with batchsize 16\u00021024 tokens. Hence, for such applications our methods significantly\nreduce the required number of GPUs at very little computational overhead. This is similar to recent\nwork (Dettmers et al., 2022), but we achieve a 2:5\u0002higher compression rate.\n3\n4\n13\n\nPublished as a conference paper at ICLR 2023\nA.3 A DDITIONAL LANGUAGE GENERATION RESULTS\nTables 9, 10, 11 and 12 show additional results for language generation tasks.",
+      "section": "REFERENCES",
+      "char_count": 872,
+      "chunk_index": 57,
+      "page_numbers": [
+        13
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0058",
+      "source_id": "GPTQ_2022",
+      "text": "higher compression rate.\n3\n4\n13\n\nPublished as a conference paper at ICLR 2023\nA.3 A DDITIONAL LANGUAGE GENERATION RESULTS\nTables 9, 10, 11 and 12 show additional results for language generation tasks.\nOPT Bits 125M 350M 1.3B 2.7B 6.7B 13B 30B 66B 175B\nfull 16 38.99 31.08 20.29 17.97 15.77 14.52 14.04 13.36 12.01\nRTN 4 53.89 36.79 57.30 31.05 18.84 16.51 15.40 225.66 14.22\nGPTQ 4 45.17 34.52 21.85 19.14 16.56 14.94 14.26 13.81 12.26\nRTN 3 1.4e3 88.04 1.3e4 1.4e4 5.7e3 2.8e3 1.2e3 5.0e3 8.0e3\nGPTQ 3 73.19 47.08 32.10 24.81 21.88 16.68 15.36 28.12 12.86\nTable 9: OPT perplexity results on PTB.\nBLOOM Bits 560M 1.1B 1.7B 3B 7.1B 176B\nfull 16 43.69 57.96 30.00 25.34 20.83 14.59\nRTN 4 51.10 66.85 33.58 27.68 22.42 15.00\nGPTQ 4 46.97 62.47 31.84 26.49 21.67 14.75\nRTN 3 126. 185. 106. 66.78 35.04 107.\nGPTQ 3 70.35 87.04 46.11 34.02 26.14 15.57\nTable 10: BLOOM perplexity results for PTB.\nOPT Bits 125M 350M 1.3B 2.7B 6.7B 13B 30B 66B 175B\nfull 16 26.56 22.59 16.07 14.34 12.71 12.06 11.44 10.99 10.13\nRTN 4 33.91 26.21 24.51 18.43 14.36 13.36 13.46 309.",
+      "section": "REFERENCES",
+      "char_count": 1055,
+      "chunk_index": 58,
+      "page_numbers": [
+        13
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0059",
+      "source_id": "GPTQ_2022",
+      "text": "BLOOM perplexity results for PTB.\nOPT Bits 125M 350M 1.3B 2.7B 6.7B 13B 30B 66B 175B\nfull 16 26.56 22.59 16.07 14.34 12.71 12.06 11.44 10.99 10.13\nRTN 4 33.91 26.21 24.51 18.43 14.36 13.36 13.46 309. 11.61\nGPTQ 4 29.22 24.63 16.97 15.00 13.18 12.26 11.57 11.23 10.28\nRTN 3 834 55.49 5.2e3 1.1e4 5.3e3 3.1e3 1.4e3 3.5e3 4.6e3\nGPTQ 3 42.41 31.33 21.63 18.17 17.14 13.34 12.23 14.59 10.67\nTable 11: OPT perplexity results on C4. We note that the calibration data used by GPTQ is sampled\nfrom the C4 training set, this task is thus not fully zero-shot.\nBLOOM Bits 560M 1.1B 1.7B 3B 7.1B 176B\nfull 16 26.60 22.05 19.49 17.49 15.20 11.71\nRTN 4 29.89 24.44 21.26 18.76 16.06 12.04\nGPTQ 4 28.00 23.25 20.55 18.10 15.60 11.81\nRTN 3 67.49 60.71 113. 80.49 22.59 598.\nGPTQ 3 35.78 28.83 25.34 21.25 17.67 12.27\nTable 12: BLOOM perplexity results for C4. We note that the calibration data used by GPTQ is\nsampled from the C4 training set, this task is thus not fully zero-shot.\n14\n\nPublished as a conference paper at ICLR 2023\nA.4 A DDITIONAL ZEROSHOT RESULTS\nThis section contains additional results for zero-shot tasks.",
+      "section": "REFERENCES",
+      "char_count": 1109,
+      "chunk_index": 59,
+      "page_numbers": [
+        14
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0060",
+      "source_id": "GPTQ_2022",
+      "text": "C4 training set, this task is thus not fully zero-shot.\n14\n\nPublished as a conference paper at ICLR 2023\nA.4 A DDITIONAL ZEROSHOT RESULTS\nThis section contains additional results for zero-shot tasks.\nOPT Bits 125M 350M 1.3B 2.7B 6.7B 13B 30B 66B 175B\nfull 16 39.16 46.67 58.80 64.82 68.72 70.23 72.39 74.93 75.59\nRTN 4 18.34 40.62 36.31 59.27 64.66 67.38 70.48 13.08 71.34\nGPTQ 4 34.74 48.38 56.45 62.97 66.37 69.12 72.40 74.50 76.80\nRTN 3 0.10 27.36 0.00 0.00 0.00 0.06 1.46 2.00 0.00\nGPTQ 3 13.93 32.31 37.26 52.26 54.98 64.18 69.69 57.02 76.19\nTable 13: OPT accuracy on LAMBADA.\nBLOOM Bits 560M 1.1B 1.7B 3B 7.1B 176B\nfull 16 34.06 42.85 46.71 52.12 57.79 67.40\nRTN 4 26.00 39.06 41.92 45.84 50.48 66.70\nGPTQ 4 31.75 39.80 46.28 51.41 54.65 67.71\nRTN 3 9.10 15.95 15.02 24.55 29.90 0.17\nGPTQ 3 21.31 28.70 33.65 43.12 47.41 65.10\nTable 14: BLOOM accuracy on LAMBADA.",
+      "section": "REFERENCES",
+      "char_count": 869,
+      "chunk_index": 60,
+      "page_numbers": [
+        14
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0061",
+      "source_id": "GPTQ_2022",
+      "text": "4 26.00 39.06 41.92 45.84 50.48 66.70\nGPTQ 4 31.75 39.80 46.28 51.41 54.65 67.71\nRTN 3 9.10 15.95 15.02 24.55 29.90 0.17\nGPTQ 3 21.31 28.70 33.65 43.12 47.41 65.10\nTable 14: BLOOM accuracy on LAMBADA.\nOPT Bits 125M 350M 1.3B 2.7B 6.7B 13B 30B 66B 175B\nfull 16 62.02 64.74 72.36 74.81 76.39 76.88 78.18 79.76 81.07\nRTN 4 61.43 63.44 67.63 73.72 76.44 76.01 77.26 60.07 78.23\nGPTQ 4 61.26 63.71 70.73 73.99 76.28 76.61 79.00 79.33 81.00\nRTN 3 56.09 60.61 52.77 51.90 50.49 52.99 56.37 50.87 51.25\nGPTQ 3 59.25 61.32 68.34 71.38 73.29 75.24 77.58 71.27 80.03\nTable 15: OPT accuracy on PIQA.\nBLOOM Bits 560M 1.1B 1.7B 3B 7.1B 176B\nfull 16 65.07 67.14 69.97 70.51 73.72 79.16\nRTN 4 63.11 65.29 67.74 69.86 72.69 79.00\nGPTQ 4 64.31 66.05 68.77 69.42 72.96 79.00\nRTN 3 58.60 60.80 60.88 66.28 69.70 53.32\nGPTQ 3 61.62 62.62 65.18 68.34 70.95 77.70\nTable 16: BLOOM accuracy on PIQA.",
+      "section": "REFERENCES",
+      "char_count": 874,
+      "chunk_index": 61,
+      "page_numbers": [
+        15
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0062",
+      "source_id": "GPTQ_2022",
+      "text": "4 63.11 65.29 67.74 69.86 72.69 79.00\nGPTQ 4 64.31 66.05 68.77 69.42 72.96 79.00\nRTN 3 58.60 60.80 60.88 66.28 69.70 53.32\nGPTQ 3 61.62 62.62 65.18 68.34 70.95 77.70\nTable 16: BLOOM accuracy on PIQA.\nOPT Bits 125M 350M 1.3B 2.7B 6.7B 13B 30B 66B 175B\nfull 16 39.69 40.36 50.93 54.34 60.14 61.83 65.40 67.26 71.04\nRTN 4 36.32 38.55 49.20 52.90 57.68 61.31 61.11 40.66 63.93\nGPTQ 4 39.02 37.92 59.97 53.11 59.72 61.32 65.11 65.35 68.69\nRTN 3 30.43 36.07 27.97 26.05 25.04 30.60 34.22 25.84 26.77\nGPTQ 3 36.15 36.91 46.17 48.19 53.41 56.82 59.72 52.44 65.36\nTable 17: OPT accuracy on ARC-easy.\n15\n\nPublished as a conference paper at ICLR 2023\nBLOOM Bits 560M 1.1B 1.7B 3B 7.1B 176B\nfull 16 41.71 45.41 48.11 53.24 57.37 67.47\nRTN 4 39.40 42.51 44.70 51.35 56.14 66.33\nGPTQ 4 40.24 44.49 44.49 52.82 56.14 67.42\nRTN 3 45.44 46.87 37.58 45.08 48.61 28.87\nGPTQ 3 39.14 41.79 42.85 46.63 51.56 62.84\nTable 18: BLOOM accuracy on ARC-easy.",
+      "section": "REFERENCES",
+      "char_count": 930,
+      "chunk_index": 62,
+      "page_numbers": [
+        15
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0063",
+      "source_id": "GPTQ_2022",
+      "text": "9.40 42.51 44.70 51.35 56.14 66.33\nGPTQ 4 40.24 44.49 44.49 52.82 56.14 67.42\nRTN 3 45.44 46.87 37.58 45.08 48.61 28.87\nGPTQ 3 39.14 41.79 42.85 46.63 51.56 62.84\nTable 18: BLOOM accuracy on ARC-easy.\nOPT Bits 125M 350M 1.3B 2.7B 6.7B 13B 30B 66B 175B\nfull 16 22.87 24.06 29.44 31.31 34.56 35.75 38.14 40.02 43.94\nRTN 4 22.44 23.81 24.91 29.18 32.59 35.24 35.41 22.87 37.71\nGPTQ 4 22.95 24.83 28.24 30.12 33.70 34.90 37.80 39.16 42.75\nRTN 3 21.76 22.18 23.55 25.43 25.85 23.81 19.97 25.77 23.81\nGPTQ 3 22.53 25.09 27.65 27.82 31.91 33.02 35.84 31.66 41.04\nTable 19: OPT accuracy on ARC-challenge.\nBLOOM Bits 560M 1.1B 1.7B 3B 7.1B 176B\nfull 16 24.15 25.68 26.79 30.55 33.45 44.97\nRTN 4 23.89 23.34 26.45 29.52 32.17 43.17\nGPTQ 4 23.46 25.51 25.94 28.92 32.25 44.20\nRTN 3 21.67 22.86 23.29 27.13 31.31 24.74\nGPTQ 3 23.21 24.06 24.91 28.58 30.97 40.70\nTable 20: BLOOM accuracy on ARC-challenge.",
+      "section": "REFERENCES",
+      "char_count": 892,
+      "chunk_index": 63,
+      "page_numbers": [
+        16
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0064",
+      "source_id": "GPTQ_2022",
+      "text": "23.34 26.45 29.52 32.17 43.17\nGPTQ 4 23.46 25.51 25.94 28.92 32.25 44.20\nRTN 3 21.67 22.86 23.29 27.13 31.31 24.74\nGPTQ 3 23.21 24.06 24.91 28.58 30.97 40.70\nTable 20: BLOOM accuracy on ARC-challenge.\nOPT Bits 125M 350M 1.3B 2.7B 6.7B 13B 30B 66B 175B\nfull 16 59.96 63.21 70.78 71.74 74.60 76.64 77.28 77.34 79.82\nRTN 4 60.02 63.08 59.13 70.78 73.65 74.47 75.37 51.24 78.04\nGPTQ 4 59.58 63.46 69.64 70.46 73.90 76.19 77.08 77.15 80.08\nRTN 3 49.65 56.78 47.61 46.98 48.12 49.20 49.84 48.19 46.47\nGPTQ 3 57.03 60.15 65.25 68.43 70.97 73.07 75.68 71.23 78.04\nTable 21: OPT accuracy on StoryCloze.\nBLOOM Bits 560M 1.1B 1.7B 3B 7.1B 176B\nfull 16 61.94 63.27 65.44 67.79 71.99 76.89\nRTN 4 60.15 60.66 62.95 67.09 70.72 76.00\nGPTQ 4 61.17 62.32 64.48 67.22 71.36 76.32\nRTN 3 54.87 56.08 55.79 59.83 66.20 48.50\nGPTQ 3 57.80 59.77 61.81 63.97 69.26 75.37\nTable 22: BLOOM accuracy on StoryCloze.\n16",
+      "section": "REFERENCES",
+      "char_count": 889,
+      "chunk_index": 64,
+      "page_numbers": [
+        16
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    },
+    {
+      "chunk_id": "GPTQ_2022_chunk_0065",
+      "source_id": "GPTQ_2022",
+      "text": ".50\nGPTQ 3 57.80 59.77 61.81 63.97 69.26 75.37\nTable 22: BLOOM accuracy on StoryCloze.\n16",
+      "section": "REFERENCES",
+      "char_count": 89,
+      "chunk_index": 65,
+      "page_numbers": [
+        16
+      ],
+      "source_file": "GPTQ_2022_2210_17323.pdf",
+      "total_source_pages": 16
+    }
+  ]
+}

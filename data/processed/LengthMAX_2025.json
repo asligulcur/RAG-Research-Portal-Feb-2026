@@ -1,0 +1,1026 @@
+{
+  "source_id": "LengthMAX_2025",
+  "metadata": {
+    "title": "Length-MAX Tokenizer for Language Models",
+    "authors": "Research Team",
+    "year": "2025",
+    "venue": "arXiv",
+    "url": "https://arxiv.org/abs/2511.20849",
+    "source_type": "peer-reviewed",
+    "relevance_note": "Novel tokenization approach for efficiency (Nov 25, 2025)"
+  },
+  "pdf_metadata": {
+    "title": "Length-MAX Tokenizer for Language Models",
+    "author": "Dong Dong; Weijie Su",
+    "total_pages": 29
+  },
+  "statistics": {
+    "total_pages": 29,
+    "total_chunks": 77,
+    "avg_chunk_size": 1029.3896103896104,
+    "ingestion_timestamp": "2026-02-02T19:04:02.493524"
+  },
+  "chunks": [
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0000",
+      "source_id": "LengthMAX_2025",
+      "text": "Abstract\nWe introduce a new tokenizer for language models that minimizes the average tokens per\ncharacter, thereby reducing the number of tokens needed to represent text during training\nand to generate text during inference. Our method, which we refer to as the Length-MAX\ntokenizer, obtains its vocabulary by casting a length-weighted objective maximization as a\ngraph partitioning problem and developing a greedy approximation algorithm. On FineWeb\nand diverse domains, it yields 14–18% fewer tokens than Byte Pair Encoding (BPE) across\nvocabulary sizes from 10K to 50K, and the reduction is 13.0% when the size is 64K. Training\nGPT-2 models at 124M, 355M, and 1.3B parameters from scratch with five runs each shows\n18.5%, 17.2%, and 18.5% fewer steps, respectively, to reach a fixed validation loss, and 13.7%,\n12.7%, and 13.7% lower inference latency, together with a 16% throughput gain at 124M, while\nconsistentlyimprovingondownstreamtasksincludingreducingLAMBADAperplexityby11.7%\nand enhancing HellaSwag accuracy by 4.3%. Moreover, the Length-MAX tokenizer achieves\n99.62% vocabulary coverage and the out-of-vocabulary rate remains low at 0.12% on test sets.",
+      "section": "Abstract",
+      "char_count": 1165,
+      "chunk_index": 0,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0001",
+      "source_id": "LengthMAX_2025",
+      "text": "BADAperplexityby11.7%\nand enhancing HellaSwag accuracy by 4.3%. Moreover, the Length-MAX tokenizer achieves\n99.62% vocabulary coverage and the out-of-vocabulary rate remains low at 0.12% on test sets.\nTheseresultsdemonstratethatoptimizingforaveragetokenlength, ratherthanfrequencyalone,\noffers an effective approach to more efficient language modeling without sacrificing—and often\nimproving—downstream performance. The tokenizer is compatible with production systems\nand reduces embedding and KV-cache memory by 18% at inference.",
+      "section": "Abstract",
+      "char_count": 530,
+      "chunk_index": 1,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0002",
+      "source_id": "LengthMAX_2025",
+      "text": "1 Introduction\nTokenization, the segmentation of text into discrete units, shapes both the computational efficiency\nand representational quality of modern language models (Jurafsky and Martin, 2009; Rust et al.,\n2020). Since the introduction of Byte Pair Encoding (BPE) (Sennrich et al., 2016), the dominant\nparadigm has centered on frequency-driven merging: iteratively combining the most common sym-\nbol pairs to construct compact vocabularies. BPE and its variants have succeeded across diverse\napplications, but they share a common limitation. By prioritizing token frequency above all else,\nthese methods favor short, high-frequency substrings, fragmenting text into longer token sequences\nthan necessary. Because attention complexity scales quadratically with sequence length, this frag-\nmentation increases training time, inference latency, and memory consumption. Longer sequences\nalso hinder models from maintaining long-range dependencies, degrading performance on tasks that\nrequire reasoning across extended contexts (Child et al., 2019; Press et al., 2020; Clark et al., 2022).\nWe introduce Length-MAX, a tokenizer that optimizes a length-weighted objective rather than\nfrequency alone.",
+      "section": "1 Introduction",
+      "char_count": 1199,
+      "chunk_index": 2,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0003",
+      "source_id": "LengthMAX_2025",
+      "text": "ning across extended contexts (Child et al., 2019; Press et al., 2020; Clark et al., 2022).\nWe introduce Length-MAX, a tokenizer that optimizes a length-weighted objective rather than\nfrequency alone. Length-MAX maximizes the product score(t) =freq(t)× |t|, rewarding longer\nsubstrings that maintain high corpus coverage. On FineWeb across vocabulary sizes from 10k to\n50k, Length-MAX reduces tokens per character (TPC) by 14-18% compared to BPE. Training\nGPT-2 models at 124M, 355M, and 1.3B parameters from scratch (five runs each) shows 18.5%,\n17.2%, and 18.5% fewer steps to reach a fixed validation loss, and 13.7%, 12.7%, and 13.7% lower\n1arXiv:2511.20849v1 [cs.CL] 25 Nov 2025\n\ninference latency, with 16% throughput gain at 124M. Memory consumption for embeddings and\nkey-value caches falls by 18%. On downstream tasks, LAMBADA perplexity decreases by 11.7%\nand HellaSwag accuracy increases by 4.3 points.\nAt 64k and 100k vocabularies, TPC reductions remain at 13.0% and 9.8% respectively. A\nFLOPs-based scaling curve suggests similar efficiency gains at 7B parameters.",
+      "section": "1 Introduction",
+      "char_count": 1077,
+      "chunk_index": 3,
+      "page_numbers": [
+        1
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0004",
+      "source_id": "LengthMAX_2025",
+      "text": "ag accuracy increases by 4.3 points.\nAt 64k and 100k vocabularies, TPC reductions remain at 13.0% and 9.8% respectively. A\nFLOPs-based scaling curve suggests similar efficiency gains at 7B parameters. Our length-weighted\nobjective operates on a different dimension than boundary-aware methods such as SuperBPE (Liu\net al., 2025), making the two approaches orthogonal and potentially complementary.\nFigure 1: Scaling Trends of Long-Range Understanding for Length-MAX vs. BPE. The figure\ncompares Length-MAX (blue line) against a standard BPE baseline (red line) across three model\nsizes(124M,355M,and1.3B)andtheircorrespondingoptimaltrainingdatasizes. Thefoursubplots\nshow: (a) Training Efficiency, measured in thousands of training steps to reach a target loss (lower\nis better); (b) Tokenization Efficiency for a 50k vocabulary, measured in TPC (lower is better);\n(c) Long-Range Reasoning, measured by MNLI accuracy (higher is better); and (d) Long-Range\nDependency, measured by LAMBADA perplexity (lower is better). Gray boxes indicate the relative\nimprovement of Length-MAX over the BPE baseline at each model size, showing that advantages\nare substantial and persist across scales.",
+      "section": "1 Introduction",
+      "char_count": 1185,
+      "chunk_index": 4,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0005",
+      "source_id": "LengthMAX_2025",
+      "text": "DA perplexity (lower is better). Gray boxes indicate the relative\nimprovement of Length-MAX over the BPE baseline at each model size, showing that advantages\nare substantial and persist across scales.\nWe formalize the problem as maximizing length-weighted coverage over a corpus, which we\ndemonstrate is NP-hard through reduction to graph partitioning (Garey and Johnson, 1979). We\ndevelop a greedyO(N)approximation algorithm using a scoreboard architecture with Rabin-Karp\nrolling hash (Karp and Rabin, 1987). This design enables parallel processing across hundreds of\nCPU cores, achieving 87% efficiency at 256 cores. Trained vocabularies compile into deterministic\nfinite automata (DFAs) that decode 3-4 times faster than naive approaches. Zipf alignment analysis\nshowsthatLength-MAXpreservesthepower-lawfrequencystructureknowntocorrelatewithmodel\n2\n\nquality (R2= 0.941,α= 0.95±0.02).\nThis work makes several contributions. First, we propose a length-weighted objective that\noptimizes freq(t)× |t|rather than frequency alone. Second, we formalize the problem as NP-hard\ngraph partitioning and develop a greedyO(N)approximation with monotonicity guarantees.",
+      "section": "1 Introduction",
+      "char_count": 1159,
+      "chunk_index": 5,
+      "page_numbers": [
+        2
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0006",
+      "source_id": "LengthMAX_2025",
+      "text": "ted objective that\noptimizes freq(t)× |t|rather than frequency alone. Second, we formalize the problem as NP-hard\ngraph partitioning and develop a greedyO(N)approximation with monotonicity guarantees. Third,\nwe present a production-ready implementation with scoreboard-based parallelism (87% efficiency\nat 256 cores) and DFA-based decoding (3-4×faster). Fourth, we demonstrate that Length-MAX\nreduces TPC by 14-18%, accelerates training by 18.5% at 124M (p <0.001), lowers inference\nlatency by 13.7%, and cuts memory by 18%, validated across five independent runs. Finally, we\nshow through Zipf alignment analysis (R2= 0.941,α= 0.95±0.02) that these improvements\npreserve the power-law structure known to correlate with model quality.",
+      "section": "1 Introduction",
+      "char_count": 734,
+      "chunk_index": 6,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0007",
+      "source_id": "LengthMAX_2025",
+      "text": "2 Related Work\nSubwordtokenization.Moderntokenizationreliesondata-drivensubwordmethods: BPE(Sen-\nnrich et al., 2016), WordPiece (Schuster and Nakajima, 2012), and SentencePiece (Kudo and\nRichardson, 2018). These methods handle out-of-vocabulary (OOV) words gracefully by decom-\nposing unseen terms into known subword units. However, their frequency-driven merge strategies\nfavor short, high-frequency fragments, fragmenting text into longer sequences. This increases at-\ntention complexity quadratically and slows both training and inference (Child et al., 2019; Press\net al., 2020; Clark et al., 2022).\nLinguistically informed methods.Methods like MorphPiece (Jabbar, 2023), FLOTA (Hof-\nmann et al., 2022), and SuperBPE (Liu et al., 2025) incorporate linguistic structure into tokeniza-\ntion. Recent work by Liu et al. (2025) employs curriculum learning to construct “superwords”\nspanning word boundaries, achieving 33% sequence length reduction at 200k vocabularies. Su-\nperBPE’sboundary-awareheuristicsandourlength-weightedobjectiveaddressdifferentdimensions:\nSuperBPE refines which substrings to prioritize through linguistic boundaries, while Length-MAX\noptimizes directly for substring length.",
+      "section": "2 Related Work",
+      "char_count": 1199,
+      "chunk_index": 7,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0008",
+      "source_id": "LengthMAX_2025",
+      "text": "isticsandourlength-weightedobjectiveaddressdifferentdimensions:\nSuperBPE refines which substrings to prioritize through linguistic boundaries, while Length-MAX\noptimizes directly for substring length. These approaches are orthogonal and potentially comple-\nmentary.\nEngineering and systems.On the systems front, recent high-performance libraries such as\ntokenizers-fast, SentencePiece-parallel, and tiktoken have pushed the boundaries of what is compu-\ntationally feasible, exploiting SIMD instructions and multithreading to accelerate BPE training and\ninference. Yet even these optimized implementations face a fundamental bottleneck: the sequen-\ntial dependency inherent to merge-based algorithms prevents truly linear scaling when distributed\nacross many nodes or cores. Meanwhile, graph-based approaches to text segmentation have been\nexplored primarily in the context of phrase mining (Phillips et al., 2019), where they operate at\nparagraph scale and offer few guarantees when applied to corpus-level vocabulary construction.",
+      "section": "2 Related Work",
+      "char_count": 1031,
+      "chunk_index": 8,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0009",
+      "source_id": "LengthMAX_2025",
+      "text": "ve been\nexplored primarily in the context of phrase mining (Phillips et al., 2019), where they operate at\nparagraph scale and offer few guarantees when applied to corpus-level vocabulary construction. The\napplication of efficient substring matching techniques, such as Rabin-Karp rolling hash (Karp and\nRabin, 1987), has been well-studied in classical string processing but has rarely been leveraged for\nlarge-scale tokenization, an opportunity we exploit in our implementation.\nEvaluation metrics and token-free alternatives.The evaluation landscape for tokenizers\nhas traditionally focused on compression efficiency and downstream task performance (Bostrom\nand Durrett, 2020; Toraman et al., 2023; Ali et al., 2023), with relatively little attention paid to\ninfrastructure-level metrics such as GPU-hour savings, end-to-end latency, or memory consump-\ntion. Rust et al. (2020) have begun to address this gap, examining how tokenization choices ripple\n3\n\nthrough model training and deployment.",
+      "section": "2 Related Work",
+      "char_count": 994,
+      "chunk_index": 9,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0010",
+      "source_id": "LengthMAX_2025",
+      "text": "as GPU-hour savings, end-to-end latency, or memory consump-\ntion. Rust et al. (2020) have begun to address this gap, examining how tokenization choices ripple\n3\n\nthrough model training and deployment. A particular concern is that shorter tokens lengthen\nsequences, creating computational bottlenecks in attention-based architectures where complexity\nscales superlinearly with sequence length (Child et al., 2019; Press et al., 2020; Clark et al., 2022).\nOur position.Length-MAX departs from the frequency-centric paradigm in two respects. First,\nour length-weighted objective rewards longer, high-coverage substrings, countering the short-token\nbias. Second, the scoreboard-based implementation eliminates sequential merge dependencies, en-\nabling parallel training across hundreds of CPU cores. These design choices position Length-MAX\nas complementary to both boundary-aware linguistic methods and token-free alternatives.\nDistributionmetricsandrecentadvances.Aseparatethreadofresearchhasexploredwhether\nthe distributional properties of vocabularies can serve as quality predictors.",
+      "section": "2 Related Work",
+      "char_count": 1084,
+      "chunk_index": 10,
+      "page_numbers": [
+        3
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0011",
+      "source_id": "LengthMAX_2025",
+      "text": "tic methods and token-free alternatives.\nDistributionmetricsandrecentadvances.Aseparatethreadofresearchhasexploredwhether\nthe distributional properties of vocabularies can serve as quality predictors. Studies have proposed\ndistribution-sensitive criteria such as Rényi entropy (Zouhar et al., 2023) to identify and penalize\nvocabularies with overly skewed frequency distributions. However, Goldman et al. (2024), Downey\net al. (2024), and Cognetta et al. (2024) have challenged this approach through counterexamples\ndemonstrating that distribution shape alone does not reliably predict downstream performance.\nSequence-level compression and task-specific alignment appear to matter more than abstract distri-\nbutional metrics. Meanwhile, variants of BPE such as the recent SuperBPE (Liu et al., 2025) have\nexplored how boundary awareness and cross-space “superwords” can reduce token counts substan-\ntially at large vocabularies, though these methods typically retain frequency as their primary opti-\nmization target.",
+      "section": "2 Related Work",
+      "char_count": 1017,
+      "chunk_index": 11,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0012",
+      "source_id": "LengthMAX_2025",
+      "text": "w boundary awareness and cross-space “superwords” can reduce token counts substan-\ntially at large vocabularies, though these methods typically retain frequency as their primary opti-\nmization target. Length-MAX departs more fundamentally by optimizing the product freq(t)× |t|\nrather than freq(t)alone, making it orthogonal to boundary-aware heuristics and suggesting poten-\ntial for combination.\nToken-free alternatives and vocabulary scaling.Beyond incremental improvements to sub-\nword tokenization, a more radical alternative has emerged in token-free encoders. Models such\nas CANINE and ByT5 (Xue et al., 2022; Clark et al., 2022) operate directly on bytes or charac-\nters, eliminating vocabulary construction entirely. More recent byte-level architectures, notably the\nByte Latent Transformer (BLT) (Pagnoni et al., 2025), have demonstrated that such approaches\ncan match the quality of subword-based models at scale while reducing inference FLOPs, though\nthey require architectural modifications that limit drop-in compatibility with existing systems.",
+      "section": "2 Related Work",
+      "char_count": 1059,
+      "chunk_index": 12,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0013",
+      "source_id": "LengthMAX_2025",
+      "text": "pproaches\ncan match the quality of subword-based models at scale while reducing inference FLOPs, though\nthey require architectural modifications that limit drop-in compatibility with existing systems. Con-\ncurrently, systems work has begun exploring DFA-based decoding for BPE (Berglund et al., 2024)\nand GPU-parallel vocabulary construction (You, 2025), establishing stronger baselines for absolute\nthroughput comparisons. Tao et al. (2024) further complicate the picture with analyses of vocab-\nulary scaling laws, arguing that optimal vocabulary size increases with model scale and compute\nbudget. This perspective complements our work: while we demonstrate Length-MAX’s benefits at\n10k-100k vocabularies on 124M/355M parameter models, the same length-aware principle can in\nprinciple be applied to the larger vocabularies appropriate for larger models. We therefore avoid\nmaking universal claims and instead position Length-MAX as a complementary approach that can\nbe integrated with boundary-aware methods or even adapted for token-free architectures.",
+      "section": "2 Related Work",
+      "char_count": 1056,
+      "chunk_index": 13,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0014",
+      "source_id": "LengthMAX_2025",
+      "text": "We therefore avoid\nmaking universal claims and instead position Length-MAX as a complementary approach that can\nbe integrated with boundary-aware methods or even adapted for token-free architectures. Finally,\nemerging work on Zipf-alignment evaluations suggests that adherence to power-law frequency dis-\ntributions correlates with model quality; we verify in the Appendix that Length-MAX preserves\nthis Zipfian structure despite reallocating probability mass toward longer tokens.\n4\n\n3 Infrastructure Implementation\nThe Length-MAX tokenizer is not only an algorithmic contribution but also a production-ready\nlibrary optimized for large-scale corpora. This section details the system architecture, implementa-\ntion details, and mathematical guarantees.\n3.1 System Overview\nFigure 2 situates the Length-MAX tokenizer inside a standard LLM training pipeline. Upstream\ndata shards are first passed through our tokenizer, yielding a compact tokenised corpus that is\nthen fed to the Transformer trainer. The lower panel zooms in on the tokenizer itself, revealing its\nscoreboard-based greedy loop.",
+      "section": "2 Related Work",
+      "char_count": 1093,
+      "chunk_index": 14,
+      "page_numbers": [
+        4
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0015",
+      "source_id": "LengthMAX_2025",
+      "text": "ed through our tokenizer, yielding a compact tokenised corpus that is\nthen fed to the Transformer trainer. The lower panel zooms in on the tokenizer itself, revealing its\nscoreboard-based greedy loop.\nData shardsLength-MAX\nTokenizerTokenised corpusLLM training\n(Transformer)\nRaw UTF-8EOT\nseg.Rabin-Karp\nN-gramLocal\nscoreboard\nBest\ntokenGlobal\nmergeApply\ntoken\nFigure2: IntegratedviewoftheLLMtrainingpipeline(top)andtheinternalLength-MAXtokenizer\nworkflow (bottom). The tokenizer converts raw shards into a tokenised corpus via a scoreboard-\nbased greedy loop (e.g., grouping “the_United_States”), after which standard Transformer training\nproceeds.\n3.2 Tokenizer Workflow\nThetokenizerpathhighlightedinFigure2isexecutedfullyonCPUsandfollowsascoreboard-based,\nO(N)algorithm designed for horizontal scaling. Concretely, it proceeds as follows:\n1.Initialisewith single UTF-8 characters plus special tokens (<eot>for end-of-text,<pad>,\netc.).\n2.Shard and segmentthe corpus by EOT (end-of-text) boundaries so that each sequence is\nprocessed independently on a CPU worker.",
+      "section": "2 Related Work",
+      "char_count": 1065,
+      "chunk_index": 15,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0016",
+      "source_id": "LengthMAX_2025",
+      "text": "UTF-8 characters plus special tokens (<eot>for end-of-text,<pad>,\netc.).\n2.Shard and segmentthe corpus by EOT (end-of-text) boundaries so that each sequence is\nprocessed independently on a CPU worker.\n3.Enumerate n-grams: every worker slides a Rabin-Karp window (2≤n≤L max) over its\nshard and counts frequencies; candidates with frequency1are discarded.\n4.Local scoreboard: each worker keeps a max-heap of its topMcandidates ranked by the\nlength-weighted scoref(t)|t|.\n5.Global merge: the driver merges all local scoreboards inO(MlogK)and picks the global\nbest tokent∗(tie-break higherf(t)then longer|t|).\n6.Applyinplace:t∗isinsertedintothevocabularyandsubstitutedthroughoutshardswithout\nrescanning the raw bytes; affected scores are updated lazily.\n5\n\n7.Repeat & checkpoint: iterate steps 3-6 until the target vocabulary size is reached, check-\npointing the current vocab every five minutes for fault tolerance.\nQualitative example.The sentence below shows how Length-MAX groups multi-word phrases\ninto single tokens (spaces rendered as “_”).\nRaw: The United States is in the midst of a historic snowstorm.",
+      "section": "2 Related Work",
+      "char_count": 1107,
+      "chunk_index": 16,
+      "page_numbers": [
+        5
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0017",
+      "source_id": "LengthMAX_2025",
+      "text": "ance.\nQualitative example.The sentence below shows how Length-MAX groups multi-word phrases\ninto single tokens (spaces rendered as “_”).\nRaw: The United States is in the midst of a historic snowstorm.\nTokens (Length-MAX): [ The_United_States_ , is_ , in_the_midst_of_ , a_ , historic_\n, snowstorm, . ]\nTokens (BPE): [ The_ , United_ , States_ , is_ , in_ , the_ , midst_ , of_ , a_ ,\nhistoric_ , snowstorm , .]\nWhen the loop above is executed on the same corpus that the vocabulary is being trained on,\nthe apply-in-place substitution (step 6) continuously rewrites the shards. Hence the file set that\ndrops out after the final iteration is already tokenised - no second encoding pass is required.\nIf, instead, one wishes to freeze the trained vocabularyT⋆and later apply it to a different\ncorpus or to decode model outputs, we compileT⋆into a left-most-longest prefix trie. In regular-\nexpression form this is equivalent to an alternation over all tokens sorted by length descending,\ne.g.,token1|token2|...|tokenK. All tokens are escaped and sorted by length-descending so that\nthe regex engine always matches the longest available token before falling back to single characters.",
+      "section": "2 Related Work",
+      "char_count": 1180,
+      "chunk_index": 17,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0018",
+      "source_id": "LengthMAX_2025",
+      "text": "ing,\ne.g.,token1|token2|...|tokenK. All tokens are escaped and sorted by length-descending so that\nthe regex engine always matches the longest available token before falling back to single characters.\nIn practice we materialize the trie as a Rust DFA (deterministic finite automaton) via the regex-\nautomata crate, giving 3-4 times faster decoding than a simple left-to-right scan.\nThis workflow achieves linear time complexity with respect to corpus size; throughput scales\nnear-linearly with the number of CPU cores thanks to shard independence and SIMD-accelerated\ncounting.\n3.3 Longest Token Guarantee via Graph Partitioning\nWe provide a formal guarantee that the greedy procedure in Figure2 indeed drives token length\nupward. Denote the training corpus by a multiset of sequencesS={s 1, . . . , s |S|}and fix a target\nvocabulary sizeK. LetT={t 1, . . .",
+      "section": "2 Related Work",
+      "char_count": 857,
+      "chunk_index": 18,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0019",
+      "source_id": "LengthMAX_2025",
+      "text": "e that the greedy procedure in Figure2 indeed drives token length\nupward. Denote the training corpus by a multiset of sequencesS={s 1, . . . , s |S|}and fix a target\nvocabulary sizeK. LetT={t 1, . . . , t K}be any candidate vocabulary and define its length-weighted\ncoverage as\nAveLength(T) :=1\n|S|KX\nk=1|tk||S(t k)|, S(t) :={s∈S:sbegins witht}.(1)\nMaximising equation 1 can be cast as a graph partitioning problem (Phillips et al., 2019): construct\na fully-connected graph whose nodes are the sequences inSand whose edge weightW ss′equals\nthe length of the longest common prefix (LCP) of(s, s′). For anyK-partition{S 1, . . . , S K}let\nWmin(Sk) := min s,s′∈SkWss′; then\nmin\npartitionKX\nk=1|Sk|Wmin(Sk)(2)\nis equivalent to maximising equation 1. Because equation 2 is NP-hard, Length-MAX adopts a\ngreedy split algorithm: start from a character vocabulary and at each step split the subsetS kthat\nyields the greatest decrease in equation 2. IfS kis divided intoS′\nkandS′′\nk, the objective decreases\nby\n∆L=|S′\nk|Wmin(S′\nk) +|S′′\nk|Wmin(S′′\nk)− |S k|Wmin(Sk).\n6\n\nIn the common case whereS′′\nkkeeps the old prefix,∆L=|S′\nk|\u0000\nWmin(S′\nk)−Wmin(Sk)\u0001\n<0.",
+      "section": "2 Related Work",
+      "char_count": 1145,
+      "chunk_index": 19,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0020",
+      "source_id": "LengthMAX_2025",
+      "text": "is divided intoS′\nkandS′′\nk, the objective decreases\nby\n∆L=|S′\nk|Wmin(S′\nk) +|S′′\nk|Wmin(S′′\nk)− |S k|Wmin(Sk).\n6\n\nIn the common case whereS′′\nkkeeps the old prefix,∆L=|S′\nk|\u0000\nWmin(S′\nk)−Wmin(Sk)\u0001\n<0.\nBecause∆L<0at every greedy iteration, the value of equation 2 decreases monotonically and\nAveLength(T)therefore increases monotonically. The algorithm terminates afterK−|Σ|iterations\nwith a locally- optimal vocabularyT⋆satisfying\nAveLength(T(t+1))≥AveLength(T(t))for allt≥0.\nEmpirically, this local optimum already shortens sequences by 15% on RefinedWeb-1TB while re-\ntaining 99% vocabulary utilisation.\nFigure 3 visualises a concreteK= 2partition and how each term|S k|Wmin(Sk)is computed.\ns1\nthe␣quick␣brown␣fox\ns2\nthe␣quick␣brown␣dog\ns3\nthe␣quick␣red␣cars4\nshe␣sells␣sea␣shellss5\nshe␣sells␣sea␣weeds16\n10 1400\n00=⇒s1\nthe␣quick␣brown␣fox\ns2\nthe␣quick␣brown␣dog\ns3\nthe␣quick␣red␣cars4\nshe␣sells␣sea␣shellss5\nshe␣sells␣sea␣weeds16\n10 14\nFigure 3: Toy graph before (left) and after (right) partition.",
+      "section": "2 Related Work",
+      "char_count": 1001,
+      "chunk_index": 20,
+      "page_numbers": [
+        6
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0021",
+      "source_id": "LengthMAX_2025",
+      "text": "eds16\n10 1400\n00=⇒s1\nthe␣quick␣brown␣fox\ns2\nthe␣quick␣brown␣dog\ns3\nthe␣quick␣red␣cars4\nshe␣sells␣sea␣shellss5\nshe␣sells␣sea␣weeds16\n10 14\nFigure 3: Toy graph before (left) and after (right) partition. Left panel shows all pairwise edges\n(grey dashed) with weights; right panel retains only intra-cluster edges after applying our graph\npartition.",
+      "section": "2 Related Work",
+      "char_count": 345,
+      "chunk_index": 21,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0022",
+      "source_id": "LengthMAX_2025",
+      "text": "4 Experimental Evaluation\nExperimental setup.All tokenizers and models are trained on FineWeb (Penedo et al., 2024),\nan 18.5T-token corpus of cleaned and deduplicated English CommonCrawl widely used for training\ngeneral language models (LLMs). Specifically, we employ the official FineWeb-10B shard (27.6GB\ntext)for124Mmodels, 40GBfor355Mmodels, and150GBfor1.3Bmodelstoensurereproducibility.\nFor fair comparison, we retrained all baseline tokenizers (BPE, WordPiece, SentencePiece) on the\nsame corpus. All downstream evaluations use GPT-2 architectures (Radford et al., 2019) at 124M,\n355M, and 1.3B parameters trained from scratch with identical hyperparameters, varying only the\ntokenizer.\nOur experiments span five dimensions: tokenization efficiency, training and inference cost,\nthroughput and memory footprint, downstream quality, and robustness to noise. Throughout,\nwe report TPC, defined as the number of tokens divided by the number of characters; lower TPC\ncorresponds to better compression and shorter effective sequences for the same text.\n4.1 Tokenization Efficiency\nWe begin by measuring intrinsic compression metrics across vocabulary sizes and domains.",
+      "section": "4 Experimental Evaluation",
+      "char_count": 1169,
+      "chunk_index": 22,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0023",
+      "source_id": "LengthMAX_2025",
+      "text": "orresponds to better compression and shorter effective sequences for the same text.\n4.1 Tokenization Efficiency\nWe begin by measuring intrinsic compression metrics across vocabulary sizes and domains. The\nresults show that the length-weighted objective reduces TPC relative to frequency-only baselines\nacross all tested configurations.\n7\n\nAverage token length.Figure 4 plots TPC across vocabulary sizes ranging from 10k to 50k\non FineWeb10B. Length-MAX reduces TPC by 14-18% compared to BPE, SentencePiece, and\nWordPiece across this entire range.\n10 15 20 25 30 35 40 45 50\nVocabulary Size (k)1.01.11.21.31.41.51.61.71.8Tokens per Character ( )\nTPC across Vocabulary Sizes on FineWeb10B\n(lower is better)\nLength-MAX\nBPE\nSentencePiece\nWordPiece\nFigure 4: TPC across tokenizers and vocabulary sizes on the FineWeb10B training corpus. Length-\nMAX consistently achieves better compression than frequency-based baselines.",
+      "section": "4 Experimental Evaluation",
+      "char_count": 916,
+      "chunk_index": 23,
+      "page_numbers": [
+        7
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0024",
+      "source_id": "LengthMAX_2025",
+      "text": "BPE\nSentencePiece\nWordPiece\nFigure 4: TPC across tokenizers and vocabulary sizes on the FineWeb10B training corpus. Length-\nMAX consistently achieves better compression than frequency-based baselines.\nCross-domain compression.Table 1 complements the above analysis by reporting the average\nnumber of tokens required to encode passages from five representative domains, again showing a\nconsistent14-15%reductionrelativetoBPE.Toensureimprovementsdonotstemfrompathological\ndistributional shifts, Appendix Tables 17 and 19 report a Zipf alignment analysis showing that the\nZipf-like tail is preserved.\nVocabulary scaling.Beyond the 10-50k range, we extended the vocabulary size to 64k and 100k\n(detailed results in Appendix Table 12). The advantage persists at larger scales: at 64k, Length-\nMAX encodes the same text with 13.0% fewer tokens than BPE (TPC of 1.042 vs. 1.198); at 100k,\nwhere all methods converge toward word-level units, the reduction remains 9.8% (0.886 vs. 0.983).\nWe caution that Tao et al. (2024) demonstrate that optimal vocabulary size increases with model\nscale and compute budget.",
+      "section": "4 Experimental Evaluation",
+      "char_count": 1101,
+      "chunk_index": 24,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0025",
+      "source_id": "LengthMAX_2025",
+      "text": "onverge toward word-level units, the reduction remains 9.8% (0.886 vs. 0.983).\nWe caution that Tao et al. (2024) demonstrate that optimal vocabulary size increases with model\nscale and compute budget. For our 124M model, the predicted optimal vocabulary size is approx-\nimately 32k; thus, our 64k-100k experiments primarily demonstrate the algorithmic scalability of\nLength-MAX (i.e., computational tractability at large vocabularies) rather than optimal configu-\nrations for this model scale. These results should not be extrapolated to larger models without\nempirical validation, as the optimal vocabulary-model scale pairing likely differs. Nonetheless, even\na 10% token reduction at a 2,048-token context translates into processing roughly 205 fewer tokens\nper sequence, compounding to sizeable savings in large deployments.\nFor end-to-end library comparisons (construction and encoding), see Appendix Tables 20 and 21.\nAbsolute tokenizer construction and encoding baselines versus HuggingFace tokenizers are provided\nin Appendix Tables 20 and 21.\n8\n\nTable 1: Encoding efficiency comparison: average number of tokens required to encode standard\ntext passages (lower is better).",
+      "section": "4 Experimental Evaluation",
+      "char_count": 1181,
+      "chunk_index": 25,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0026",
+      "source_id": "LengthMAX_2025",
+      "text": "rsus HuggingFace tokenizers are provided\nin Appendix Tables 20 and 21.\n8\n\nTable 1: Encoding efficiency comparison: average number of tokens required to encode standard\ntext passages (lower is better).\nDomain Length-MAX BPE WordPiece SentencePiece\nNews 324.6 401.8 389.2 395.7\nTechnical 456.2 523.9 517.3 511.8\nLiterature 378.5 432.1 428.7 425.3\nConversation 285.3 342.7 339.5 336.1\nMixed 359.8 425.6 422.9 419.4\nAverage 360.9425.2 419.5 417.7\nScaling evidence.To assess how efficiency gains transfer across model scales, we trained models\nat 124M, 355M, and 1.3B parameters from scratch with identical hyperparameters (five independent\nruns each). For larger scales beyond our computational budget, we use analytical extrapolation:\nletrdenote the relative token reduction(N BPE−NLength-MAX )/NBPE; for a Transformer, attention\nFLOPs scale as(1−r)2and feed-forward as(1−r). Using measured data to calibrate the FLOPs-\nto-latency constant, we extrapolate to 7B parameters. The table below summarizes three measured\nscales and one analytical prediction.",
+      "section": "4 Experimental Evaluation",
+      "char_count": 1050,
+      "chunk_index": 26,
+      "page_numbers": [
+        8
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0027",
+      "source_id": "LengthMAX_2025",
+      "text": "feed-forward as(1−r). Using measured data to calibrate the FLOPs-\nto-latency constant, we extrapolate to 7B parameters. The table below summarizes three measured\nscales and one analytical prediction.\nTable 2: Scaling evidence with reduced TPC: measured results at 124M, 355M, and 1.3B (mean±std\nover five runs each), and FLOPs-based analytical prediction at 7B.\nModel Tokenizer TPC Steps (k) Latency (ms)∆(%)\n124M BPE 0.415 92.3±2.1 517±9 -\n124M Length-MAX 0.353 75.2±1.8 446±7−18.5/−13.7\n355M BPE 0.418 158.7±3.6 710±11 -\n355M Length-MAX 0.356 131.4±3.1 620±10−17.2/−12.7\n1.3B BPE 0.415 309±7.2 1050±16 -\n1.3B Length-MAX 0.357 252±6.4 905±14−18.5/−13.7\n7B (pred) BPE 0.416 587 2100 -\n7B (pred) Length-MAX 0.356 479 1810−18.4/−13.8\n4.2 Training and Inference Cost\nHavingestablishedthatLength-MAXcompressestextmoreefficiently, wenextexaminewhetherthis\ncompression translates into measurable gains in training and inference efficiency. All experiments\nused GPT-2 architectures at 124M, 355M, and 1.3B parameters trained from scratch with identical\nhyperparameters; results represent mean±std across five independent runs. Figure 6 provides a\nvisual overview of the efficiency metrics.",
+      "section": "4 Experimental Evaluation",
+      "char_count": 1182,
+      "chunk_index": 27,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0028",
+      "source_id": "LengthMAX_2025",
+      "text": ", 355M, and 1.3B parameters trained from scratch with identical\nhyperparameters; results represent mean±std across five independent runs. Figure 6 provides a\nvisual overview of the efficiency metrics.\nConvergence speed.We retrained GPT-2 124M from scratch on 15GB of open web text using\nboth tokenizers. Table 3 shows that the Length-MAX model reached a validation loss of 2.0 after\n75k steps, compared with 92k for BPE, corresponding to a 19% reduction in GPU-hours. Across\nfive independent runs with different random seeds, the average step reduction was 18.5% (75.2±1.8k\nvs. 92.3±2.1k;p <0.001), confirming statistical robustness.\n9\n\nFigure 5: Scaling trends for training steps (left) and inference latency (right) across model sizes.\nSolid points show measured results at 124M, 355M, and 1.3B parameters (mean±std over five runs);\ndashed line shows FLOPs-based analytical prediction at 7B. Length-MAX maintains consistent\nrelative gains across scales.",
+      "section": "4 Experimental Evaluation",
+      "char_count": 955,
+      "chunk_index": 28,
+      "page_numbers": [
+        9
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0029",
+      "source_id": "LengthMAX_2025",
+      "text": "measured results at 124M, 355M, and 1.3B parameters (mean±std over five runs);\ndashed line shows FLOPs-based analytical prediction at 7B. Length-MAX maintains consistent\nrelative gains across scales.\nSteps (k) GPU-hours Wall-clock (h)020406080100120Value92.3±2.1\n75.2±1.8120\n34\n28Training Cost (GPT-2 124M to loss 2.0)\n(lower is better)\nBPE\nLength-MAX\nLatency\n(ms)Throughput\n(tokens/s)0100200300400500Value517\n446±7\n1.98±0.04 2.30±0.05Inference Cost (1024 chars on A100)\n(latency , throughput )\nBPE\nLength-MAX\nFigure 6: Training and inference cost comparison. Left: Steps to convergence (validation loss 2.0).\nCenter: Inference latency. Right: Throughput. Length-MAX achieves consistent efficiency gains\nacross all metrics. Error bars show±1 std over five runs; lower is better for steps and latency,\nhigher is better for throughput.\n10\n\nTable 3: Training cost to reach a validation loss of 2.0 on GPT-2 124M. Metrics are averaged over\nfive independent runs.\nTokenizer Steps (k) GPU-hours Wall-clock (h)\nBPE 92.3±2.1 120 34\nLength-MAX 75.2±1.8 97 28\nSaving 18.5% 19.2% 17.6%\nInference latency.We measured wall-clock time to decode up to 1,024 characters (Radford\net al., 2019) on an NVIDIA A100.",
+      "section": "4 Experimental Evaluation",
+      "char_count": 1195,
+      "chunk_index": 29,
+      "page_numbers": [
+        10
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0030",
+      "source_id": "LengthMAX_2025",
+      "text": "lock (h)\nBPE 92.3±2.1 120 34\nLength-MAX 75.2±1.8 97 28\nSaving 18.5% 19.2% 17.6%\nInference latency.We measured wall-clock time to decode up to 1,024 characters (Radford\net al., 2019) on an NVIDIA A100. The Length-MAX model generated 2.30 tokens/s on average, a\n16% throughput improvement over the baseline (1.98 tokens/s), corresponding to a 13.7% latency\nreduction (446ms vs. 517ms; see Table 4). To assess statistical significance rigorously, we conducted\npaired bootstrap analysis with 10,000 resamples on identical prompts (Appendix Table 14), yielding\na mean latency difference of−71ms (Length-MAX faster) with a 95% confidence interval of [−79,\n−63] ms (p <0.001).\nTable 4: Inference cost on NVIDIA A100 (decoding 1,024 characters). Results are the mean±std\nof five runs. The latency reduction is statistically significant (p < 0.001, paired bootstrap).\nTokenizer Tokens/s↑Latency (ms)↓\nBPE 1.98±0.04 517±9\nLength-MAX 2.30±0.05 446±7\n4.3 Downstream Task Performance\nA central question is whether compression efficiency translates into downstream quality or merely\ntrades model performance for speed.",
+      "section": "4 Experimental Evaluation",
+      "char_count": 1104,
+      "chunk_index": 30,
+      "page_numbers": [
+        11
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0031",
+      "source_id": "LengthMAX_2025",
+      "text": "4 517±9\nLength-MAX 2.30±0.05 446±7\n4.3 Downstream Task Performance\nA central question is whether compression efficiency translates into downstream quality or merely\ntrades model performance for speed. To investigate this, we trained models that were configured\nidentically except for their tokenizers and evaluated them across standard benchmarks. All results\nrepresent averages over five independent training runs.\nGLUE benchmark.We evaluated both tokenizers on the GLUE benchmark suite, training iden-\ntically configured GPT-2 models that differed only in tokenization. Length-MAX achieved a macro-\naveraged score of 41.3 compared to 36.6 for BPE, with particularly strong gains on natural language\ninference tasks where RTE improved by 58% and QNLI by 49%. Table 5 presents the complete\nbreakdown across all eight tasks. These results represent averages over five independent runs; paired\nt-tests confirmed statistical significance atp <0.05for all tasks except CoLA and MRPC, which\nnonetheless showed positive trends (detailed statistics appear in the Appendix).",
+      "section": "4 Experimental Evaluation",
+      "char_count": 1066,
+      "chunk_index": 31,
+      "page_numbers": [
+        11
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0032",
+      "source_id": "LengthMAX_2025",
+      "text": "independent runs; paired\nt-tests confirmed statistical significance atp <0.05for all tasks except CoLA and MRPC, which\nnonetheless showed positive trends (detailed statistics appear in the Appendix).\nExtended evaluation.To assess generalization beyond GLUE, we conducted experiments on\nseven additional benchmarks spanning diverse capabilities: syntax (BLiMP), cloze completion\n(LAMBADA, StoryCloze), commonsense and physical reasoning (HellaSwag, PIQA), question an-\nswering (SQuAD), and pronoun resolution (WSC273). All experiments involved training five inde-\npendent models for each tokenizer to ensure statistical robustness. The results revealed consistent\nadvantages for Length-MAX, with particularly striking improvements on LAMBADA where per-\nplexity dropped by 11.7% (from 19.7±0.4 to 17.4±0.3) and on HellaSwag where accuracy increased\n11\n\nby 4.3 points (from 39.2±0.8 to 43.5±0.9). These gains suggest that longer, semantically coherent\ntokens help models maintain context over extended spans. Across all seven benchmarks, the macro\naverage improved by 2.9 points (59.9±0.4 vs. 57.0±0.4). Appendix Figure 9 and its accompanying\ntable provide detailed breakdowns for each benchmark.",
+      "section": "4 Experimental Evaluation",
+      "char_count": 1193,
+      "chunk_index": 32,
+      "page_numbers": [
+        11
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0033",
+      "source_id": "LengthMAX_2025",
+      "text": "ended spans. Across all seven benchmarks, the macro\naverage improved by 2.9 points (59.9±0.4 vs. 57.0±0.4). Appendix Figure 9 and its accompanying\ntable provide detailed breakdowns for each benchmark.\nTable 5: GLUE downstream accuracy for GPT-2 models with different tokenisers (percentage\nimprovements over BPE in parentheses). Improvements are statistically significant atp <0.05\n(paired t-test across five runs) for all tasks except CoLA and MRPC, which show positive trends.\nThe +4.7 point improvement in macro average (0.413 vs. 0.366) is statistically significant atp <\n0.01.\nTask Length-MAX BPE SentencePiece WordPiece\nRTE0.342 (+58%)0.216 0.255 (+18%) 0.229 (+6%)\nSST0.479 (+2%)0.468 0.471 (+1%) 0.465 (-1%)\nQQP0.238 (+30%)0.183 0.201 (+10%) 0.195 (+7%)\nWNLI0.412 (+7%)0.386 0.378 (-2%) 0.381 (-1%)\nMRPC0.693 (+4%)0.666 0.680 (+2%) 0.672 (+1%)\nCoLA 0.631 (+1%) 0.622 0.618 (-1%)0.637 (+2%)\nQNLI0.215 (+49%)0.144 0.168 (+17%) 0.157 (+9%)\nMNLI0.294 (+22%)0.241 0.262 (+9%) 0.255 (+6%)\nAverage 0",
+      "section": "4 Experimental Evaluation",
+      "char_count": 1000,
+      "chunk_index": 33,
+      "page_numbers": [
+        12
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0034",
+      "source_id": "LengthMAX_2025",
+      "text": "(-1%)\nMRPC0.693 (+4%)0.666 0.680 (+2%) 0.672 (+1%)\nCoLA 0.631 (+1%) 0.622 0.618 (-1%)0.637 (+2%)\nQNLI0.215 (+49%)0.144 0.168 (+17%) 0.157 (+9%)\nMNLI0.294 (+22%)0.241 0.262 (+9%) 0.255 (+6%)\nAverage 0.413 (+12.8%)0.366 0.379 (+3.7%) 0.374 (+2.2%)\nThe TinyStories benchmark (Eldan and Li, 2023) provides human-readable micro-stories and an\naccompanyingGPT-4rubricforgrammar, coherence, andnarrativestructure. Foreachtokenizerwe\ntrained an identical GPT-2 124M model and prompted it with the published TinyStories evaluation\nset. The generated continuations were then scored by GPT-4 following the official rubric. Fig-\nure 7 plots the average score across all rubric dimensions: Length-MAX (blue) versus BPE (grey).\nThe Length-MAX model is preferred in 85% of the test prompts, with particularly large margins\non coherence (+0.34) and grammaticality (+0.28). These results corroborate the hypothesis that\nlonger, semantically coherent tokens translate into more fluent generation without any architectural\nchange.\n4.4 Tokenizer Throughput and Memory Footprint\nTable 6 shows that longer tokens translate to 17-18% lower embedding+KV-cache memory at\nsequence length 2,048.",
+      "section": "4 Experimental Evaluation",
+      "char_count": 1168,
+      "chunk_index": 34,
+      "page_numbers": [
+        12
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0035",
+      "source_id": "LengthMAX_2025",
+      "text": "eneration without any architectural\nchange.\n4.4 Tokenizer Throughput and Memory Footprint\nTable 6 shows that longer tokens translate to 17-18% lower embedding+KV-cache memory at\nsequence length 2,048.\nTable 6: Embedding + KV cache memory (GB) for OPT-13B and Llama2-70B when using different\ntokenizers (sequence length 2048).\nModel BPE SentencePiece Length-MAX (ours)\nOPT-13B 2.43 2.372.00(−17%)\nLlama2-70B 11.2 10.99.1(−18%)\n4.5 Performance Engineering\nThis subsection details implementation optimizations that enable linear-time complexity and near-\nlinear scaling across CPU cores.\n12\n\nGrammar Creativity Consistency Plot Average\nEvaluation Dimension0246810GPT-4 Score (0-10) \n56 67\n66.75TinyStories Generation Quality: GPT-4 Evaluation\n(Length-MAX preferred in 85% of test prompts)\nBPE\nLength-MAXFigure 7: GPT-4 evaluation of TinyStories generation quality comparing models trained with BPE\ntokenizer vs. the Length-MAX tokenizer. Length-MAX is preferred in 85% of test prompts, with\nparticularly strong improvements in Consistency (+60%) and Grammar (+16.7%). Higher scores\ndenote better quality.",
+      "section": "4 Experimental Evaluation",
+      "char_count": 1101,
+      "chunk_index": 35,
+      "page_numbers": [
+        12
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0036",
+      "source_id": "LengthMAX_2025",
+      "text": "zer vs. the Length-MAX tokenizer. Length-MAX is preferred in 85% of test prompts, with\nparticularly strong improvements in Consistency (+60%) and Grammar (+16.7%). Higher scores\ndenote better quality.\n4.5.1 Single-Node Optimizations\nRolling-hash enumeration.We adapt the Rabin-Karp rolling hash (Karp and Rabin, 1987) to\nslide anL max-character window, amortizing substring hashing toO(1)time per character.\nSIMD vectorization.Frequency counters rely on 256-bit AVX2 instructions (SIMD: Single\nInstruction, Multiple Data) to process eight 32-bit hash values in parallel. On ARM platforms we\nrecompile with NEON intrinsics, achieving comparable throughput.\nCache-friendly scoreboard.We adopt a lock-free, open-addressing hash map that stores\n64-bit(hash,count)pairs contiguously, eliminating pointer chasing and reducing LLC misses by\n42 % relative to a naivestd::unordered_mapbaseline.\n4.5.2 Distributed Scaling Pipeline\nSharding strategy.We split the corpus by EOT boundaries so that n-gram patterns never cross\nshards, making shards fully independent. Optimal shard size is empirically 512 MB, balancing CPU\nutilization and I/O overhead.",
+      "section": "4 Experimental Evaluation",
+      "char_count": 1139,
+      "chunk_index": 36,
+      "page_numbers": [
+        13
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0037",
+      "source_id": "LengthMAX_2025",
+      "text": "We split the corpus by EOT boundaries so that n-gram patterns never cross\nshards, making shards fully independent. Optimal shard size is empirically 512 MB, balancing CPU\nutilization and I/O overhead.\nMap-Reduce aggregation.Each worker exports its topMscored n-grams (defaultM=\n50 000). The driver maintains a global min-heap to merge these lists inO(MlogK)time per\niteration, negligible compared to local counting.\nScalability results.Table 7 summarises near-linear speed-up from 1 to 256 CPU cores when\nprocessing the 1 TB RefinedWeb corpus.\nFault tolerance.Shards are immutable and idempotent, so failed workers can be relaunched\nwithout coordination. The driver checkpoints the current vocabulary every five minutes, enabling\nresume from intermediate snapshots.\n13\n\nTable 7: Distributed tokenisation throughput on RefinedWeb-1TB. Throughput is measured after\nwarm-up; speed-up is relative to 1 core.",
+      "section": "4 Experimental Evaluation",
+      "char_count": 903,
+      "chunk_index": 37,
+      "page_numbers": [
+        13
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0038",
+      "source_id": "LengthMAX_2025",
+      "text": "ery five minutes, enabling\nresume from intermediate snapshots.\n13\n\nTable 7: Distributed tokenisation throughput on RefinedWeb-1TB. Throughput is measured after\nwarm-up; speed-up is relative to 1 core.\nCPU cores Throughput (MB/s) Speed-up Efficiency (%)\n1 60 1.0 100\n2 118 1.97 98\n4 233 3.88 97\n8 463 7.72 96\n16 918 15.3 95\n32 1,810 30.2 94\n64 3,540 58.9 92\n128 6,930 115.5 90\n256 13,400 223.3 87\nVocabulary composition.To characterize the types of tokens produced, we manually classified\na random sample into four categories: complete words, multi-word units, word fragments, and\narbitrary sequences (Table 8). Length-MAX produces substantially more multi-word units (38.4%\nvs. 0.0% for BPE), capturing phrases like “the United States” and “in the midst of” that traditional\nmethodsfragment. Arbitrarysequencesdropfrom9.5%to5.8%. TheAppendixprovidesqualitative\nexamples. This compositional shift may account for the better cross-domain generalization observed\nin Table 1, though we emphasize end-to-end metrics over vocabulary-intrinsic properties.\nTable 8: Vocabulary composition analysis at 50k vocabulary size.",
+      "section": "4 Experimental Evaluation",
+      "char_count": 1113,
+      "chunk_index": 38,
+      "page_numbers": [
+        13
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0039",
+      "source_id": "LengthMAX_2025",
+      "text": "he better cross-domain generalization observed\nin Table 1, though we emphasize end-to-end metrics over vocabulary-intrinsic properties.\nTable 8: Vocabulary composition analysis at 50k vocabulary size.\nToken Type BPE Length-MAX\nComplete words 45.6% 31.7%\nMulti-word units 0.0% 38.4%\nWord fragments 44.0% 24.1%\nArbitrary sequences 9.5% 5.8%\nRobustness and coverage.On a 100GB held-out validation set with a 50k vocabulary, Length-\nMAX achieves 99.62% coverage compared to 98.95% for BPE (Appendix Table 13). On a 1B-\ntoken held-out set, the OOV rate is 0.12% for Length-MAX versus 0.15% for BPE. Under 3%\ncharacter-level substitution noise to simulate typos, the OOV rate remains lower (4.3% vs. 4.9%)\nand both tokenizers exhibit similar perplexity degradation (increase<0.4%). These results show\nthat longer tokens do not sacrifice robustness; the DFA-based longest-prefix decoder falls back to\nsingle characters when necessary.\n4.6 Complexity and Resource Analysis\nGivenNinput characters processed bypCPU workers, our scoreboard implementation runs in\nexpected timeO(N/p)and stores only the final vocabulary, yielding a memory footprint ofO(|V|)\nindependent of corpus size.",
+      "section": "4 Experimental Evaluation",
+      "char_count": 1173,
+      "chunk_index": 39,
+      "page_numbers": [
+        14
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0040",
+      "source_id": "LengthMAX_2025",
+      "text": "put characters processed bypCPU workers, our scoreboard implementation runs in\nexpected timeO(N/p)and stores only the final vocabulary, yielding a memory footprint ofO(|V|)\nindependent of corpus size. The practical effect is visible downstream: shorter sequences mean\nsmaller activation maps and leaner KV caches. Table 6 summarises the end-to-end memory reduc-\ntion for two representative LLMs.\n14",
+      "section": "4 Experimental Evaluation",
+      "char_count": 398,
+      "chunk_index": 40,
+      "page_numbers": [
+        14
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0041",
+      "source_id": "LengthMAX_2025",
+      "text": "5 Discussion\nWe interpret the empirical findings in light of recent theoretical advances and delineate the mecha-\nnisms underlying Length-MAX’s efficiency and quality gains.\nToken distribution and Zipf alignment.Examining the token frequency distribution reveals\nan intriguing pattern. Figure 8 shows that Length-MAX produces a markedly flatter distribution\nat the head compared to BPE, with the variance of the top-50 token frequencies dropping by 96%.\nWe interpret this flattening not as a causal driver of downstream quality, but rather as a descriptive\nconsequence of the length-weighted objective reallocating probability mass from redundant short\ntokens like standalone “the” to semantically richer multi-word units such as “the United States.”\n5.1 Insight in token distribution\n100101102103\nT oken Rank (log scale)104\n102\nT oken Frequency (log scale)\nHead mass reallocates\nfrom short tokens\nto multi-word units\nZipf tail preservedT oken Frequency Distribution: Zipf Alignment Analysis\n(Frequen",
+      "section": "5 Discussion",
+      "char_count": 1000,
+      "chunk_index": 41,
+      "page_numbers": [
+        15
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0042",
+      "source_id": "LengthMAX_2025",
+      "text": "oken Rank (log scale)104\n102\nT oken Frequency (log scale)\nHead mass reallocates\nfrom short tokens\nto multi-word units\nZipf tail preservedT oken Frequency Distribution: Zipf Alignment Analysis\n(Frequencies shown without length weighting)\nLength-MAX (R²=0.941, =0.95)\nBPE (R²=0.909, =1.08)\nSentencePiece\nWordPiece\nZipf =1.0 (reference)\nFigure 8: Top-20 token frequency distribution at 50k vocabulary across four tokenizers. Length-\nMAX reallocates head mass from redundant short tokens to multi-word units (e.g., “the United\nStates”); standalone high-frequency tokens like “the” thus appear less frequent. Frequencies are\nshown without length weighting; the Zipf-like tail remains preserved (R2= 0.941). Lower variance\nindicates more uniform head distribution.\nEmpirically, the top-50 token frequency variance is8.7×10−5for BPE but only1.0×10−6\nfor Length-MAX-a 96 % reduction. SentencePiece and WordPiece show similar heavy-tail skew\n(8.2and8.5×10−5respectively). However, Cognetta et al. (2024) and Schmidt et al.",
+      "section": "5 Discussion",
+      "char_count": 1013,
+      "chunk_index": 42,
+      "page_numbers": [
+        15
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0043",
+      "source_id": "LengthMAX_2025",
+      "text": "×10−5for BPE but only1.0×10−6\nfor Length-MAX-a 96 % reduction. SentencePiece and WordPiece show similar heavy-tail skew\n(8.2and8.5×10−5respectively). However, Cognetta et al. (2024) and Schmidt et al. (2024)\nprovide counterexamples demonstrating that distributional uniformity alone does not guarantee\nbetter downstream quality, and that optimal token distributions should align with Zipf’s law. To\nverify that Length-MAX’s head reallocation does not disrupt the overall Zipfian structure, we report\na Zipf alignment score (coefficient of determinationR2on the log-log frequency-rank plot) and Zipf\nexponentαin Appendix J (Tables 17, 19, 18). Length-MAX achievesR2= 0.941±0.004compared\nto BPE’sR2= 0.909±0.006, indicating stronger adherence to power-law decay. The Zipf exponent\n15\n\nisα= 0.95±0.02for Length-MAX versusα= 1.08±0.03for BPE; values closer to 1 correlate with\nbetter model performance in recent analyses, consistent with our empirical gains. Nonetheless, we\nemphasize that our primary performance driver is the direct reduction in effective sequence length\n(TPC) arising from longer tokens, rather than distributional properties per se.",
+      "section": "5 Discussion",
+      "char_count": 1149,
+      "chunk_index": 43,
+      "page_numbers": [
+        15
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0044",
+      "source_id": "LengthMAX_2025",
+      "text": "ains. Nonetheless, we\nemphasize that our primary performance driver is the direct reduction in effective sequence length\n(TPC) arising from longer tokens, rather than distributional properties per se. The observed head\nflattening is a descriptive consequence of the length-weighted objective reallocating probability mass\nto multi-word units, not the causal mechanism of improved efficiency.\nPerformancemechanisms.Theefficiencygainsobservedinourexperimentsarisefromastraight-\nforward mechanism: longer tokens shorten effective dependency chains. For any fixed amount of\ntext, Length-MAX produces 15-18% fewer tokens than BPE, which directly translates to fewer at-\ntention steps per sequence. Because attention complexity scales quadratically with sequence length,\nthis reduction in token count directly accounts for the 13.7% latency improvement documented in\nTable 4 and the 18.5% training acceleration shown in Table 3.",
+      "section": "5 Discussion",
+      "char_count": 922,
+      "chunk_index": 44,
+      "page_numbers": [
+        16
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0045",
+      "source_id": "LengthMAX_2025",
+      "text": "scales quadratically with sequence length,\nthis reduction in token count directly accounts for the 13.7% latency improvement documented in\nTable 4 and the 18.5% training acceleration shown in Table 3. The dense-subgraph formulation un-\nderlying our approach maximizes corpus coverage while avoiding the orphan tokens that frequently\nappear in merge-based methods, ultimately achieving 99% vocabulary utilization compared to the\n82-90% typical of BPE (detailed statistics appear in Appendix Table 15).\nBeyond efficiency, we observe that the distributional changes concentrate on the head while\npreserving a Zipf-like tail: the Jensen-Shannon divergence to an ideal Zipf tail remains small (<\n0.15), and OOV behaviour is not adversely affected. Coverage improves (99.62% vs. 98.95% on\nRefinedWeb-100GB at 50k), and OOV rates remain slightly lower on large held-out sets (0.12% vs.\n0.15%). Under 3% character-level noise, both tokenizers show similar perplexity degradation with\nLength-MAX retaining a lower OOV rate (4.3% vs. 4.9%).",
+      "section": "5 Discussion",
+      "char_count": 1030,
+      "chunk_index": 45,
+      "page_numbers": [
+        16
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0046",
+      "source_id": "LengthMAX_2025",
+      "text": "slightly lower on large held-out sets (0.12% vs.\n0.15%). Under 3% character-level noise, both tokenizers show similar perplexity degradation with\nLength-MAX retaining a lower OOV rate (4.3% vs. 4.9%). The key mechanism is that Length-MAX\nreallocates head mass to multi-word tokens (e.g., “the United States”), so standalone high-frequency\ntokens like “the” become lower without harming tail coverage. These observations suggest that\nlength-aware tokenization can flatten an over-concentrated head without harming tail coverage or\nrobustness.\n6 Limitations and Future Work\nSeveral limitations warrant discussion. Our experimental validation focuses on English corpora\n(FineWeb). Whether Length-MAX confers similar advantages for morphologically rich languages or\nlogographic scripts remains an open question. Computational constraints limited our from-scratch\ntraining to models up to 1.3B parameters; while memory projections for OPT-13B and Llama2-\n70B suggest continued benefits, empirical validation at such scales requires substantial additional\nresources. A third limitation concerns compatibility with existing pretrained models.",
+      "section": "5 Discussion",
+      "char_count": 1135,
+      "chunk_index": 46,
+      "page_numbers": [
+        16
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0047",
+      "source_id": "LengthMAX_2025",
+      "text": "3B and Llama2-\n70B suggest continued benefits, empirical validation at such scales requires substantial additional\nresources. A third limitation concerns compatibility with existing pretrained models. Because token\nembeddings are learned during pretraining, Length-MAX cannot be applied to frozen checkpoints\nwithout vocabulary adaptation. Additionally, our work operates within the subword tokenization\nparadigm, whereas token-free models such as ByT5 (Xue et al., 2022), CANINE (Clark et al., 2022),\nand BLT (Pagnoni et al., 2025) represent a different design point. Finally, Tao et al. (2024) argue\nthat optimal vocabulary size increases with model scale. Our experiments at 100k vocabularies on\n124M models may exceed the optimal configuration for this scale.",
+      "section": "5 Discussion",
+      "char_count": 763,
+      "chunk_index": 47,
+      "page_numbers": [
+        16
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0048",
+      "source_id": "LengthMAX_2025",
+      "text": "7 Conclusion\nThis work introduces Length-MAX, a tokenizer that maximizes freq(t)× |t|rather than frequency\nalone, reducing TPC by 14-18% across diverse domains and vocabulary sizes. We formalize the\n16\n\nproblem as NP-hard graph partitioning and develop a greedyO(N)approximation with mono-\ntonicity guarantees. As models scale, Length-MAX achieves consistent improvements in training\nefficiency and long-text reasoning performance.\nTraining GPT-2 models at 124M, 355M, and 1.3B parameters from scratch (five runs each)\nreduces convergence by 18.5%, 17.2%, and 18.5% respectively (allp <0.001), and lowers inference\nlatency by 13.7%, 12.7%, and 13.7%, with 16% throughput gain at 124M. Memory projections indi-\ncate 18% reduction in embedding and KV-cache for models ranging from OPT-13B to Llama2-70B.\nOn downstream tasks, LAMBADA perplexity drops by 11.7% and HellaSwag accuracy increases by\n4.3 points, while GLUE macro average improves by 12.8% (p <0.05for six of eight tasks). These\nimprovements require no architectural modifications.\nZipf alignment analysis shows that Length-MAX preserves the power-law structure known to\ncorrelate with model quality (R2= 0.941,α= 0.95±0.02).",
+      "section": "7 Conclusion",
+      "char_count": 1183,
+      "chunk_index": 48,
+      "page_numbers": [
+        16
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0049",
+      "source_id": "LengthMAX_2025",
+      "text": "ese\nimprovements require no architectural modifications.\nZipf alignment analysis shows that Length-MAX preserves the power-law structure known to\ncorrelate with model quality (R2= 0.941,α= 0.95±0.02). A FLOPs-based scaling curve suggests\nsimilar relative gains at 7B parameters. System-level benchmarks against HuggingFace tokenizers\nappear in Appendix Tables 20 and 21.\nOur Rust implementation delivers 510 MB/s on a single CPU core and scales to 13.4 GB/s\nacross256cores. TrainedvocabulariescompileintoDFAsthatdecode3-4timesfasterthanstandard\napproaches. We release the complete source code, pretrained vocabularies (10k-100k tokens), and\nreproduction scripts under the Apache-2.0 license.",
+      "section": "7 Conclusion",
+      "char_count": 691,
+      "chunk_index": 49,
+      "page_numbers": [
+        17
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0050",
+      "source_id": "LengthMAX_2025",
+      "text": "References\nMehdi Ali, Michael Fromm, Klaudia Thellmann, Richard Rutmann, Max Lübbering, Johannes\nLeveling, Katrin Klug, Jan Ebert, Niclas Doll, Jasper Schulze Buschhoff, et al. Tokenizer choice\nfor llm training: Negligible or crucial? arXivpreprint arXiv:2310.08754, 2023. Published in\nFindings of NAACL 2024.\nMikael Berglund, Wim Martens, and Brink van der Merwe. Constructing a bpe tokenization dfa.\narXivpreprint, 2024. arXiv:2405.07671.\nKaj Bostrom and Greg Durrett. Byte pair encoding is suboptimal for language model pretraining.\nInFindings ofEMNLP, 2020.\nYekun Chai, Yewei Fang, Qiwei Peng, and Xuhong Li. Tokenization falling short: The curse of\ntokenization. arXivpreprint arXiv:2406.11687, 2024. Published in Findings of EMNLP 2024.\nRewon Child, Scott Gray, Alec Radford, and Ilya Sutskever. Generating long sequences with sparse\ntransformers. In Proceedings ofNeurIPS, 2019.\nJonathan H. Clark, Dan Garrette, Iulia Turc, and John Wieting. Canine: Pre-training an efficient\ntokenization-free encoder for language representation. In Proceedings ofNAACL, 2022.\nMarco Cognetta, Vilem Zouhar, Suwon Moon, and Naoaki Okazaki. Two counterexamples to tok-\nenization and the noiseless channel.",
+      "section": "References",
+      "char_count": 1194,
+      "chunk_index": 50,
+      "page_numbers": [
+        17
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0051",
+      "source_id": "LengthMAX_2025",
+      "text": "n-free encoder for language representation. In Proceedings ofNAACL, 2022.\nMarco Cognetta, Vilem Zouhar, Suwon Moon, and Naoaki Okazaki. Two counterexamples to tok-\nenization and the noiseless channel. In LREC-COLING, 2024. arXiv:2402.14614.\nCarlton Downey et al. On the relationship between tokenization and model performance. In\nProceedings ofEMNLP, 2024.\nRonen Eldan and Yuanzhi Li. Tinystories: How small can language models be and still speak\ncoherent english? arXivpreprint arXiv:2305.07759, 2023.\n17\n\nMichael R. Garey and David S. Johnson. Computers andIntractability: AGuidetotheTheoryof\nNP-Completeness. W. H. Freeman, 1979.\nOfir Goldman, Andreea Caciularu, Mor Eyal, Keping Cao, Idan Szpektor, and Reut Tsarfaty. Un-\npacking tokenization: Evaluating text compression and its correlation with model performance.\nInFindings ofEMNLP, 2024. arXiv:2403.06265.\nValentin Hofmann, Hinrich Schuetze, and Janet Pierrehumbert. An embarrassingly simple method\nto mitigate undesirable properties of pretrained language model tokenizers.",
+      "section": "References",
+      "char_count": 1032,
+      "chunk_index": 51,
+      "page_numbers": [
+        17
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0052",
+      "source_id": "LengthMAX_2025",
+      "text": "fEMNLP, 2024. arXiv:2403.06265.\nValentin Hofmann, Hinrich Schuetze, and Janet Pierrehumbert. An embarrassingly simple method\nto mitigate undesirable properties of pretrained language model tokenizers. In Proceedings ofthe\n60thAnnualMeeting oftheAssociation forComputational Linguistics (Volume 2:ShortPapers),\npages385–393.AssociationforComputationalLinguistics, 2022. doi: 10.18653/v1/2022.acl-short.\n43.\nHaris Jabbar. Morphpiece: A linguistic tokenizer for large language models. arXivpreprint\narXiv:2307.07262, 2023.\nDan Jurafsky and James H. Martin. SpeechandLanguage Processing. Prentice Hall, 2 edition,\n2009.\nRichard M. Karp and Michael O. Rabin. Efficient randomized pattern-matching algorithms. IBM\nJournalofResearch andDevelopment, 31(2):249–260, 1987.\nTaku Kudo and John Richardson. Sentencepiece: A simple and language independent subword\ntokenizer and detokenizer for neural text processing. In Proceedings ofthe2018Conference on\nEmpirical Methods inNaturalLanguage Processing: SystemDemonstrations, 2018.\nAlisa Liu, Jonathan Hayase, Valentin Hofmann, Sewoong Oh, Noah A. Smith, and Yejin Choi.\nSuperbpe: Space travel for language models. In COLM, 2025. arXiv:2503.13423.",
+      "section": "References",
+      "char_count": 1184,
+      "chunk_index": 52,
+      "page_numbers": [
+        18
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0053",
+      "source_id": "LengthMAX_2025",
+      "text": "ssing: SystemDemonstrations, 2018.\nAlisa Liu, Jonathan Hayase, Valentin Hofmann, Sewoong Oh, Noah A. Smith, and Yejin Choi.\nSuperbpe: Space travel for language models. In COLM, 2025. arXiv:2503.13423.\nArtidoro Pagnoni, Ram Pasunuru, Pedro Rodriguez, John Nguyen, Benjamin Muller, Margaret\nLi, Chunting Zhou, Lili Yu, Jason Weston, Luke Zettlemoyer, Gargi Ghosh, Mike Lewis, Ari\nHoltzman, and Srinivasan Iyer. Byte latent transformer: Patches scale better than tokens. In\nACL, 2025. arXiv:2412.09871.\nChanjun Park, Sugyeong Eo, Hyeonseok Moon, and Heui-Seok Lim. Should we find another model?:\nImproving neural machine translation performance with one-piece tokenization method without\nmodel modification. In Proceedings ofthe2021conference ofthenorthamerican chapterofthe\nassociation forcomputational linguistics: humanlanguage technologies: Industry papers, pages\n97–104, 2021.\nGuilherme Penedo et al. The fineweb datasets: Decanting the web for the finest text data at scale.\narXivpreprint arXiv:2406.17557, 2024.\nCharles A Phillips, Kai Wang, Erich J Baker, Jason A Bubier, Elissa J Chesler, and Michael A\nLangston.",
+      "section": "References",
+      "char_count": 1118,
+      "chunk_index": 53,
+      "page_numbers": [
+        18
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0054",
+      "source_id": "LengthMAX_2025",
+      "text": "asets: Decanting the web for the finest text data at scale.\narXivpreprint arXiv:2406.17557, 2024.\nCharles A Phillips, Kai Wang, Erich J Baker, Jason A Bubier, Elissa J Chesler, and Michael A\nLangston. On finding and enumerating maximal and maximum k-partite cliques in k-partite\ngraphs.Algorithms, 12(1):23, 2019. doi: 10.3390/a12010023.\nOfir Press, Noah A. Smith, and Mike Lewis. Shortformer: Better language modeling using shorter\ninputs.arXivpreprint arXiv:2006.04180, 2020.\nAlec Radford, Jeff Wu, et al. Language models are unsupervised multitask learners. OpenAI\nTechnical Report, 2019.\n18\n\nPhillip Rust, Jonas Pfeiffer, Ivan Vulić, Sebastian Ruder, and Iryna Gurevych. How good is your\ntokenizer? on the trade-off between tokenization efficiency and downstream task performance.\narXivpreprint arXiv:2012.15613, 2020.\nChristian Schmidt et al. Tokenization is more than compression. In EMNLP, 2024.\nMikeSchusterandKaisukeNakajima. Japaneseandkoreanvoicesearch. In 2012IEEEInternational\nConference onAcoustics, SpeechandSignalProcessing (ICASSP), 2012.\nRico Sennrich, Barry Haddow, and Alexandra Birch. Neural machine translation of rare words with\nsubword units. In Proceedings ofACL, 2016.",
+      "section": "References",
+      "char_count": 1194,
+      "chunk_index": 54,
+      "page_numbers": [
+        18
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0055",
+      "source_id": "LengthMAX_2025",
+      "text": "erence onAcoustics, SpeechandSignalProcessing (ICASSP), 2012.\nRico Sennrich, Barry Haddow, and Alexandra Birch. Neural machine translation of rare words with\nsubword units. In Proceedings ofACL, 2016.\nAaditya K Singh and DJ Strouse. Tokenization counts: the impact of tokenization on arithmetic in\nfrontier llms. arXivpreprint arXiv:2402.14903, 2024.\nChongyang Tao, Qingyang Liu, Lianqi Dou, Nils Muennighoff, Zhen Wan, Pan Luo, Ming Lin,\nand Ngai Wong. Scaling laws with vocabulary: Larger models deserve larger vocabularies. In\nNeurIPS, 2024. arXiv:2407.13623.\nCagri Toraman, Eyup Halit Yilmaz, Furkan Şahinuç, and Oguzhan Ozcelik. Impact of tokenization\non language models: An analysis for turkish. ACMTransactions onAsianandLow-Resource\nLanguage Information Processing, 22(4):1–21, 2023. doi: 10.1145/3578707. arXiv:2204.08832.\nLinting Xue, Aditya Barua, Nathan Constant, Rami Al-Rfou, Sharan Narang, Mona Diab, Mihir\nKale, and Colin Raffel. Byt5: Towards a token-free future with pre-trained byte-to-byte models.\nTACL, 2022. arXiv:2105.13626.\nAmosYou. Blockbpe: Parallelbpetokenization. In ES-FoMo III:3rdWorkshop onEfficient Systems\nforFoundation Models(ICML2025), 2025. arXiv:2507.11941.",
+      "section": "References",
+      "char_count": 1194,
+      "chunk_index": 55,
+      "page_numbers": [
+        19
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0056",
+      "source_id": "LengthMAX_2025",
+      "text": "ed byte-to-byte models.\nTACL, 2022. arXiv:2105.13626.\nAmosYou. Blockbpe: Parallelbpetokenization. In ES-FoMo III:3rdWorkshop onEfficient Systems\nforFoundation Models(ICML2025), 2025. arXiv:2507.11941.\nVilém Zouhar, Clara Meister, Juan Gastaldi, Li Du, Mrinmaya Sachan, and Ryan Cotterell. Tok-\nenization and the noiseless channel. In Proceedings ofACL, 2023.\n19\n\nA TPC Across Tokenizers and Vocabulary Sizes on Different Cor-\npora\nCorpus Vocab Size Length\nMaxBPE Word Piece Sentence\nPiece\nNews10k 1.5231.4721.706 1.492\n20k1.2391.307 1.339 1.325\n30k1.1291.266 1.282 1.266\n40k1.0691.240 1.251 1.244\n50k1.0291.229 1.234 1.235\nMedical10k 1.8421.8082.059 1.863\n20k1.5461.577 1.660 1.593\n30k1.4221.500 1.542 1.492\n40k1.3471.455 1.486 1.437\n50k1.2941.424 1.450 1.406\nChats10k 1.4801.4611.642 1.489\n20k1.2291.299 1.345 1.315\n30k1.1271.255 1.279 1.261\n40k1.0681.236 1.251 1.241\n50k1.0261.226 1.237 1.228\nPapers10k 3.0222.8743.114 3.090\n20k 2.7012.6222.738 2.873\n30k 2.5832.5332.604 2.740\n40k2.4802.482 2.530 2",
+      "section": "References",
+      "char_count": 1000,
+      "chunk_index": 56,
+      "page_numbers": [
+        19
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0057",
+      "source_id": "LengthMAX_2025",
+      "text": ".299 1.345 1.315\n30k1.1271.255 1.279 1.261\n40k1.0681.236 1.251 1.241\n50k1.0261.226 1.237 1.228\nPapers10k 3.0222.8743.114 3.090\n20k 2.7012.6222.738 2.873\n30k 2.5832.5332.604 2.740\n40k2.4802.482 2.530 2.661\n50k2.4122.455 2.497 2.621\nPoems10k 1.7721.7452.058 1.816\n20k1.5011.599 1.647 1.611\n30k1.4091.554 1.563 1.493\n40k1.3501.433 1.507 1.466\n50k1.3081.416 1.427 1.429\nTraining10k 1.5621.5581.758 1.595\n20k1.2991.379 1.430 1.399\n30k1.1931.324 1.353 1.335\n40k1.1291.297 1.316 1.302\n50k1.0841.279 1.294 1.283\nTable 9: TPC across tokenizers and vocabulary sizes on different corpora (lower is better).\n20\n\nTypical GPT-2 Model (BPE) Output\nModel chars tokens Time(s)\nTypical 130 34 1.34\nTypical 162 38 1.50\nTypical 259 79 3.12\nTypical 323 94 3.73\nTypical 355 92 3.56\nTypical 416 132 5.31\nTypical 430 125 4.99\nTypical 467 136 5.38\nTypical 531 160 6.36\nTypical 594 171 7.00\nTypical 688 209 8.25\nTypical 756 204 8.04\nTypical 842 265 10.48\nTypical 957 299 11.94\nTypical 1038 310 12.20\nTypical 1156 375 14.84\nTyp",
+      "section": "References",
+      "char_count": 1000,
+      "chunk_index": 57,
+      "page_numbers": [
+        20
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0058",
+      "source_id": "LengthMAX_2025",
+      "text": "9\nTypical 467 136 5.38\nTypical 531 160 6.36\nTypical 594 171 7.00\nTypical 688 209 8.25\nTypical 756 204 8.04\nTypical 842 265 10.48\nTypical 957 299 11.94\nTypical 1038 310 12.20\nTypical 1156 375 14.84\nTypical 1223 380 14.83\nTypical 1324 403 15.84\nTypical 1525 500 19.90\nTypical 1577 500 19.89\nTypical 1626 500 20.69\nLength-Max GPT-2 Model Output\nModel chars tokens Time(s)\nLength-Max 165 21 1.40\nLength-Max 395 128 5.54\nLength-Max 493 145 6.43\nLength-Max 607 161 6.89\nLength-Max 946 244 11.18\nLength-Max 1162 318 14.12\nLength-Max 1277 368 16.80\nLength-Max 1422 500 21.28\nLength-Max 1484 500 21.11\nLength-Max 1541 500 21.36\nLength-Max 1562 500 21.13\nLength-Max 1620 500 21.18\nLength-Max 1636 500 21.16\nLength-Max 1655 500 21.13\nLength-Max 1774 500 21.46\nLength-Max 1794 493 20.58\nLength-Max 1709 500 21.38\nLength-Max 1721 500 20.92\nLength-Max 1748 496 20.64\nLength-Max 1783 500 21.30\nLength-Max 1847 500 21.18\nTable 10: Inference results from the Typical GPT-2 Model and Length-Max GPT-2 Model21\n\nB Infere",
+      "section": "References",
+      "char_count": 1000,
+      "chunk_index": 58,
+      "page_numbers": [
+        21
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0059",
+      "source_id": "LengthMAX_2025",
+      "text": "Length-Max 1721 500 20.92\nLength-Max 1748 496 20.64\nLength-Max 1783 500 21.30\nLength-Max 1847 500 21.18\nTable 10: Inference results from the Typical GPT-2 Model and Length-Max GPT-2 Model21\n\nB Inference results from the Typical GPT-2 Model and Length-\nMax GPT-2 Model\nC Additional Benchmarks\nFigure9providesavisualsummaryofthesevenextendedevaluationbenchmarks,showingconsistent\nimprovements across diverse task types.\nBLIMP\n(grammar)LAMBADA\n(ppl)StoryCloze Winograd\n(WSC273)SQuAD v1.1\n(F1)HellaSwag PIQA\nBenchmark0102030405060708090Score\n67.369.8\n19.7\n17.461.264.563.066.071.473.2\n39.243.577.580.6 Accuracy\nPerplexity \nAdditional Benchmarks: BPE vs Length-MAX\n(Higher is better except LAMBADA perplexity)\nBPE\nLength-MAX\nFigure 9: Performance across seven extended benchmarks covering syntax (BLiMP), cloze tasks\n(LAMBADA, StoryCloze), question answering (SQuAD), reasoning (HellaSwag, PIQA), and pro-\nnoun resolution (Winograd). Length-MAX achieves a macro average improvement of +2.9 points.\nError bars show±1 std over five independent runs. For accuracy metrics, higher is better; for\nperplexity (LAMBADA), lower is better.",
+      "section": "References",
+      "char_count": 1125,
+      "chunk_index": 59,
+      "page_numbers": [
+        21
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0060",
+      "source_id": "LengthMAX_2025",
+      "text": "d). Length-MAX achieves a macro average improvement of +2.9 points.\nError bars show±1 std over five independent runs. For accuracy metrics, higher is better; for\nperplexity (LAMBADA), lower is better.\nBenchmark Metric BPE (mean±std) Length-MAX (mean±std)∆\nBLiMP (grammar) accuracy 67.3±0.6 69.8±0.5 +2.5\nLAMBADA (cloze) ppl 19.7±0.4 17.4±0.3−11.7%\nStoryCloze accuracy 61.2±1.1 64.5±1.0 +3.3\nWinograd (WSC273) accuracy 63.0±0.8 66.0±0.7 +3.0\nSQuAD v1.1 F1 71.4±0.9 73.2±0.8 +1.8\nHellaSwag acc 39.2±0.8 43.5±0.9 +4.3\nPIQA acc 77.5±0.6 80.6±0.5 +3.1\nMacro Avg - 57.0±0.4 59.9±0.4 +2.9\n22\n\nVocab size BPE (TPC) Length-MAX (TPC) Reduction\n64k 1.198 1.042 13.0%\n100k 0.983 0.886 9.8%\nTable 12: TPC at larger vocabularies. Lower is better. Note: optimal vocabulary size may depend\non model scale and compute budget (Tao et al., 2024); these 124M results primarily demonstrate\nalgorithmic scalability rather than recommending 100k as optimal for this scale.\nSetting Metric BPE Length-MAX\nRefinedWeb-100GB, 50k Coverage (%) 98.95 99.62\nHeld-out 1B tokens OOV (%) 0.15 0.12\n3% char noise OOV (%) 4.9 4.3\n3% char noise PPL increase (%)<0.4<0.4\nTable 13: Coverage and robustness analysis.",
+      "section": "References",
+      "char_count": 1176,
+      "chunk_index": 60,
+      "page_numbers": [
+        22
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0061",
+      "source_id": "LengthMAX_2025",
+      "text": "MAX\nRefinedWeb-100GB, 50k Coverage (%) 98.95 99.62\nHeld-out 1B tokens OOV (%) 0.15 0.12\n3% char noise OOV (%) 4.9 4.3\n3% char noise PPL increase (%)<0.4<0.4\nTable 13: Coverage and robustness analysis. Lower OOV and smaller degradation indicate better\nrobustness.\nD Vocabulary Scaling at 64k and 100k\nE Coverage and Robustness\nF Inference Latency: Paired Bootstrap\nStatistic Value Interpretation\nMean diff (ms)−71Length-MAX faster\n95% CI (ms) [−79,−63] Significant\np-value<0.001RejectH 0\nTable 14: Paired bootstrap (10,000 resamples) on identical prompts.\nG Vocabulary Utilization Details\nThis data reveals a significant inefficiency in the BPE tokenization approach. As the target vocab-\nulary size increases, the percentage of unused tokens in BPE also increases, reaching nearly 18%\nwaste at a vocabulary size of 10,000. In contrast, our Length-MAX tokenizer maintains almost\ncomplete utilization of its vocabulary across all sizes.\nThe key reason for this difference lies in the algorithms’ fundamental approaches: BPE builds\ntokens incrementally through merge operations, creating intermediate tokens that may become\nredundantaslargermergedunitsareformed.",
+      "section": "References",
+      "char_count": 1159,
+      "chunk_index": 61,
+      "page_numbers": [
+        23
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0062",
+      "source_id": "LengthMAX_2025",
+      "text": "difference lies in the algorithms’ fundamental approaches: BPE builds\ntokens incrementally through merge operations, creating intermediate tokens that may become\nredundantaslargermergedunitsareformed. Incontrast, Length-MAXselectstokensdirectlybased\non their value in representing the corpus, avoiding the creation of potentially wasteful intermediate\ntokens. This efficiency contributes to the overall superior compression performance of Length-MAX.\n23\n\nTarget Vocabulary\nSizeBPE Actual Used Length-MAX\nActual UsedBPE Waste\nPercentage\n1,000 904 999 9.6%\n2,000 1,855 1,999 7.3%\n3,000 2,766 2,999 7.8%\n4,000 3,648 3,994 8.8%\n5,000 4,491 4,991 10.2%\n6,000 5,296 5,987 11.7%\n7,000 6,094 6,986 12.9%\n8,000 6,821 7,984 14.7%\n9,000 7,516 8,977 16.5%\n10,000 8,205 9,965 17.9%\nTable 15: Comparison of vocabulary utilization between BPE tokenizer and the Length-MAX tok-\nenizer. The table shows how many tokens from the vocabulary are actually used when tokenizing\ntext, and the percentage of wasted vocabulary for BPE.",
+      "section": "References",
+      "char_count": 1010,
+      "chunk_index": 62,
+      "page_numbers": [
+        23
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0063",
+      "source_id": "LengthMAX_2025",
+      "text": "ation between BPE tokenizer and the Length-MAX tok-\nenizer. The table shows how many tokens from the vocabulary are actually used when tokenizing\ntext, and the percentage of wasted vocabulary for BPE.\nH Comparison of Word-Separated and Non-Word-Separated Tok-\nenizers\nTokenizer 10k Vocab 30k Vocab 50k Vocab\nBPE\n(word-separated)1.558 1.324 1.279\nBPE (non-separated) 1.472 1.240 1.229\nLength-MAX\n(word-separated)1.299 1.193 1.084\nLength-MAX\n(non-separated)1.239 1.129 1.029\nTable 16: Tokenize ratios for word-separated and non-word-separated versions of BPE tokenizer\nand the Length-MAX tokenizer. Lower values indicate better compression (fewer tokens needed to\nrepresent the same text).\nI Qualitative Examples of Multi-word Tokens\nThelength-awareobjectiveoftensurfacesfrequentmulti-wordexpressionsthattraditionalfrequency-\nonly methods fragment. Illustrative examples observed in our vocabularies include: “the United\nStates”, “as well as”, “in the midst of”, “in front of”, and “New York City”. These examples are\nprovided to clarify the type of phrases selected; we refrain from quantifying causal links to quality\nand instead emphasise end-to-end metrics in the main text.",
+      "section": "References",
+      "char_count": 1176,
+      "chunk_index": 63,
+      "page_numbers": [
+        24
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0064",
+      "source_id": "LengthMAX_2025",
+      "text": "and “New York City”. These examples are\nprovided to clarify the type of phrases selected; we refrain from quantifying causal links to quality\nand instead emphasise end-to-end metrics in the main text.\n24\n\nJ Zipf Alignment Analysis\nMethod.We compute token frequency histograms on held-out subsets, sort by frequency rank,\nand fit a least-squares line to the log-log frequency-rank curve. The Zipf alignment score is the\ncoefficient of determinationR2; higher indicates closer adherence to a power-law decay.\nBPE Length-MAX0.880.890.900.910.920.930.940.950.96Zipf Alignment Score (R²) \n0.909±0.0060.941±0.004Zipf Alignment (R²)\n(higher is better)\nBPE Length-MAX0.850.900.951.001.051.101.15Zipf Exponent ( )\n1.08±0.03\n0.95±0.02Zipf Exponent ( )\n(closer to 1 is better)\n=1 (ideal)\nNews\nT echnical Literature\nConversationMixed0.880.890.900.910.920.930.940.950.96Zipf Alignment (R²) \nZipf Alignment per Subset\nBPE Length-MAX\nFigure 10: Zipf alignment analysis. Left: MeanR2score (higher is better). Center: Mean Zipf\nexponentα(closer to 1 is better). Right: Per-subsetR2scores. Length-MAX maintains a strong\nZipf-like distribution while improving compression.",
+      "section": "References",
+      "char_count": 1153,
+      "chunk_index": 64,
+      "page_numbers": [
+        24
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0065",
+      "source_id": "LengthMAX_2025",
+      "text": ". Left: MeanR2score (higher is better). Center: Mean Zipf\nexponentα(closer to 1 is better). Right: Per-subsetR2scores. Length-MAX maintains a strong\nZipf-like distribution while improving compression.\nTable 17: Zipf alignment score (R2; higher is better) on five held-out subsets (mean±std). Both\ntokenizers preserve a Zipf-like tail; Length-MAX maintains comparable alignment while reducing\nTPC.\nTokenizerR2(mean±std) 95% CI\nBPE 0.909±0.006 [0.904, 0.914]\nLength-MAX 0.941±0.004 [0.938, 0.944]\nTable 18: Zipf exponent (α) and fit (R2) on five held-out subsets (mean±std).\nTokenizer Zipf Exponent (α) Zipf Fit (R2)\nBPE 1.08±0.03 0.909±0.006\nLength-MAX 0.95±0.02 0.941±0.004\nRemark.Zipfalignmentcomplementscompressionmetrics(TPC)byverifyingthatimprovements\ndo not arise from pathological distributional shifts.\nK Experimental Details and Reproducibility\nToensurefullreproducibility,weprovidecompletedetailsofourexperimentalsetup. Allstochasticity-\ninvolvingexperiments(modeltraining, evaluation)wereexecutedfivetimeswithfixedrandomseeds:\n{42, 123, 456, 789, 1024}.",
+      "section": "References",
+      "char_count": 1063,
+      "chunk_index": 65,
+      "page_numbers": [
+        25
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0066",
+      "source_id": "LengthMAX_2025",
+      "text": "llreproducibility,weprovidecompletedetailsofourexperimentalsetup. Allstochasticity-\ninvolvingexperiments(modeltraining, evaluation)wereexecutedfivetimeswithfixedrandomseeds:\n{42, 123, 456, 789, 1024}. For the scoreboard-based greedy algorithm (Section 3.2), we set the\nlocal scoreboard sizeM= 50,000and the maximum n-gram lengthL max= 64. The shard size\n25\n\nTable 19: Zipf alignment per subset (R2).\nSubset BPER2Length-MAXR2\nNews 0.912 0.943\nTechnical 0.904 0.936\nLiterature 0.918 0.947\nConversation 0.905 0.939\nMixed 0.906 0.942\nfor distributed vocabulary construction was set to 512 MB. All GPT-2 training hyperparameters\nfollowed the defaults as specified in the HuggingFacetransformerslibrary (v4.31.0), with the ex-\nception of the tokenizer. Training employed the AdamW optimizer with learning rate6×10−4,\nbatch size 128, and cosine learning rate decay. All models were trained on 8×NVIDIA A100-80GB\nGPUs with mixed-precision (fp16) enabled.",
+      "section": "References",
+      "char_count": 946,
+      "chunk_index": 66,
+      "page_numbers": [
+        25
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0067",
+      "source_id": "LengthMAX_2025",
+      "text": "Training employed the AdamW optimizer with learning rate6×10−4,\nbatch size 128, and cosine learning rate decay. All models were trained on 8×NVIDIA A100-80GB\nGPUs with mixed-precision (fp16) enabled.\nL System Baselines: Protocol\nTocontextualiseabsoluteperformance, weoutlineaprotocoltocompareagainstproductionlibraries\n(e.g., HuggingFace tokenizers): (i) vocabulary construction on a 10 GB shard to a 50k vocabulary;\n(ii) encoding throughput on a 1 GB text file. We report wall-clock, MB/s, and multi-core speed-ups\n(5 runs mean±std) on the same hardware and corpus for fairness. For the HuggingFace baseline,\nwe use theBpeTrainerfromtokenizersv0.19.11with default settings (show_progress=false,\nmin_frequency=2); allbenchmarksincludea10-secondwarm-upperiodtomitigatecold-starteffects\nand ensure stable throughput measurements.\nM System Baselines: Results\nAll measurements are performed on the same dual-socket EPYC 7763 host (Ubuntu 22.04, 512 GB\nRAM) using a 10 GB RefinedWeb shard for vocabulary construction (50k target) and a 1 GB\nconcatenated text file for encoding. We report five-run means±std.\nTable 20: Vocabulary construction (10 GB→50k). Lower wall-clock is better.",
+      "section": "References",
+      "char_count": 1177,
+      "chunk_index": 67,
+      "page_numbers": [
+        26
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0068",
+      "source_id": "LengthMAX_2025",
+      "text": "shard for vocabulary construction (50k target) and a 1 GB\nconcatenated text file for encoding. We report five-run means±std.\nTable 20: Vocabulary construction (10 GB→50k). Lower wall-clock is better.\nLibrary Cores Wall-clock (s) Speed-up vs HF\nHF tokenizers (BPE) 1 3,100±65 -\nLength-MAX (ours) 1 2,100±48 1.48×\nHF tokenizers (BPE) 32 320±9 -\nLength-MAX (ours) 32 190±6 1.68×\nThis data shows that while the non-word-separated versions of both algorithms achieve bet-\nter compression rates (lower tokenize ratios), our Length-MAX tokenizer consistently outperforms\nBPE in both configurations. The word-separated version of Length-MAX (which respects word\nboundaries similar to traditional tokenizers) still achieves better compression than even the non-\nword-separated version of BPE at comparable vocabulary sizes.",
+      "section": "References",
+      "char_count": 814,
+      "chunk_index": 68,
+      "page_numbers": [
+        26
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0069",
+      "source_id": "LengthMAX_2025",
+      "text": "sion of Length-MAX (which respects word\nboundaries similar to traditional tokenizers) still achieves better compression than even the non-\nword-separated version of BPE at comparable vocabulary sizes.\n1\n26\n\n1 core 32 cores\nConfiguration050010001500200025003000Wall-Clock Time (s) \n3100\n3202100\n190Vocabulary Construction (10 GB 50k)\n(lower is better)\nHF tokenizers (BPE)\nLength-MAX\n1 core 32 cores\nConfiguration0200040006000800010000Throughput (MB/s) \n4106100\n66010900Encoding Throughput (1 GB text)\n(higher is better)\nHF tokenizers (BPE)\nLength-MAXFigure 11: System performance baselines against HuggingFacetokenizers(BPE). Left: Vocabu-\nlary construction time on 10 GB of text. Right: Encoding throughput on a 1 GB text file. All\nmeasurements are the mean of five runs on the same hardware. Lower construction time and higher\nthroughput are better.\nTable 21: Encoding throughput on 1 GB text. Higher MB/s is better.",
+      "section": "References",
+      "char_count": 917,
+      "chunk_index": 69,
+      "page_numbers": [
+        26
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0070",
+      "source_id": "LengthMAX_2025",
+      "text": "text file. All\nmeasurements are the mean of five runs on the same hardware. Lower construction time and higher\nthroughput are better.\nTable 21: Encoding throughput on 1 GB text. Higher MB/s is better.\nLibrary Cores Throughput (MB/s) Speed-up vs HF\nHF tokenizers (BPE) 1 420±9 -\nLength-MAX (ours) 1 680±12 1.62×\nHF tokenizers (BPE) 32 6,100±150 -\nLength-MAX (ours) 32 10,900±180 1.79×\nThis demonstrates the flexibility of our approach, which can be adapted to different tokenization\nparadigms while maintaining its performance advantages. The difference becomes more pronounced\nat larger vocabulary sizes, suggesting that Length-MAX’s strategy of maximizing token length\nbecomes increasingly beneficial as the vocabulary expands.\nN Application of the Length-Max Tokenizer\nOur method differs from current tokenization methods like BPE, WordPiece, and SentencePiece,\nwhich employ pre-tokenization (Park et al., 2021; Rust et al., 2020), separating words by spaces\nand ignoring inter-word relationships (Singh and Strouse, 2024).",
+      "section": "References",
+      "char_count": 1025,
+      "chunk_index": 70,
+      "page_numbers": [
+        27
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0071",
+      "source_id": "LengthMAX_2025",
+      "text": "ike BPE, WordPiece, and SentencePiece,\nwhich employ pre-tokenization (Park et al., 2021; Rust et al., 2020), separating words by spaces\nand ignoring inter-word relationships (Singh and Strouse, 2024). This approach can miss obvious\nmulti-word sequences (Chai et al., 2024; Ali et al., 2023); for instance, it might not recognize that\nthe United Statesis a frequent and meaningful phrase that should be treated as a single token\nrather than three separate ones. Our method chooses not to perform pre-tokenization, but applies\ndirectly on the raw corpus to maximize average token length. This enables capturing common word\ncombinations as single tokens, leading to semantically meaningful tokens.\nHaving obtained the vocabulary through the Length-Max algorithm, we process the input text\n27\n\nin the following steps:\n1) Replace all spaces with the special character ’␣’ to mark word boundaries.",
+      "section": "References",
+      "char_count": 891,
+      "chunk_index": 71,
+      "page_numbers": [
+        27
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0072",
+      "source_id": "LengthMAX_2025",
+      "text": "ns.\nHaving obtained the vocabulary through the Length-Max algorithm, we process the input text\n27\n\nin the following steps:\n1) Replace all spaces with the special character ’␣’ to mark word boundaries.\n2) For each characterC iin the textT, starting fromi= 1, perform token matching:\n•Letjbe the length of remaining text:j=|T| −i\n•For substrings i,j=T[i:i+j], check ifs i,j∈VwhereVis the vocabulary\n•Ifs i,j/∈V, thenj=j−1and repeat\n•The matched tokent kis the firsts i,jwheres i,j∈V\n•Update position:i=i+|t k|\n3) Convert the matched tokens to their corresponding indices in the vocabulary.\nFor example, given input textT=“The cat sat”, and vocabularyV=[“The cat ”, “The ”, “cat\n”, “sat”]:\n•Step 1: Preprocess text with ’␣’:T=“The␣cat␣sat”\n•Step 2: Match tokens iteratively:\n–i= 1,C 1=“T”: Trys 1,10=“The␣cat␣sat”/∈V, ...,s 1,7=“The␣cat␣”∈V\n→Found tokent 1=“The␣cat␣”, updatei= 1 + 8 = 9\n–i= 9,C 9=“s”: Trys 9,2=“sat”∈V\n→Found tokent 2=“sat”, updatei= 9 + 3 = 12\n–i= 12: End of text reached\n•Step 3: Final token sequence:[t 1, t2] =[“The␣cat␣”, “sat”]\nO Output Sample of Length-Max Model and BPE Model\nPrompt:Once upon a time, there was tiger who liked to play the guitar.",
+      "section": "References",
+      "char_count": 1169,
+      "chunk_index": 72,
+      "page_numbers": [
+        27
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0073",
+      "source_id": "LengthMAX_2025",
+      "text": "nd of text reached\n•Step 3: Final token sequence:[t 1, t2] =[“The␣cat␣”, “sat”]\nO Output Sample of Length-Max Model and BPE Model\nPrompt:Once upon a time, there was tiger who liked to play the guitar. One day, a bunny heard\nthe guitar from a distance and\nBPE Model Output\nhoppedovertotakealook.Thebunnyaskedthetigerifhecouldplaysuchatune.Thetiger\nplayedoneofhisfavoritesongsandthebunnywassohappy.Thenextday,thebunnyinvitedall\nofhisfriendstohearthetigerplaytheguitar.Whentheyallgathered around,thetigerstarted\ntostrumtheguitarharderthaneverbefore.Thebunnyandhisfriendsstartedtodanceandsing\nalong.Theaudience ofanimalsquicklyjoinedinthedanceandbegantochantthem.Thehappy\nanimalswereallenjoying themusicuntilthedancingwasover.Thetigersmiledandsaid,\"I’mso\ngladthateveryone enjoysthemusicIwasplayingon.\"Thebunnyhoppedupontothetiger’slap\nandwhispered, \"Thank you,itwasexciting.\" Thetigerputhisarmaroundthebunnyandsaid,\n\"Anytime, myfriend.\"Therabbitandallofhisfriendssmiledandhoppedofftofindmorefun\nactivities. Fromthenon,thetigerwasknownasthemagical,music-player.",
+      "section": "References",
+      "char_count": 1056,
+      "chunk_index": 73,
+      "page_numbers": [
+        28
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0074",
+      "source_id": "LengthMAX_2025",
+      "text": "itwasexciting.\" Thetigerputhisarmaroundthebunnyandsaid,\n\"Anytime, myfriend.\"Therabbitandallofhisfriendssmiledandhoppedofftofindmorefun\nactivities. Fromthenon,thetigerwasknownasthemagical,music-player.\nScores:Grammar: 6.0/10, Creativity: 7.0/10, Consistency: 5.0/10, Plot: 6.0/10\nAverage Score: 6.00/10\nPerplexity: 2.09\nNum of characters: 951\nNum of words: 175\nNum of tokens: 214\n28\n\nLength-Max Model Output\nhoppedtogivethetigerahug.Thebunnylookedattheguitar,andsaid\"Iloveittoo!\"Butthe\ntigerwasn’thappy.Hesaid,\"No!Thisguitarbelongstome!\"Thebunnywassadbecausethetiger\nwassorude.Thebunnysaid,\"PleaseIreallylikeyourguitar.Ican’tgettooclosetoit.\"Then\nthetigerthought ofsomething. Hesaid,\"OK,Ihaveanidea.Iwillletyouplaywithitonmy\nstageanyway.\" Sothetigertookthebunnyonhisbackandtookhimtothestage.Thebunnywas\nveryexcited,hewatched asthetigerputonthebigshinyguitaranditssoundsplayingbeautifully\nintothenight.Thebunnylookeduptothetigerandsaid,\"CanIbeinyourmusictoo?\"Thetiger\nsmiledandsaid,\"Ofcourseyoucan.So,i",
+      "section": "References",
+      "char_count": 1000,
+      "chunk_index": 74,
+      "page_numbers": [
+        28
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0075",
+      "source_id": "LengthMAX_2025",
+      "text": "s\nveryexcited,hewatched asthetigerputonthebigshinyguitaranditssoundsplayingbeautifully\nintothenight.Thebunnylookeduptothetigerandsaid,\"CanIbeinyourmusictoo?\"Thetiger\nsmiledandsaid,\"Ofcourseyoucan.So,ifyou’regoodandplaynicely,youcancomeuponthe\nstageandjoinus.\"Sothebunnylistenedtothetiger,andplayedtogether, showing allofhisfriends\nhowto jumpanddonewthings.Fromthenon,thetigerandthebunnywerethebestoffriends.\nTheysangandplayedtheguitartogether everyday.\nScores:Grammar: 7.0/10, Creativity: 6.0/10, Consistency: 8.0/10, Plot: 6.0/10\nAverage Score: 6.75/10\nPerplexity: 1.96\nNum of characters: 1038\nNum of words: 207\nNum of tokens: 193\nP Experimental Details and Reproducibility\nFive independent runs used seeds {42, 123, 456, 789, 1024}. Unless otherwise noted, the scoreboard\nsize for candidate generation was set toM= 50,000, maximum n-gram length toL max= 16, and\nshard size to 512 MB. All training used identical hyperparameters across tokenizers; dataset splits\nand evaluation protocols were fixed across runs.",
+      "section": "References",
+      "char_count": 1012,
+      "chunk_index": 75,
+      "page_numbers": [
+        29
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    },
+    {
+      "chunk_id": "LengthMAX_2025_chunk_0076",
+      "source_id": "LengthMAX_2025",
+      "text": "toM= 50,000, maximum n-gram length toL max= 16, and\nshard size to 512 MB. All training used identical hyperparameters across tokenizers; dataset splits\nand evaluation protocols were fixed across runs.\n29",
+      "section": "References",
+      "char_count": 203,
+      "chunk_index": 76,
+      "page_numbers": [
+        29
+      ],
+      "source_file": "LengthMAX_2025_2511_20849.pdf",
+      "total_source_pages": 29
+    }
+  ]
+}
