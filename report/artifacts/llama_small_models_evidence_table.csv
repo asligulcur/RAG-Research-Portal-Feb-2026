@@ -1,0 +1,87 @@
+Claim,Evidence Snippet,Citation,Confidence,Notes
+"MODELS(LLMS)
+We used large language models (LLMs) only for minor text polishing, such as grammar and phras-
+ing. All ideas, experiments, analyses, and...","MODELS(LLMS)
+We used large language models (LLMs) only for minor text polishing, such as grammar and phras-
+ing. All ideas, experiments, analyses, and discussions were conducted solely by the authors. The
+LLM did not contribute to the design and interpretation of our research.","SLMasJudge_2026, SLMasJudge_2026_chunk_0039",Medium,Relevance: 0.62
+"The Tenth AAAI Symposium on Educational Advances in Artificial Intelligence,
+EAAI 2020, New York, NY, USA, February 7-12, 2020 , pp. 7432–7439. AAAI P...","The Tenth AAAI Symposium on Educational Advances in Artificial Intelligence,
+EAAI 2020, New York, NY, USA, February 7-12, 2020 , pp. 7432–7439. AAAI Press, 2020. doi:
+10.1609/aaai.v34i05.6239. URL  .
+Sid Black, Stella Biderman, Eric Hallahan, Quentin Anthony, Leo Gao, Laurence Golding, Horace He,
+Co...","SLMEval_2023, SLMEval_2023_chunk_0093",Medium,Relevance: 0.61
+"TinyStories : How Small Can Language Models Be and Still Speak
+Coherent English?
+Ronen Eldan∗and Yuanzhi Li†
+Microsoft Research
+April 2023","TinyStories : How Small Can Language Models Be and Still Speak
+Coherent English?
+Ronen Eldan∗and Yuanzhi Li†
+Microsoft Research
+April 2023","TinyLlama_2023, TinyLlama_2023_chunk_0000",Medium,Relevance: 0.61
+"1–45, 2024.
+Karl Cobbe, Vineet Kosaraju, Mohammad Bavarian, Mark Chen, Heewoo Jun, Lukasz Kaiser,
+Matthias Plappert, Jerry Tworek, Jacob Hilton, Reiic...","1–45, 2024.
+Karl Cobbe, Vineet Kosaraju, Mohammad Bavarian, Mark Chen, Heewoo Jun, Lukasz Kaiser,
+Matthias Plappert, Jerry Tworek, Jacob Hilton, Reiichiro Nakano, Christopher Hesse, and John
+Schulman. Training verifiers to solve math word problems.arXiv preprint arXiv:2110.14168,
+2021.
+Dario Di Palm...","SLMasJudge_2026, SLMasJudge_2026_chunk_0041",Medium,Relevance: 0.60
+"hat of models like Yarn-Mistral-7B-128K (Peng
+et al., 2023) and ChatGLM3-6B-128K (Du et al., 2021). (4) The MiniCPM-MoE, with 4B
+activated parameters,...","hat of models like Yarn-Mistral-7B-128K (Peng
+et al., 2023) and ChatGLM3-6B-128K (Du et al., 2021). (4) The MiniCPM-MoE, with 4B
+activated parameters, is on par with Llama2-34B (Touvron et al., 2023).
+In summary, MiniCPM propounds a new stage in the development of small language
+models, exemplifying...","MiniCPM_2024, MiniCPM_2024_chunk_0008",Medium,Relevance: 0.59
+"of models [8]. Looking ahead, the model scale of
+Yiheng Liu et al.: Preprint submitted to Elsevier Page 21 of 30
+
+A Comprehensive Overview from Traini...","of models [8]. Looking ahead, the model scale of
+Yiheng Liu et al.: Preprint submitted to Elsevier Page 21 of 30
+
+A Comprehensive Overview from Training to Inference
+Table 5
+List of open source LLMs.
+LLM Size (B) Links
+T5 [68] 11B 
+CodeGen [81] 16B 
+MOSS [203] 16B 
+GLM [37] 130B 
+ChatGLM [37] 6B 
+Ch...","DataQuality_2024, DataQuality_2024_chunk_0098",Medium,Relevance: 0.58
+"ucing new state-of-the-art open models.
+ , 2024. Accessed:
+date-of-access.
+Xiao Bi, Deli Chen, Guanting Chen, Shanhuang Chen, Damai Dai, Chengqi Deng,...","ucing new state-of-the-art open models.
+ , 2024. Accessed:
+date-of-access.
+Xiao Bi, Deli Chen, Guanting Chen, Shanhuang Chen, Damai Dai, Chengqi Deng, Honghui
+Ding, Kai Dong, Qiushi Du, Zhe Fu, et al. Deepseek llm: Scaling open-source language
+models with longtermism. arXiv preprint arXiv:2401.02954...","MiniCPM_2024, MiniCPM_2024_chunk_0071",Medium,Relevance: 0.56
+"7 Conclusions
+We propose Farseer , a refined scaling law and methodology for Large Language Models. By
+accurately modeling the loss surface L(N, D )th...","7 Conclusions
+We propose Farseer , a refined scaling law and methodology for Large Language Models. By
+accurately modeling the loss surface L(N, D )through a novel fitting approach, Farseer provides
+significantly better empirical fit and superior extrapolation capabilities compared to prior scaling
+...","Farseer_2025, Farseer_2025_chunk_0047",Medium,Relevance: 0.56
+"ute-optimal large language models. arXiv preprint
+arXiv:2203.15556 , 2022.
+[HSK+24] Cheng-Ping Hsieh, Simeng Sun, Samuel Kriman, Shantanu Acharya, Dim...","ute-optimal large language models. arXiv preprint
+arXiv:2203.15556 , 2022.
+[HSK+24] Cheng-Ping Hsieh, Simeng Sun, Samuel Kriman, Shantanu Acharya, Dima Rekesh, Fei Jia,
+Yang Zhang, and Boris Ginsburg. Ruler: What’s the real context size of your long-context
+language models?, 2024.
+[JBA+23] Mojan Jav...","Phi3_2024, Phi3_2024_chunk_0048",Medium,Relevance: 0.56
+"Orca 2: Teaching Small Language Models
+How to Reason
+Arindam Mitra, Luciano Del Corro†, Shweti Mahajan†, Andres Codas‡
+Clarisse Simoes‡, Sahaj Agarwal...","Orca 2: Teaching Small Language Models
+How to Reason
+Arindam Mitra, Luciano Del Corro†, Shweti Mahajan†, Andres Codas‡
+Clarisse Simoes‡, Sahaj Agarwal, Xuxi Chen∗, Anastasia Razdaibiedina∗
+Erik Jones∗, Kriti Aggarwal∗, Hamid Palangi, Guoqing Zheng
+Corby Rosset, Hamed Khanpour, Ahmed Awadallah
+Micros...","Orca2_2023, Orca2_2023_chunk_0000",Medium,Relevance: 0.56

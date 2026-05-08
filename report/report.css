@@ -1,0 +1,284 @@
+/* McKinsey-style professional report — aligned with Phase 2 Evaluation Report */
+
+/* Images: full content width (overrides inline styles) */
+img {
+  max-width: 100% !important;
+  width: 100% !important;
+  height: auto !important;
+  display: block;
+  margin: 20px 0;
+}
+
+@page {
+  margin: 1in;
+  size: letter;
+}
+
+body {
+  font-family: 'Times New Roman', 'Times', serif;
+  font-size: 11pt;
+  line-height: 1.6;
+  max-width: 7.5in;
+  margin: 0 auto;
+  padding: 24px;
+  color: #333;
+  text-align: justify;
+  overflow-x: visible;
+}
+
+h1 {
+  font-size: 20pt;
+  font-weight: bold;
+  margin-top: 24pt;
+  margin-bottom: 12pt;
+  color: #0F2B46;
+  border-bottom: 2px solid #C5A028;
+  padding-bottom: 6pt;
+  page-break-after: avoid;
+}
+
+h2 {
+  font-size: 16pt;
+  font-weight: bold;
+  margin-top: 18pt;
+  margin-bottom: 9pt;
+  color: #0F2B46;
+  page-break-after: avoid;
+}
+
+h3 {
+  font-size: 14pt;
+  font-weight: bold;
+  margin-top: 12pt;
+  margin-bottom: 6pt;
+  color: #0F2B46;
+  page-break-after: avoid;
+}
+
+h4 {
+  font-size: 12pt;
+  font-weight: bold;
+  margin-top: 12pt;
+  margin-bottom: 6pt;
+  color: #0F2B46;
+  page-break-after: avoid;
+}
+
+p {
+  margin: 6pt 0;
+}
+
+a {
+  color: #1A4B7A;
+}
+a:visited {
+  color: #0F2B46;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #C5A028;
+  margin: 20pt 0;
+}
+
+/* Tables — Phase 2 style */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 12pt 0;
+  font-size: 10pt;
+  page-break-inside: avoid;
+  table-layout: auto;
+}
+
+th, td {
+  padding: 8px;
+  border: 1px solid #c9d4e0;
+  text-align: left;
+  word-wrap: break-word;
+}
+
+th {
+  background-color: #f5f3ee;
+  color: #0F2B46;
+  font-weight: bold;
+  font-size: 11pt;
+  border-bottom: 2px solid #C5A028;
+}
+
+tr:nth-child(even) {
+  background-color: #faf9f6;
+}
+
+code {
+  background-color: #f5f3ee;
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-family: 'Courier New', monospace;
+  font-size: 10pt;
+  color: #0F2B46;
+}
+
+/* Tables: column widths set via build_report_table() inline styles — no col:nth-child overrides */
+
+/* Figure 1 — fill almost 1 page (break out of body, full width, tall) */
+.figure-f1 {
+  width: 100vw;
+  max-width: 100vw;
+  margin: 12pt 0;
+  margin-left: calc(-50vw + 50%);
+  min-height: 9in;
+  box-sizing: border-box;
+}
+
+.figure-caption,
+.figure-f1 .figure-caption {
+  margin: 0 0 6pt 0;
+  font-size: 11pt;
+  font-style: italic;
+  color: #1A4B7A;
+}
+
+.figure-f1 img {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Figure 2 — same as Figure 1 (break out, full viewport, large) */
+.figure-f2 {
+  width: 100vw !important;
+  max-width: none !important;
+  min-width: 100vw;
+  margin: 12pt 0;
+  margin-left: calc(-50vw + 50%) !important;
+  min-height: 9in;
+  box-sizing: border-box;
+}
+
+.figure-f2 img {
+  width: 100% !important;
+  max-width: none !important;
+  height: auto !important;
+  display: block;
+}
+
+/* Figure 3 and other figures — full content width */
+.figure-large {
+  width: 100%;
+  max-width: 100%;
+  margin: 12pt auto;
+}
+
+.figure-large img {
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+  display: block;
+}
+
+/* Design Choices: Choice (narrow), Rationale (wide), Trade-off (medium) */
+.design-choices-table table {
+  table-layout: fixed;
+}
+.design-choices-table col:nth-child(1) { width: 20% !important; }
+.design-choices-table col:nth-child(2) { width: 45% !important; }
+.design-choices-table col:nth-child(3) { width: 35% !important; }
+
+/* Limitations: Limitation (narrow), Observation (medium), Cause (medium), Impact (medium) */
+.limitations-table table {
+  table-layout: fixed;
+}
+.limitations-table col:nth-child(1) { width: 18% !important; }
+.limitations-table col:nth-child(2) { width: 22% !important; }
+.limitations-table col:nth-child(3) { width: 28% !important; }
+.limitations-table col:nth-child(4) { width: 32% !important; }
+
+/* Next Steps: Priority (narrow), Action (medium), Approach (wide) */
+.next-steps-table table {
+  table-layout: fixed;
+}
+.next-steps-table col:nth-child(1) { width: 18% !important; }
+.next-steps-table col:nth-child(2) { width: 35% !important; }
+.next-steps-table col:nth-child(3) { width: 47% !important; }
+
+/* Section 4.1: Evaluation Dashboard (Metric/Value) */
+.eval-dashboard-table table {
+  table-layout: fixed;
+}
+.eval-dashboard-table col:nth-child(1) { width: 40% !important; }
+.eval-dashboard-table col:nth-child(2) { width: 60% !important; }
+
+/* Section 4.1: Evaluation Category breakdown */
+.eval-category-table table {
+  table-layout: fixed;
+}
+.eval-category-table col:nth-child(1) { width: 18% !important; }
+.eval-category-table col:nth-child(2) { width: 38% !important; }
+.eval-category-table col:nth-child(3) { width: 44% !important; }
+
+/* Appendix B: Evaluation Metrics (Metric/Description/Formula) */
+.appendix-b-metrics table {
+  table-layout: fixed;
+}
+.appendix-b-metrics col:nth-child(1) { width: 17% !important; }
+.appendix-b-metrics col:nth-child(2) { width: 28% !important; }
+.appendix-b-metrics col:nth-child(3) { width: 55% !important; }
+
+/* Phase 3 Enhancements: Enhancement (narrow), Implementation (wide), Impact (medium) */
+.phase3-enhancements-table table {
+  table-layout: fixed;
+}
+.phase3-enhancements-table col:nth-child(1) { width: 18% !important; }
+.phase3-enhancements-table col:nth-child(2) { width: 50% !important; }
+.phase3-enhancements-table col:nth-child(3) { width: 32% !important; }
+
+/* Appendix A: Query Type (narrow), Count (narrow), Purpose (medium), Examples (wide) */
+.appendix-a-table table {
+  table-layout: fixed;
+}
+.appendix-a-table col:nth-child(1) { width: 14% !important; }
+.appendix-a-table col:nth-child(2) { width: 10% !important; }
+.appendix-a-table col:nth-child(3) { width: 24% !important; }
+.appendix-a-table col:nth-child(4) { width: 52% !important; }
+
+/* Appendix C: Query ID (narrow), Query (wide), Citation Density (narrow), Term Coverage (narrow), Why It Worked (medium) */
+.appendix-c-table table {
+  table-layout: fixed;
+}
+.appendix-c-table col:nth-child(1) { width: 10% !important; }
+.appendix-c-table col:nth-child(2) { width: 42% !important; }
+.appendix-c-table col:nth-child(3) { width: 12% !important; }
+.appendix-c-table col:nth-child(4) { width: 12% !important; }
+.appendix-c-table col:nth-child(5) { width: 24% !important; }
+
+/* Table scroll wrapper for wide tables on small screens */
+.table-wrapper {
+  overflow-x: auto;
+  margin: 12pt 0;
+}
+
+/* Print — figures fill page */
+@media print {
+  body {
+    max-width: 100%;
+  }
+  .figure-f1,
+  .figure-f2 {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    min-height: 8.5in;
+  }
+  .figure-f1 img,
+  .figure-f2 img {
+    max-width: 100% !important;
+  }
+  h1, h2, h3, h4 {
+    page-break-after: avoid;
+  }
+  table {
+    page-break-inside: avoid;
+  }
+}

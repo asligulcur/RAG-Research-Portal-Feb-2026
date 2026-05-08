@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Project specific
+data/raw/*.pdf
+data/processed/*.json
+logs/*.json
+*.log
+
+# Media
+*.mp4
+*.mov
+*.MP4
+*.MOV
+
+# Keep folder structure
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!logs/.gitkeep
+!outputs/.gitkeep
+venv/
+__pycache__/
+.DS_Store
+venv/
+__pycache__/
+node_modules/

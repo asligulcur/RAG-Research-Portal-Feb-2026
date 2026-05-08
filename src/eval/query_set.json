@@ -1,0 +1,239 @@
+{
+  "metadata": {
+    "created": "2026-02-02",
+    "description": "Evaluation query set for RAG system - 20+ queries covering direct, synthesis, and edge cases",
+    "total_queries": 25,
+    "query_types": {
+      "direct": 10,
+      "synthesis": 8,
+      "edge_case": 7
+    }
+  },
+  "queries": [
+    {
+      "id": "direct_001",
+      "type": "direct",
+      "query": "What is Phi-3's performance on the MMLU benchmark?",
+      "expected_papers": ["Phi3_2024"],
+      "expected_answer_type": "specific_metric",
+      "difficulty": "easy",
+      "notes": "Tests basic fact retrieval about benchmark performance"
+    },
+    {
+      "id": "direct_002",
+      "type": "direct",
+      "query": "What are the known failure modes or limitations of the MMLU benchmark?",
+      "expected_papers": ["SLMEval_2023", "Phi3_2024", "SLMSurvey_2024"],
+      "expected_answer_type": "list_of_limitations",
+      "difficulty": "medium",
+      "notes": "Tests ability to find critical analysis of benchmarks"
+    },
+    {
+      "id": "direct_003",
+      "type": "direct",
+      "query": "What training data was used for Phi-3-mini?",
+      "expected_papers": ["Phi3_2024"],
+      "expected_answer_type": "dataset_description",
+      "difficulty": "easy",
+      "notes": "Tests extraction of training methodology"
+    },
+    {
+      "id": "direct_004",
+      "type": "direct",
+      "query": "What is the parameter count of Gemma 2B?",
+      "expected_papers": ["Gemma_2024"],
+      "expected_answer_type": "numeric_value",
+      "difficulty": "easy",
+      "notes": "Simple numerical fact"
+    },
+    {
+      "id": "direct_005",
+      "type": "direct",
+      "query": "What quantization techniques are discussed in GPTQ?",
+      "expected_papers": ["GPTQ_2022"],
+      "expected_answer_type": "technical_methods",
+      "difficulty": "medium",
+      "notes": "Tests technical concept extraction"
+    },
+    {
+      "id": "direct_006",
+      "type": "direct",
+      "query": "What is the main architectural innovation in MobileLLM?",
+      "expected_papers": ["MobileLLM_2024"],
+      "expected_answer_type": "architectural_feature",
+      "difficulty": "medium",
+      "notes": "Tests understanding of model architecture"
+    },
+    {
+      "id": "direct_007",
+      "type": "direct",
+      "query": "What datasets are used to evaluate small language models in the SLMEval paper?",
+      "expected_papers": ["SLMEval_2023"],
+      "expected_answer_type": "list_of_datasets",
+      "difficulty": "easy",
+      "notes": "Tests extraction of evaluation methodology"
+    },
+    {
+      "id": "direct_008",
+      "type": "direct",
+      "query": "What is the context window size of Llama 2 7B?",
+      "expected_papers": ["Llama2_2023"],
+      "expected_answer_type": "numeric_value",
+      "difficulty": "easy",
+      "notes": "Simple model specification"
+    },
+    {
+      "id": "direct_009",
+      "type": "direct",
+      "query": "What privacy-preserving techniques are discussed in the PrivacyPEFT paper?",
+      "expected_papers": ["PrivacyPEFT_2026"],
+      "expected_answer_type": "technical_methods",
+      "difficulty": "medium",
+      "notes": "Tests extraction of privacy methods"
+    },
+    {
+      "id": "direct_010",
+      "type": "direct",
+      "query": "What is the main finding about data quality in the DataQuality paper?",
+      "expected_papers": ["DataQuality_2024"],
+      "expected_answer_type": "key_finding",
+      "difficulty": "medium",
+      "notes": "Tests extraction of main conclusions"
+    },
+    {
+      "id": "synthesis_001",
+      "type": "synthesis",
+      "query": "Compare Phi-3 and Gemma 2B on benchmark performance. Where do they agree and disagree?",
+      "expected_papers": ["Phi3_2024", "Gemma_2024"],
+      "expected_answer_type": "comparative_analysis",
+      "difficulty": "hard",
+      "notes": "Multi-hop reasoning across two papers"
+    },
+    {
+      "id": "synthesis_002",
+      "type": "synthesis",
+      "query": "What are the different approaches to model compression discussed across the corpus?",
+      "expected_papers": ["GPTQ_2022", "MobileLLM_2024", "AdaptiveSpec_2025", "MiniCPM_2024"],
+      "expected_answer_type": "comparative_methods",
+      "difficulty": "hard",
+      "notes": "Requires synthesizing information from multiple papers"
+    },
+    {
+      "id": "synthesis_003",
+      "type": "synthesis",
+      "query": "How do different papers in the corpus define 'small language model'? Is there consensus?",
+      "expected_papers": ["SLMSurvey_2024", "Phi3_2024", "Gemma_2024", "MobileLLM_2024"],
+      "expected_answer_type": "definition_comparison",
+      "difficulty": "hard",
+      "notes": "Tests ability to identify definitional differences"
+    },
+    {
+      "id": "synthesis_004",
+      "type": "synthesis",
+      "query": "What training strategies are recommended for small models with limited compute budgets?",
+      "expected_papers": ["TextbooksAllYouNeed_2023", "Phi3_2024", "MiniCPM_2024", "DataQuality_2024"],
+      "expected_answer_type": "recommended_practices",
+      "difficulty": "hard",
+      "notes": "Synthesize training recommendations"
+    },
+    {
+      "id": "synthesis_005",
+      "type": "synthesis",
+      "query": "Which papers discuss speculative decoding and what are their different approaches?",
+      "expected_papers": ["AdaptiveSpec_2025", "Farseer_2025"],
+      "expected_answer_type": "technical_comparison",
+      "difficulty": "hard",
+      "notes": "Compare specific technical methods"
+    },
+    {
+      "id": "synthesis_006",
+      "type": "synthesis",
+      "query": "What are the trade-offs between model size and performance discussed in the corpus?",
+      "expected_papers": ["ModelSize_2025", "DavidGoliath_2026", "SLMSurvey_2024"],
+      "expected_answer_type": "trade_off_analysis",
+      "difficulty": "hard",
+      "notes": "Synthesize insights about scaling laws"
+    },
+    {
+      "id": "synthesis_007",
+      "type": "synthesis",
+      "query": "How do papers in 2024 differ from papers in 2026 in their approach to small language models?",
+      "expected_papers": ["multiple"],
+      "expected_answer_type": "temporal_comparison",
+      "difficulty": "very_hard",
+      "notes": "Requires temporal synthesis across corpus"
+    },
+    {
+      "id": "synthesis_008",
+      "type": "synthesis",
+      "query": "What evaluation benchmarks are most commonly used across the corpus, and are any criticized?",
+      "expected_papers": ["SLMEval_2023", "Phi3_2024", "Gemma_2024", "SLMSurvey_2024"],
+      "expected_answer_type": "benchmark_analysis",
+      "difficulty": "hard",
+      "notes": "Synthesize evaluation methodology insights"
+    },
+    {
+      "id": "edge_001",
+      "type": "edge_case",
+      "query": "Does the corpus contain evidence that small language models outperform GPT-4 on all tasks?",
+      "expected_papers": [],
+      "expected_answer_type": "negative_confirmation",
+      "difficulty": "medium",
+      "notes": "Tests refusal to confirm false claims - should say 'no' or 'not supported'"
+    },
+    {
+      "id": "edge_002",
+      "type": "edge_case",
+      "query": "What is the training cost in dollars for Phi-3-mini?",
+      "expected_papers": ["Phi3_2024"],
+      "expected_answer_type": "missing_information",
+      "difficulty": "medium",
+      "notes": "Tests handling of missing specific information - may not be in paper"
+    },
+    {
+      "id": "edge_003",
+      "type": "edge_case",
+      "query": "How does Phi-4 compare to Phi-3?",
+      "expected_papers": ["Phi4_2025", "Phi3_2024"],
+      "expected_answer_type": "comparative_analysis",
+      "difficulty": "medium",
+      "notes": "Tests handling when one model might not be in corpus or comparison is limited"
+    },
+    {
+      "id": "edge_004",
+      "type": "edge_case",
+      "query": "What are the ethical implications of deploying small language models in healthcare?",
+      "expected_papers": [],
+      "expected_answer_type": "out_of_scope",
+      "difficulty": "hard",
+      "notes": "Tests handling of questions outside corpus scope - should acknowledge limitation"
+    },
+    {
+      "id": "edge_005",
+      "type": "edge_case",
+      "query": "Is Mistral 7B considered a small language model?",
+      "expected_papers": ["Mistral_2023", "SLMSurvey_2024"],
+      "expected_answer_type": "definitional_ambiguity",
+      "difficulty": "medium",
+      "notes": "Tests handling of definitional ambiguity - 7B is borderline"
+    },
+    {
+      "id": "edge_006",
+      "type": "edge_case",
+      "query": "What will be the state of small language models in 2030?",
+      "expected_papers": [],
+      "expected_answer_type": "future_speculation",
+      "difficulty": "medium",
+      "notes": "Tests refusal to speculate beyond corpus - should say cannot predict future"
+    },
+    {
+      "id": "edge_007",
+      "type": "edge_case",
+      "query": "Which paper in the corpus is the best?",
+      "expected_papers": [],
+      "expected_answer_type": "subjective_judgment",
+      "difficulty": "medium",
+      "notes": "Tests handling of subjective questions - should refuse or clarify need for criteria"
+    }
+  ]
+}

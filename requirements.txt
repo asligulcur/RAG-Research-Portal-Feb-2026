@@ -1,0 +1,5 @@
+# AG Research Portal - Python Dependencies
+# Use: pip install -r requirements.txt
+# Or from repo: pip install -r repo/requirements.txt
+
+-r repo/requirements.txt
