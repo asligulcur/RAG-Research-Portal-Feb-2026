@@ -95,7 +95,11 @@ python src/rag/embeddings.py             # re-embed chunks → outputs/embedding
 
 The Streamlit app (`src/app/app.py`) exposes seven views: **Search & Ask** (grounded Q&A with citation chips and grounding status), **Evidence Explorer**, **Artifact Generator** (evidence table, annotated bibliography, synthesis memo), **Evaluation Dashboard**, **Source Library**, **Research Threads** (save and resume lines of inquiry), and **Export Center**.
 
+![The Source Library view — the 30-paper corpus (2,813 chunks) with per-source metadata and chunk counts.](report/images/portal-source-library.png)
+
 ## Evaluation
+
+![The Evaluation Dashboard — aggregate metrics (groundedness, citation precision, relevance) over the 25-query suite, with a per-query breakdown by query type.](report/images/portal-evaluation.png)
 
 The query set (`src/eval/query_set.json`) is 25 queries in three bands, chosen to probe different failure modes:
 
