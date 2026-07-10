@@ -14,6 +14,10 @@ The corpus domain is small language models (<7B parameters): architectures, trai
 
 ## How it works
 
+![RAG system architecture — offline ingestion (PDFs → chunks → embeddings) and the per-query pipeline (embed → metadata filter → cosine search → 0.40 relevance gate → LLM guard → grounded generation → citation extraction).](report/images/rag-system-architecture.png)
+
+The same flow in text:
+
 ```
 PDFs ──► parse ──► section-aware chunking ──► sentence-transformer embeddings
  (30)                (1000 chars / 200 overlap)     (all-MiniLM-L6-v2, 384-d)
