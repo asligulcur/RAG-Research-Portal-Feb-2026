@@ -95,6 +95,8 @@ python src/rag/embeddings.py             # re-embed chunks → outputs/embedding
 
 The Streamlit app (`src/app/app.py`) exposes seven views: **Search & Ask** (grounded Q&A with citation chips and grounding status), **Evidence Explorer**, **Artifact Generator** (evidence table, annotated bibliography, synthesis memo), **Evaluation Dashboard**, **Source Library**, **Research Threads** (save and resume lines of inquiry), and **Export Center**.
 
+![Search & Ask in action — a grounded answer with inline citation chips, a GROUNDED status strip (2 sources cited), and retrieved-evidence cards marked "CITED IN ANSWER". The model declines to overclaim, flagging that the advantages are inferences not explicitly stated in the corpus — the trust behavior working end to end.](report/images/portal-search-answer.png)
+
 ![The Source Library view — the 30-paper corpus (2,813 chunks) with per-source metadata and chunk counts.](report/images/portal-source-library.png)
 
 ## Evaluation
