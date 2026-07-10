@@ -18,28 +18,6 @@ The corpus domain is small language models (<7B parameters): architectures, trai
 
 ![RAG system architecture — offline ingestion (PDFs → chunks → embeddings) and the per-query pipeline (embed → metadata filter → cosine search → 0.40 relevance gate → LLM guard → grounded generation → citation extraction).](report/images/rag-system-architecture.png)
 
-The same flow in text:
-
-```
-PDFs ──► parse ──► section-aware chunking ──► sentence-transformer embeddings
- (30)                (1000 chars / 200 overlap)     (all-MiniLM-L6-v2, 384-d)
-                                                          │
-                                                          ▼
-                                             outputs/embeddings/*.npz  (2,813 chunks)
-                                                          │
- query ─► embed query ─► [metadata filter] ─► cosine top-k ─► similarity ≥ 0.40 gate
-                          (year/author/type)   (k=10)          (drops weak chunks)
-                                                          │
-                                                          ▼
-                              GPT-4 generation with a strict grounding prompt
-                                                          │
-                                                          ▼
-                   citation validation: strip any [Source: X] where X ∉ corpus
-                                                          │
-                                                          ▼
-              grounding status (GROUNDED / PARTIALLY GROUNDED / NOT GROUNDED / NO EVIDENCE)
-```
-
 **Retrieval.** The corpus is embedded once with `sentence-transformers` (`all-MiniLM-L6-v2`, 384-d, L2-normalized). Queries are matched by cosine similarity computed in NumPy over the in-memory embedding matrix (`SimpleRetriever` in `src/rag/rag_pipeline.py`). Optional metadata filters (publication year range, author substring, source type) are applied *before* scoring so the top-k is drawn only from the eligible subset. A FAISS `IndexFlatIP` path also exists (`src/rag/build_index.py`, `src/rag/retriever.py`) for larger corpora, but the app and evaluator run on the dependency-light NumPy path by default. If `sentence-transformers` fails to load, query embedding falls back to OpenAI `text-embedding-3-small` (512-d truncated to 384 to match the corpus space).
 
 **The 0.40 similarity gate.** After top-k retrieval, chunks below a cosine similarity of 0.40 are dropped before the LLM ever sees them (`RAGPipeline.query`). This is a deliberate trust mechanism: the most reliable way to stop the model from citing irrelevant context is to never put irrelevant context in the prompt. When it drops everything, the pipeline returns no evidence and the UI shows `NO EVIDENCE` rather than an answer.
