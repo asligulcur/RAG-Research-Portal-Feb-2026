@@ -14,7 +14,7 @@ The RAG pipeline uses **sentence-transformers** for query embedding. If sentence
 
 1. **Reinstall PyTorch:**
    ```bash
-   cd "PHASE 3 SUBMISSION"
+   cd RAG-Research-Portal-Feb-2026
    source venv/bin/activate
    pip uninstall torch -y
    pip install torch

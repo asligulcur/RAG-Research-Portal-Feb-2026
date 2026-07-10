@@ -118,7 +118,7 @@ class SimpleRetriever:
             logger.error(
                 "⚠️  No encoder available. Query embedding will not work.\n"
                 "To fix this, please run:\n"
-                "  cd 'PHASE 3 SUBMISSION'\n"
+                "  cd RAG-Research-Portal-Feb-2026\n"
                 "  source venv/bin/activate\n"
                 "  pip install --upgrade --force-reinstall torch sentence-transformers\n"
                 "Or ensure OPENAI_API_KEY is set in your .env file."

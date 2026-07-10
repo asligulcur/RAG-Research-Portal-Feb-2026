@@ -1,4 +1,4 @@
-# Makefile for Phase 2 RAG System
+# Makefile for the RAG System
 # One-command reproducibility
 
 .PHONY: install ingest index query eval clean all report-pdf
@@ -41,7 +41,7 @@ clean:
 
 # Help
 help:
-	@echo "Phase 2 RAG System - Available commands:"
+	@echo "RAG System - Available commands:"
 	@echo "  make install  - Install Python dependencies"
 	@echo "  make ingest   - Parse PDFs and create chunks"
 	@echo "  make index    - Build vector index"

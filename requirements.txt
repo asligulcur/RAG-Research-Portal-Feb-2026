@@ -1,5 +1,25 @@
-# AG Research Portal - Python Dependencies
-# Use: pip install -r requirements.txt
-# Or from repo: pip install -r repo/requirements.txt
+# AG Research Portal — Python dependencies
+# Install: pip install -r requirements.txt
 
--r repo/requirements.txt
+# Core RAG pipeline
+numpy>=1.24.0,<2.0.0
+sentence-transformers>=2.3.1
+openai>=1.0.0
+python-dotenv>=1.0.0
+
+# PDF processing (ingestion only)
+PyPDF2>=3.0.1
+pdfplumber>=0.11.0
+
+# Utilities
+tqdm>=4.66.0
+requests>=2.31.0
+
+# Web UI
+streamlit>=1.28.0
+
+# Artifact export (PDF)
+fpdf2>=2.7.0
+
+# Optional: FAISS (only for `make index` and src/rag/retriever.py; app/eval use numpy retrieval)
+# faiss-cpu>=1.7.4

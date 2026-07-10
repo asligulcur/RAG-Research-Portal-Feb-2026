@@ -75,64 +75,12 @@ def _thread_storage_dir() -> Path:
     return storage_dir
 
 
-def _normalize_bare_citations(text: str) -> str:
-    """Convert bare 'SourceID, ChunkID' or 'SourceID ChunkID' to [Source: X, Chunk: Y] so render_citations can style them."""
-    import re
-    def _wrap(m: re.Match) -> str:
-        return f"[Source: {m.group(1)}, Chunk: {m.group(2)}]"
-    text = re.sub(r"(\w+_\d{4}),\s*(\1_chunk_\d+)", _wrap, text)
-    text = re.sub(r"(\w+_\d{4})\s+(\1_chunk_\d+)", _wrap, text)
-    return text
-
-
-def _validate_citations_in_answer(answer: str, valid_source_ids: set[str]) -> tuple[str, bool]:
-    """Strip fabricated citations (source_id not in corpus) from answer. Return (cleaned_answer, had_fabricated)."""
-    import re
-    had_fabricated = False
-
-    def _replace_invalid(m: re.Match) -> str:
-        nonlocal had_fabricated
-        sid = m.group(1).strip()
-        if sid and sid not in valid_source_ids:
-            had_fabricated = True
-            return ""
-        return m.group(0)
-
-    # [Source: X, Chunk: Y]
-    pattern1 = re.compile(r"\[Source:\s*([^,\]]+),\s*Chunk:\s*[^\]]+\]")
-    text = pattern1.sub(_replace_invalid, answer)
-    # [SourceID, ChunkID]
-    pattern1b = re.compile(r"\[([A-Za-z0-9_]+),\s*[A-Za-z0-9_]+\]")
-    text = pattern1b.sub(_replace_invalid, text)
-    # (SourceID) or (SourceID, chunk_XX)
-    pattern2 = re.compile(r"\((\w+(?:\d{4})(?:,\s*chunk_\d+)?)\)")
-    def _replace2(m: re.Match) -> str:
-        nonlocal had_fabricated
-        full = m.group(1)
-        sid = full.split(",")[0].strip() if "," in full else full
-        if sid and sid not in valid_source_ids:
-            had_fabricated = True
-            return ""
-        return m.group(0)
-    text = pattern2.sub(_replace2, text)
-    # bare SourceID, SourceID_chunk_NNNN
-    pattern3 = re.compile(r"(\w+_\d{4}),\s*(\1_chunk_\d+)")
-    def _replace3(m: re.Match) -> str:
-        nonlocal had_fabricated
-        sid = m.group(1)
-        if sid and sid not in valid_source_ids:
-            had_fabricated = True
-            return ""
-        return m.group(0)
-    text = pattern3.sub(_replace3, text)
-    text = re.sub(r"\s{2,}", " ", text).strip()
-    # Clean orphaned conjunctions left when citations are removed (e.g. "and ." or ", and .")
-    text = re.sub(r"\s*,\s*and\s*\.\s*$", ".", text)
-    text = re.sub(r"\s+and\s+\.\s*$", ".", text)
-    text = re.sub(r"\s*,\s*and\s*$", "", text)
-    text = re.sub(r"\s+and\s+$", "", text)
-    text = text.strip()
-    return text, had_fabricated
+# Citation normalization/validation live in a pure, unit-tested module (no Streamlit deps).
+# Aliased to the original private names to keep the rest of this file unchanged.
+from citation_validator import (
+    normalize_bare_citations as _normalize_bare_citations,
+    validate_citations_in_answer as _validate_citations_in_answer,
+)
 
 
 def _confidence_from_citations(citation_count: int) -> str:

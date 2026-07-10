@@ -111,7 +111,7 @@ Answer: "Phi-3-mini achieves 68.8% on the MMLU benchmark (5-shot) [Source: Phi3_
         return system_prompt, user_message
     
     def _get_default_system_prompt(self) -> str:
-        """Get the default system prompt based on Phase 1 improved prompts."""
+        """Get the default (hardened) system prompt."""
         return """You are an AI research assistant helping analyze academic papers on Small Language Models (SLMs).
 
 Your role is to:

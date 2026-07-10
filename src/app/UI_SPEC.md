@@ -138,7 +138,7 @@ STEP 5: Export
 
 ### Journey 3: "Evaluate My System's Quality" (Grading-critical)
 
-The researcher (or grader) wants to see how well the RAG system performs across a set of test queries.
+The researcher wants to see how well the RAG system performs across a set of test queries.
 
 ```
 STEP 1: Navigate to Evaluation Dashboard

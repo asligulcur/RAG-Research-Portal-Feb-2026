@@ -15,7 +15,7 @@ DOWNLOAD_DELAY = 3
 
 # Manually curated list of VERIFIED recent SLM papers (all 2023-2024)
 VERIFIED_PAPERS = [
-    # Already have from Phase 1 - keep these
+    # Already downloaded - keep these
     # Phi3_2024, ModelSize_2024, Farseer_2024, Phi4Mini_2024
     
     # Core architectures - VERIFIED recent
