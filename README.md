@@ -134,4 +134,4 @@ report/         evaluation reports and system diagrams
 
 ## Author
 
-Asli Gulcur.
+[Asli Gulcur](https://asligulcur.github.io/) — AI transformation executive, strategist, and advisor.
