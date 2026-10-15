@@ -7,7 +7,7 @@ A retrieval-augmented generation system over a curated corpus of Small Language 
 Most RAG demos optimize for fluent answers. In a research or enterprise setting, a fluent answer with an invented citation is worse than no answer — it launders a hallucination into something that looks verifiable. This project treats *trust* as a first-class, testable property:
 
 - Every factual claim must carry a citation in the form `[Source: paper_id, Chunk: chunk_id]`.
-- Any citation the model emits is checked against the actual corpus. Citations that resolve to no real source are stripped from the answer and surfaced as a red warning — the model is not trusted to police itself.
+- In the app, each citation's source is checked against the actual corpus. Citations naming a source that doesn't exist are stripped from the answer and surfaced as a red warning — the model is not trusted to police itself.
 - When retrieved evidence is weak or absent, the system is designed to refuse rather than guess, and the UI labels the answer's grounding state explicitly.
 
 The corpus domain is small language models (<7B parameters): architectures, training recipes, quantization/compression, and evaluation methodology.
@@ -108,6 +108,7 @@ These metrics are intentionally simple and **lexical/heuristic, not model-judged
 
 - Evaluation metrics are lexical, not semantic; they can reward keyword-heavy answers and miss meaning. There is no LLM-as-judge or human-rated faithfulness score.
 - On the 25-query run, the "properly flags missing" metric reads low because that metric only credits flagging when an answer has *zero* citations — it does not capture partial or hedged refusals. Refusal behavior is better characterized by the dedicated 5-query trust set.
+- Citation checking has one known gap: when the model lists several sources in a single bracket (e.g. `[Source: A, Chunk: …; Source: B, Chunk: …]`), only the first source is checked. GPT-4 used this form twice in the final evaluation run; every source cited there was real.
 - Corpus is 30 papers / 2,813 chunks. Retrieval quality and synthesis breadth are bounded by that coverage.
 - Generation requires an OpenAI API key and network access; there is no offline generation path (embeddings are local).
 - The OpenAI embedding fallback truncates 512-d vectors to 384 to match the corpus space, which is lossy; the primary local `all-MiniLM-L6-v2` path is preferred.
