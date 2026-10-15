@@ -106,7 +106,7 @@ These metrics are intentionally simple and **lexical/heuristic, not model-judged
 
 ## Limitations
 
-- Evaluation metrics are lexical, not semantic; they can reward keyword-heavy answers and miss meaning. There is no LLM-as-judge or human-rated faithfulness score.
+- **Answer-scoring** metrics are lexical, not semantic (retrieval itself is semantic, via embeddings); they can reward keyword-heavy answers and miss meaning. There is no LLM-as-judge or human-rated faithfulness score.
 - On the 25-query run, the "properly flags missing" metric reads low because that metric only credits flagging when an answer has *zero* citations — it does not capture partial or hedged refusals. Refusal behavior is better characterized by the dedicated 5-query trust set.
 - Citation checking has one known gap: when the model lists several sources in a single bracket (e.g. `[Source: A, Chunk: …; Source: B, Chunk: …]`), only the first source is checked. GPT-4 used this form twice in the final evaluation run; every source cited there was real.
 - Corpus is 30 papers / 2,813 chunks. Retrieval quality and synthesis breadth are bounded by that coverage.
