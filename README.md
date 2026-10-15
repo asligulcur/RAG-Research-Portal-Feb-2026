@@ -64,7 +64,7 @@ python src/rag/query.py "How do small models compare to large models on reasonin
 
 > Note: the pipeline and evaluator default to `gpt-4`; the `query.py` convenience script defaults to `gpt-3.5-turbo`. Pass a different model in code if needed.
 
-Rebuild the corpus from scratch (only if you change the PDFs):
+Rebuild the corpus from scratch (only if you change the PDFs). The PDFs are not included in this repo: download each paper from its `url_or_doi` link in `data/data_manifest.csv` and save it at the `raw_path` listed there, then run:
 
 ```bash
 python src/ingest/run_ingestion.py       # parse PDFs → section-aware chunks (data/processed/)
@@ -121,7 +121,7 @@ src/
   rag/          retrieval (NumPy + FAISS), GPT-4 generation, LLM guard
   eval/         query set + evaluation harness
 data/
-  raw/          source PDFs (30)
+  raw/          source PDFs (not included; see data_manifest.csv for arXiv links)
   processed/    parsed, chunked JSON per paper
   data_manifest.csv   corpus metadata (title, authors, year, tags, source)
 outputs/
