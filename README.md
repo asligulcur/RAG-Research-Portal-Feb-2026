@@ -16,7 +16,9 @@ Most RAG demos optimize for fluent answers. In a research or enterprise setting,
 
 The corpus domain is small language models (<7B parameters): architectures, training recipes, quantization/compression, and evaluation methodology.
 
-![Search & Ask in action — a grounded answer with inline citation chips, a GROUNDED status strip (2 sources cited), and retrieved-evidence cards marked "CITED IN ANSWER". The model declines to overclaim, flagging that the advantages are inferences not explicitly stated in the corpus — the trust behavior working end to end.](report/images/portal-search-answer.png)
+![Search & Ask: a grounded answer with citation chips and retrieved evidence](report/images/portal-search-answer.png)
+
+*Search & Ask: the answer cites two passages and labels its points as inferences rather than facts the papers state outright. GROUNDED status, 2 sources cited.*
 
 ## How it works
 
@@ -24,11 +26,11 @@ The corpus domain is small language models (<7B parameters): architectures, trai
 
 **Retrieval.** The corpus is embedded once with `sentence-transformers` (`all-MiniLM-L6-v2`, 384-d, L2-normalized). Queries are matched by cosine similarity computed in NumPy over the in-memory embedding matrix (`SimpleRetriever` in `src/rag/rag_pipeline.py`). Optional metadata filters (publication year range, author substring, source type) are applied *before* scoring so the top-k is drawn only from the eligible subset. A FAISS `IndexFlatIP` path also exists (`src/rag/build_index.py`, `src/rag/retriever.py`) for larger corpora, but the app and evaluator run on the dependency-light NumPy path by default. If `sentence-transformers` fails to load, query embedding falls back to OpenAI `text-embedding-3-small`, truncated to 384 dimensions. This matches the vector length only; OpenAI and MiniLM vectors are in different spaces, so results from this fallback aren't meaningful. Re-embed the corpus with `scripts/rebuild_embeddings_openai.py` to use OpenAI embeddings.
 
-**The 0.40 similarity gate.** After top-k retrieval, chunks below a cosine similarity of 0.40 are dropped before the LLM ever sees them (`RAGPipeline.query`). This is a deliberate trust mechanism: the most reliable way to stop the model from citing irrelevant context is to never put irrelevant context in the prompt. When it drops everything, the UI shows `NO EVIDENCE` instead of an answer. (The model is still called with no excerpts; its reply is discarded.)
+**The 0.40 similarity gate.** After top-k retrieval, chunks below a cosine similarity of 0.40 are dropped before the LLM ever sees them (`RAGPipeline.query`). This way the model never sees weak passages it could cite by mistake. When it drops everything, the UI shows `NO EVIDENCE` instead of an answer. (The model is still called with no excerpts; its reply is discarded.)
 
 **Generation.** Retrieved chunks are formatted with their `source_id`, `chunk_id`, and section, then passed to GPT-4 (temperature 0.1) under a system prompt (`src/rag/generator.py`) that enforces: answer only from the excerpts; cite every claim in the exact bracket format; verify the entity in the question matches the entity in the excerpt (`Phi-3 ≠ Phi-4`, `Llama 2 ≠ Llama 3`); flag contradictions between sources; and read benchmark tables column-by-column rather than guessing. Bare citations the model sometimes emits (`GPTQ_2022, GPTQ_2022_chunk_0027`) are normalized back into the canonical bracket form.
 
-**Citation validation (the core trust behavior).** Prompting alone is not trusted. Citation validation lives in a pure, unit-tested module (`validate_citations_in_answer`, `src/app/citation_validator.py`, tested in `tests/test_citation_validator.py`): every citation the model produced is parsed and its `source_id` checked against the set of real corpus IDs (from `data/data_manifest.csv` plus the IDs of the chunks actually retrieved). Citations that resolve to nothing — including both well-formed fabrications (`[Source: FakePaper_2099, Chunk: …]`) and vague, chunk-less ones like an invented `[Source: All excerpts]` — are removed from the displayed answer and raise a red "citations were removed" banner. The remaining valid citation count then drives a grounding status strip: `GROUNDED`, `PARTIALLY GROUNDED` (some citations stripped, or the answer both cites chunks and claims information is missing), `NOT GROUNDED`, or `NO EVIDENCE`.
+**Citation validation.** Prompting alone is not trusted. Citation validation lives in a pure, unit-tested module (`validate_citations_in_answer`, `src/app/citation_validator.py`, tested in `tests/test_citation_validator.py`): every citation the model produced is parsed and its `source_id` checked against the set of real corpus IDs (from `data/data_manifest.csv` plus the IDs of the chunks actually retrieved). Citations that resolve to nothing — including both well-formed fabrications (`[Source: FakePaper_2099, Chunk: …]`) and vague, chunk-less ones like an invented `[Source: All excerpts]` — are removed from the displayed answer and raise a red "citations were removed" banner. The remaining valid citation count then drives a grounding status strip: `GROUNDED`, `PARTIALLY GROUNDED` (some citations stripped, or the answer both cites chunks and claims information is missing), `NOT GROUNDED`, or `NO EVIDENCE`.
 
 **LLM API guard.** All OpenAI calls go through `call_with_guard` (`src/rag/llm_guard.py`): a 1 request/second throttle (configurable via `OPENAI_REQUEST_INTERVAL`) plus exponential backoff on HTTP 429 (base 1s, doubling, 60s cap, up to 5 attempts). The generator adds a separate short retry loop for transient connection/timeout errors. This keeps batch evaluation from failing mid-run on rate limits.
 
@@ -37,7 +39,7 @@ The corpus domain is small language models (<7B parameters): architectures, trai
 **Prerequisites:** Python 3.10–3.12, pip, and an OpenAI API key (used for GPT-4 generation).
 
 ```bash
-git clone <this-repo> && cd RAG-Research-Portal-Feb-2026
+git clone https://github.com/asligulcur/RAG-Research-Portal-Feb-2026.git && cd RAG-Research-Portal-Feb-2026
 
 python3 -m venv venv && source venv/bin/activate
 pip install -r requirements.txt
@@ -79,7 +81,9 @@ python src/rag/embeddings.py             # re-embed chunks → outputs/embedding
 
 The Streamlit app (`src/app/app.py`) exposes seven views: **Search & Ask** (grounded Q&A with citation chips and grounding status), **Evidence Explorer**, **Artifact Generator** (evidence table, annotated bibliography, synthesis memo), **Evaluation Dashboard**, **Source Library**, **Research Threads** (save and resume lines of inquiry), and **Export Center**.
 
-![The Source Library view — the 30-paper corpus (2,813 chunks) with per-source metadata and chunk counts.](report/images/portal-source-library.png)
+![The Source Library view](report/images/portal-source-library.png)
+
+*The Source Library: the 30-paper corpus (2,813 chunks), with metadata and chunk counts per paper.*
 
 ## Evaluation
 
@@ -104,17 +108,15 @@ These metrics are intentionally simple and **lexical/heuristic, not model-judged
 
 ## Notable technical decisions
 
-- **Validation over trust.** Fabricated-citation defense is enforced in code (checking `source_id` against the real corpus), not left to the prompt. Prompting reduces fabrication; validation catches what slips through.
-- **Filter before the model, not after.** The 0.40 similarity gate keeps weak context out of the prompt entirely, which is a more reliable fabrication defense than post-hoc answer filtering.
-- **Section-aware chunking.** Text is split at detected section headers into ~1,000-character chunks with 200 characters of overlap (`src/ingest/chunker.py`). Chunk ends move to the nearest sentence break; starts do not, so most chunks begin mid-sentence.
+- **Section-aware chunking.** Text is split at detected section headers into ~1,000-character chunks with 200 characters of overlap (`src/ingest/chunker.py`). Chunk ends move to the nearest sentence break.
 - **Table-aware prompting.** The system prompt explicitly instructs the model to map benchmark-table columns to model names before citing a number — a common source of subtle RAG errors on ML papers.
-- **Dependency-light default path.** Retrieval runs on NumPy cosine similarity, so the app and evaluator need no FAISS install; FAISS is available but optional.
 
 ## Limitations
 
 - **Answer-scoring** metrics are lexical, not semantic (retrieval itself is semantic, via embeddings); they can reward keyword-heavy answers and miss meaning. There is no LLM-as-judge or human-rated faithfulness score.
 - The "properly flags missing" metric is 0% in every recorded run. It credits an answer only if it has no citations *and* uses one of a few exact phrases ("does not contain"); GPT-4 writes "do not contain", so even clean refusals score 0. Use the 5-query trust test for refusal behavior.
-- Citation checking has one known gap: when the model lists several sources in a single bracket (e.g. `[Source: A, Chunk: …; Source: B, Chunk: …]`), only the first source is checked. GPT-4 used this form twice in the final evaluation run; every source cited there was real.
+- Citation checking has two known gaps. It checks the paper ID but not the chunk ID, so an invented chunk number on a real paper would pass. And when the model lists several sources in one bracket (e.g. `[Source: A, Chunk: …; Source: B, Chunk: …]`), only the first is checked; GPT-4 did this twice in the February 21 run, and every source cited there was real.
+- Chunk starts don't snap to sentence breaks, so most chunks begin mid-sentence.
 - Corpus is 30 papers / 2,813 chunks. Some source IDs don't match the paper inside (e.g. `SLMEval_2023` is the Qwen Technical Report; `SmolLM_2024` is an off-topic physics paper), and about a third of chunks are reference lists.
 - Strict grounding costs some recall: GPT-4 refused a few answerable questions (e.g. Phi-3 benchmarks, Phi-4 vs Phi-3, both in the corpus) rather than risk an unsupported answer.
 - Generation requires an OpenAI API key and network access; there is no offline generation path (embeddings are local).
@@ -140,6 +142,4 @@ scripts/        report + OpenAI re-embedding utilities
 report/         evaluation reports and system diagrams
 ```
 
-## Author
-
-[Asli Gulcur](https://asligulcur.github.io/) — AI transformation executive, strategist, and advisor.
+Author: [Asli Gulcur](https://asligulcur.github.io/).
