@@ -6,6 +6,8 @@ A retrieval-augmented generation (RAG) system that answers questions about 30 re
 
 **Result:** in the three final GPT-4 evaluation runs, all 171 citations pointed to a real paper and to a passage the system retrieved for that question. Four earlier development runs show why the code check is there: 27 citations named sources that don't exist in the corpus (such as `[Source: All excerpts]`), and the app's validator strips citations like these before they're shown. Next step: a faithfulness check, testing whether each cited passage actually supports its sentence.
 
+**[▶ Watch the 11-minute demo](https://drive.google.com/file/d/1dGwFooVE9zMVlAFHEoVknEUmUEWyPqC6/view)** (recorded February 22, 2026). To skip ahead: **0:50** a question answered with citations · **8:55** scores on the 25-question evaluation · **9:55** questions it refused rather than risk an unsupported answer.
+
 ## Why this exists
 
 Most RAG demos optimize for fluent answers. In a research or enterprise setting, a fluent answer with an invented citation is worse than no answer, because it makes a hallucination look verifiable. This project treats *trust* as a testable property:
