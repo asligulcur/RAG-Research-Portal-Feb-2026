@@ -4,7 +4,7 @@ A retrieval-augmented generation (RAG) system that answers questions about 30 re
 
 *Built solo for CMU Heinz College's AI Model Development (February 2026), with AI coding assistance.*
 
-**Result:** in the three final GPT-4 evaluation runs, all 171 citations pointed to a real paper and to a passage retrieved for that question. In four earlier development runs, 27 citations named a source that isn't in the corpus, such as `[Source: All excerpts]` or `[Source: Excerpt 9, …]` instead of a paper ID; the app's validator removes these before display. The check confirms that the cited passage exists, not that it supports the claim.
+**Result:** in the three final GPT-4 evaluation runs, all 171 citations pointed to a real paper and to a passage the system retrieved for that question. Four earlier development runs show why the code check is there: 27 citations named sources that don't exist in the corpus (such as `[Source: All excerpts]`), and the app's validator strips citations like these before they're shown. Next step: a faithfulness check, testing whether each cited passage actually supports its sentence.
 
 ## Why this exists
 
