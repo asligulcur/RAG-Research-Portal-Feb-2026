@@ -4,7 +4,7 @@ A retrieval-augmented generation system over a curated corpus of Small Language 
 
 ## Why this exists
 
-Most RAG demos optimize for fluent answers. In a research or enterprise setting, a fluent answer with an invented citation is worse than no answer — it launders a hallucination into something that looks verifiable. This project treats *trust* as a first-class, testable property:
+Most RAG demos optimize for fluent answers. In a research or enterprise setting, a fluent answer with an invented citation is worse than no answer, because it makes a hallucination look verifiable. This project treats *trust* as a testable property:
 
 - Every factual claim must carry a citation in the form `[Source: paper_id, Chunk: chunk_id]`.
 - In the app, each citation's source is checked against the actual corpus. Citations naming a source that doesn't exist are stripped from the answer and surfaced as a red warning — the model is not trusted to police itself.
