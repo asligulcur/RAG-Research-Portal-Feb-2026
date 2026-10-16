@@ -1,6 +1,10 @@
 # RAG Research Portal — Small Language Models
 
-A retrieval-augmented generation system over a curated corpus of Small Language Model (SLM) research papers, built around a single design goal: **never let the model fabricate a citation.** It pairs grounded, citation-backed answers with programmatic citation validation and a reproducible evaluation harness.
+A retrieval-augmented generation (RAG) system that answers questions about 30 research papers, mostly on small language models (SLMs). Design goal: **every citation must point to a real paper in the corpus.** The model is told to cite the passage behind each claim, code checks every citation before it's shown, and a 25-question evaluation measures the result.
+
+*Built solo for CMU Heinz College's AI Model Development (February 2026), with AI coding assistance.*
+
+**Result:** in the three final GPT-4 evaluation runs, all 171 citations pointed to a real paper and to a passage retrieved for that question. In four earlier development runs, 27 citations named a source that isn't in the corpus, such as `[Source: All excerpts]` or `[Source: Excerpt 9, …]` instead of a paper ID; the app's validator removes these before display. The check confirms that the cited passage exists, not that it supports the claim.
 
 ## Why this exists
 
@@ -18,9 +22,9 @@ The corpus domain is small language models (<7B parameters): architectures, trai
 
 ![RAG system architecture — offline ingestion (PDFs → chunks → embeddings) and the per-query pipeline (embed → metadata filter → cosine search → 0.40 relevance gate → LLM guard → grounded generation → citation extraction).](report/images/rag-system-architecture.png)
 
-**Retrieval.** The corpus is embedded once with `sentence-transformers` (`all-MiniLM-L6-v2`, 384-d, L2-normalized). Queries are matched by cosine similarity computed in NumPy over the in-memory embedding matrix (`SimpleRetriever` in `src/rag/rag_pipeline.py`). Optional metadata filters (publication year range, author substring, source type) are applied *before* scoring so the top-k is drawn only from the eligible subset. A FAISS `IndexFlatIP` path also exists (`src/rag/build_index.py`, `src/rag/retriever.py`) for larger corpora, but the app and evaluator run on the dependency-light NumPy path by default. If `sentence-transformers` fails to load, query embedding falls back to OpenAI `text-embedding-3-small` (512-d truncated to 384 to match the corpus space).
+**Retrieval.** The corpus is embedded once with `sentence-transformers` (`all-MiniLM-L6-v2`, 384-d, L2-normalized). Queries are matched by cosine similarity computed in NumPy over the in-memory embedding matrix (`SimpleRetriever` in `src/rag/rag_pipeline.py`). Optional metadata filters (publication year range, author substring, source type) are applied *before* scoring so the top-k is drawn only from the eligible subset. A FAISS `IndexFlatIP` path also exists (`src/rag/build_index.py`, `src/rag/retriever.py`) for larger corpora, but the app and evaluator run on the dependency-light NumPy path by default. If `sentence-transformers` fails to load, query embedding falls back to OpenAI `text-embedding-3-small`, truncated to 384 dimensions. This matches the vector length only; OpenAI and MiniLM vectors are in different spaces, so results from this fallback aren't meaningful. Re-embed the corpus with `scripts/rebuild_embeddings_openai.py` to use OpenAI embeddings.
 
-**The 0.40 similarity gate.** After top-k retrieval, chunks below a cosine similarity of 0.40 are dropped before the LLM ever sees them (`RAGPipeline.query`). This is a deliberate trust mechanism: the most reliable way to stop the model from citing irrelevant context is to never put irrelevant context in the prompt. When it drops everything, the pipeline returns no evidence and the UI shows `NO EVIDENCE` rather than an answer.
+**The 0.40 similarity gate.** After top-k retrieval, chunks below a cosine similarity of 0.40 are dropped before the LLM ever sees them (`RAGPipeline.query`). This is a deliberate trust mechanism: the most reliable way to stop the model from citing irrelevant context is to never put irrelevant context in the prompt. When it drops everything, the UI shows `NO EVIDENCE` instead of an answer. (The model is still called with no excerpts; its reply is discarded.)
 
 **Generation.** Retrieved chunks are formatted with their `source_id`, `chunk_id`, and section, then passed to GPT-4 (temperature 0.1) under a system prompt (`src/rag/generator.py`) that enforces: answer only from the excerpts; cite every claim in the exact bracket format; verify the entity in the question matches the entity in the excerpt (`Phi-3 ≠ Phi-4`, `Llama 2 ≠ Llama 3`); flag contradictions between sources; and read benchmark tables column-by-column rather than guessing. Bare citations the model sometimes emits (`GPTQ_2022, GPTQ_2022_chunk_0027`) are normalized back into the canonical bracket form.
 
@@ -79,7 +83,9 @@ The Streamlit app (`src/app/app.py`) exposes seven views: **Search & Ask** (grou
 
 ## Evaluation
 
-![The Evaluation Dashboard — aggregate metrics (groundedness, citation precision, relevance) over the 25-query suite, with a per-query breakdown by query type.](report/images/portal-evaluation.png)
+![The Evaluation Dashboard](report/images/portal-evaluation.png)
+
+*The Evaluation Dashboard for the Feb 22 GPT-4 run. "Citation Precision" (0.76) is the share of answers with at least one citation (19 of 25); "Groundedness" (0.63) is citations per sentence, doubled and capped at 1.*
 
 The query set (`src/eval/query_set.json`) is 25 queries in three bands, chosen to probe different failure modes:
 
@@ -100,18 +106,19 @@ These metrics are intentionally simple and **lexical/heuristic, not model-judged
 
 - **Validation over trust.** Fabricated-citation defense is enforced in code (checking `source_id` against the real corpus), not left to the prompt. Prompting reduces fabrication; validation catches what slips through.
 - **Filter before the model, not after.** The 0.40 similarity gate keeps weak context out of the prompt entirely, which is a more reliable fabrication defense than post-hoc answer filtering.
-- **Section-aware, sentence-boundary chunking.** Chunks respect detected academic section headers (Abstract, Methods, Results, …) and snap to sentence boundaries within a 1000-char / 200-overlap window (`src/ingest/chunker.py`), so a citation points at a coherent, quotable span rather than a mid-sentence fragment.
+- **Section-aware chunking.** Text is split at detected section headers into ~1,000-character chunks with 200 characters of overlap (`src/ingest/chunker.py`). Chunk ends move to the nearest sentence break; starts do not, so most chunks begin mid-sentence.
 - **Table-aware prompting.** The system prompt explicitly instructs the model to map benchmark-table columns to model names before citing a number — a common source of subtle RAG errors on ML papers.
 - **Dependency-light default path.** Retrieval runs on NumPy cosine similarity, so the app and evaluator need no FAISS install; FAISS is available but optional.
 
 ## Limitations
 
 - **Answer-scoring** metrics are lexical, not semantic (retrieval itself is semantic, via embeddings); they can reward keyword-heavy answers and miss meaning. There is no LLM-as-judge or human-rated faithfulness score.
-- On the 25-query run, the "properly flags missing" metric reads low because that metric only credits flagging when an answer has *zero* citations — it does not capture partial or hedged refusals. Refusal behavior is better characterized by the dedicated 5-query trust set.
+- The "properly flags missing" metric is 0% in every recorded run. It credits an answer only if it has no citations *and* uses one of a few exact phrases ("does not contain"); GPT-4 writes "do not contain", so even clean refusals score 0. Use the 5-query trust test for refusal behavior.
 - Citation checking has one known gap: when the model lists several sources in a single bracket (e.g. `[Source: A, Chunk: …; Source: B, Chunk: …]`), only the first source is checked. GPT-4 used this form twice in the final evaluation run; every source cited there was real.
-- Corpus is 30 papers / 2,813 chunks. Retrieval quality and synthesis breadth are bounded by that coverage.
+- Corpus is 30 papers / 2,813 chunks. Some source IDs don't match the paper inside (e.g. `SLMEval_2023` is the Qwen Technical Report; `SmolLM_2024` is an off-topic physics paper), and about a third of chunks are reference lists.
+- Strict grounding costs some recall: GPT-4 refused a few answerable questions (e.g. Phi-3 benchmarks, Phi-4 vs Phi-3, both in the corpus) rather than risk an unsupported answer.
 - Generation requires an OpenAI API key and network access; there is no offline generation path (embeddings are local).
-- The OpenAI embedding fallback truncates 512-d vectors to 384 to match the corpus space, which is lossy; the primary local `all-MiniLM-L6-v2` path is preferred.
+- The OpenAI query-embedding fallback does not work with the shipped corpus (different embedding model). Keep `sentence-transformers` working, or re-embed the corpus with `scripts/rebuild_embeddings_openai.py`.
 
 ## Repository layout
 
