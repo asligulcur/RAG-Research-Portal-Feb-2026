@@ -30,13 +30,13 @@ The corpus domain is small language models (<7B parameters): architectures, trai
 
 ## Quickstart
 
-**Prerequisites:** Python 3.9+, pip, and an OpenAI API key (used for GPT-4 generation).
+**Prerequisites:** Python 3.10–3.12, pip, and an OpenAI API key (used for GPT-4 generation).
 
 ```bash
 git clone <this-repo> && cd RAG-Research-Portal-Feb-2026
 
 python3 -m venv venv && source venv/bin/activate
-pip install -r requirements.txt          # pulls in repo/requirements.txt
+pip install -r requirements.txt
 
 echo "OPENAI_API_KEY=sk-your-key-here" > .env
 ```
